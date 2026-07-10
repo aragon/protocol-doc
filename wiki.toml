@@ -1,0 +1,10 @@
+spec = "0.1"
+# The entry vocabulary: concept/reference/example are the graph, guide the linear layer, task the backlog.
+# Provenance is a `source:` frontmatter field (a repo-relative path), not a type.
+types = ["concept", "reference", "guide", "example", "task"]
+
+# Files that are NOT wiki entries (excluded from index and check; globs supported)
+ignore = ["AGENTS.md", "CLAUDE.md", "WORKFLOW.md", "raw/**"]
+
+# Indexed and checked, but kept out of `wiki orphans` (parked backlog tasks aren't all board-linked)
+ignore_orphans = ["backlog/**"]
