@@ -1,20 +1,33 @@
 # Guides
 
-The linear layer: task-oriented walkthroughs that **link into** the [concept graph](/index.md) for depth. Read a guide top to bottom; follow its links when you want the underlying detail.
+Linear, task-oriented, **Foundry-based** walkthroughs that link into the [concept graph](/index.md) for depth. Read a guide top to bottom; follow its links when you want the underlying detail. (The one exception to "Foundry-based" is the narrative *Why OSx*, which has no code.)
 
-_Guides are written once the concepts they reference exist. The concept graph for the [core](/core/index.md) is now in place, so these are the candidates. Which become worked `example` snippets vs full step-by-step `guide`s is being confirmed in [the use-cases task](/backlog/use-cases.md)._
+Guides are written in the order below; each links the concepts it uses rather than re-explaining them. Unwritten entries below are the to-write list (`wiki unresolved`).
 
-## Guides
+## Understand
 
-_None written yet._
+- [Why OSx: the organization that can reinvent itself](/guides/why-osx.md) — Why a lean core + swappable plugins + one permission layer lets an organization iterate, pivot, and endure.
+- [A hands-on tour of OSx](/guides/hands-on-tour.md) — the smallest end-to-end loop: deploy a DAO, fund it, make it execute an action, and watch a permission gate the call. The hands-on on-ramp.
 
-## Candidate guides (from the core)
+## Use and operate a DAO
 
-Worth a linear walkthrough once prioritized:
+- [Deploy your first DAO](/guides/deploy-a-dao.md) — a bare DAO (you hold `EXECUTE`), then the same flow with a governance plugin installed in one transaction.
+- [Launch a governance token with your DAO](/guides/launch-a-governance-token.md) — deploy with Token Voting and the three token paths (mint new, reuse an `IVotes` token, or wrap a plain ERC-20), with the delegation and clock caveats made concrete.
+- [Create, vote, and execute a proposal](/guides/create-vote-execute.md) — the shared proposal lifecycle, then the multisig and token-voting specifics.
+- [Manage permissions through governance](/guides/manage-permissions.md) — grant/revoke as a proposal, attach a condition, rotate one safely in a single batch, and write a small custom condition.
+- [Install a plugin into a live DAO](/guides/install-a-plugin.md) — the prepare → (temporary ROOT to the PSP) → apply → revoke flow, as a governed proposal.
+- [Update a plugin](/guides/update-a-plugin.md) — prepare + apply via governance, the release/build rules, and the metadata-only fast path (and uninstalling).
 
-- **Deploy a DAO** — bare, and with plugins in one transaction (via the [DAOFactory](/framework/dao-factory.md)).
-- **Install a plugin onto an existing DAO** — the two-step [prepare → apply](/framework/plugin-setup-processor.md) flow through governance.
-- **Update / uninstall a plugin** — the in-place [update](/framework/plugin-setup-processor.md) path and its release-vs-build rules.
-- **Write your own plugin** — a [plugin](/framework/plugin-types.md) + its [setup](/framework/plugin-setup.md), scaffolded from the [plugin template](/tooling/plugin-template.md). (Likely a multi-chapter sequence.)
-- **Publish a plugin to a PluginRepo** — first version and versioning over time ([PluginRepo](/framework/plugin-repo.md)).
-- **Grant a permission gated by a condition** — using a [condition](/common/permission-conditions.md) / [RuledCondition](/common/ruled-condition.md).
+## Build a plugin
+
+- [Build a plugin](/guides/build-a-plugin.md) — from the template: pick a base type, write the plugin's `auth`-gated logic, and write its `PluginSetup` (the permission arrays).
+- [Publish a plugin to a PluginRepo](/guides/publish-a-plugin.md) — first version 1.1, release vs build, metadata, and the registry.
+
+## Advanced (planned)
+
+- Compose multi-stage governance with the SPP.
+- Automate a capital flow (payroll / buyback) with the Capital Router.
+
+---
+
+_Progress and scope are tracked in the [guides backlog](/backlog/use-cases.md)._
