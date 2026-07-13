@@ -10,9 +10,10 @@ You [built a plugin and its setup](/guides/build-a-plugin.md); until it's **publ
 
 ## What you need
 
-- [Foundry](/tooling/index.md), an RPC fork with OSx deployed, and the **`PluginRepoFactory`** address from the [deployment artifacts](/deployment/deployment-checklist.md).
+The one-time [Setup](/guides/setup.md), plus:
+- The **`PluginRepoFactory`** address (`PLUGIN_REPO_FACTORY`).
 - Your compiled `MyPluginSetup` (from [Build a plugin](/guides/build-a-plugin.md)).
-- Two [metadata](/framework/plugin-metadata.md) blobs published to IPFS (a **build** metadata JSON, which documents your install-data ABI, and a **release** metadata JSON); you pass their `ipfs://…` pointers, not the JSON.
+- Two [metadata](/framework/plugin-metadata.md) blobs on IPFS (a **build** JSON documenting your install-data ABI, and a **release** JSON); you pass their `ipfs://…` pointers, not the JSON.
 
 ## Step 1, create the repo and its first version
 

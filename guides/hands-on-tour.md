@@ -12,9 +12,7 @@ By the end you'll have seen the three things a DAO *is*, a treasury, an [executo
 
 ## What you need
 
-- [Foundry](/tooling/index.md) installed.
-- An RPC URL for a network where OSx is deployed, so you can **fork** it and use the real contracts.
-- The **`DAOFactory`** address on that network. Don't hard-code it as canonical, read it from the [deployment artifacts](/deployment/deployment-checklist.md) (`@aragon/osx-artifacts`) for your target chain.
+Do the one-time [Setup](/guides/setup.md) first, a plugin project pointed at a chain where OSx is deployed. This guide reads just the **`DAOFactory`** address (`DAO_FACTORY`); nothing plugin-specific.
 
 We fork rather than deploy the whole protocol locally: standing up OSx from scratch is the [Protocol Factory](/deployment/protocol-factory.md)'s job, not something you need for a first look.
 

@@ -12,9 +12,7 @@ It's still one transaction. [`DAOFactory.createDao`](/framework/dao-factory.md) 
 
 ## What you need
 
-- [Foundry](/tooling/index.md), and an RPC URL to fork a network where OSx is deployed.
-- The **`DAOFactory`** address and the **Multisig `PluginRepo`** address for that chain, both from the [deployment artifacts](/deployment/deployment-checklist.md). Don't hard-code them as canonical.
-- A version of the plugin to install (a `release`/`build`, see [release vs build](/framework/plugin-repo.md#release-vs-build)).
+The one-time [Setup](/guides/setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Multisig `PluginRepo`** (`MULTISIG_REPO`) addresses, and installs a specific plugin version (a `release`/`build`, see [release vs build](/framework/plugin-repo.md#release-vs-build)).
 
 ## Step 1, the skeleton
 

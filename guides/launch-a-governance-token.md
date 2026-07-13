@@ -10,8 +10,7 @@ source: token-voting-plugin/src/TokenVotingSetup.sol, osx/src/framework/dao/DAOF
 
 ## What you need
 
-- [Foundry](/tooling/index.md), an RPC URL to fork a network with OSx deployed.
-- The **`DAOFactory`** and the **Token Voting `PluginRepo`** addresses for that chain, from the [deployment artifacts](/deployment/deployment-checklist.md).
+The one-time [Setup](/guides/setup.md), with the **token voting** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Token Voting `PluginRepo`** (`TOKEN_VOTING_REPO`) addresses.
 
 ## The token decision
 

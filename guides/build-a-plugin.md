@@ -8,7 +8,7 @@ source: osx-plugin-template-foundry/src/MyUpgradeablePlugin.sol, osx-plugin-temp
 
 A plugin is **two artifacts**: the **plugin contract** (your logic, gated by [permissions](/core/permissions.md)) and its **[`PluginSetup`](/framework/plugin-setup.md)** (the recipe that deploys the plugin and declares exactly which permissions to grant on install and revoke on uninstall). The setup is what the [PSP applies](/guides/install-a-plugin.md) in the temporary-ROOT window; get it right and your plugin installs, updates, and uninstalls cleanly everywhere.
 
-Start from the [Foundry plugin template](/tooling/plugin-template.md): create a repo from it and you get starter contracts for all three [base types](/framework/plugin-types.md) (`MyStaticPlugin`, `MyCloneablePlugin`, `MyUpgradeablePlugin`), a `MyPluginSetup`, tests, and deploy scripts. This guide uses the **UUPS-upgradeable** variant. (Imports below are the template's.)
+Start from the [Foundry plugin template](/tooling/plugin-template.md) (the [Setup](/guides/setup.md) scaffold): it gives you starter contracts for all three [base types](/framework/plugin-types.md) (`MyStaticPlugin`, `MyCloneablePlugin`, `MyUpgradeablePlugin`), a `MyPluginSetup`, tests, and deploy scripts. This guide uses the **UUPS-upgradeable** variant. (Imports below are the template's.)
 
 ## Step 1, the plugin contract
 

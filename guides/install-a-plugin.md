@@ -12,8 +12,7 @@ The split is the safety property: whoever *computes* an installation isn't who *
 
 ## What you need
 
-- [Foundry](/tooling/index.md), an RPC fork with OSx deployed.
-- The **`DAOFactory`**, the **`PluginSetupProcessor`**, and the **Multisig `PluginRepo`** addresses, from the [deployment artifacts](/deployment/deployment-checklist.md).
+The one-time [Setup](/guides/setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`**, **`PluginSetupProcessor`** (`PSP`), and **Multisig `PluginRepo`** addresses.
 
 ## Step 1, the skeleton
 

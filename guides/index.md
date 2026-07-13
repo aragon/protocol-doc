@@ -4,6 +4,8 @@ Linear, task-oriented, **Foundry-based** walkthroughs that link into the [concep
 
 Guides are written in the order below; each links the concepts it uses rather than re-explaining them. Unwritten entries below are the to-write list (`wiki unresolved`).
 
+**Before you start:** [Setup](/guides/setup.md), the one-time Foundry project scaffold (start from the template, point at a deployed protocol) that every guide below assumes.
+
 ## Understand
 
 - [Why OSx: the organization that can reinvent itself](/guides/why-osx.md) — Why a lean core + swappable plugins + one permission layer lets an organization iterate, pivot, and endure.
