@@ -40,6 +40,8 @@ Browse by area:
 - **[Deployment](/deployment/index.md)** — deploying the protocol and DAOs: the protocol factory and the DAO launchpad.
 - **[Tooling](/tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template and the `just`/Foundry task runner.
 
+**The code:** every component's GitHub repository is listed in [Source repositories](/repositories.md).
+
 ---
 
 _Operated with the `wiki` CLI: [AGENTS.md](/AGENTS.md) is how to drive it, [WORKFLOW.md](/WORKFLOW.md) is this base's conventions. Work in progress is tracked in the [backlog](/backlog/index.md). These three are for **maintaining** the base, not for learning the protocol, a reader can skip them._

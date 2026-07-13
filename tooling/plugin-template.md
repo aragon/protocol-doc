@@ -18,7 +18,7 @@ Writing a plugin correctly is more than one contract. You need the right [plugin
 - **[PluginSetup](/framework/plugin-setup.md) scaffolding** wired to those contracts, the prepare-install / prepare-uninstall logic that the [PluginSetupProcessor](/framework/plugin-setup-processor.md) drives.
 - **Deploy scripts and factories**, including the [one-shot factory](/deployment/dao-launchpad.md#correct-from-genesis) pattern for standing up a custom DAO with your plugin, and scripts for publishing to a [PluginRepo](/framework/plugin-repo.md).
 - **A testing environment** for unit tests, fork tests against a live network, and use-case scenarios.
-- **Multi-explorer verification** and a self-documenting task runner covering the whole build/test/deploy workflow.
+- **Multi-explorer verification** and a self-documenting **`just`** task runner (via [just-foundry](/tooling/just-foundry.md)) covering the whole build/test/deploy workflow, `just init` sets the project up out of the box.
 
 ## Where it sits
 
@@ -33,5 +33,5 @@ The template is the plugin *author's* entry point. What you build here becomes a
 
 - [Plugin base types](/framework/plugin-types.md) and [plugin setup](/framework/plugin-setup.md) — what the starters implement.
 - [PluginRepo](/framework/plugin-repo.md) and [the PluginSetupProcessor](/framework/plugin-setup-processor.md) — where a finished plugin is published and how it's installed.
-- [just-foundry](/tooling/just-foundry.md) — the `just`/Foundry task runner the Aragon repos are standardizing on.
+- [just-foundry](/tooling/just-foundry.md) — the `just`/Foundry task runner this template inits and runs with (`just init`, `just test`, …), shared across the Aragon repos.
 - [Guides](/guides/index.md) — a step-by-step "write your own plugin" walkthrough is planned here (not yet written).

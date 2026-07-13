@@ -6,7 +6,7 @@ source: just-foundry/README.md
 
 # just-foundry
 
-A drop-in **task runner and environment manager** for Foundry projects. Add it as a submodule and write a two-line `justfile`, and your project inherits a consistent one-stop workflow across every supported chain. Two wins in one: it turns multi-step Foundry flows (simulate → broadcast → verify → log) into single commands, *and* it **abstracts network configuration away entirely**, you never hand-manage the pile of per-network environment variables (RPC, chain id, verifier, and the Aragon OSx addresses) that Foundry projects otherwise accumulate. You switch network, and everything resolves. It's the shared tooling the Aragon repos build on: the [DAO Launchpad](/deployment/dao-launchpad.md)'s projects inherit it, and the [Protocol Factory](/deployment/protocol-factory.md) uses it.
+A drop-in **task runner and environment manager** for Foundry projects. Add it as a submodule and write a two-line `justfile`, and your project inherits a consistent one-stop workflow across every supported chain. Two wins in one: it turns multi-step Foundry flows (simulate → broadcast → verify → log) into single commands, *and* it **abstracts network configuration away entirely**, you never hand-manage the pile of per-network environment variables (RPC, chain id, verifier, and the Aragon OSx addresses) that Foundry projects otherwise accumulate. You switch network, and everything resolves. It's the shared tooling the Aragon repos build on: the [plugin template](/tooling/plugin-template.md) inits and runs with it (`just init`), the [DAO Launchpad](/deployment/dao-launchpad.md)'s projects inherit it, and the [Protocol Factory](/deployment/protocol-factory.md) uses it.
 
 ## Why it exists
 
@@ -35,5 +35,5 @@ The upshot is that the entire network dimension disappears from your mental load
 ## See also
 
 - [DAO Launchpad](/deployment/dao-launchpad.md) — the workbench whose projects inherit this runner.
-- [Plugin Template (Foundry)](/tooling/plugin-template.md) — the plugin-authoring scaffold in the same tooling family.
+- [Plugin Template (Foundry)](/tooling/plugin-template.md) — the plugin-authoring scaffold, which inits and runs with this (`just init`).
 - [Protocol Factory](/deployment/protocol-factory.md) — uses this runner to drive protocol deployments.

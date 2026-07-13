@@ -49,6 +49,8 @@ platform-docs/
 
 **File by area from the first page.** An area folder mixes `concept`, `reference`, and `example`; there is no `concepts/` folder. Keep it one level deep. Pages link freely across areas (define-once-link-everywhere): the graph, not the tree, carries relationships. Add an area only when a real cluster appears; split one when it outgrows its home (`wiki move` rewrites the links).
 
+**Querying: by component vs by concern.** The folder *is* the component, so search a component by its folder, not a tag: `wiki list --prefix plugins/capital-router/`, `wiki list --prefix core/`. **Tags are only for cross-cutting concerns** that span folders (`security`, `permissions`, `upgradeability`, `ens`, …), queried with `wiki list --where tags=security`. Don't add a tag that just mirrors a folder (`core`, `capital-router`, …): it duplicates what `--prefix` answers and silently drifts (a page always lives in its folder; a tag has to be maintained). So: **by component → `--prefix`; by cross-cutting concern → `--where tags=`.**
+
 ## The entry point (`index.md`)
 
 The front door, hand-curated, not a dump: a short intro to the protocol, links to the **guides** (the linear way in), and links to the **key concepts** each area hangs off. Every area's `index.md` is the same shape one level down: what's here, where to start, the notable pages. Keep them curated and lean; exhaustive lists are what `wiki list` is for.
