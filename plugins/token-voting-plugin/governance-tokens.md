@@ -1,13 +1,13 @@
 ---
 type: concept
 title: Governance tokens
-tags: [governance, token]
+tags: [governance]
 source: token-voting-plugin/src/erc20/GovernanceERC20.sol, token-voting-plugin/src/erc20/GovernanceWrappedERC20.sol, token-voting-plugin/src/erc20/IERC20MintableUpgradeable.sol, token-voting-plugin/src/erc20/IGovernanceWrappedERC20.sol, token-voting-plugin/src/TokenVotingSetup.sol
 ---
 
 # Governance tokens
 
-[Token Voting Plugin](/plugins/token-voting-plugin.md) draws voting power from an `IVotes` token, a token with the checkpointed, delegatable balances OpenZeppelin's `ERC20Votes` provides. Choosing that token is the main decision when you install the plugin, and `TokenVotingSetup` handles three paths automatically based on the token settings you pass:
+[Token Voting Plugin](../token-voting-plugin.md) draws voting power from an `IVotes` token, a token with the checkpointed, delegatable balances OpenZeppelin's `ERC20Votes` provides. Choosing that token is the main decision when you install the plugin, and `TokenVotingSetup` handles three paths automatically based on the token settings you pass:
 
 1. **Mint a new token.** Pass no token address and the setup deploys a fresh **`GovernanceERC20`** and mints an initial supply to the receivers you specify. The DAO gets mint rights. Best for a new DAO issuing its own governance token.
 2. **Reuse an existing `IVotes` token.** Pass a token that already speaks `IVotes` and it's used as-is, no new deployment. Best when your community already has a governance token.
@@ -33,7 +33,7 @@ This works, but it adds real friction: holders must actively wrap (lock) their t
 
 ## Delegation
 
-[Voting power is delegated, not merely held](/plugins/token-voting-plugin/voting-power.md#delegation), the rule that catches every token-voting DAO out. What differs between the token types is *how that first delegation happens*:
+[Voting power is delegated, not merely held](./voting-power.md#delegation), the rule that catches every token-voting DAO out. What differs between the token types is *how that first delegation happens*:
 
 - **`GovernanceERC20`** has an `ensureDelegationOnMint` option: when set, minting auto-delegates a recipient to themselves if they haven't delegated yet. Leave it off and freshly-minted holders have balance but no power until they manually `delegate()`, the classic onboarding foot-gun.
 - **`GovernanceWrappedERC20`** always auto-self-delegates on receipt, so wrapping already grants power without a separate step (it compensates for the friction of wrapping).
@@ -47,5 +47,5 @@ This works, but it adds real friction: holders must actively wrap (lock) their t
 
 ## See also
 
-- [Token Voting Plugin](/plugins/token-voting-plugin.md) — how the plugin reads voting power from the token.
-- [Plugin setup](/framework/plugin-setup.md) — the setup mechanism that deploys and wires all this.
+- [Token Voting Plugin](../token-voting-plugin.md) — how the plugin reads voting power from the token.
+- [Plugin setup](../../framework/plugin-setup.md) — the setup mechanism that deploys and wires all this.

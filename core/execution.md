@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Actions and execution
-tags: [core, security]
+tags: [security]
 source: osx/src/common/executors/IExecutor.sol, osx/src/core/dao/DAO.sol, osx/src/common/executors/Executor.sol, osx/src/common/utils/math/BitMap.sol
 ---
 
@@ -17,7 +17,7 @@ struct Action {
 }
 ```
 
-A DAO executes a *batch* of actions atomically through [`execute`](#the-execute-function). This is the single channel by which a passed proposal takes effect: a [governance plugin](/framework/plugins.md) holding `EXECUTE_PERMISSION_ID` calls `execute` with the actions the proposal approved.
+A DAO executes a *batch* of actions atomically through [`execute`](#the-execute-function). This is the single channel by which a passed proposal takes effect: a [governance plugin](../framework/plugins.md) holding `EXECUTE_PERMISSION_ID` calls `execute` with the actions the proposal approved.
 
 ## The `execute` function
 
@@ -27,7 +27,7 @@ function execute(bytes32 _callId, Action[] calldata _actions, uint256 _allowFail
     returns (bytes[] memory execResults, uint256 failureMap);
 ```
 
-On the [DAO](/core/dao.md) this is gated by `EXECUTE_PERMISSION_ID` and is `nonReentrant`. It loops over `_actions` and performs each as a low-level call:
+On the [DAO](./dao.md) this is gated by `EXECUTE_PERMISSION_ID` and is `nonReentrant`. It loops over `_actions` and performs each as a low-level call:
 
 ```solidity
 (bool success, bytes memory result) = to.call{value: value}(data);
@@ -65,7 +65,7 @@ uint256 allowFailureMap = 1 << 1; // set bit 1
 - It runs the *same* action-loop (same `MAX_ACTIONS`, same failsafe semantics, same gas guard) but has **no permission check**, anyone can call it.
 - It is meant to be used via **`delegatecall`** from another contract, lending its execute-loop logic while running in the caller's context. To stay `delegatecall`-safe it stores its reentrancy guard in a fixed namespaced storage slot (via assembly) rather than a normal state variable, so it never collides with the caller's storage layout.
 
-`DAO.execute` (permissioned, called directly) and `Executor` (permissionless, delegatecalled) share the `IExecutor` interface but are different tools, don't confuse them. Plugins can target either, see [how plugins execute](/framework/plugins.md#how-a-plugin-makes-the-dao-act).
+`DAO.execute` (permissioned, called directly) and `Executor` (permissionless, delegatecalled) share the `IExecutor` interface but are different tools, don't confuse them. Plugins can target either, see [how plugins execute](../framework/plugins.md#how-a-plugin-makes-the-dao-act).
 
 ## Keep in mind
 
@@ -74,6 +74,6 @@ uint256 allowFailureMap = 1 << 1; // set bit 1
 
 ## See also
 
-- [The DAO contract](/core/dao.md) — holds `EXECUTE_PERMISSION_ID` and the assets actions spend.
-- [Permissions](/core/permissions.md) — what gates `execute`.
-- [Plugins](/framework/plugins.md) — who calls `execute`, and how a proposal's actions get here.
+- [The DAO contract](./dao.md) — holds `EXECUTE_PERMISSION_ID` and the assets actions spend.
+- [Permissions](./permissions.md) — what gates `execute`.
+- [Plugins](../framework/plugins.md) — who calls `execute`, and how a proposal's actions get here.

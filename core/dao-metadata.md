@@ -1,13 +1,13 @@
 ---
 type: concept
 title: DAO metadata
-tags: [core, metadata]
+tags: [metadata]
 source: osx/src/core/dao/DAO.sol, osx/src/core/dao/IEIP4824.sol, protocol-factory/management-dao-metadata.json
 ---
 
 # DAO metadata
 
-A DAO's human-facing identity, its name, description, logo, and links, is **not** stored as on-chain fields. The [DAO contract](/core/dao.md) keeps two thin pointers to off-chain JSON instead, one Aragon-app-facing and one an interoperability standard. Knowing which is which (and that one isn't even stored) saves you from looking for a getter that doesn't exist.
+A DAO's human-facing identity, its name, description, logo, and links, is **not** stored as on-chain fields. The [DAO contract](./dao.md) keeps two thin pointers to off-chain JSON instead, one Aragon-app-facing and one an interoperability standard. Knowing which is which (and that one isn't even stored) saves you from looking for a getter that doesn't exist.
 
 ## Surface 1: the Aragon metadata blob (event-only)
 
@@ -61,5 +61,5 @@ Pin it with `just ipfs-pin <file>` (it uploads and returns the `ipfs://<CID>` UR
 
 ## See also
 
-- [The DAO contract](/core/dao.md) — where `setMetadata` / `daoURI` live and how they're permissioned.
-- [Plugin metadata](/framework/plugin-metadata.md) — the plugin-side counterpart (version JSON + on-chain instance metadata), which *does* store instance metadata.
+- [The DAO contract](./dao.md) — where `setMetadata` / `daoURI` live and how they're permissioned.
+- [Plugin metadata](../framework/plugin-metadata.md) — the plugin-side counterpart (version JSON + on-chain instance metadata), which *does* store instance metadata.

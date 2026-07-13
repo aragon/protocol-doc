@@ -1,7 +1,7 @@
 ---
 type: concept
 title: DAO signature validation (EIP-1271)
-tags: [core, permissions]
+tags: [permissions]
 source: osx/src/core/dao/DAO.sol
 ---
 
@@ -9,7 +9,7 @@ source: osx/src/core/dao/DAO.sol
 
 A DAO is a contract, so it has no private key and cannot produce ECDSA signatures. [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) is the standard by which a contract answers "is this signature valid for me?" via `isValidSignature(hash, signature)`. Many integrations (Safe modules, exchanges, off-chain order books) call it to check whether a smart-contract account approved something.
 
-OSx implements EIP-1271 in an unusual, elegant way: **the DAO delegates the decision to its own [permission system](/core/permissions.md).** It holds no signature logic of its own.
+OSx implements EIP-1271 in an unusual, elegant way: **the DAO delegates the decision to its own [permission system](./permissions.md).** It holds no signature logic of its own.
 
 ## How it works
 
@@ -26,7 +26,7 @@ Read the permission tuple carefully:
 
 - **`where`** is the DAO itself.
 - **`who`** is `msg.sender`, the contract *asking* whether the signature is valid (the Safe, the exchange), **not** a signer.
-- **`_data`** carries the `(hash, signature)` pair, so a [condition](/common/permission-conditions.md) can actually inspect and verify the signature.
+- **`_data`** carries the `(hash, signature)` pair, so a [condition](../common/permission-conditions.md) can actually inspect and verify the signature.
 
 So "the DAO's signature is valid to caller X" is expressed as "X is granted `VALIDATE_SIGNATURE_PERMISSION_ID` on the DAO."
 
@@ -45,7 +45,7 @@ dao.grantWithCondition(dao, someCaller, VALIDATE_SIGNATURE_PERMISSION_ID, valida
 dao.grantWithCondition(dao, ANY_ADDR, VALIDATE_SIGNATURE_PERMISSION_ID, validator);
 ```
 
-`VALIDATE_SIGNATURE_PERMISSION_ID` is one of the few permissions the DAO deliberately **allows** to be granted to `ANY_ADDR` (exactly so a generic signature validator can serve every caller). A "signature validator plugin" is just a [condition](/common/permission-conditions.md) wired in this way.
+`VALIDATE_SIGNATURE_PERMISSION_ID` is one of the few permissions the DAO deliberately **allows** to be granted to `ANY_ADDR` (exactly so a generic signature validator can serve every caller). A "signature validator plugin" is just a [condition](../common/permission-conditions.md) wired in this way.
 
 > Legacy note: older OSx exposed `setSignatureValidator`. It was removed in v1.4.0 (the function now reverts, kept only to preserve the interface id); this permission-based approach replaces it.
 
@@ -56,5 +56,5 @@ dao.grantWithCondition(dao, ANY_ADDR, VALIDATE_SIGNATURE_PERMISSION_ID, validato
 
 ## See also
 
-- [Permission conditions](/common/permission-conditions.md) — where the actual signature-checking logic lives.
-- [The permission system](/core/permissions.md) — the `ANY_ADDR` wildcard and `grantWithCondition`.
+- [Permission conditions](../common/permission-conditions.md) — where the actual signature-checking logic lives.
+- [The permission system](./permissions.md) — the `ANY_ADDR` wildcard and `grantWithCondition`.

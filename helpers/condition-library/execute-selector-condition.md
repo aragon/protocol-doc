@@ -1,21 +1,21 @@
 ---
 type: concept
 title: ExecuteSelectorCondition
-tags: [helpers, permissions]
+tags: [permissions]
 source: condition-library/src/ExecuteSelectorCondition.sol
 ---
 
 # ExecuteSelectorCondition
 
-`ExecuteSelectorCondition` scopes a DAO's [`EXECUTE_PERMISSION_ID`](/core/execution.md) so the holder can only make the DAO run a **specific set of `(target, function)` calls**. It's the [condition library](/helpers/condition-library.md)'s most powerful member, and the one whose behavior is easiest to misplace, so contrast it with its sibling [SelectorCondition](/helpers/condition-library/selector-condition.md) as you read.
+`ExecuteSelectorCondition` scopes a DAO's [`EXECUTE_PERMISSION_ID`](../../core/execution.md) so the holder can only make the DAO run a **specific set of `(target, function)` calls**. It's the [condition library](../condition-library.md)'s most powerful member, and the one whose behavior is easiest to misplace, so contrast it with its sibling [SelectorCondition](./selector-condition.md) as you read.
 
 ## When to use it
 
-You want to grant a plugin (or any address) the ability to make the DAO [execute](/core/execution.md) actions, but **only certain ones**. For example: "this rewards plugin may make the DAO execute, but only `transfer` calls to the USDC contract." Attach this condition to the DAO's `EXECUTE_PERMISSION_ID` grant and a blanket "can move anything" becomes a tightly-scoped "can only do these calls."
+You want to grant a plugin (or any address) the ability to make the DAO [execute](../../core/execution.md) actions, but **only certain ones**. For example: "this rewards plugin may make the DAO execute, but only `transfer` calls to the USDC contract." Attach this condition to the DAO's `EXECUTE_PERMISSION_ID` grant and a blanket "can move anything" becomes a tightly-scoped "can only do these calls."
 
 ## What it checks
 
-Unlike [SelectorCondition](/helpers/condition-library/selector-condition.md), which looks at the *direct call's* selector, this one only fires when the call **is** `execute()`, then **reaches inside the batch**:
+Unlike [SelectorCondition](./selector-condition.md), which looks at the *direct call's* selector, this one only fires when the call **is** `execute()`, then **reaches inside the batch**:
 
 ```solidity
 if (getSelector(_data) != IExecutor.execute.selector) return false;   // must be execute()
@@ -23,7 +23,7 @@ if (getSelector(_data) != IExecutor.execute.selector) return false;   // must be
 // for each action: check its (to, selector) against the allow-lists
 ```
 
-For every [action](/core/execution.md) it checks the target-and-selector pair against a **per-target** allow-list (`allowedSelectors[target][selector]`), plus a separate per-target flag for native-coin movements (`allowedNativeTransfers[target]`). So it constrains *the selectors of the actions the DAO is asked to run*, not the direct call.
+For every [action](../../core/execution.md) it checks the target-and-selector pair against a **per-target** allow-list (`allowedSelectors[target][selector]`), plus a separate per-target flag for native-coin movements (`allowedNativeTransfers[target]`). So it constrains *the selectors of the actions the DAO is asked to run*, not the direct call.
 
 Two rules to get right:
 
@@ -45,12 +45,12 @@ Two rules to get right:
 ## Keep in mind
 
 - **Attach it to the right permission.** It's built for the DAO's `EXECUTE_PERMISSION_ID` (the grant to the executing plugin); on any other permission it just denies, since the call won't be `execute()`.
-- **Management is idempotent** (a redundant `allowSelectors`/`allowNativeTransfers` is a no-op), unlike [SelectorCondition](/helpers/condition-library/selector-condition.md), which reverts on redundant changes.
-- **A selector is not its arguments.** It allow-lists *which* calls, not their arguments; for value/argument caps use a bespoke [condition](/common/permission-conditions.md) or [RuledCondition](/common/ruled-condition.md).
+- **Management is idempotent** (a redundant `allowSelectors`/`allowNativeTransfers` is a no-op), unlike [SelectorCondition](./selector-condition.md), which reverts on redundant changes.
+- **A selector is not its arguments.** It allow-lists *which* calls, not their arguments; for value/argument caps use a bespoke [condition](../../common/permission-conditions.md) or [RuledCondition](../../common/ruled-condition.md).
 - **A no-op action denies the whole batch.** An action with empty calldata *and* zero value returns `false`, so you can't quietly slip a harmless empty action into an otherwise-allowed `execute()`, the entire call is rejected.
 
 ## See also
 
-- [Condition Library](/helpers/condition-library.md) — the library overview and the factory.
-- [SelectorCondition](/helpers/condition-library/selector-condition.md) — the direct-call counterpart.
-- [Actions and execution](/core/execution.md) — the `execute`/`Action` shape this inspects.
+- [Condition Library](../condition-library.md) — the library overview and the factory.
+- [SelectorCondition](./selector-condition.md) — the direct-call counterpart.
+- [Actions and execution](../../core/execution.md) — the `execute`/`Action` shape this inspects.

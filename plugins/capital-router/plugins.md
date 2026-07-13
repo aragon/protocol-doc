@@ -1,17 +1,17 @@
 ---
 type: concept
 title: Capital Router plugins
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/DispatcherPlugin.sol, capital-router/src/RequesterPlugin.sol, capital-router/src/DispatchHubPlugin.sol, capital-router/src/setup/DispatcherPluginSetup.sol
 ---
 
 # Capital Router plugins
 
-The [Capital Router](/plugins/capital-router.md) ships three plugins. All are [`PluginCloneable`](/framework/plugin-types.md) (cheap minimal-proxy installs) that build [actions](/core/execution.md) and run them via the DAO; they differ in *who triggers* and *what they hold*.
+The [Capital Router](../capital-router.md) ships three plugins. All are [`PluginCloneable`](../../framework/plugin-types.md) (cheap minimal-proxy installs) that build [actions](../../core/execution.md) and run them via the DAO; they differ in *who triggers* and *what they hold*.
 
 ## DispatcherPlugin, the push entry point
 
-Holds an ordered list of [strategies](/plugins/capital-router/strategies.md). `dispatch()` (gated by `DISPATCH_PERMISSION_ID`) walks them **in order**, and for each one calls `prepareActions()` then immediately [`dao.execute()`](/core/execution.md) *before moving to the next*.
+Holds an ordered list of [strategies](./strategies.md). `dispatch()` (gated by `DISPATCH_PERMISSION_ID`) walks them **in order**, and for each one calls `prepareActions()` then immediately [`dao.execute()`](../../core/execution.md) *before moving to the next*.
 
 That **settle-before-next** ordering is load-bearing, not incidental: it's what lets a "swap, then distribute the proceeds" pipeline work, because strategy `i+1`'s budget reads the vault balance *after* strategy `i`'s actions have already executed. It's also the source of a footgun: two `FullBudget` strategies in one plugin race, the first drains the vault, the second sees nothing. Compose with bounded budgets when several strategies draw on the same token.
 
@@ -23,7 +23,7 @@ By default `dispatch()` is all-or-nothing: any strategy reverting reverts the wh
 
 ## RequesterPlugin, the pull entry point
 
-Mirror-image: an ordered list of [request strategies](/plugins/capital-router/strategies.md), the same failsafe mechanics. `request(bytes data)` forwards `data` to the strategies (empty → each gets `""`; otherwise it's decoded as one blob per strategy, and the count **must match** or it reverts `DataLengthMismatch`). As noted in [dispatch vs. request](/plugins/capital-router/dispatch-vs-request.md), `request()` has **no permission gate**.
+Mirror-image: an ordered list of [request strategies](./strategies.md), the same failsafe mechanics. `request(bytes data)` forwards `data` to the strategies (empty → each gets `""`; otherwise it's decoded as one blob per strategy, and the count **must match** or it reverts `DataLengthMismatch`). As noted in [dispatch vs. request](./dispatch-vs-request.md), `request()` has **no permission gate**.
 
 ## DispatchHubPlugin, cross-DAO fan-out
 
@@ -33,24 +33,24 @@ Holds not strategies but a list of *other* `DispatcherPlugin`s, potentially on *
 
 ## Installation & permissions
 
-The router installs through the standard [PluginSetupProcessor](/framework/plugin-setup-processor.md). Everything, budgets, splitters, strategies, and the plugin, is an [EIP-1167 clone](/common/proxies.md) deployed by factories (a `StrategyFactory` fans out to budget/splitter sub-factories), so each piece gets its own storage (needed for per-strategy `paused`/`requestedAmounts` and per-budget streaming state). `DispatcherPluginSetup` grants:
+The router installs through the standard [PluginSetupProcessor](../../framework/plugin-setup-processor.md). Everything, budgets, splitters, strategies, and the plugin, is an [EIP-1167 clone](../../common/proxies.md) deployed by factories (a `StrategyFactory` fans out to budget/splitter sub-factories), so each piece gets its own storage (needed for per-strategy `paused`/`requestedAmounts` and per-budget streaming state). `DispatcherPluginSetup` grants:
 
 | Permission | Holder | Target | Purpose |
 |---|---|---|---|
 | `EXECUTE_PERMISSION_ID` | plugin | DAO | let the plugin call `dao.execute()` |
 | `DISPATCH_PERMISSION_ID` | any address (default) | plugin | trigger `dispatch()` |
 | `MANAGER_PERMISSION_ID` | DAO | plugin | `updateSettings`, `updateFailsafeStrategyMap` |
-| `MANAGER_PERMISSION_ID` | DAO | swap strategies only | `updateSettings` on the Uniswap/CowSwap strategies (which also enables their `setPaused`) |
+| `MANAGER_PERMISSION_ID` | DAO | each strategy | `updateSettings` and `setPaused` on every strategy |
 | `PREPARE_PERMISSION_ID` | plugin | each strategy | only the plugin may call `strategy.prepareActions()` |
 | `SET_METADATA_PERMISSION_ID` | DAO | plugin | update the metadata URI |
 
 `RequesterPluginSetup` is the same minus the `DISPATCH`/any-address row (no `request()` gate); `DispatchHubPluginSetup` grants only MANAGER, metadata, and the any-address DISPATCH row on the hub (it has no strategies to grant PREPARE on).
 
-> **Pausing a non-swap strategy needs a grant first.** `setPaused` is `auth(MANAGER_PERMISSION_ID)` on *every* strategy, but the factory grants the DAO `MANAGER` only on the swap strategies (Uniswap/CowSwap, so they can also `updateSettings`). For Transfer, EpochTransfer, Burn, and **both request strategies**, the setup grants no `MANAGER` at all, so a proposal to pause one **reverts** until the DAO first grants itself `(strategy, DAO, MANAGER_PERMISSION_ID)`. A DAO's ROOT does not satisfy a `MANAGER` check, ROOT only gates `grant`/`revoke`, not arbitrary permissions.
+> **Pausing is wired out of the box.** `setPaused` is `auth(MANAGER_PERMISSION_ID)` on *every* strategy, and both `DispatcherPluginSetup` and `RequesterPluginSetup` grant the DAO `MANAGER` on **each** strategy at install (the same grant that enables `updateSettings`), swap and non-swap alike. So a DAO can pause any strategy by proposal with no extra setup. Note that a DAO's ROOT does not by itself satisfy a `MANAGER` check, ROOT only gates `grant`/`revoke`, not arbitrary permissions, but here the install already provides the needed `MANAGER`.
 
 ## Permissions
 
-`dispatch()` is **permissionless by default**, `DISPATCH_PERMISSION_ID` is granted to `ANY_ADDR` at install. That's deliberate: a dispatch's outcome is fully fixed by its config, so opening the trigger to anyone only decides *when* funds move, never where or how much. To control *timing* (ops, MEV, compliance) a DAO can revoke the `ANY_ADDR` grant and grant a specific operator, or attach a [condition](/common/permission-conditions.md) (e.g. a time window) via `grantWithCondition`, standard [permission-system](/core/permissions.md) work, nothing router-specific. (Doing so is what breaks a hub's fan-out unless the hub is also granted.)
+`dispatch()` is **permissionless by default**, `DISPATCH_PERMISSION_ID` is granted to `ANY_ADDR` at install. That's deliberate: a dispatch's outcome is fully fixed by its config, so opening the trigger to anyone only decides *when* funds move, never where or how much. To control *timing* (ops, MEV, compliance) a DAO can revoke the `ANY_ADDR` grant and grant a specific operator, or attach a [condition](../../common/permission-conditions.md) (e.g. a time window) via `grantWithCondition`, standard [permission-system](../../core/permissions.md) work, nothing router-specific. (Doing so is what breaks a hub's fan-out unless the hub is also granted.)
 
 ## Keep in mind
 
@@ -60,5 +60,5 @@ The router installs through the standard [PluginSetupProcessor](/framework/plugi
 
 ## See also
 
-- [Dispatch vs. request](/plugins/capital-router/dispatch-vs-request.md), [Strategies](/plugins/capital-router/strategies.md).
-- [Actions and execution](/core/execution.md), [the permission system](/core/permissions.md), [plugin setup](/framework/plugin-setup.md).
+- [Dispatch vs. request](./dispatch-vs-request.md), [Strategies](./strategies.md).
+- [Actions and execution](../../core/execution.md), [the permission system](../../core/permissions.md), [plugin setup](../../framework/plugin-setup.md).

@@ -1,6 +1,6 @@
 # How these docs work
 
-This is the **Aragon OSx protocol knowledge base**: a public, developer-facing wiki for the whole EVM protocol behind Aragon, the OSx core, the governance plugins, and the helpers and tooling around them. It is operated with the `wiki` CLI (see [CLAUDE.md](/CLAUDE.md) for the tool; this file is *this base's* conventions).
+This is the **Aragon OSx protocol knowledge base**: a public, developer-facing wiki for the whole EVM protocol behind Aragon, the OSx core, the governance plugins, and the helpers and tooling around them. It is operated with the `wiki` CLI (see [CLAUDE.md](./CLAUDE.md) for the tool; this file is *this base's* conventions).
 
 Two layers, per the `wiki` model:
 
@@ -49,6 +49,10 @@ platform-docs/
 
 **File by area from the first page.** An area folder mixes `concept`, `reference`, and `example`; there is no `concepts/` folder. Keep it one level deep. Pages link freely across areas (define-once-link-everywhere): the graph, not the tree, carries relationships. Add an area only when a real cluster appears; split one when it outgrows its home (`wiki move` rewrites the links).
 
+**Querying: by component vs by concern.** The folder *is* the component, so search a component by its folder, not a tag: `wiki list --prefix plugins/capital-router/`, `wiki list --prefix core/`. **Tags are only for cross-cutting concerns** that span folders (`security`, `permissions`, `upgradeability`, `ens`, …), queried with `wiki list --where tags=security`. Don't add a tag that just mirrors a folder (`core`, `capital-router`, …): it duplicates what `--prefix` answers and silently drifts (a page always lives in its folder; a tag has to be maintained). So: **by component → `--prefix`; by cross-cutting concern → `--where tags=`.**
+
+**Links are relative.** Cross-page links resolve **relative to the linking file** (`../core/permissions.md`, `./sibling.md`), not root-absolute. Don't hand-compute them: write the target however is convenient, then run `wiki tidy` to canonicalize every link to its relative form (and filenames to slugs). `wiki move` keeps links correct when a page relocates, and `wiki check` verifies both targets and `#anchor` fragments.
+
 ## The entry point (`index.md`)
 
 The front door, hand-curated, not a dump: a short intro to the protocol, links to the **guides** (the linear way in), and links to the **key concepts** each area hangs off. Every area's `index.md` is the same shape one level down: what's here, where to start, the notable pages. Keep them curated and lean; exhaustive lists are what `wiki list` is for.
@@ -67,7 +71,7 @@ Each concept is **one atomic idea**, defined once, linked to what it relates to.
 
 ## Guides: the linear layer
 
-A `guide` walks through a task start to finish, **linking into concepts** for depth rather than restating them ("grant a permission, see [Permissions](/core/permissions.md)"). Single page for something short; a folder of numbered chapters with next/prev links for anything longer. Order is explicit: within a sequence and in `guides/index.md`. If you're tempted to explain a concept inside a guide, that concept wants its own page.
+A `guide` walks through a task start to finish, **linking into concepts** for depth rather than restating them ("grant a permission, see [Permissions](../core/permissions.md)"). Single page for something short; for anything longer, a **sequence**: a typed landing entry (`guides/<name>.md`, `type: guide`, the intro + chapter order) with the numbered chapters beside it under `guides/<name>/` (`01-…`, `02-…`) linked next/prev, the landing is a real typed guide, not a typeless `index.md`. Order is explicit: within a sequence and in `guides/index.md`. If you're tempted to explain a concept inside a guide, that concept wants its own page.
 
 ## Ingesting from source
 
@@ -84,7 +88,7 @@ Docs are distilled from **source code** (the 12 repos). The material is the inpu
 
 ## The backlog
 
-A single lightweight kanban at [`backlog/index.md`](/backlog/index.md): a goal, then sections of plain links to `type: task` entries in `backlog/`.
+A single lightweight kanban at [`backlog/index.md`](./backlog/index.md): a goal, then sections of plain links to `type: task` entries in `backlog/`.
 
 - A task is `backlog/<slug>.md`, `type: task`, with `status` (`todo` | `in-progress` | `done`) and a `tags` work-kind (`ingest`, `guide`, `debt`, `question`, `example`). Statuses and sections stay minimal on purpose.
 - **Board sections:** `## Now` (committed), `## Next` (queued), `## Debt` (workarounds and gaps to revisit), `## For the user` (questions/decisions the human owns). Plain links only, the linked task owns its `status`.

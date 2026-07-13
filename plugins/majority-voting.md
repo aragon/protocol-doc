@@ -7,13 +7,13 @@ source: token-voting-plugin/src/base/MajorityVotingBase.sol, token-voting-plugin
 
 # Majority voting
 
-Majority voting is a reusable decision engine for governance plugins (`MajorityVotingBase`): the rules that turn a set of Yes/No/Abstain votes into a pass or fail. It deliberately separates *how do we decide* (here) from *where does voting power come from* (the concrete plugin supplies that, e.g. the [Token Voting Plugin](/plugins/token-voting-plugin.md) weights votes by token balance). Any voting plugin can build on it.
+Majority voting is a reusable decision engine for governance plugins (`MajorityVotingBase`): the rules that turn a set of Yes/No/Abstain votes into a pass or fail. It deliberately separates *how do we decide* (here) from *where does voting power come from* (the concrete plugin supplies that, e.g. the [Token Voting Plugin](./token-voting-plugin.md) weights votes by token balance). Any voting plugin can build on it.
 
 The design worth understanding: a proposal succeeds only if **three independent criteria all hold**, plus it ran for a minimum time. They're independent on purpose, each guards against a different failure of a naive "most votes win" rule.
 
 ## The three thresholds
 
-Every voter casts `Yes`, `No`, or `Abstain`, weighted by their **voting power**, what confers it is the plugin's business (a token balance, locked tokens, a member list; the [Token Voting Plugin sources it from IVotes balances](/plugins/token-voting-plugin/voting-power.md)). All thresholds are expressed with the [`RATIO_BASE` convention](/common/ratio.md) (`1_000_000` = 100%) and are **frozen into the proposal at creation**, later changes to the DAO's voting settings never affect proposals already open.
+Every voter casts `Yes`, `No`, or `Abstain`, weighted by their **voting power**, what confers it is the plugin's business (a token balance, locked tokens, a member list; the [Token Voting Plugin sources it from IVotes balances](./token-voting-plugin/voting-power.md)). All thresholds are expressed with the [`RATIO_BASE` convention](../common/ratio.md) (`1_000_000` = 100%) and are **frozen into the proposal at creation**, later changes to the DAO's voting settings never affect proposals already open.
 
 ### Support — do most of the *decided* voters agree?
 
@@ -29,7 +29,7 @@ support = yes / (yes + no)      must be  >  supportThreshold
 participation = (yes + no + abstain) / totalVotingPower    must be  >=  minParticipation
 ```
 
-**Abstain *is* included** here, the opposite of support, and for a complementary reason: participation measures engagement, "did enough of the token supply weigh in at all?", regardless of direction. An abstain is still participation. This is the quorum guard: it stops a tiny, unrepresentative slice of the supply from deciding for everyone. (In practice the requirement is computed once at creation as an absolute amount, `minVotingPower`, by [rounding the percentage up](/common/ratio.md) against the snapshot's total supply.)
+**Abstain *is* included** here, the opposite of support, and for a complementary reason: participation measures engagement, "did enough of the token supply weigh in at all?", regardless of direction. An abstain is still participation. This is the quorum guard: it stops a tiny, unrepresentative slice of the supply from deciding for everyone. (In practice the requirement is computed once at creation as an absolute amount, `minVotingPower`, by [rounding the percentage up](../common/ratio.md) against the snapshot's total supply.)
 
 ### Approval — did enough *yes* power turn out in absolute terms?
 
@@ -44,11 +44,11 @@ The three are **ANDed**: support (relative direction) *and* participation (turno
 ## Keep in mind
 
 - **Support excludes abstain; participation includes it.** This asymmetry is intentional, not a bug. If ever unsure, re-derive from the definitions: support is `yes/(yes+no)`, participation is `(yes+no+abstain)/total`.
-- **A proposal can "succeed" before it can execute.** In Standard mode a proposal may have clinched its thresholds while still open (`hasSucceeded` true), yet execution is blocked until the end date (`canExecute` false). "Succeeded" is the outcome; "executable" also accounts for timing and [mode](/plugins/voting-modes.md).
+- **A proposal can "succeed" before it can execute.** In Standard mode a proposal may have clinched its thresholds while still open (`hasSucceeded` true), yet execution is blocked until the end date (`canExecute` false). "Succeeded" is the outcome; "executable" also accounts for timing and [mode](./voting-modes.md).
 
 ## See also
 
-- [Token Voting Plugin](/plugins/token-voting-plugin.md) and [Lock to Vote Plugin](/plugins/lock-to-vote-plugin.md) — the governance plugins built on this engine (each with its own voting-power source).
-- [Voting modes](/plugins/voting-modes.md) — how the mode changes execution timing and re-voting.
-- [Ratio](/common/ratio.md) — the threshold math, and why it rounds up.
-- [Proposals](/common/proposal.md) — the shared lifecycle interface.
+- [Token Voting Plugin](./token-voting-plugin.md) and [Lock to Vote Plugin](./lock-to-vote-plugin.md) — the governance plugins built on this engine (each with its own voting-power source).
+- [Voting modes](./voting-modes.md) — how the mode changes execution timing and re-voting.
+- [Ratio](../common/ratio.md) — the threshold math, and why it rounds up.
+- [Proposals](../common/proposal.md) — the shared lifecycle interface.

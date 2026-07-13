@@ -1,28 +1,27 @@
 ---
 type: concept
 title: Protocol Factory
-tags: [deployment, tooling]
 source: protocol-factory/src/ProtocolFactory.sol, protocol-factory/src/helpers/DAOHelper.sol, protocol-factory/src/helpers/ENSHelper.sol, protocol-factory/src/helpers/PluginRepoHelper.sol, protocol-factory/src/helpers/PSPHelper.sol, protocol-factory/src/helpers/interfaces.sol, protocol-factory/README.md
 ---
 
 # Protocol Factory
 
-The Protocol Factory brings **OSx itself** up on a new EVM chain. Where the [DAO Launchpad](/deployment/dao-launchpad.md) deploys *one DAO* onto an existing protocol, this deploys *the protocol*: the whole framework, its ENS naming, the governing Management DAO, and the core plugin repos, wired together in one deterministic orchestration.
+The Protocol Factory brings **OSx itself** up on a new EVM chain. Where the [DAO Launchpad](./dao-launchpad.md) deploys *one DAO* onto an existing protocol, this deploys *the protocol*: the whole framework, its ENS naming, the governing Management DAO, and the core plugin repos, wired together in one deterministic orchestration.
 
 ## The problem it solves
 
-OSx is a framework, not a single contract. Before anyone can create a DAO on a chain, that chain needs the entire framework live and correctly cross-permissioned: the [DAO base](/core/dao.md) implementation, the [DAO and plugin registries](/framework/registries.md), the [PluginRepoFactory](/framework/plugin-repo.md), the [PluginSetupProcessor](/framework/plugin-setup-processor.md), the [DAOFactory](/framework/dao-factory.md), an [ENS](/framework/registries.md) setup for `dao.eth` and `plugin.dao.eth`, and the core plugins published so they can be installed. That is a large graph of contracts and permissions; wiring it by hand, transaction by transaction, is both error-prone and dangerous (each intermediate state leaves the protocol's control in flux). The factory makes standing it up a **single, reviewable, deterministic** event, so every chain gets the same canonical, correctly-owned deployment.
+OSx is a framework, not a single contract. Before anyone can create a DAO on a chain, that chain needs the entire framework live and correctly cross-permissioned: the [DAO base](../core/dao.md) implementation, the [DAO and plugin registries](../framework/registries.md), the [PluginRepoFactory](../framework/plugin-repo.md), the [PluginSetupProcessor](../framework/plugin-setup-processor.md), the [DAOFactory](../framework/dao-factory.md), an [ENS](../framework/registries.md) setup for `dao.eth` and `plugin.dao.eth`, and the core plugins published so they can be installed. That is a large graph of contracts and permissions; wiring it by hand, transaction by transaction, is both error-prone and dangerous (each intermediate state leaves the protocol's control in flux). The factory makes standing it up a **single, reviewable, deterministic** event, so every chain gets the same canonical, correctly-owned deployment.
 
 ## What it stands up
 
 - **OSx framework** — the registries, the `DAOFactory` and `PluginRepoFactory`, the `PluginSetupProcessor`, and the shared executor, deployed as proxies over their base implementations.
 - **ENS naming** — a registry + resolver and two subdomain registrars (`dao.eth` for DAOs, `plugin.dao.eth` for plugin repos), so registered DAOs and repos get resolvable names.
 - **The Management DAO** — the DAO that governs the protocol (below).
-- **The core plugin repos** — Admin, Multisig, Token Voting, SPP, and Lock to Vote, each published into its own [PluginRepo](/framework/plugin-repo.md) owned by the Management DAO.
+- **The core plugin repos** — Admin, Multisig, Token Voting, SPP, and Lock to Vote, each published into its own [PluginRepo](../framework/plugin-repo.md) owned by the Management DAO.
 
 ## The Management DAO governs the protocol
 
-The linchpin is the **Management DAO**: an ordinary OSx [DAO](/core/dao.md), governed by a [Multisig](/plugins/multisig-plugin.md), that *owns the protocol's shared infrastructure*. It holds the permissions to register upgrades on the [registries](/framework/registries.md), operate the ENS subdomain registrars, and maintain the [core plugin repos](/framework/plugin-repo.md) (publishing new versions). In other words, the protocol is **self-governed by an Aragon DAO**: changing a registry implementation or shipping a new core-plugin build is itself a governance action of the Management DAO, not a privileged key. OSx runs on OSx.
+The linchpin is the **Management DAO**: an ordinary OSx [DAO](../core/dao.md), governed by a [Multisig](../plugins/multisig-plugin.md), that *owns the protocol's shared infrastructure*. It holds the permissions to register upgrades on the [registries](../framework/registries.md), operate the ENS subdomain registrars, and maintain the [core plugin repos](../framework/plugin-repo.md) (publishing new versions). In other words, the protocol is **self-governed by an Aragon DAO**: changing a registry implementation or shipping a new core-plugin build is itself a governance action of the Management DAO, not a privileged key. OSx runs on OSx.
 
 ## Deploy once, then read-only forever
 
@@ -49,18 +48,18 @@ ProtocolFactory factory = new ProtocolFactoryBuilder().build();
 ProtocolFactory.Deployment memory d = factory.getDeployment();  // daoFactory, PSP, repos, …
 ```
 
-So a [plugin author](/tooling/plugin-template.md) can fork-test against the actual framework instead of hand-rolled mocks, the very factory that ships OSx to a chain also spins it up in CI.
+So a [plugin author](../tooling/plugin-template.md) can fork-test against the actual framework instead of hand-rolled mocks, the very factory that ships OSx to a chain also spins it up in CI.
 
 ## Keep in mind
 
-- **This deploys the protocol, not a DAO.** To create a DAO on an already-deployed protocol, that's the [DAO Launchpad](/deployment/dao-launchpad.md) and the [DAOFactory](/framework/dao-factory.md), not this.
+- **This deploys the protocol, not a DAO.** To create a DAO on an already-deployed protocol, that's the [DAO Launchpad](./dao-launchpad.md) and the [DAOFactory](../framework/dao-factory.md), not this.
 - **The Management DAO is a real DAO, with real governance.** Protocol upgrades and new core-plugin versions flow through its multisig; there's no separate admin backdoor.
 - **The factory keeps no power.** Its bootstrap `ROOT`/`EXECUTE` on the Management DAO is revoked as the final step, the deployment isn't "done" until the factory is powerless.
 
 ## See also
 
-- [DAO Launchpad](/deployment/dao-launchpad.md) — the DAO-scale counterpart (one DAO on an existing protocol).
-- [Registries](/framework/registries.md) — the DAO/plugin registries and ENS naming this deploys and hands to the Management DAO.
-- [PluginRepo](/framework/plugin-repo.md), [PluginSetupProcessor](/framework/plugin-setup-processor.md), [DAOFactory](/framework/dao-factory.md) — the framework pieces stood up here.
-- [The deployment checklist](/deployment/deployment-checklist.md) — the ceremony and guarantees for actually running this deployment safely.
-- [Deployment overview](/deployment/index.md).
+- [DAO Launchpad](./dao-launchpad.md) — the DAO-scale counterpart (one DAO on an existing protocol).
+- [Registries](../framework/registries.md) — the DAO/plugin registries and ENS naming this deploys and hands to the Management DAO.
+- [PluginRepo](../framework/plugin-repo.md), [PluginSetupProcessor](../framework/plugin-setup-processor.md), [DAOFactory](../framework/dao-factory.md) — the framework pieces stood up here.
+- [The deployment checklist](./deployment-checklist.md) — the ceremony and guarantees for actually running this deployment safely.
+- [Deployment overview](./index.md).

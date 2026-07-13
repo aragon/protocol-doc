@@ -1,13 +1,13 @@
 ---
 type: concept
 title: Capital Router oracles
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/interfaces/IPriceOracle.sol, capital-router/src/oracles/ChainlinkPriceOracle.sol, capital-router/src/oracles/UniswapV3TWAPOracle.sol, capital-router/src/oracles/MultiPriceOracle.sol
 ---
 
 # Capital Router oracles
 
-The [swap strategies](/plugins/capital-router/strategies.md) (Uniswap, CowSwap) need a notion of *fair price* to compute a minimum acceptable output and refuse a bad fill, without it, a swap dispatch is a sandwich/MEV target. A **price oracle** provides that, behind one interface:
+The [swap strategies](./strategies.md) (Uniswap, CowSwap) need a notion of *fair price* to compute a minimum acceptable output and refuse a bad fill, without it, a swap dispatch is a sandwich/MEV target. A **price oracle** provides that, behind one interface:
 
 ```solidity
 interface IPriceOracle {
@@ -39,5 +39,5 @@ The key security property, shared by both swap strategies: if an oracle is confi
 
 ## See also
 
-- [Strategies](/plugins/capital-router/strategies.md) — the swap strategies that consume these and enforce the staleness window.
-- [Capital Router overview](/plugins/capital-router.md).
+- [Strategies](./strategies.md) — the swap strategies that consume these and enforce the staleness window.
+- [Capital Router overview](../capital-router.md).

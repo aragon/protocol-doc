@@ -17,29 +17,31 @@ The point is to make that iteration both **flexible and safe**: a plugin never a
 
 ## Start here
 
-New to OSx? Read these two first, everything else builds on them:
+**New to OSx?** The [guides](./guides/index.md) are the way in, hands-on, Foundry-based, followed start to finish:
 
-1. [The DAO contract](/core/dao.md) — what a DAO actually *is*.
-2. [The permission system](/core/permissions.md) — how OSx decides who may do what.
+- [Why OSx](./guides/why-osx.md) — the short "what this is and why," no code.
+- [A hands-on tour of OSx](./guides/hands-on-tour.md) — deploy a DAO and make it act, in one short test.
+- Then the path that fits you: [deploy a DAO](./guides/deploy-a-dao.md) → [launch a governance token](./guides/launch-a-governance-token.md) → [create, vote, execute](./guides/create-vote-execute.md), or, to author your own plugin, [build a plugin](./guides/build-a-plugin.md) → [publish it](./guides/publish-a-plugin.md). Full list and reading order in [guides](./guides/index.md).
 
-Then follow the path for what you're doing:
+**Prefer the reference?** Two concepts underpin everything, read them first:
 
-- **Build on / integrate with a DAO:** [actions & execution](/core/execution.md) → [the plugin model](/framework/plugins.md) → the [governance plugins](/plugins/index.md) you'll install.
-- **Write your own plugin:** [the plugin model](/framework/plugins.md) → [choosing a base type](/framework/plugin-types.md) → [plugin setup](/framework/plugin-setup.md) → [PluginRepo](/framework/plugin-repo.md) → [the PluginSetupProcessor](/framework/plugin-setup-processor.md), then scaffold from the [plugin template](/tooling/plugin-template.md).
-- **Deploy the protocol or a DAO:** the [deployment area](/deployment/index.md), the protocol factory (whole stack) and the DAO launchpad (individual DAOs).
+1. [The DAO contract](./core/dao.md) — what a DAO actually *is*.
+2. [The permission system](./core/permissions.md) — how OSx decides who may do what.
 
-_Step-by-step [guides](/guides/index.md) (the linear way in, with copy-adaptable Solidity) are still being written; until then, the ordered paths above walk the concept graph in sequence._
+From there follow a path through the graph, [actions & execution](./core/execution.md) → [the plugin model](./framework/plugins.md) → the [governance plugins](./plugins/index.md), or for authoring, [base types](./framework/plugin-types.md) → [plugin setup](./framework/plugin-setup.md) → [PluginRepo](./framework/plugin-repo.md) → [the PluginSetupProcessor](./framework/plugin-setup-processor.md), or just browse by area below.
 
 Browse by area:
 
-- **[Core](/core/index.md)** — the DAO contract and its permission system: what a DAO is and how it authorizes actions.
-- **[Common](/common/index.md)** — the shared cross-cutting primitives (osx-commons): conditions, proposals, membership, ratio, auth, proxies, versioning.
-- **[Framework](/framework/index.md)** — what a plugin *is* and how it's built, published, and installed: the plugin model, base types, setup, PluginRepo, the PluginSetupProcessor, the factories, the registries.
-- **[Plugins](/plugins/index.md)** — the governance plugins (token voting, multisig, admin, staged proposals, lock-to-vote) and the automation-focused Capital Router.
-- **[Helpers](/helpers/index.md)** — protocol helpers: the condition library.
-- **[Deployment](/deployment/index.md)** — deploying the protocol and DAOs: the protocol factory and the DAO launchpad.
-- **[Tooling](/tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template and the `just`/Foundry task runner.
+- **[Core](./core/index.md)** — the DAO contract and its permission system: what a DAO is and how it authorizes actions.
+- **[Common](./common/index.md)** — the shared cross-cutting primitives (now part of osx at `src/common`, formerly the standalone osx-commons): conditions, proposals, membership, ratio, auth, proxies, versioning.
+- **[Framework](./framework/index.md)** — what a plugin *is* and how it's built, published, and installed: the plugin model, base types, setup, PluginRepo, the PluginSetupProcessor, the factories, the registries.
+- **[Plugins](./plugins/index.md)** — the governance plugins (token voting, multisig, admin, staged proposals, lock-to-vote) and the automation-focused Capital Router.
+- **[Helpers](./helpers/index.md)** — protocol helpers: the condition library.
+- **[Deployment](./deployment/index.md)** — deploying the protocol and DAOs: the protocol factory and the DAO launchpad.
+- **[Tooling](./tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template and the `just`/Foundry task runner.
+
+**The code:** every component's GitHub repository is listed in [Source repositories](./repositories.md).
 
 ---
 
-_Operated with the `wiki` CLI: [CLAUDE.md](/CLAUDE.md) is how to drive it, [WORKFLOW.md](/WORKFLOW.md) is this base's conventions. Work in progress is tracked in the [backlog](/backlog/index.md). These three are for **maintaining** the base, not for learning the protocol, a reader can skip them._
+_Operated with the `wiki` CLI: [AGENTS.md](./AGENTS.md) is how to drive it, [WORKFLOW.md](./WORKFLOW.md) is this base's conventions. Work in progress is tracked in the [backlog](./backlog/index.md). These three are for **maintaining** the base, not for learning the protocol, a reader can skip them._

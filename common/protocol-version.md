@@ -1,7 +1,7 @@
 ---
 type: reference
 title: Protocol version
-tags: [core, upgradeability]
+tags: [upgradeability]
 source: osx/src/common/utils/versioning/ProtocolVersion.sol, osx/src/common/utils/versioning/VersionComparisonLib.sol, osx/src/common/utils/versioning/IProtocolVersion.sol
 ---
 
@@ -10,7 +10,7 @@ source: osx/src/common/utils/versioning/ProtocolVersion.sol, osx/src/common/util
 There are **two different "versions"** in OSx, and conflating them causes confusion:
 
 - **Protocol version** — which version of the OSx *protocol* a contract was built against (e.g. `[1, 4, 0]`). Reported by `protocolVersion()`, defined here.
-- **Plugin release/build** — which version of a *specific plugin* an install is, tracked by [PluginRepo](/framework/plugin-repo.md) as `release.build`. Unrelated to the protocol version.
+- **Plugin release/build** — which version of a *specific plugin* an install is, tracked by [PluginRepo](../framework/plugin-repo.md) as `release.build`. Unrelated to the protocol version.
 
 ## `protocolVersion()`
 
@@ -26,9 +26,9 @@ This makes the protocol version discoverable on-chain for tooling and compatibil
 
 ## Why versioning discipline matters
 
-The DAO's [`initializeFrom`](/core/dao.md#upgrades-across-versions) uses the protocol version to decide which storage migrations to run on upgrade, and refuses to cross a major version. More broadly, every upgradeable contract in OSx follows the same storage-safety discipline (reserved `__gap` slots, renamed-not-removed fields) so that a new implementation never corrupts an existing proxy's storage. See [proxies](/common/proxies.md) and [choosing a plugin base](/framework/plugin-types.md).
+The DAO's [`initializeFrom`](../core/dao.md#upgrades-across-versions) uses the protocol version to decide which storage migrations to run on upgrade, and refuses to cross a major version. More broadly, every upgradeable contract in OSx follows the same storage-safety discipline (reserved `__gap` slots, renamed-not-removed fields) so that a new implementation never corrupts an existing proxy's storage. See [proxies](./proxies.md) and [choosing a plugin base](../framework/plugin-types.md).
 
 ## See also
 
-- [PluginRepo](/framework/plugin-repo.md) — the *other* versioning axis (release/build).
-- [The DAO contract](/core/dao.md) — uses protocol version for upgrade migrations.
+- [PluginRepo](../framework/plugin-repo.md) — the *other* versioning axis (release/build).
+- [The DAO contract](../core/dao.md) — uses protocol version for upgrade migrations.

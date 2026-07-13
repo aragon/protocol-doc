@@ -7,9 +7,9 @@ source: token-voting-plugin/src/base/MajorityVotingBase.sol
 
 # Voting modes
 
-A [majority-voting](/plugins/majority-voting.md) proposal always passes by the same [thresholds](/plugins/majority-voting.md#the-three-thresholds), but the **voting mode** decides two things around them: *when* a passed proposal may execute, and *whether* a voter can change their mind. It's a per-plugin setting (frozen into each proposal at creation), and it's a real governance-design choice, so pick deliberately.
+A [majority-voting](./majority-voting.md) proposal always passes by the same [thresholds](./majority-voting.md#the-three-thresholds), but the **voting mode** decides two things around them: *when* a passed proposal may execute, and *whether* a voter can change their mind. It's a per-plugin setting (frozen into each proposal at creation), and it's a real governance-design choice, so pick deliberately.
 
-> This page describes the modes for **snapshot-based** voting power ([Token Voting](/plugins/token-voting-plugin.md)), where a voter's weight is fixed once cast. A plugin whose power is *live* rather than snapshotted, notably [Lock to Vote](/plugins/lock-to-vote-plugin.md), refines these (its Standard mode lets weight grow, and it has no Early Execution); its page owns those deltas.
+> This page describes the modes for **snapshot-based** voting power ([Token Voting](./token-voting-plugin.md)), where a voter's weight is fixed once cast. A plugin whose power is *live* rather than snapshotted, notably [Lock to Vote](./lock-to-vote-plugin.md), refines these (its Standard mode lets weight grow, and it has no Early Execution); its page owns those deltas.
 
 ## The three modes
 
@@ -39,11 +39,11 @@ They can't be combined, and it's not a limitation, it's the math. Early executio
 ## Keep in mind
 
 - **Early Execution and Vote Replacement are mutually exclusive by construction**, early execution's safety depends on cast votes being immutable.
-- **Changing your vote doesn't change your power.** In Vote Replacement, a re-vote is still weighed at the proposal's [snapshot](/plugins/token-voting-plugin/voting-power.md#the-snapshot) (fixed when it was created); you can change *direction*, not bring newly-acquired power to bear.
+- **Changing your vote doesn't change your power.** In Vote Replacement, a re-vote is still weighed at the proposal's [snapshot](./token-voting-plugin/voting-power.md#the-snapshot) (fixed when it was created); you can change *direction*, not bring newly-acquired power to bear.
 
 ## See also
 
-- [Majority voting](/plugins/majority-voting.md) — the thresholds the mode operates around.
-- [Token Voting Plugin](/plugins/token-voting-plugin.md) — the plugin overview.
-- [Voting power](/plugins/token-voting-plugin/voting-power.md) — how it sources voting power (an example of the model above).
-- [Lock to Vote Plugin](/plugins/lock-to-vote-plugin.md) — offers only Standard and Vote Replacement (no Early Execution), since its voting power is live rather than snapshotted.
+- [Majority voting](./majority-voting.md) — the thresholds the mode operates around.
+- [Token Voting Plugin](./token-voting-plugin.md) — the plugin overview.
+- [Voting power](./token-voting-plugin/voting-power.md) — how it sources voting power (an example of the model above).
+- [Lock to Vote Plugin](./lock-to-vote-plugin.md) — offers only Standard and Vote Replacement (no Early Execution), since its voting power is live rather than snapshotted.

@@ -1,7 +1,7 @@
 ---
 type: reference
 title: Ratio (threshold math)
-tags: [core, governance-primitive]
+tags: [governance-primitive]
 source: osx/src/common/utils/math/Ratio.sol
 ---
 
@@ -13,7 +13,7 @@ Governance thresholds, support percentages, and quorums are fractions, but Solid
 uint256 constant RATIO_BASE = 10 ** 6;   // 1_000_000 == 100%
 ```
 
-So `500_000` means 50%, `750_000` means 75%. Every voting/approval threshold in the protocol ([token voting](/plugins/index.md), multisig, …) uses this unit, learn it once here.
+So `500_000` means 50%, `750_000` means 75%. Every voting/approval threshold in the protocol ([token voting](../plugins/index.md), multisig, …) uses this unit, learn it once here.
 
 ## Applying a ratio, and why it rounds up
 
@@ -29,5 +29,5 @@ The **ceiling** is deliberate and important. When a ratio expresses a *minimum r
 
 ## See also
 
-- [Membership and the address list](/common/membership.md) — the member count a ratio is applied to.
-- [Proposals](/common/proposal.md) — where thresholds decide `hasSucceeded`.
+- [Membership and the address list](./membership.md) — the member count a ratio is applied to.
+- [Proposals](./proposal.md) — where thresholds decide `hasSucceeded`.

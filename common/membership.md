@@ -1,13 +1,13 @@
 ---
 type: concept
 title: Membership and the address list
-tags: [core, governance-primitive]
+tags: [governance-primitive]
 source: osx/src/common/plugin/extensions/membership/IMembership.sol, osx/src/common/plugin/extensions/governance/Addresslist.sol
 ---
 
 # Membership and the address list
 
-Most governance [plugins](/framework/plugins.md) need a notion of "who counts": multisig signers, addresslist voters, token holders. Two reusable pieces standardize that.
+Most governance [plugins](../framework/plugins.md) need a notion of "who counts": multisig signers, addresslist voters, token holders. Two reusable pieces standardize that.
 
 ## `IMembership`: the discovery interface
 
@@ -28,7 +28,7 @@ addresslistLength()                     // current member count
 addresslistLengthAtBlock(blockNumber)   // count as of a past block
 ```
 
-`_addAddresses` / `_removeAddresses` maintain the list (rejecting double-adds and removing non-members). Combined with [`Ratio`](/common/ratio.md) for threshold math, this is the backbone of the addresslist-based voting and multisig plugins.
+`_addAddresses` / `_removeAddresses` maintain the list (rejecting double-adds and removing non-members). Combined with [`Ratio`](./ratio.md) for threshold math, this is the backbone of the addresslist-based voting and multisig plugins.
 
 ## Keep in mind
 
@@ -36,6 +36,6 @@ addresslistLengthAtBlock(blockNumber)   // count as of a past block
 
 ## See also
 
-- [Ratio](/common/ratio.md) — turning a member count into a required threshold.
-- [Proposals](/common/proposal.md) — the other half of a governance plugin.
-- The [plugins](/plugins/index.md) area — where these are put to use.
+- [Ratio](./ratio.md) — turning a member count into a required threshold.
+- [Proposals](./proposal.md) — the other half of a governance plugin.
+- The [plugins](../plugins/index.md) area — where these are put to use.
