@@ -31,12 +31,12 @@ That `data` parameter is how a request carries proof of entitlement (a Merkle pr
 ## Who may trigger
 
 - `dispatch()` is `auth(DISPATCH_PERMISSION_ID)`, [permissionless by default](/plugins/capital-router/plugins.md#permissions) (the outcome is fixed by config, so opening *when* to anyone is safe).
-- `request()` has **no permission gate at all**, by design: anyone may call it, because the budget and splitter already decide whether the caller is entitled to anything (a non-entitled caller just gets an empty action list, not a revert). To restrict a request flow you [pause the strategy](/plugins/capital-router/strategies.md) or put the logic in the strategy, not on a permission. But mind the gap: that pause switch is `auth(MANAGER)` and the setup grants the DAO **no** `MANAGER` on request strategies, so a freshly installed request flow **cannot be paused** until the DAO grants itself `(strategy, DAO, MANAGER_PERMISSION_ID)` (see [permissions](/plugins/capital-router/plugins.md#installation--permissions)). Until then the only lever the docs hand you for a permissionless pull flow isn't wired.
+- `request()` has **no permission gate at all**, by design: anyone may call it, because the budget and splitter already decide whether the caller is entitled to anything (a non-entitled caller just gets an empty action list, not a revert). To restrict a request flow you [pause the strategy](/plugins/capital-router/strategies.md) or put the logic in the strategy, not on a permission. That pause switch is `auth(MANAGER)`, and `RequesterPluginSetup` grants the DAO `MANAGER` on **every** strategy at install (see [permissions](/plugins/capital-router/plugins.md#installation--permissions)), so a freshly installed request flow can be paused by DAO proposal with no extra grant.
 
 ## Keep in mind
 
 - **Plain dispatch re-pays every call.** Only [epoch-gated](/plugins/capital-router/strategies.md) or bounded-budget dispatch is safe to trigger repeatedly.
-- **`request()` can't be permission-gated.** Its access control lives in the budget/splitter entitlement and the strategy's pause switch, not in the OSx permission system, and the pause switch needs a `MANAGER` self-grant the install doesn't provide.
+- **`request()` can't be permission-gated.** Its access control lives in the budget/splitter entitlement and the strategy's `MANAGER`-gated pause switch, not in the OSx permission system. The install grants the DAO that `MANAGER` on every strategy, so pausing works out of the box.
 
 ## See also
 

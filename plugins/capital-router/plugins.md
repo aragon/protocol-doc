@@ -40,13 +40,13 @@ The router installs through the standard [PluginSetupProcessor](/framework/plugi
 | `EXECUTE_PERMISSION_ID` | plugin | DAO | let the plugin call `dao.execute()` |
 | `DISPATCH_PERMISSION_ID` | any address (default) | plugin | trigger `dispatch()` |
 | `MANAGER_PERMISSION_ID` | DAO | plugin | `updateSettings`, `updateFailsafeStrategyMap` |
-| `MANAGER_PERMISSION_ID` | DAO | swap strategies only | `updateSettings` on the Uniswap/CowSwap strategies (which also enables their `setPaused`) |
+| `MANAGER_PERMISSION_ID` | DAO | each strategy | `updateSettings` and `setPaused` on every strategy |
 | `PREPARE_PERMISSION_ID` | plugin | each strategy | only the plugin may call `strategy.prepareActions()` |
 | `SET_METADATA_PERMISSION_ID` | DAO | plugin | update the metadata URI |
 
 `RequesterPluginSetup` is the same minus the `DISPATCH`/any-address row (no `request()` gate); `DispatchHubPluginSetup` grants only MANAGER, metadata, and the any-address DISPATCH row on the hub (it has no strategies to grant PREPARE on).
 
-> **Pausing a non-swap strategy needs a grant first.** `setPaused` is `auth(MANAGER_PERMISSION_ID)` on *every* strategy, but the factory grants the DAO `MANAGER` only on the swap strategies (Uniswap/CowSwap, so they can also `updateSettings`). For Transfer, EpochTransfer, Burn, and **both request strategies**, the setup grants no `MANAGER` at all, so a proposal to pause one **reverts** until the DAO first grants itself `(strategy, DAO, MANAGER_PERMISSION_ID)`. A DAO's ROOT does not satisfy a `MANAGER` check, ROOT only gates `grant`/`revoke`, not arbitrary permissions.
+> **Pausing is wired out of the box.** `setPaused` is `auth(MANAGER_PERMISSION_ID)` on *every* strategy, and both `DispatcherPluginSetup` and `RequesterPluginSetup` grant the DAO `MANAGER` on **each** strategy at install (the same grant that enables `updateSettings`), swap and non-swap alike. So a DAO can pause any strategy by proposal with no extra setup. Note that a DAO's ROOT does not by itself satisfy a `MANAGER` check, ROOT only gates `grant`/`revoke`, not arbitrary permissions, but here the install already provides the needed `MANAGER`.
 
 ## Permissions
 

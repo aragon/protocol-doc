@@ -1,7 +1,7 @@
 ---
 type: guide
 title: Create, vote, and execute a proposal
-source: multisig-plugin/packages/contracts/src/Multisig.sol, token-voting-plugin/src/base/MajorityVotingBase.sol, token-voting-plugin/src/base/IMajorityVoting.sol, token-voting-plugin/src/TokenVoting.sol
+source: osx/src/core/dao/DAO.sol, osx/src/common/executors/IExecutor.sol, multisig-plugin/packages/contracts/src/Multisig.sol, token-voting-plugin/src/base/MajorityVotingBase.sol, token-voting-plugin/src/base/IMajorityVoting.sol, token-voting-plugin/src/TokenVoting.sol
 ---
 
 # Create, vote, and execute a proposal
@@ -16,7 +16,40 @@ execute(id)                    // once it passes, run the actions on the DAO
 
 `execute` on the plugin is what finally calls [`dao.execute`](/core/execution.md), and it works because the plugin holds [`EXECUTE_PERMISSION_ID` on the DAO](/guides/deploy-a-dao.md) (granted at install). Both plugins below also grant `EXECUTE_PROPOSAL_PERMISSION_ID` to **anyone**, so once a proposal passes, *any* address can trigger execution. Whether it's *passed* ([`hasSucceeded`](/common/proposal.md)) is separate from whether it's *executable now* (`canExecute`, which also weighs timing).
 
-Both examples assume the plugin is already installed (from [Deploy your first DAO](/guides/deploy-a-dao.md) / [Launch a governance token](/guides/launch-a-governance-token.md)); each casts the installed plugin address and drives it. The demo action just has the DAO update its own metadata, swap in whatever the DAO is allowed to do.
+Both examples assume the plugin is already installed (from [Deploy your first DAO](/guides/deploy-a-dao.md) / [Launch a governance token](/guides/launch-a-governance-token.md)). The demo action just has the DAO update its own metadata, swap in whatever the DAO is allowed to do.
+
+## The skeleton
+
+Both functions below are methods of one test contract that holds the installed plugin handles and the members/voters:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+
+import {Test} from "forge-std/Test.sol";
+import {DAO} from "@aragon/osx/core/dao/DAO.sol";
+import {Action} from "@aragon/osx/common/executors/IExecutor.sol";
+import {Multisig} from "@aragon/multisig-plugin/Multisig.sol";
+import {TokenVoting} from "@aragon/token-voting-plugin/TokenVoting.sol";
+import {IMajorityVoting} from "@aragon/token-voting-plugin/base/IMajorityVoting.sol";
+
+contract Proposals is Test {
+    DAO dao;
+    Multisig multisig;       // installed per "Deploy your first DAO"
+    TokenVoting tokenVoting; // installed per "Launch a governance token"
+    address alice = address(0xA11CE); // a member / delegated voter
+    address bob = address(0xB0B);
+
+    function setUp() public {
+        vm.createSelectFork(vm.envString("RPC_URL"));
+        dao = DAO(payable(vm.envAddress("DAO")));
+        multisig = Multisig(vm.envAddress("MULTISIG"));
+        tokenVoting = TokenVoting(vm.envAddress("TOKEN_VOTING"));
+    }
+
+    // ... the two functions below live here
+}
+```
 
 ## Multisig: approve to a threshold
 
@@ -24,7 +57,7 @@ A [multisig](/plugins/multisig-plugin.md) proposal passes when `minApprovals` me
 
 ```solidity
 function test_multisigProposal() public {
-    Multisig ms = Multisig(MULTISIG); // installed per "Deploy your first DAO"; alice/bob/carol are members
+    Multisig ms = multisig; // the 2-of-3 from "Deploy your first DAO"; alice/bob/carol are members
 
     Action[] memory actions = new Action[](1);
     actions[0] = Action({
@@ -59,7 +92,7 @@ A [token vote](/plugins/token-voting-plugin.md) weighs each vote by the voter's 
 
 ```solidity
 function test_tokenVote() public {
-    TokenVoting tv = TokenVoting(TOKEN_VOTING); // installed per "Launch a governance token"
+    TokenVoting tv = tokenVoting; // the plugin from "Launch a governance token"
 
     Action[] memory actions = new Action[](1);
     actions[0] = Action({
