@@ -1,6 +1,6 @@
 # Common
 
-The **shared cross-cutting primitives** of Aragon OSx: the osx-commons library (`src/common` in the [`osx`](https://github.com/aragon/osx) repo). These are the reusable pieces the [core](/core/index.md), the [framework](/framework/index.md), and every [plugin](/plugins/index.md) draw on: authorization, governance primitives, and low-level utilities.
+The **shared cross-cutting primitives** of Aragon OSx. These were once a separate `osx-commons` library; they now live **within osx itself**, at `src/common` in the [`osx`](https://github.com/aragon/osx) repo, there is no separate osx-commons package to install. (In Solidity they're still addressed under the `@aragon/osx-commons-contracts/src/…` import prefix, which now simply resolves into osx's `src/common`.) They are the reusable pieces the [core](/core/index.md), the [framework](/framework/index.md), and every [plugin](/plugins/index.md) draw on: authorization, governance primitives, and low-level utilities.
 
 _What it means to *be* a plugin, the base contracts, the setup, and the plugin model, lives in the [framework](/framework/index.md), since a plugin is defined by using the framework to operate a DAO. This area is the primitives it reuses._
 

@@ -33,7 +33,7 @@ _Step-by-step [guides](/guides/index.md) (the linear way in, with copy-adaptable
 Browse by area:
 
 - **[Core](/core/index.md)** — the DAO contract and its permission system: what a DAO is and how it authorizes actions.
-- **[Common](/common/index.md)** — the shared cross-cutting primitives (osx-commons): conditions, proposals, membership, ratio, auth, proxies, versioning.
+- **[Common](/common/index.md)** — the shared cross-cutting primitives (now part of osx at `src/common`, formerly the standalone osx-commons): conditions, proposals, membership, ratio, auth, proxies, versioning.
 - **[Framework](/framework/index.md)** — what a plugin *is* and how it's built, published, and installed: the plugin model, base types, setup, PluginRepo, the PluginSetupProcessor, the factories, the registries.
 - **[Plugins](/plugins/index.md)** — the governance plugins (token voting, multisig, admin, staged proposals, lock-to-vote) and the automation-focused Capital Router.
 - **[Helpers](/helpers/index.md)** — protocol helpers: the condition library.

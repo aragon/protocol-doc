@@ -23,10 +23,14 @@ Guides are written in the order below; each links the concepts it uses rather th
 - [Build a plugin](/guides/build-a-plugin.md) — from the template: pick a base type, write the plugin's `auth`-gated logic, and write its `PluginSetup` (the permission arrays).
 - [Publish a plugin to a PluginRepo](/guides/publish-a-plugin.md) — first version 1.1, release vs build, metadata, and the registry.
 
-## Advanced (planned)
+## Advanced (candidates, not yet written)
 
-- Compose multi-stage governance with the SPP.
-- Automate a capital flow (payroll / buyback) with the Capital Router.
+Deeper single-subsystem guides, deferred pending confirmation (tracked in the [guides backlog](/backlog/use-cases.md)):
+
+- **Compose multi-stage governance (SPP)** — stage plugins into a pipeline (multisig → token vote, with a council veto): [stages & bodies](/plugins/spp-plugin/stages-and-bodies.md), the rule condition, advancing.
+- **Automate a capital flow (Capital Router)** — assemble a [Strategy](/plugins/capital-router/strategies.md) (budget + splitter) and install a Dispatcher/Requester policy ([dispatch vs request](/plugins/capital-router/dispatch-vs-request.md)); worked as payroll or buyback.
+- **Gate permissions with the condition library** — use ready-made [conditions](/helpers/condition-library.md) (scope `EXECUTE` to specific calls, bridge a Safe's owners) instead of writing your own; extends [Manage permissions](/guides/manage-permissions.md).
+- **Deploy the whole protocol (Protocol Factory)** — bring OSx up on a new chain (framework + ENS + [Management DAO](/deployment/protocol-factory.md) + core plugin repos). For protocol operators.
 
 ---
 

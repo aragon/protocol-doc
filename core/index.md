@@ -14,7 +14,7 @@ This is the smallest, most fundamental layer, what a DAO *is* and how it decides
 
 The rest of the `osx` repo sits in two sibling areas:
 
-- **[Common](/common/index.md)** — the shared cross-cutting primitives (the osx-commons library, `src/common`) that the core, framework, and plugins reuse: conditions, proposals, membership, ratio, auth, and low-level utilities.
+- **[Common](/common/index.md)** — the shared cross-cutting primitives (now within osx at `src/common`, formerly the standalone osx-commons library) that the core, framework, and plugins reuse: conditions, proposals, membership, ratio, auth, and low-level utilities.
 - **[Framework](/framework/index.md)** — what a plugin *is* and how it's built and installed: the plugin model, base types, and setup, plus the PluginRepo, the PluginSetupProcessor, the factories, and the registries.
 
 From there, [plugins](/plugins/index.md) are the concrete governance modules built on all three.
