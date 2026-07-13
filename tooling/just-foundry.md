@@ -6,11 +6,11 @@ source: just-foundry/README.md
 
 # just-foundry
 
-A drop-in **task runner and environment manager** for Foundry projects. Add it as a submodule and write a two-line `justfile`, and your project inherits a consistent one-stop workflow across every supported chain. Two wins in one: it turns multi-step Foundry flows (simulate → broadcast → verify → log) into single commands, *and* it **abstracts network configuration away entirely**, you never hand-manage the pile of per-network environment variables (RPC, chain id, verifier, and the Aragon OSx addresses) that Foundry projects otherwise accumulate. You switch network, and everything resolves. It's the shared tooling the Aragon repos build on: the [plugin template](/tooling/plugin-template.md) inits and runs with it (`just init`), the [DAO Launchpad](/deployment/dao-launchpad.md)'s projects inherit it, and the [Protocol Factory](/deployment/protocol-factory.md) uses it.
+A drop-in **task runner and environment manager** for Foundry projects. Add it as a submodule and write a two-line `justfile`, and your project inherits a consistent one-stop workflow across every supported chain. Two wins in one: it turns multi-step Foundry flows (simulate → broadcast → verify → log) into single commands, *and* it **abstracts network configuration away entirely**, you never hand-manage the pile of per-network environment variables (RPC, chain id, verifier, and the Aragon OSx addresses) that Foundry projects otherwise accumulate. You switch network, and everything resolves. It's the shared tooling the Aragon repos build on: the [plugin template](./plugin-template.md) inits and runs with it (`just init`), the [DAO Launchpad](../deployment/dao-launchpad.md)'s projects inherit it, and the [Protocol Factory](../deployment/protocol-factory.md) uses it.
 
 ## Why it exists
 
-Every repo that deploys something needs the same operational surface: run the tests, simulate, broadcast, verify on the right explorer, point at the right network, and pull in secrets without committing them. Rebuilding that per repo is boilerplate that drifts, and drift in *deployment* tooling is where mistakes get expensive. just-foundry centralizes it once so each project imports a known-good workflow instead of reinventing one, the same reason a launch [starts batteries-included](/deployment/dao-launchpad.md#one-workbench-many-projects).
+Every repo that deploys something needs the same operational surface: run the tests, simulate, broadcast, verify on the right explorer, point at the right network, and pull in secrets without committing them. Rebuilding that per repo is boilerplate that drifts, and drift in *deployment* tooling is where mistakes get expensive. just-foundry centralizes it once so each project imports a known-good workflow instead of reinventing one, the same reason a launch [starts batteries-included](../deployment/dao-launchpad.md#one-workbench-many-projects).
 
 The clarifying way to see it: a deployment project's configuration falls into exactly three buckets, and just-foundry's job is to erase the biggest and most error-prone one for you.
 
@@ -34,6 +34,6 @@ The upshot is that the entire network dimension disappears from your mental load
 
 ## See also
 
-- [DAO Launchpad](/deployment/dao-launchpad.md) — the workbench whose projects inherit this runner.
-- [Plugin Template (Foundry)](/tooling/plugin-template.md) — the plugin-authoring scaffold, which inits and runs with this (`just init`).
-- [Protocol Factory](/deployment/protocol-factory.md) — uses this runner to drive protocol deployments.
+- [DAO Launchpad](../deployment/dao-launchpad.md) — the workbench whose projects inherit this runner.
+- [Plugin Template (Foundry)](./plugin-template.md) — the plugin-authoring scaffold, which inits and runs with this (`just init`).
+- [Protocol Factory](../deployment/protocol-factory.md) — uses this runner to drive protocol deployments.

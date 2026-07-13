@@ -7,7 +7,7 @@ source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/pac
 
 # Multisig membership & eligibility
 
-The [Multisig Plugin](/plugins/multisig-plugin.md)'s member list is just the shared [Addresslist](/common/membership.md), a checkpointed set of addresses, reused directly (the plugin adds no membership storage of its own). `isMember` is a one-liner over `isListed`. What's worth understanding is the two rules layered on top: the **`minApprovals` invariant** and the **two-speed eligibility** model, both easy to trip on.
+The [Multisig Plugin](../multisig-plugin.md)'s member list is just the shared [Addresslist](../../common/membership.md), a checkpointed set of addresses, reused directly (the plugin adds no membership storage of its own). `isMember` is a one-liner over `isListed`. What's worth understanding is the two rules layered on top: the **`minApprovals` invariant** and the **two-speed eligibility** model, both easy to trip on.
 
 ## Managing members
 
@@ -35,7 +35,7 @@ The reason for the split: approvals must be counted against a stable electorate 
 
 ### Who can create vs. who can approve
 
-Creation eligibility is enforced by a small [permission condition](/common/permission-conditions.md), `ListedCheckCondition`, wired onto `CREATE_PROPOSAL_PERMISSION_ID` (which is granted broadly to *any address*). The condition simply asks: is `onlyListed` on, and if so, is the caller currently listed? This is the same pattern as the Token Voting Plugin's [`VotingPowerCondition`](/plugins/token-voting-plugin/voting-power.md#who-may-propose), a broad grant narrowed dynamically by a condition.
+Creation eligibility is enforced by a small [permission condition](../../common/permission-conditions.md), `ListedCheckCondition`, wired onto `CREATE_PROPOSAL_PERMISSION_ID` (which is granted broadly to *any address*). The condition simply asks: is `onlyListed` on, and if so, is the caller currently listed? This is the same pattern as the Token Voting Plugin's [`VotingPowerCondition`](../token-voting-plugin/voting-power.md#who-may-propose), a broad grant narrowed dynamically by a condition.
 
 Because the condition reads `onlyListed` live, it doubles as a useful switch:
 
@@ -49,6 +49,6 @@ Because the condition reads `onlyListed` live, it doubles as a useful switch:
 
 ## See also
 
-- [Multisig Plugin](/plugins/multisig-plugin.md) — the approval model and lifecycle.
-- [Membership and the address list](/common/membership.md) — the shared, checkpointed `Addresslist` this builds on.
-- [Permission conditions](/common/permission-conditions.md) — how `ListedCheckCondition` gates creation.
+- [Multisig Plugin](../multisig-plugin.md) — the approval model and lifecycle.
+- [Membership and the address list](../../common/membership.md) — the shared, checkpointed `Addresslist` this builds on.
+- [Permission conditions](../../common/permission-conditions.md) — how `ListedCheckCondition` gates creation.

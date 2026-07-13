@@ -6,15 +6,15 @@ source: token-voting-plugin/src/TokenVotingSetup.sol, osx/src/framework/dao/DAOF
 
 # Launch a governance token with your DAO
 
-[Deploy your first DAO](/guides/deploy-a-dao.md) installed a multisig, a fixed member set. This guide installs [Token Voting](/plugins/token-voting-plugin.md) instead, so decisions are made by *token holders*. The mechanics of `createDao` are identical; what's new, and genuinely the interesting decision, is **the token**. Token Voting only works with an [`IVotes` token](/plugins/token-voting-plugin/voting-power.md) (checkpointed, delegatable balances), and its setup gives you three ways to supply one, in a single install.
+[Deploy your first DAO](./deploy-a-dao.md) installed a multisig, a fixed member set. This guide installs [Token Voting](../plugins/token-voting-plugin.md) instead, so decisions are made by *token holders*. The mechanics of `createDao` are identical; what's new, and genuinely the interesting decision, is **the token**. Token Voting only works with an [`IVotes` token](../plugins/token-voting-plugin/voting-power.md) (checkpointed, delegatable balances), and its setup gives you three ways to supply one, in a single install.
 
 ## What you need
 
-The one-time [Setup](/guides/setup.md), with the **token voting** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Token Voting `PluginRepo`** (`TOKEN_VOTING_REPO`) addresses.
+The one-time [Setup](./setup.md), with the **token voting** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Token Voting `PluginRepo`** (`TOKEN_VOTING_REPO`) addresses.
 
 ## The token decision
 
-`TokenVotingSetup` looks at the `addr` you pass in its `TokenSettings` and picks one of three paths, this is the same choice explained in [Governance tokens](/plugins/token-voting-plugin/governance-tokens.md), now as install data:
+`TokenVotingSetup` looks at the `addr` you pass in its `TokenSettings` and picks one of three paths, this is the same choice explained in [Governance tokens](../plugins/token-voting-plugin/governance-tokens.md), now as install data:
 
 | `tokenSettings.addr` | What the setup does |
 |---|---|
@@ -24,7 +24,7 @@ The one-time [Setup](/guides/setup.md), with the **token voting** plugin's remap
 
 The setup duck-types the token (it *probes* for `IVotes`, it doesn't trust a flag), and it rejects a non-contract or non-ERC-20 address. This guide takes the first path, minting a fresh token.
 
-> **The delegation trap.** With any `IVotes` token, a holder has **zero** voting power until their balance is *delegated* (even to themselves), see [voting power](/plugins/token-voting-plugin/voting-power.md#delegation). When you mint a new token, set `ensureDelegationOnMint: true` so recipients can vote without a separate delegation step. Forget it and your token holders will hold tokens and still be unable to vote.
+> **The delegation trap.** With any `IVotes` token, a holder has **zero** voting power until their balance is *delegated* (even to themselves), see [voting power](../plugins/token-voting-plugin/voting-power.md#delegation). When you mint a new token, set `ensureDelegationOnMint: true` so recipients can vote without a separate delegation step. Forget it and your token holders will hold tokens and still be unable to vote.
 
 ## Step 1, the skeleton
 
@@ -84,7 +84,7 @@ To **reuse** an existing `IVotes` token instead, set `addr` to it and leave `nam
 
 ## Step 3, set the rules and deploy
 
-The rest of the install data is the [voting configuration](/plugins/majority-voting.md) (thresholds are ratios out of `1_000_000`), plus the same `target: address(0)` [own-DAO sentinel](/guides/deploy-a-dao.md) you saw for multisig. The full `data` is seven fields, in this order:
+The rest of the install data is the [voting configuration](../plugins/majority-voting.md) (thresholds are ratios out of `1_000_000`), plus the same `target: address(0)` [own-DAO sentinel](./deploy-a-dao.md) you saw for multisig. The full `data` is seven fields, in this order:
 
 ```solidity
     MajorityVotingBase.VotingSettings memory votingSettings = MajorityVotingBase.VotingSettings({
@@ -129,15 +129,15 @@ The rest of the install data is the [voting configuration](/plugins/majority-vot
 }
 ```
 
-Get the field order or types wrong and `prepareInstallation` reverts on `abi.decode`, the ABI is dictated by the plugin's [setup](/framework/plugin-setup.md), published in its build metadata.
+Get the field order or types wrong and `prepareInstallation` reverts on `abi.decode`, the ABI is dictated by the plugin's [setup](../framework/plugin-setup.md), published in its build metadata.
 
 ## What you just saw
 
 - The install *shape* is identical to any plugin; only the `data` differs, here it carries the token choice and the voting rules.
-- One install decision, `tokenSettings.addr`, picks between minting, reusing, and wrapping a token, [governance tokens](/plugins/token-voting-plugin/governance-tokens.md).
+- One install decision, `tokenSettings.addr`, picks between minting, reusing, and wrapping a token, [governance tokens](../plugins/token-voting-plugin/governance-tokens.md).
 - `ensureDelegationOnMint: true` sidesteps the delegate-or-no-power trap; the token is deployed as a helper of the setup, owned by the DAO.
 
 ## Next
 
-- [Create, vote, and execute a proposal](/guides/create-vote-execute.md), now run a token vote on the DAO you just launched.
-- Governing with an existing token instead? The [reuse and wrap paths](/plugins/token-voting-plugin/governance-tokens.md) are the same call with a different `addr`.
+- [Create, vote, and execute a proposal](./create-vote-execute.md), now run a token vote on the DAO you just launched.
+- Governing with an existing token instead? The [reuse and wrap paths](../plugins/token-voting-plugin/governance-tokens.md) are the same call with a different `addr`.

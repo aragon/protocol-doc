@@ -6,18 +6,18 @@ source: osx/src/framework/plugin/repo/PluginRepoFactory.sol, osx/src/framework/p
 
 # Publish a plugin to a PluginRepo
 
-You [built a plugin and its setup](/guides/build-a-plugin.md); until it's **published** to a [PluginRepo](/framework/plugin-repo.md), no DAO can install it. A PluginRepo is a versioned registry for **one** plugin: every entry is a `PluginSetup` address plus its [metadata](/framework/plugin-metadata.md), tagged with a `(release, build)`, and that tag is exactly what [Deploy your first DAO](/guides/deploy-a-dao.md) and [Install a plugin](/guides/install-a-plugin.md) reference. This guide creates the repo with a first version, then cuts later versions.
+You [built a plugin and its setup](./build-a-plugin.md); until it's **published** to a [PluginRepo](../framework/plugin-repo.md), no DAO can install it. A PluginRepo is a versioned registry for **one** plugin: every entry is a `PluginSetup` address plus its [metadata](../framework/plugin-metadata.md), tagged with a `(release, build)`, and that tag is exactly what [Deploy your first DAO](./deploy-a-dao.md) and [Install a plugin](./install-a-plugin.md) reference. This guide creates the repo with a first version, then cuts later versions.
 
 ## What you need
 
-The one-time [Setup](/guides/setup.md), plus:
+The one-time [Setup](./setup.md), plus:
 - The **`PluginRepoFactory`** address (`PLUGIN_REPO_FACTORY`).
-- Your compiled `MyPluginSetup` (from [Build a plugin](/guides/build-a-plugin.md)).
-- Two [metadata](/framework/plugin-metadata.md) blobs on IPFS (a **build** JSON documenting your install-data ABI, and a **release** JSON); you pass their `ipfs://…` pointers, not the JSON.
+- Your compiled `MyPluginSetup` (from [Build a plugin](./build-a-plugin.md)).
+- Two [metadata](../framework/plugin-metadata.md) blobs on IPFS (a **build** JSON documenting your install-data ABI, and a **release** JSON); you pass their `ipfs://…` pointers, not the JSON.
 
 ## Step 1, create the repo and its first version
 
-`PluginRepoFactory.createPluginRepoWithFirstVersion` does it all in one call: deploys the repo, registers its ENS **subdomain** in the [PluginRepoRegistry](/framework/registries.md), publishes version **(release 1, build 1)**, i.e. `1.1`, and grants your `maintainer` the repo permissions, including the `MAINTAINER_PERMISSION` that gates future publishing (plus repo-upgrade and root rights over the repo).
+`PluginRepoFactory.createPluginRepoWithFirstVersion` does it all in one call: deploys the repo, registers its ENS **subdomain** in the [PluginRepoRegistry](../framework/registries.md), publishes version **(release 1, build 1)**, i.e. `1.1`, and grants your `maintainer` the repo permissions, including the `MAINTAINER_PERMISSION` that gates future publishing (plus repo-upgrade and root rights over the repo).
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -50,7 +50,7 @@ contract PublishPlugin is Test {
 }
 ```
 
-The subdomain must be unique and lowercase (the [registry charset](/framework/registries.md)); if it's taken, the call reverts. The factory also verifies your `pluginSetup` really implements the setup interface, a non-setup address is rejected.
+The subdomain must be unique and lowercase (the [registry charset](../framework/registries.md)); if it's taken, the call reverts. The factory also verifies your `pluginSetup` really implements the setup interface, a non-setup address is rejected.
 
 ## Step 2, publish later versions
 
@@ -74,7 +74,7 @@ repo.createVersion({
 });
 ```
 
-`createVersion` is `auth(MAINTAINER_PERMISSION_ID)`, so only the maintainer (or whoever they grant it to) can publish. A **release** must increment by exactly one (`InvalidReleaseIncrement` otherwise), and the [release-vs-build distinction](/framework/plugin-repo.md#release-vs-build) is the contract you make with installers: a new **build** is an in-place [update](/guides/update-a-plugin.md); a new **release** signals incompatibility, so moving to it is an uninstall + reinstall.
+`createVersion` is `auth(MAINTAINER_PERMISSION_ID)`, so only the maintainer (or whoever they grant it to) can publish. A **release** must increment by exactly one (`InvalidReleaseIncrement` otherwise), and the [release-vs-build distinction](../framework/plugin-repo.md#release-vs-build) is the contract you make with installers: a new **build** is an in-place [update](./update-a-plugin.md); a new **release** signals incompatibility, so moving to it is an uninstall + reinstall.
 
 ## What you just saw
 
@@ -84,5 +84,5 @@ repo.createVersion({
 
 ## Next
 
-- [Update a plugin](/guides/update-a-plugin.md), how a DAO moves to the new build you just published.
-- Back to the [guides index](/guides/index.md) for the full path, or the concept graph starting at [the plugin framework](/framework/index.md).
+- [Update a plugin](./update-a-plugin.md), how a DAO moves to the new build you just published.
+- Back to the [guides index](./index.md) for the full path, or the concept graph starting at [the plugin framework](../framework/index.md).

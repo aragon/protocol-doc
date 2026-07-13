@@ -7,7 +7,7 @@ source: condition-library/src/SelectorCondition.sol
 
 # SelectorCondition
 
-`SelectorCondition` narrows a permission so it may only be used to call a **specific set of functions**. It holds an allow-list of function selectors and, when consulted, permits the call only if the function being invoked is on that list. It's part of the [condition library](/helpers/condition-library.md).
+`SelectorCondition` narrows a permission so it may only be used to call a **specific set of functions**. It holds an allow-list of function selectors and, when consulted, permits the call only if the function being invoked is on that list. It's part of the [condition library](../condition-library.md).
 
 ## When to use it
 
@@ -15,7 +15,7 @@ A single permission often gates several `auth`-protected functions on a contract
 
 ## What it checks
 
-Its [`isGranted`](/common/permission-conditions.md) is essentially one lookup:
+Its [`isGranted`](../../common/permission-conditions.md) is essentially one lookup:
 
 ```solidity
 return allowedSelectors[getSelector(_data)];
@@ -23,8 +23,8 @@ return allowedSelectors[getSelector(_data)];
 
 It inspects the **selector of the call being authorized** (the first 4 bytes of that call's calldata) and returns whether it's allow-listed. Two things follow:
 
-- **It gates the *direct* call's own function.** If you instead want to constrain the actions *inside* a DAO `execute()`, that's the sibling [ExecuteSelectorCondition](/helpers/condition-library/execute-selector-condition.md), a distinction worth getting right.
-- **It ignores who is calling.** The `where`/`who`/`permissionId` are unused; only the selector matters. So granting to [`ANY_ADDR`](/core/permissions.md#the-wildcard-any_addr) with this condition means *anyone may call the allow-listed functions*, the gate is on **what** is called, not **who**.
+- **It gates the *direct* call's own function.** If you instead want to constrain the actions *inside* a DAO `execute()`, that's the sibling [ExecuteSelectorCondition](./execute-selector-condition.md), a distinction worth getting right.
+- **It ignores who is calling.** The `where`/`who`/`permissionId` are unused; only the selector matters. So granting to [`ANY_ADDR`](../../core/permissions.md#the-wildcard-any_addr) with this condition means *anyone may call the allow-listed functions*, the gate is on **what** is called, not **who**.
 
 The allow-list is **global** (a plain `mapping(bytes4 => bool)`, no per-target dimension), so an allowed selector is allowed wherever this condition applies.
 
@@ -39,10 +39,10 @@ The allow-list is **global** (a plain `mapping(bytes4 => bool)`, no per-target d
 
 ## Keep in mind
 
-- **Redundant updates revert.** `allowSelector` on an already-allowed selector reverts `AlreadyAllowed` (and the mirror for disallow). This differs from [ExecuteSelectorCondition](/helpers/condition-library/execute-selector-condition.md), whose updates are idempotent, mind it when scripting list changes.
-- **A selector is not its arguments.** This allow-lists *which function*, not *with what arguments*; for argument-level rules use a bespoke [condition](/common/permission-conditions.md) or [RuledCondition](/common/ruled-condition.md).
+- **Redundant updates revert.** `allowSelector` on an already-allowed selector reverts `AlreadyAllowed` (and the mirror for disallow). This differs from [ExecuteSelectorCondition](./execute-selector-condition.md), whose updates are idempotent, mind it when scripting list changes.
+- **A selector is not its arguments.** This allow-lists *which function*, not *with what arguments*; for argument-level rules use a bespoke [condition](../../common/permission-conditions.md) or [RuledCondition](../../common/ruled-condition.md).
 
 ## See also
 
-- [Condition Library](/helpers/condition-library.md) — the library overview and the factory.
-- [ExecuteSelectorCondition](/helpers/condition-library/execute-selector-condition.md) — the same idea applied *inside* a DAO `execute()`.
+- [Condition Library](../condition-library.md) — the library overview and the factory.
+- [ExecuteSelectorCondition](./execute-selector-condition.md) — the same idea applied *inside* a DAO `execute()`.

@@ -7,7 +7,7 @@ source: osx/src/common/plugin/extensions/proposal/IProposal.sol, osx/src/common/
 
 # Proposals
 
-A **proposal** is a bundle of [actions](/core/execution.md) that a governance [plugin](/framework/plugins.md) puts up for a decision and, if it passes, executes on the DAO. Token voting, multisig, admin, and staged proposals all differ in *how they decide*, but they share the same proposal shape and lifecycle, defined by the reusable `IProposal` interface and its `Proposal` base. If you're building a governance plugin, you inherit this rather than reinventing it.
+A **proposal** is a bundle of [actions](../core/execution.md) that a governance [plugin](../framework/plugins.md) puts up for a decision and, if it passes, executes on the DAO. Token voting, multisig, admin, and staged proposals all differ in *how they decide*, but they share the same proposal shape and lifecycle, defined by the reusable `IProposal` interface and its `Proposal` base. If you're building a governance plugin, you inherit this rather than reinventing it.
 
 ## The lifecycle interface
 
@@ -44,7 +44,7 @@ Not an incrementing counter. This is deliberate: it's collision-free across chai
 
 ## See also
 
-- [Actions and execution](/core/execution.md) — what a proposal carries and how it enacts.
-- [Plugins](/framework/plugins.md) — governance plugins implement this interface.
-- [Membership](/common/membership.md) — who is eligible to propose/vote.
-- The [plugins](/plugins/index.md) area — concrete decision rules (voting, multisig, …).
+- [Actions and execution](../core/execution.md) — what a proposal carries and how it enacts.
+- [Plugins](../framework/plugins.md) — governance plugins implement this interface.
+- [Membership](./membership.md) — who is eligible to propose/vote.
+- The [plugins](../plugins/index.md) area — concrete decision rules (voting, multisig, …).

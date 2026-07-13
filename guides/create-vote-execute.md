@@ -6,7 +6,7 @@ source: osx/src/core/dao/DAO.sol, osx/src/common/executors/IExecutor.sol, multis
 
 # Create, vote, and execute a proposal
 
-You've [deployed a DAO with a plugin](/guides/deploy-a-dao.md). Now make it *do* something. A DAO acts only through [proposals](/common/proposal.md): a bundle of [actions](/core/execution.md) that a governance plugin puts up for a decision and, if it passes, runs on the DAO. Every governance plugin shares the **same lifecycle**, they differ only in how the decision is made:
+You've [deployed a DAO with a plugin](./deploy-a-dao.md). Now make it *do* something. A DAO acts only through [proposals](../common/proposal.md): a bundle of [actions](../core/execution.md) that a governance plugin puts up for a decision and, if it passes, runs on the DAO. Every governance plugin shares the **same lifecycle**, they differ only in how the decision is made:
 
 ```
 createProposal(...) -> id      // package the actions
@@ -14,9 +14,9 @@ createProposal(...) -> id      // package the actions
 execute(id)                    // once it passes, run the actions on the DAO
 ```
 
-`execute` on the plugin is what finally calls [`dao.execute`](/core/execution.md), and it works because the plugin holds [`EXECUTE_PERMISSION_ID` on the DAO](/guides/deploy-a-dao.md) (granted at install). Both plugins below also grant `EXECUTE_PROPOSAL_PERMISSION_ID` to **anyone**, so once a proposal passes, *any* address can trigger execution. Whether it's *passed* ([`hasSucceeded`](/common/proposal.md)) is separate from whether it's *executable now* (`canExecute`, which also weighs timing).
+`execute` on the plugin is what finally calls [`dao.execute`](../core/execution.md), and it works because the plugin holds [`EXECUTE_PERMISSION_ID` on the DAO](./deploy-a-dao.md) (granted at install). Both plugins below also grant `EXECUTE_PROPOSAL_PERMISSION_ID` to **anyone**, so once a proposal passes, *any* address can trigger execution. Whether it's *passed* ([`hasSucceeded`](../common/proposal.md)) is separate from whether it's *executable now* (`canExecute`, which also weighs timing).
 
-Both examples assume the plugin is already installed (from [Deploy your first DAO](/guides/deploy-a-dao.md) / [Launch a governance token](/guides/launch-a-governance-token.md)). The demo action just has the DAO update its own metadata, swap in whatever the DAO is allowed to do.
+Both examples assume the plugin is already installed (from [Deploy your first DAO](./deploy-a-dao.md) / [Launch a governance token](./launch-a-governance-token.md)). The demo action just has the DAO update its own metadata, swap in whatever the DAO is allowed to do.
 
 ## The skeleton
 
@@ -53,7 +53,7 @@ contract Proposals is Test {
 
 ## Multisig: approve to a threshold
 
-A [multisig](/plugins/multisig-plugin.md) proposal passes when `minApprovals` members approve. With the 2-of-3 from the deploy guide, one member creates-and-approves, a second approves with `_tryExecution` to run it in the same call:
+A [multisig](../plugins/multisig-plugin.md) proposal passes when `minApprovals` members approve. With the 2-of-3 from the deploy guide, one member creates-and-approves, a second approves with `_tryExecution` to run it in the same call:
 
 ```solidity
 function test_multisigProposal() public {
@@ -84,11 +84,11 @@ function test_multisigProposal() public {
 }
 ```
 
-`approve(id, false)` then a separate `execute(id)` is the two-step equivalent; `_tryExecution` just fuses the last approval with execution. Only *listed* members may approve, [membership & eligibility](/plugins/multisig-plugin/membership.md) covers who counts and when.
+`approve(id, false)` then a separate `execute(id)` is the two-step equivalent; `_tryExecution` just fuses the last approval with execution. Only *listed* members may approve, [membership & eligibility](../plugins/multisig-plugin/membership.md) covers who counts and when.
 
 ## Token Voting: decide by weight
 
-A [token vote](/plugins/token-voting-plugin.md) weighs each vote by the voter's power at the proposal's [snapshot](/plugins/token-voting-plugin/voting-power.md), so voters must hold *delegated* tokens before it's created. Votes are a `VoteOption` (`None`, `Abstain`, `Yes`, `No`):
+A [token vote](../plugins/token-voting-plugin.md) weighs each vote by the voter's power at the proposal's [snapshot](../plugins/token-voting-plugin/voting-power.md), so voters must hold *delegated* tokens before it's created. Votes are a `VoteOption` (`None`, `Abstain`, `Yes`, `No`):
 
 ```solidity
 function test_tokenVote() public {
@@ -123,15 +123,15 @@ function test_tokenVote() public {
 }
 ```
 
-In **Standard** mode the vote runs the full duration even once the outcome is decided; **Early Execution** mode lets a passed proposal execute immediately (that's what `_tryEarlyExecution` / `vote(id, Yes, true)` is for), see [voting modes](/plugins/voting-modes.md). Whether a proposal passed depends on the support and participation [thresholds](/plugins/majority-voting.md).
+In **Standard** mode the vote runs the full duration even once the outcome is decided; **Early Execution** mode lets a passed proposal execute immediately (that's what `_tryEarlyExecution` / `vote(id, Yes, true)` is for), see [voting modes](../plugins/voting-modes.md). Whether a proposal passed depends on the support and participation [thresholds](../plugins/majority-voting.md).
 
 ## What you just saw
 
 - One lifecycle, **create → decide → execute**; only the "decide" step changes between plugins.
 - `execute` runs the proposal's actions *as the DAO*, because the plugin holds `EXECUTE` on the DAO; anyone can trigger it once the proposal passes.
-- "Passed" ([`hasSucceeded`](/common/proposal.md)) and "executable now" (`canExecute`) are different questions, timing lives in the latter.
+- "Passed" ([`hasSucceeded`](../common/proposal.md)) and "executable now" (`canExecute`) are different questions, timing lives in the latter.
 
 ## Next
 
-- [Manage permissions through governance](/guides/manage-permissions.md), the proposal's actions can grant/revoke permissions, letting the DAO re-wire its own authority.
-- [Install a plugin into a live DAO](/guides/install-a-plugin.md), add governance to a DAO after launch.
+- [Manage permissions through governance](./manage-permissions.md), the proposal's actions can grant/revoke permissions, letting the DAO re-wire its own authority.
+- [Install a plugin into a live DAO](./install-a-plugin.md), add governance to a DAO after launch.

@@ -7,7 +7,7 @@ source: condition-library/src/SafeOwnerCondition.sol, condition-library/src/inte
 
 # SafeOwnerCondition
 
-`SafeOwnerCondition` restricts a permission to the **current owners of a given [Safe](https://safe.global)**. Grant a DAO permission to any address with this condition attached, and only that Safe's owners can actually use it. It's part of the [condition library](/helpers/condition-library.md).
+`SafeOwnerCondition` restricts a permission to the **current owners of a given [Safe](https://safe.global)**. Grant a DAO permission to any address with this condition attached, and only that Safe's owners can actually use it. It's part of the [condition library](../condition-library.md).
 
 ## When to use it
 
@@ -15,7 +15,7 @@ When a group already coordinates through a Safe and you want that same group to 
 
 ## What it checks
 
-Its [`isGranted`](/common/permission-conditions.md) asks the Safe, live, whether the caller is an owner:
+Its [`isGranted`](../../common/permission-conditions.md) asks the Safe, live, whether the caller is an owner:
 
 ```solidity
 (bool ok, bytes memory res) = safe.staticcall(isOwner(_who));
@@ -23,8 +23,8 @@ return ok && res.length == 32 && abi.decode(res, (bool));
 ```
 
 - **It's evaluated on every call**, so it always reflects the Safe's *current* owners: add or remove an owner on the Safe and who can use the DAO permission changes immediately, with no action on the DAO side.
-- It reads **`who`** (the caller being authorized), so pairing it with an [`ANY_ADDR`](/core/permissions.md#the-wildcard-any_addr) grant yields exactly "any current Safe owner."
-- It [fails closed](/common/permission-conditions.md): if the Safe call reverts or returns something malformed, the answer is "not an owner."
+- It reads **`who`** (the caller being authorized), so pairing it with an [`ANY_ADDR`](../../core/permissions.md#the-wildcard-any_addr) grant yields exactly "any current Safe owner."
+- It [fails closed](../../common/permission-conditions.md): if the Safe call reverts or returns something malformed, the answer is "not an owner."
 
 ## Configuration
 
@@ -43,5 +43,5 @@ It intentionally has **no management permission**, there's nothing to configure 
 
 ## See also
 
-- [Condition Library](/helpers/condition-library.md) — the library overview and the factory.
-- [Permission conditions](/common/permission-conditions.md) — how a condition is consulted, and fail-closed semantics.
+- [Condition Library](../condition-library.md) — the library overview and the factory.
+- [Permission conditions](../../common/permission-conditions.md) — how a condition is consulted, and fail-closed semantics.

@@ -7,7 +7,7 @@ source: osx/src/common/permission/auth/DaoAuthorizable.sol, osx/src/common/permi
 
 # Authorizing against a DAO
 
-A [plugin](/framework/plugins.md) does **not** keep its own access-control list. It defers every authorization decision to its DAO's [permission system](/core/permissions.md). `DaoAuthorizable` is the small base contract that wires that up, and it is where the plugin-to-DAO coupling lives.
+A [plugin](../framework/plugins.md) does **not** keep its own access-control list. It defers every authorization decision to its DAO's [permission system](../core/permissions.md). `DaoAuthorizable` is the small base contract that wires that up, and it is where the plugin-to-DAO coupling lives.
 
 ## The pattern
 
@@ -38,9 +38,9 @@ dao().hasPermission(
 );
 ```
 
-and reverts `DaoUnauthorized` if the DAO says no. So **the plugin is the `where`** and its DAO is the authority. To let Alice call `doThing`, the DAO's ROOT holder grants `(myPlugin, alice, DO_THING_PERMISSION_ID)`, see [granting](/core/permissions.md#granting-and-revoking).
+and reverts `DaoUnauthorized` if the DAO says no. So **the plugin is the `where`** and its DAO is the authority. To let Alice call `doThing`, the DAO's ROOT holder grants `(myPlugin, alice, DO_THING_PERMISSION_ID)`, see [granting](../core/permissions.md#granting-and-revoking).
 
-This is also how a governance plugin becomes able to act: the DAO grants the plugin `EXECUTE_PERMISSION_ID` on the DAO, so the plugin may call [`dao.execute(...)`](/core/execution.md).
+This is also how a governance plugin becomes able to act: the DAO grants the plugin `EXECUTE_PERMISSION_ID` on the DAO, so the plugin may call [`dao.execute(...)`](../core/execution.md).
 
 ## Two variants
 
@@ -50,7 +50,7 @@ This is also how a governance plugin becomes able to act: the DAO grants the plu
 | DAO stored as | `immutable`, set in constructor | storage var, set in initializer |
 | Wire-up | `constructor(IDAO _dao)` | `__DaoAuthorizableUpgradeable_init(_dao)` |
 
-Pick the one matching your [plugin type](/framework/plugin-types.md). The three plugin base contracts already inherit the right variant, so you normally get `auth` for free by extending a plugin base.
+Pick the one matching your [plugin type](../framework/plugin-types.md). The three plugin base contracts already inherit the right variant, so you normally get `auth` for free by extending a plugin base.
 
 Both are meta-transaction aware (they use OpenZeppelin `Context`'s `_msgSender()`/`_msgData()`), so they work behind an ERC-2771 trusted forwarder.
 
@@ -61,6 +61,6 @@ Both are meta-transaction aware (they use OpenZeppelin `Context`'s `_msgSender()
 
 ## See also
 
-- [The permission system](/core/permissions.md) — what `hasPermission` resolves.
-- [Permission conditions](/common/permission-conditions.md) — the `_msgData()` passed through lets a condition inspect call arguments.
-- [Choosing a plugin base](/framework/plugin-types.md) — which variant you inherit.
+- [The permission system](../core/permissions.md) — what `hasPermission` resolves.
+- [Permission conditions](./permission-conditions.md) — the `_msgData()` passed through lets a condition inspect call arguments.
+- [Choosing a plugin base](../framework/plugin-types.md) — which variant you inherit.

@@ -6,13 +6,13 @@ source: osx/src/framework/dao/DAOFactory.sol, multisig-plugin/packages/contracts
 
 # Deploy your first DAO
 
-In [A hands-on tour of OSx](/guides/hands-on-tour.md) you made a *bare* DAO, and you (an EOA) held `EXECUTE_PERMISSION_ID` on it. That's fine for a demo and wrong for a real organization: you don't want a person holding the keys, you want **governance** to. This guide does it properly, deploying a DAO with a [Multisig](/plugins/multisig-plugin.md) plugin so that, from block one, only a passed multisig proposal can make the DAO act, and no external address retains control.
+In [A hands-on tour of OSx](./hands-on-tour.md) you made a *bare* DAO, and you (an EOA) held `EXECUTE_PERMISSION_ID` on it. That's fine for a demo and wrong for a real organization: you don't want a person holding the keys, you want **governance** to. This guide does it properly, deploying a DAO with a [Multisig](../plugins/multisig-plugin.md) plugin so that, from block one, only a passed multisig proposal can make the DAO act, and no external address retains control.
 
-It's still one transaction. [`DAOFactory.createDao`](/framework/dao-factory.md) creates the DAO, installs the plugin through the [PSP's temporary-ROOT window](/framework/plugin-setup-processor.md#the-temporary-root-window), and hands `EXECUTE` to the plugin, atomically.
+It's still one transaction. [`DAOFactory.createDao`](../framework/dao-factory.md) creates the DAO, installs the plugin through the [PSP's temporary-ROOT window](../framework/plugin-setup-processor.md#the-temporary-root-window), and hands `EXECUTE` to the plugin, atomically.
 
 ## What you need
 
-The one-time [Setup](/guides/setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Multisig `PluginRepo`** (`MULTISIG_REPO`) addresses, and installs a specific plugin version (a `release`/`build`, see [release vs build](/framework/plugin-repo.md#release-vs-build)).
+The one-time [Setup](./setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Multisig `PluginRepo`** (`MULTISIG_REPO`) addresses, and installs a specific plugin version (a `release`/`build`, see [release vs build](../framework/plugin-repo.md#release-vs-build)).
 
 ## Step 1, the skeleton
 
@@ -42,7 +42,7 @@ contract DeployWithMultisig is Test {
 
 ## Step 2, describe the DAO and the plugin install
 
-A DAO created *with* plugins takes a `PluginSettings[]`: each entry names a plugin version (its [repo](/framework/plugin-repo.md) + a `(release, build)` tag) and the **install data** the plugin's [setup](/framework/plugin-setup.md) expects. Multisig's `MultisigSetup` decodes its data as `(address[] members, MultisigSettings, TargetConfig, bytes metadata)`:
+A DAO created *with* plugins takes a `PluginSettings[]`: each entry names a plugin version (its [repo](../framework/plugin-repo.md) + a `(release, build)` tag) and the **install data** the plugin's [setup](../framework/plugin-setup.md) expects. Multisig's `MultisigSetup` decodes its data as `(address[] members, MultisigSettings, TargetConfig, bytes metadata)`:
 
 ```solidity
 function test_deployWithMultisig() public {
@@ -95,7 +95,7 @@ Continue the same function. `createDao` returns the DAO and the installed plugin
     address multisig = installed[0].plugin;
 ```
 
-Under the hood the factory ran the whole [temporary-ROOT dance](/framework/dao-factory.md#the-permission-choreography-why-order-matters): it prepared and applied the multisig setup, and that setup's permission list [granted the plugin `EXECUTE_PERMISSION_ID` on the DAO](/plugins/multisig-plugin.md#permissions-it-sets-up). Because you passed a plugin, the factory did **not** grant you `EXECUTE`.
+Under the hood the factory ran the whole [temporary-ROOT dance](../framework/dao-factory.md#the-permission-choreography-why-order-matters): it prepared and applied the multisig setup, and that setup's permission list [granted the plugin `EXECUTE_PERMISSION_ID` on the DAO](../plugins/multisig-plugin.md#permissions-it-sets-up). Because you passed a plugin, the factory did **not** grant you `EXECUTE`.
 
 ## Step 4, verify governance is in control
 
@@ -108,16 +108,16 @@ Confirm the plugin can make the DAO act and you cannot:
 }
 ```
 
-That's the whole point: the DAO now acts only when a multisig [proposal](/common/proposal.md) passes and calls [`dao.execute`](/core/execution.md). No EOA holds the keys, and the DAO holds ROOT over itself, so even changing *that* is a governance decision.
+That's the whole point: the DAO now acts only when a multisig [proposal](../common/proposal.md) passes and calls [`dao.execute`](../core/execution.md). No EOA holds the keys, and the DAO holds ROOT over itself, so even changing *that* is a governance decision.
 
 ## What you just saw
 
-- Installing a plugin is **describing it** (version + install data) and letting the [factory](/framework/dao-factory.md) prepare/apply it, no manual ROOT juggling.
-- The setup, not you, wires the permissions, here, `EXECUTE` to the plugin, [see multisig's setup](/plugins/multisig-plugin.md#permissions-it-sets-up).
+- Installing a plugin is **describing it** (version + install data) and letting the [factory](../framework/dao-factory.md) prepare/apply it, no manual ROOT juggling.
+- The setup, not you, wires the permissions, here, `EXECUTE` to the plugin, [see multisig's setup](../plugins/multisig-plugin.md#permissions-it-sets-up).
 - `TargetConfig.target = address(0)` means "my own DAO", the trick that makes same-transaction install possible.
 
 ## Next
 
-- [Launch a governance token with your DAO](/guides/launch-a-governance-token.md), the same flow with **Token Voting**, whose install data carries the trickier token choice.
-- [Create, vote, and execute a proposal](/guides/create-vote-execute.md), now drive the multisig you just installed.
-- Installing **admin** instead is the same shape with simpler data (a single admin address); installing into an *already-running* DAO is [Install a plugin](/guides/install-a-plugin.md).
+- [Launch a governance token with your DAO](./launch-a-governance-token.md), the same flow with **Token Voting**, whose install data carries the trickier token choice.
+- [Create, vote, and execute a proposal](./create-vote-execute.md), now drive the multisig you just installed.
+- Installing **admin** instead is the same shape with simpler data (a single admin address); installing into an *already-running* DAO is [Install a plugin](./install-a-plugin.md).

@@ -7,9 +7,9 @@ source: osx/src/common/permission/condition/extensions/RuledCondition.sol
 
 # RuledCondition (the rule engine)
 
-Many [permission conditions](/common/permission-conditions.md) are just boolean combinations of small checks: "after this timestamp", "before this block", "the argument equals X", "and also this other condition passes". `RuledCondition` lets you express that logic as **data**, a list of rules, instead of writing and auditing bespoke Solidity for each one.
+Many [permission conditions](./permission-conditions.md) are just boolean combinations of small checks: "after this timestamp", "before this block", "the argument equals X", "and also this other condition passes". `RuledCondition` lets you express that logic as **data**, a list of rules, instead of writing and auditing bespoke Solidity for each one.
 
-It's an abstract base (inherit it, populate the rules, expose your own `isGranted` that evaluates them). The reusable conditions in the [condition library](/helpers/index.md) are built on it.
+It's an abstract base (inherit it, populate the rules, expose your own `isGranted` that evaluates them). The reusable conditions in the [condition library](../helpers/index.md) are built on it.
 
 ## The rule
 
@@ -44,13 +44,13 @@ A subclass typically decodes the call's `_data` into a `uint256[] _compareList` 
 ## Keep in mind
 
 - **`value` is `uint240`, and compare-list entries are truncated to 240 bits** (the source even comments "force lost precision"). Comparing certain `uint256`s or raw `address` values can silently lose the top bits.
-- **Delegated conditions fail closed.** A `CONDITION_RULE_ID` rule calls the other condition via a raw `staticcall`; a revert, a non-contract, or a wrong-sized return is treated as `false`, same fail-closed philosophy as the [permission system](/core/permissions.md).
-- **A delegated sub-condition does *not* see the original calldata.** When a rule delegates via `CONDITION_RULE_ID`, `RuledCondition` passes `abi.encode(_compareList)` as the sub-condition's `_data`, the parent's already-decoded operands, re-encoded, not the raw `msg.data`. So a [condition](/common/permission-conditions.md) that normally re-parses call arguments can only observe what the parent decoded into the compare list. Feed it every operand it needs; it cannot reach back to the original call.
+- **Delegated conditions fail closed.** A `CONDITION_RULE_ID` rule calls the other condition via a raw `staticcall`; a revert, a non-contract, or a wrong-sized return is treated as `false`, same fail-closed philosophy as the [permission system](../core/permissions.md).
+- **A delegated sub-condition does *not* see the original calldata.** When a rule delegates via `CONDITION_RULE_ID`, `RuledCondition` passes `abi.encode(_compareList)` as the sub-condition's `_data`, the parent's already-decoded operands, re-encoded, not the raw `msg.data`. So a [condition](./permission-conditions.md) that normally re-parses call arguments can only observe what the parent decoded into the compare list. Feed it every operand it needs; it cannot reach back to the original call.
 - Rules are trusted input. A malformed rule set (bad indices) can recurse deeply; only set rules you control via `_updateRules`.
 
-Reach for `RuledCondition` when your logic is a composition of standard comparisons; write a plain [condition](/common/permission-conditions.md) when it's simpler to express directly in Solidity.
+Reach for `RuledCondition` when your logic is a composition of standard comparisons; write a plain [condition](./permission-conditions.md) when it's simpler to express directly in Solidity.
 
 ## See also
 
-- [Permission conditions](/common/permission-conditions.md) — the interface `RuledCondition` implements.
-- [Condition library](/helpers/index.md) — ready-made conditions built on this engine.
+- [Permission conditions](./permission-conditions.md) — the interface `RuledCondition` implements.
+- [Condition library](../helpers/index.md) — ready-made conditions built on this engine.

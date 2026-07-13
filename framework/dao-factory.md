@@ -7,7 +7,7 @@ source: osx/src/framework/dao/DAOFactory.sol
 
 # DAOFactory (creating a DAO)
 
-`DAOFactory.createDao` is the front door to the protocol: in **one transaction** it deploys a [DAO](/core/dao.md), registers it, installs an initial set of [plugins](/framework/plugins.md), and leaves the DAO safely self-governing with no external party in control. It is the canonical, and safest, way to create a DAO, and the clearest worked example of the [permission](/core/permissions.md) choreography the whole framework depends on.
+`DAOFactory.createDao` is the front door to the protocol: in **one transaction** it deploys a [DAO](../core/dao.md), registers it, installs an initial set of [plugins](./plugins.md), and leaves the DAO safely self-governing with no external party in control. It is the canonical, and safest, way to create a DAO, and the clearest worked example of the [permission](../core/permissions.md) choreography the whole framework depends on.
 
 ## What you pass
 
@@ -19,15 +19,15 @@ function createDao(DAOSettings _daoSettings, PluginSettings[] _pluginSettings)
     external returns (DAO createdDao, InstalledPlugin[] installedPlugins);
 ```
 
-Each `PluginSettings` names a plugin version (a [repo](/framework/plugin-repo.md) + version tag) and its install `data`. The factory prepares and applies each one via the [PSP](/framework/plugin-setup-processor.md).
+Each `PluginSettings` names a plugin version (a [repo](./plugin-repo.md) + version tag) and its install `data`. The factory prepares and applies each one via the [PSP](./plugin-setup-processor.md).
 
 ## The permission choreography (why order matters)
 
-This is the [temporary-ROOT dance](/framework/plugin-setup-processor.md#the-temporary-root-window) made concrete. When creating a DAO with plugins:
+This is the [temporary-ROOT dance](./plugin-setup-processor.md#the-temporary-root-window) made concrete. When creating a DAO with plugins:
 
 1. **Deploy the DAO proxy**, with the factory as initial owner, so the factory transiently holds `ROOT` on the new DAO.
-2. **Register** the DAO in the [DAORegistry](/framework/registries.md) (assigning its ENS subdomain).
-3. **Install each plugin through the [PSP temporary-ROOT window](/framework/plugin-setup-processor.md#the-temporary-root-window):** grant the PSP `ROOT` and the factory `APPLY_INSTALLATION`, `prepareInstallation` + `applyInstallation` each plugin, then revoke both temporary grants.
+2. **Register** the DAO in the [DAORegistry](./registries.md) (assigning its ENS subdomain).
+3. **Install each plugin through the [PSP temporary-ROOT window](./plugin-setup-processor.md#the-temporary-root-window):** grant the PSP `ROOT` and the factory `APPLY_INSTALLATION`, `prepareInstallation` + `applyInstallation` each plugin, then revoke both temporary grants.
 4. **Grant the DAO ROOT and its admin permissions over itself** (`UPGRADE_DAO`, `SET_METADATA`, …), so the organization self-governs.
 5. **Revoke the factory's own initial ROOT, last.** After this the factory has zero control.
 
@@ -41,7 +41,7 @@ Two invariants are worth carrying to any custom deployment: **the DAO ends up ho
 
 ## See also
 
-- [The DAO contract](/core/dao.md) — what gets deployed and the ROOT bootstrapping problem.
-- [PluginSetupProcessor](/framework/plugin-setup-processor.md) — the install engine and its temporary-ROOT window.
-- [Registries](/framework/registries.md) — where the new DAO is registered.
-- [Deployment](/deployment/index.md) — deploying the whole protocol, and the DAO launchpad.
+- [The DAO contract](../core/dao.md) — what gets deployed and the ROOT bootstrapping problem.
+- [PluginSetupProcessor](./plugin-setup-processor.md) — the install engine and its temporary-ROOT window.
+- [Registries](./registries.md) — where the new DAO is registered.
+- [Deployment](../deployment/index.md) — deploying the whole protocol, and the DAO launchpad.
