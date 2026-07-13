@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Capital Router oracles
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/interfaces/IPriceOracle.sol, capital-router/src/oracles/ChainlinkPriceOracle.sol, capital-router/src/oracles/UniswapV3TWAPOracle.sol, capital-router/src/oracles/MultiPriceOracle.sol
 ---
 

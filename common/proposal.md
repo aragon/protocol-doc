@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Proposals
-tags: [core, governance-primitive]
+tags: [governance-primitive]
 source: osx/src/common/plugin/extensions/proposal/IProposal.sol, osx/src/common/plugin/extensions/proposal/Proposal.sol, osx/src/common/plugin/extensions/proposal/ProposalUpgradeable.sol
 ---
 

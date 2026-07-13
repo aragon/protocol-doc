@@ -76,7 +76,7 @@ function test_installMultisig() public {
 }
 ```
 
-A `…Prepared` event is **not** an installation, a griefer can prepare all day and change nothing. See [preparing is cheap and permissionless](/framework/plugin-setup-processor.md#keep-it-healthy).
+A `…Prepared` event is **not** an installation, a griefer can prepare all day and change nothing. See [preparing is cheap and permissionless](/framework/plugin-setup-processor.md#keep-in-mind).
 
 ## Step 3, apply (governed, inside a temporary-ROOT window)
 
@@ -115,7 +115,7 @@ Note what's **not** here: the DAO needs no `APPLY_INSTALLATION_PERMISSION`. `app
 ## What you just saw
 
 - **Prepare** is permissionless and mutates nothing; **apply** is the governed step, and the only thing that changes the DAO.
-- Apply runs inside a **temporary-ROOT window** the same batch opens and closes, [never leave the PSP with ROOT](/framework/plugin-setup-processor.md#keep-it-healthy).
+- Apply runs inside a **temporary-ROOT window** the same batch opens and closes, [never leave the PSP with ROOT](/framework/plugin-setup-processor.md#keep-in-mind).
 - You apply *exactly* what was prepared (`plugin` + `permissions` + `hashHelpers(helpers)`); the [setup-id binding](/framework/plugin-setup-processor.md#setup-ids-what-keeps-apply-honest) rejects anything else.
 
 ## Next

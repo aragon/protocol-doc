@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Membership and the address list
-tags: [core, governance-primitive]
+tags: [governance-primitive]
 source: osx/src/common/plugin/extensions/membership/IMembership.sol, osx/src/common/plugin/extensions/governance/Addresslist.sol
 ---
 

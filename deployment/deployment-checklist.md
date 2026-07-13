@@ -1,7 +1,7 @@
 ---
 type: concept
 title: The deployment checklist
-tags: [deployment, security, process]
+tags: [security, process]
 source: protocol-factory/README.md
 ---
 

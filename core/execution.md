@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Actions and execution
-tags: [core, security]
+tags: [security]
 source: osx/src/common/executors/IExecutor.sol, osx/src/core/dao/DAO.sol, osx/src/common/executors/Executor.sol, osx/src/common/utils/math/BitMap.sol
 ---
 

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Multisig Plugin
-tags: [governance, multisig]
+tags: [governance]
 source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/packages/contracts/src/IMultisig.sol, multisig-plugin/packages/contracts/src/MultisigSetup.sol
 ---
 

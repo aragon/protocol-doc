@@ -1,7 +1,6 @@
 ---
 type: concept
 title: Protocol Factory
-tags: [deployment, tooling]
 source: protocol-factory/src/ProtocolFactory.sol, protocol-factory/src/helpers/DAOHelper.sol, protocol-factory/src/helpers/ENSHelper.sol, protocol-factory/src/helpers/PluginRepoHelper.sol, protocol-factory/src/helpers/PSPHelper.sol, protocol-factory/src/helpers/interfaces.sol, protocol-factory/README.md
 ---
 

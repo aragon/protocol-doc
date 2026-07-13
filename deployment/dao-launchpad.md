@@ -1,7 +1,6 @@
 ---
 type: concept
 title: DAO Launchpad
-tags: [deployment, tooling]
 source: dao-launchpad/README.md, dao-launchpad/template/README.md
 ---
 

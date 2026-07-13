@@ -1,7 +1,6 @@
 ---
 type: concept
 title: just-foundry
-tags: [tooling]
 source: just-foundry/README.md
 ---
 

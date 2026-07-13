@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Capital Router
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/DispatcherPlugin.sol, capital-router/src/RequesterPlugin.sol, capital-router/src/DispatchHubPlugin.sol
 ---
 

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Staged Proposal Processor (SPP)
-tags: [governance, spp]
+tags: [governance]
 source: spp/src/StagedProposalProcessor.sol, spp/src/StagedProposalProcessorSetup.sol, spp/src/utils/SPPRuleCondition.sol, spp/src/libraries/Permissions.sol, spp/src/libraries/Errors.sol, spp/src/utils/PluginSettings.sol
 ---
 

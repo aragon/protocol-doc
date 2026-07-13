@@ -1,7 +1,7 @@
 ---
 type: concept
 title: What you can build with the Capital Router
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/strategies, capital-router/src/budgets, capital-router/src/splitters, capital-router/src/DispatcherPlugin.sol, capital-router/src/RequesterPlugin.sol
 ---
 

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Authorizing against a DAO
-tags: [core, permissions, plugin-framework]
+tags: [permissions, plugin-framework]
 source: osx/src/common/permission/auth/DaoAuthorizable.sol, osx/src/common/permission/auth/DaoAuthorizableUpgradeable.sol, osx/src/common/permission/auth/auth.sol
 ---
 

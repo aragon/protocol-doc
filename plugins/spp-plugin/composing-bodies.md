@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Composing SPP bodies
-tags: [governance, spp]
+tags: [governance]
 source: spp/src/StagedProposalProcessor.sol
 ---
 

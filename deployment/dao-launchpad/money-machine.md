@@ -1,7 +1,7 @@
 ---
 type: example
 title: Money machine (worked example)
-tags: [deployment, treasury, capital-router, example]
+tags: [treasury]
 source: dao-launchpad/lido/PRD.md, dao-launchpad/lido/src/factory/LidoMoneyMachineFactory.sol, dao-launchpad/lido/src/StreamUntilBudget.sol, dao-launchpad/lido/src/UniV2LiquidityDispatchStrategy.sol, dao-launchpad/lido/src/GatedCowSwapDispatchStrategy.sol, dao-launchpad/lido/src/WrapDispatchStrategy.sol, dao-launchpad/lido/src/PriceFloorGate.sol, dao-launchpad/lido/src/EpochProvider.sol
 ---
 

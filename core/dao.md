@@ -1,7 +1,7 @@
 ---
 type: concept
 title: The DAO contract
-tags: [core, upgradeability]
+tags: [upgradeability]
 source: osx/src/core/dao/DAO.sol, osx/src/core/dao/IEIP4824.sol, osx/src/core/utils/CallbackHandler.sol, osx/src/common/dao/IDAO.sol
 ---
 

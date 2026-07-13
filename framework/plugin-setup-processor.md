@@ -1,7 +1,7 @@
 ---
 type: concept
 title: The PluginSetupProcessor (PSP)
-tags: [core, plugin-framework, security]
+tags: [plugin-framework, security]
 source: osx/src/framework/plugin/setup/PluginSetupProcessor.sol, osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
 ---
 

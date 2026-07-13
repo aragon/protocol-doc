@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Member registry
-tags: [core, ens]
+tags: [ens]
 source: osx/src/framework/member/MemberRegistry.sol, osx/src/framework/member/IMemberRegistry.sol
 ---
 

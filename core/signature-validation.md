@@ -1,7 +1,7 @@
 ---
 type: concept
 title: DAO signature validation (EIP-1271)
-tags: [core, permissions]
+tags: [permissions]
 source: osx/src/core/dao/DAO.sol
 ---
 

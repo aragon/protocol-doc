@@ -1,7 +1,7 @@
 ---
 type: concept
 title: The permission system
-tags: [core, permissions, security]
+tags: [permissions, security]
 source: osx/src/core/permission/PermissionManager.sol, osx/src/common/permission/PermissionLib.sol
 ---
 

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: PluginRepo (versioning & publishing)
-tags: [core, plugin-framework, upgradeability]
+tags: [plugin-framework, upgradeability]
 source: osx/src/framework/plugin/repo/PluginRepo.sol, osx/src/framework/plugin/repo/IPluginRepo.sol, osx/src/framework/plugin/repo/PluginRepoFactory.sol
 ---
 

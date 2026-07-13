@@ -1,7 +1,7 @@
 ---
 type: concept
 title: ExecuteSelectorCondition
-tags: [helpers, permissions]
+tags: [permissions]
 source: condition-library/src/ExecuteSelectorCondition.sol
 ---
 

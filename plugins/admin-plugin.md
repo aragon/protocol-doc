@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Admin Plugin
-tags: [governance, admin]
+tags: [governance]
 source: admin-plugin/packages/contracts/src/Admin.sol, admin-plugin/packages/contracts/src/AdminSetup.sol
 ---
 

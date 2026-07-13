@@ -1,7 +1,7 @@
 ---
 type: reference
 title: Protocol version
-tags: [core, upgradeability]
+tags: [upgradeability]
 source: osx/src/common/utils/versioning/ProtocolVersion.sol, osx/src/common/utils/versioning/VersionComparisonLib.sol, osx/src/common/utils/versioning/IProtocolVersion.sol
 ---
 

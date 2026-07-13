@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Capital Router splitters
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/splitters/RatioSplitter.sol, capital-router/src/splitters/EqualSplitter.sol, capital-router/src/splitters/TieredSplitter.sol, capital-router/src/splitters/SoloSplitter.sol, capital-router/src/splitters/AddressGaugeSplitter.sol, capital-router/src/splitters/TokenGaugeSplitter.sol, capital-router/src/lib/ratio.sol
 ---
 

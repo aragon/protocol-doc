@@ -1,7 +1,7 @@
 ---
 type: concept
 title: DAO metadata
-tags: [core, metadata]
+tags: [metadata]
 source: osx/src/core/dao/DAO.sol, osx/src/core/dao/IEIP4824.sol, protocol-factory/management-dao-metadata.json
 ---
 

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Capital Router budgets
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/budgets/FullBudget.sol, capital-router/src/budgets/RequiredBudget.sol, capital-router/src/budgets/FixedBudget.sol, capital-router/src/budgets/StreamBudget.sol, capital-router/src/base/StreamClock.sol
 ---
 

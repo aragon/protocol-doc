@@ -1,7 +1,7 @@
 ---
 type: concept
 title: RuledCondition (the rule engine)
-tags: [core, permissions]
+tags: [permissions]
 source: osx/src/common/permission/condition/extensions/RuledCondition.sol
 ---
 

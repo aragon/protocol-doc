@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Condition Library
-tags: [helpers, permissions]
+tags: [permissions]
 source: condition-library/src/factory/ConditionFactory.sol, condition-library/src/lib/common.sol
 ---
 

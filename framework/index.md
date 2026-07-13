@@ -1,6 +1,6 @@
 # Framework
 
-The **plugin framework**: everything about *being* a plugin, what a plugin is, how you build one, and how it's published, installed, updated, and uninstalled on a DAO, safely and repeatably. Source: [`osx`](https://github.com/aragon/osx) `src/framework`, plus the plugin base contracts from osx-commons.
+The **plugin framework**: everything about *being* a plugin, what a plugin is, how you build one, and how it's published, installed, updated, and uninstalled on a DAO, safely and repeatably. Source: [`osx`](https://github.com/aragon/osx) `src/framework`, plus the plugin base contracts in [common](/common/index.md) (osx `src/common`).
 
 The [core](/core/index.md) DAO is deliberately minimal and [common](/common/index.md) is cross-cutting primitives; the framework is what turns "a contract can operate a DAO" into "a specific plugin version is installed on this DAO with exactly the right permissions, and nobody was left with unchecked control." A plugin isn't part of the core, it's a contract that *uses this framework* to operate a DAO.
 

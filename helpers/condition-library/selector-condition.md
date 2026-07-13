@@ -1,7 +1,7 @@
 ---
 type: concept
 title: SelectorCondition
-tags: [helpers, permissions]
+tags: [permissions]
 source: condition-library/src/SelectorCondition.sol
 ---
 

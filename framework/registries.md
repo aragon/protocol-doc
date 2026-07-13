@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Registries and ENS names
-tags: [core, plugin-framework, ens]
+tags: [plugin-framework, ens]
 source: osx/src/framework/dao/DAORegistry.sol, osx/src/framework/plugin/repo/PluginRepoRegistry.sol, osx/src/framework/utils/InterfaceBasedRegistry.sol, osx/src/framework/utils/RegistryUtils.sol, osx/src/framework/utils/ens/ENSSubdomainRegistrar.sol
 ---
 

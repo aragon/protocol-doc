@@ -1,7 +1,7 @@
 ---
 type: concept
 title: DAOFactory (creating a DAO)
-tags: [core, plugin-framework, security]
+tags: [plugin-framework, security]
 source: osx/src/framework/dao/DAOFactory.sol
 ---
 

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Permission conditions
-tags: [core, permissions, security]
+tags: [permissions, security]
 source: osx/src/common/permission/condition/IPermissionCondition.sol, osx/src/common/permission/condition/PermissionCondition.sol, osx/src/common/permission/condition/PermissionConditionUpgradeable.sol
 ---
 

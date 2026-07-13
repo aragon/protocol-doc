@@ -1,7 +1,6 @@
 ---
 type: concept
 title: Plugin Template (Foundry)
-tags: [tooling, plugin-development]
 source: osx-plugin-template-foundry/README.md
 ---
 

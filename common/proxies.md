@@ -1,7 +1,7 @@
 ---
 type: reference
 title: Proxy deployment (UUPS & minimal proxies)
-tags: [core, upgradeability, proxy]
+tags: [upgradeability, proxy]
 source: osx/src/common/utils/deployment/ProxyLib.sol, osx/src/common/utils/deployment/ProxyFactory.sol
 ---
 

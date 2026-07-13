@@ -17,18 +17,18 @@ The point is to make that iteration both **flexible and safe**: a plugin never a
 
 ## Start here
 
-New to OSx? Read these two first, everything else builds on them:
+**New to OSx?** The [guides](/guides/index.md) are the way in, hands-on, Foundry-based, followed start to finish:
+
+- [Why OSx](/guides/why-osx.md) — the short "what this is and why," no code.
+- [A hands-on tour of OSx](/guides/hands-on-tour.md) — deploy a DAO and make it act, in one short test.
+- Then the path that fits you: [deploy a DAO](/guides/deploy-a-dao.md) → [launch a governance token](/guides/launch-a-governance-token.md) → [create, vote, execute](/guides/create-vote-execute.md), or, to author your own plugin, [build a plugin](/guides/build-a-plugin.md) → [publish it](/guides/publish-a-plugin.md). Full list and reading order in [guides](/guides/index.md).
+
+**Prefer the reference?** Two concepts underpin everything, read them first:
 
 1. [The DAO contract](/core/dao.md) — what a DAO actually *is*.
 2. [The permission system](/core/permissions.md) — how OSx decides who may do what.
 
-Then follow the path for what you're doing:
-
-- **Build on / integrate with a DAO:** [actions & execution](/core/execution.md) → [the plugin model](/framework/plugins.md) → the [governance plugins](/plugins/index.md) you'll install.
-- **Write your own plugin:** [the plugin model](/framework/plugins.md) → [choosing a base type](/framework/plugin-types.md) → [plugin setup](/framework/plugin-setup.md) → [PluginRepo](/framework/plugin-repo.md) → [the PluginSetupProcessor](/framework/plugin-setup-processor.md), then scaffold from the [plugin template](/tooling/plugin-template.md).
-- **Deploy the protocol or a DAO:** the [deployment area](/deployment/index.md), the protocol factory (whole stack) and the DAO launchpad (individual DAOs).
-
-_Step-by-step [guides](/guides/index.md) (the linear way in, with copy-adaptable Solidity) are still being written; until then, the ordered paths above walk the concept graph in sequence._
+From there follow a path through the graph, [actions & execution](/core/execution.md) → [the plugin model](/framework/plugins.md) → the [governance plugins](/plugins/index.md), or for authoring, [base types](/framework/plugin-types.md) → [plugin setup](/framework/plugin-setup.md) → [PluginRepo](/framework/plugin-repo.md) → [the PluginSetupProcessor](/framework/plugin-setup-processor.md), or just browse by area below.
 
 Browse by area:
 

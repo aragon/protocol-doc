@@ -1,7 +1,7 @@
 ---
 type: concept
 title: SafeOwnerCondition
-tags: [helpers, permissions]
+tags: [permissions]
 source: condition-library/src/SafeOwnerCondition.sol, condition-library/src/interfaces/IOwnerManager.sol
 ---
 

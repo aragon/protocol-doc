@@ -95,7 +95,7 @@ Continue the same function. `createDao` returns the DAO and the installed plugin
     address multisig = installed[0].plugin;
 ```
 
-Under the hood the factory ran the whole [temporary-ROOT dance](/framework/dao-factory.md#the-permission-choreography-why-order-matters): it prepared and applied the multisig setup, and that setup's permission list [granted the plugin `EXECUTE_PERMISSION_ID` on the DAO](/plugins/multisig-plugin.md#permissions). Because you passed a plugin, the factory did **not** grant you `EXECUTE`.
+Under the hood the factory ran the whole [temporary-ROOT dance](/framework/dao-factory.md#the-permission-choreography-why-order-matters): it prepared and applied the multisig setup, and that setup's permission list [granted the plugin `EXECUTE_PERMISSION_ID` on the DAO](/plugins/multisig-plugin.md#permissions-it-sets-up). Because you passed a plugin, the factory did **not** grant you `EXECUTE`.
 
 ## Step 4, verify governance is in control
 
@@ -113,7 +113,7 @@ That's the whole point: the DAO now acts only when a multisig [proposal](/common
 ## What you just saw
 
 - Installing a plugin is **describing it** (version + install data) and letting the [factory](/framework/dao-factory.md) prepare/apply it, no manual ROOT juggling.
-- The setup, not you, wires the permissions, here, `EXECUTE` to the plugin, [see multisig's setup](/plugins/multisig-plugin.md#permissions).
+- The setup, not you, wires the permissions, here, `EXECUTE` to the plugin, [see multisig's setup](/plugins/multisig-plugin.md#permissions-it-sets-up).
 - `TargetConfig.target = address(0)` means "my own DAO", the trick that makes same-transaction install possible.
 
 ## Next

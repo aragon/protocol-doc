@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Governance tokens
-tags: [governance, token]
+tags: [governance]
 source: token-voting-plugin/src/erc20/GovernanceERC20.sol, token-voting-plugin/src/erc20/GovernanceWrappedERC20.sol, token-voting-plugin/src/erc20/IERC20MintableUpgradeable.sol, token-voting-plugin/src/erc20/IGovernanceWrappedERC20.sol, token-voting-plugin/src/TokenVotingSetup.sol
 ---
 

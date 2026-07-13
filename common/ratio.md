@@ -1,7 +1,7 @@
 ---
 type: reference
 title: Ratio (threshold math)
-tags: [core, governance-primitive]
+tags: [governance-primitive]
 source: osx/src/common/utils/math/Ratio.sol
 ---
 

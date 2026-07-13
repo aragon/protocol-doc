@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Capital Router strategies
-tags: [automation, treasury, capital-router]
+tags: [automation, treasury]
 source: capital-router/src/base/DispatchStrategyBase.sol, capital-router/src/base/RequestStrategyBase.sol, capital-router/src/base/TransferDispatchStrategyBase.sol, capital-router/src/strategies/EpochTransferDispatchStrategy.sol, capital-router/src/strategies/BurnDispatchStrategy.sol, capital-router/src/strategies/UniswapDispatchStrategy.sol, capital-router/src/strategies/CowSwapDispatchStrategy.sol, capital-router/src/strategies/TransferRequestStrategy.sol, capital-router/src/strategies/EpochTransferRequestStrategy.sol
 ---
 
