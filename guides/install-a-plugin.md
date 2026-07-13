@@ -30,9 +30,9 @@ import {PluginRepo} from "@aragon/osx/framework/plugin/repo/PluginRepo.sol";
 import {PluginSetupProcessor} from "@aragon/osx/framework/plugin/setup/PluginSetupProcessor.sol";
 import {PluginSetupRef, hashHelpers} from "@aragon/osx/framework/plugin/setup/PluginSetupProcessorHelpers.sol";
 import {PermissionManager} from "@aragon/osx/core/permission/PermissionManager.sol";
-import {IPluginSetup} from "@aragon/osx-commons-contracts/src/plugin/setup/IPluginSetup.sol";
-import {Action} from "@aragon/osx-commons-contracts/src/executors/IExecutor.sol";
-import {IPlugin} from "@aragon/osx-commons-contracts/src/plugin/IPlugin.sol";
+import {IPluginSetup} from "@aragon/osx/common/plugin/setup/IPluginSetup.sol";
+import {Action} from "@aragon/osx/common/executors/IExecutor.sol";
+import {IPlugin} from "@aragon/osx/common/plugin/IPlugin.sol";
 import {Multisig} from "@aragon/multisig-plugin/Multisig.sol";
 
 contract InstallPlugin is Test {

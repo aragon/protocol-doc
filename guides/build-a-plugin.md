@@ -19,7 +19,7 @@ Inherit [`PluginUUPSUpgradeable`](/framework/plugin-types.md) (it gives you `dao
 pragma solidity ^0.8.17;
 
 import {DAO, IDAO, Action} from "@aragon/osx/core/dao/DAO.sol";
-import {PluginUUPSUpgradeable} from "@aragon/osx/framework/plugin/setup/PluginSetupProcessor.sol";
+import {PluginUUPSUpgradeable} from "@aragon/osx/common/plugin/PluginUUPSUpgradeable.sol";
 
 contract MyUpgradeablePlugin is PluginUUPSUpgradeable {
     bytes32 public constant MANAGER_PERMISSION_ID = keccak256("MANAGER_PERMISSION");
@@ -59,8 +59,10 @@ The setup deploys the plugin and returns the **exact permissions** the install n
 pragma solidity ^0.8.17;
 
 import {IDAO, DAO} from "@aragon/osx/core/dao/DAO.sol";
-import {IPluginSetup, PluginSetup, PermissionLib} from "@aragon/osx/framework/plugin/setup/PluginSetupProcessor.sol";
-import {ProxyLib} from "@aragon/osx-commons-contracts/src/utils/deployment/ProxyLib.sol";
+import {PluginSetup} from "@aragon/osx/common/plugin/setup/PluginSetup.sol";
+import {IPluginSetup} from "@aragon/osx/common/plugin/setup/IPluginSetup.sol";
+import {PermissionLib} from "@aragon/osx/common/permission/PermissionLib.sol";
+import {ProxyLib} from "@aragon/osx/common/utils/deployment/ProxyLib.sol";
 import {MyUpgradeablePlugin} from "../MyUpgradeablePlugin.sol";
 
 contract MyPluginSetup is PluginSetup {

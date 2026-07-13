@@ -29,7 +29,7 @@ pragma solidity ^0.8.17;
 import {Test} from "forge-std/Test.sol";
 import {DAO} from "@aragon/osx/core/dao/DAO.sol";
 import {DAOFactory} from "@aragon/osx/framework/dao/DAOFactory.sol";
-import {Action} from "@aragon/osx-commons-contracts/src/executors/IExecutor.sol";
+import {Action} from "@aragon/osx/common/executors/IExecutor.sol";
 
 contract OsxInOneSitting is Test {
     DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY")); // from the deployment artifacts

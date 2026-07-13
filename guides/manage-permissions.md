@@ -22,8 +22,8 @@ import {Test} from "forge-std/Test.sol";
 import {DAO} from "@aragon/osx/core/dao/DAO.sol";
 import {DAOFactory} from "@aragon/osx/framework/dao/DAOFactory.sol";
 import {PermissionManager} from "@aragon/osx/core/permission/PermissionManager.sol";
-import {Action} from "@aragon/osx-commons-contracts/src/executors/IExecutor.sol";
-import {IPermissionCondition} from "@aragon/osx-commons-contracts/src/permission/condition/IPermissionCondition.sol";
+import {Action} from "@aragon/osx/common/executors/IExecutor.sol";
+import {IPermissionCondition} from "@aragon/osx/common/permission/condition/IPermissionCondition.sol";
 
 contract ManagePermissions is Test {
     DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY"));
@@ -66,7 +66,7 @@ The grant reads `(where = dao, who = alice, permissionId = SET_METADATA)`, see t
 A plain grant is a static "yes". A [condition](/common/permission-conditions.md) makes it a *dynamic* yes: the permission system calls your contract at decision time. Inherit `PermissionCondition` (it supplies the ERC-165 wiring `grantWithCondition` checks for) and implement `isGranted`. Here, a permission that only holds until a deadline:
 
 ```solidity
-import {PermissionCondition} from "@aragon/osx-commons-contracts/src/permission/condition/PermissionCondition.sol";
+import {PermissionCondition} from "@aragon/osx/common/permission/condition/PermissionCondition.sol";
 
 contract OnlyBeforeDeadline is PermissionCondition {
     uint256 public immutable deadline;
