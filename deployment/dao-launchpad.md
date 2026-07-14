@@ -8,6 +8,16 @@ source: dao-launchpad/README.md, dao-launchpad/template/README.md
 
 The DAO Launchpad is the **deployment workbench** for launching real DAOs on top of an already-deployed [OSx protocol](./index.md): a home for opinionated deployment projects, each of which stands up one DAO (with its plugins, and any custom contracts a specific launch needs) through a single, auditable on-chain factory.
 
+## Where it fits
+
+Three deployment jobs are easy to conflate; the Launchpad is only the third:
+
+- **Publishing a plugin** (authoring one, cutting a [PluginRepo](../framework/plugin-repo.md) version) makes a plugin *available* to any DAO. Upstream of a launch.
+- **Deploying OSx itself** onto a chain is the [Protocol Factory](./protocol-factory.md)'s job; it stands up the framework a launch then targets.
+- **Standing up one custom DAO** that *assembles* those pieces, standard plugins, your own customized plugins, standard [conditions](../helpers/condition-library.md) and custom ones, plus any bespoke contracts, into a single organization. That's the Launchpad.
+
+Its reason to exist is that last case: the pieces come from **heterogeneous repos**, and assembling them into one correctly-permissioned DAO has to be **atomic, deterministic, and verifiable** (the *how* is the rest of this page).
+
 ## The problem it solves
 
 Standing up a governed DAO is not one step, it's a sequence: create the [DAO](../core/dao.md), [install each plugin](../framework/plugin-setup-processor.md), set every [permission](../core/permissions.md), then hand control to whoever should own it. Run that as a string of separate transactions and two bad things happen: every intermediate state is a **half-configured DAO** someone could exploit, and the deployer **transiently holds power** over funds and governance. The launchpad exists to make that whole sequence a single, reviewable, all-or-nothing event.
