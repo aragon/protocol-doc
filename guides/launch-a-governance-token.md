@@ -131,7 +131,7 @@ The rest of the install data is the [voting configuration](../plugins/majority-v
 }
 ```
 
-Get the field order or types wrong and `prepareInstallation` reverts on `abi.decode`, the ABI is dictated by the plugin's [setup](../framework/plugin-setup.md), published in its build metadata.
+Because that `data` came from the setup's own `encodeInstallationParameters`, its layout is guaranteed to match what the same setup's `prepareInstallation` `abi.decode`s, the two can't drift. Hand-pack the bytes yourself instead and that safety net is gone: a wrong field order or type makes `prepareInstallation` revert on `abi.decode`. Either way the ABI is dictated by the plugin's [setup](../framework/plugin-setup.md), published in its build metadata.
 
 ## What you just saw
 

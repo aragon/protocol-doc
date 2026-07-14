@@ -6,7 +6,7 @@ source: osx/src/core/dao/DAO.sol, osx/src/common/executors/IExecutor.sol, multis
 
 # Create, vote, and execute a proposal
 
-You've [deployed a DAO with a plugin](./deploy-a-dao.md). Now make it *do* something. A DAO acts only through [proposals](../common/proposal.md): a bundle of [actions](../core/execution.md) that a governance plugin puts up for a decision and, if it passes, runs on the DAO. Every governance plugin shares the **same lifecycle**, they differ only in how the decision is made:
+You've [deployed a DAO with a plugin](./deploy-a-dao.md). Now make it *do* something. A DAO acts whenever something holding [`EXECUTE_PERMISSION_ID`](./deploy-a-dao.md) calls its [`execute`](../core/execution.md#the-execute-function). Most often, and by best practice, that caller is a governance plugin enacting a [**proposal**](../common/proposal.md): a bundle of [actions](../core/execution.md) put up for a decision and, if it passes, run on the DAO. (It's not the *only* way, the [Admin plugin](../plugins/admin-plugin.md) executes with no vote, and policy components like the [Capital Router](../plugins/capital-router.md) act on preset rules, but a proposal is what you'll use most, and it's this guide's subject.) Every governance plugin shares the **same lifecycle**, they differ only in how the decision is made:
 
 ```
 createProposal(...) -> id      // package the actions
@@ -88,7 +88,7 @@ function test_multisigProposal() public {
 
 ## Token Voting: decide by weight
 
-A [token vote](../plugins/token-voting-plugin.md) weighs each vote by the voter's power at the proposal's [snapshot](../plugins/token-voting-plugin/voting-power.md), so voters must hold *delegated* tokens before it's created. Votes are a `VoteOption` (`None`, `Abstain`, `Yes`, `No`):
+A [token vote](../plugins/token-voting-plugin.md) weighs each vote by the voter's power at the proposal's [snapshot](../plugins/token-voting-plugin/voting-power.md#the-snapshot). Mind the classic trap: **power is delegated, not merely held.** Tokens are *not* delegated by default, so a holder has **zero** voting power until they [delegate](../plugins/token-voting-plugin/voting-power.md#delegation), to themselves or someone else, and that delegation must be in place *before* the proposal is created to count. (The [`launch` guide](./launch-a-governance-token.md) minted with `ensureDelegationOnMint: true` to auto-self-delegate on mint; a plain transfer or a reused token gives no such thing.) Votes are a `VoteOption` (`None`, `Abstain`, `Yes`, `No`):
 
 ```solidity
 function test_tokenVote() public {
