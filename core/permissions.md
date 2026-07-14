@@ -61,7 +61,11 @@ If none is set, the answer is `false`.
 
 ## ROOT: the permission to manage permissions
 
-`ROOT_PERMISSION_ID` gates `grant`, `grantWithCondition`, `revoke`, and the batch apply functions. Holding ROOT on a `where` means you control every permission on that contract. In a healthy DAO, **ROOT is held by the DAO itself**, so permission changes happen only through governance (a proposal that executes a `grant`/`revoke`). See the [DAO](./dao.md#deployment-and-bootstrapping-root) bootstrapping note for how ROOT gets there safely.
+`ROOT_PERMISSION_ID` gates `grant`, `grantWithCondition`, `revoke`, and the batch apply functions. Holding ROOT on a `where` means you can grant or revoke every permission on that contract.
+
+**ROOT is not a runtime bypass**, and this catches people. It does *not* make you pass *other* permission checks: `isGranted` never consults ROOT, so a ROOT holder who lacks `EXECUTE` still cannot call `execute` directly. What ROOT lets you do is **grant yourself** (or anyone) that permission first, then use it. It's god-mode over the permission *table*, not a skeleton key at call time, the same reason a plugin upgrade needs `UPGRADE_PLUGIN_PERMISSION` explicitly rather than riding on ROOT. (A condition attached to your ROOT grant constrains that granting power itself; it never enters the `EXECUTE` check, which ignores ROOT regardless.)
+
+In a healthy DAO, **ROOT is held by the DAO itself**, so permission changes happen only through governance (a proposal that executes a `grant`/`revoke`). See the [DAO](./dao.md#deployment-and-bootstrapping-root) bootstrapping note for how ROOT gets there safely.
 
 ## Granting and revoking
 
