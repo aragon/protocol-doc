@@ -10,7 +10,7 @@ source: token-voting-plugin/src/TokenVotingSetup.sol, osx/src/framework/dao/DAOF
 
 ## What you need
 
-The one-time [Setup](./setup.md), with the **token voting** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Token Voting `PluginRepo`** (`TOKEN_VOTING_REPO`) addresses.
+The one-time [Setup](./setup.md), with the **token voting** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Token Voting `PluginRepo`** (`TOKEN_VOTING_PLUGIN_REPO_ADDRESS`) addresses.
 
 ## The token decision
 
@@ -44,8 +44,8 @@ import {TokenVotingSetup} from "@aragon/token-voting-plugin/TokenVotingSetup.sol
 import {GovernanceERC20} from "@aragon/token-voting-plugin/erc20/GovernanceERC20.sol";
 
 contract DeployWithTokenVoting is Test {
-    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY"));
-    PluginRepo tokenVotingRepo = PluginRepo(vm.envAddress("TOKEN_VOTING_REPO"));
+    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY_ADDRESS"));
+    PluginRepo tokenVotingRepo = PluginRepo(vm.envAddress("TOKEN_VOTING_PLUGIN_REPO_ADDRESS"));
 
     function setUp() public {
         vm.createSelectFork(vm.envString("RPC_URL"));

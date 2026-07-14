@@ -12,7 +12,7 @@ It's still one transaction. [`DAOFactory.createDao`](../framework/dao-factory.md
 
 ## What you need
 
-The one-time [Setup](./setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Multisig `PluginRepo`** (`MULTISIG_REPO`) addresses, and installs a specific plugin version (a `release`/`build`, see [release vs build](../framework/plugin-repo.md#release-vs-build)).
+The one-time [Setup](./setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Multisig `PluginRepo`** (`MULTISIG_PLUGIN_REPO_ADDRESS`) addresses, and installs a specific plugin version (a `release`/`build`, see [release vs build](../framework/plugin-repo.md#release-vs-build)).
 
 ## Step 1, the skeleton
 
@@ -31,8 +31,8 @@ import {IPlugin} from "@aragon/osx/common/plugin/IPlugin.sol";
 import {Multisig} from "@aragon/multisig-plugin/Multisig.sol"; // path follows your installed dependency
 
 contract DeployWithMultisig is Test {
-    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY"));
-    PluginRepo multisigRepo = PluginRepo(vm.envAddress("MULTISIG_REPO"));
+    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY_ADDRESS"));
+    PluginRepo multisigRepo = PluginRepo(vm.envAddress("MULTISIG_PLUGIN_REPO_ADDRESS"));
 
     function setUp() public {
         vm.createSelectFork(vm.envString("RPC_URL"));

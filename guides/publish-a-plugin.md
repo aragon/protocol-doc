@@ -11,7 +11,7 @@ You [built a plugin and its setup](./build-a-plugin.md); until it's **published*
 ## What you need
 
 The one-time [Setup](./setup.md), plus:
-- The **`PluginRepoFactory`** address (`PLUGIN_REPO_FACTORY`).
+- The **`PluginRepoFactory`** address (`PLUGIN_REPO_FACTORY_ADDRESS`).
 - Your compiled `MyPluginSetup` (from [Build a plugin](./build-a-plugin.md)).
 - Two [metadata](../framework/plugin-metadata.md) blobs on IPFS (a **build** JSON documenting your install-data ABI, and a **release** JSON); you pass their `ipfs://…` pointers, not the JSON.
 
@@ -29,7 +29,7 @@ import {PluginRepoFactory} from "@aragon/osx/framework/plugin/repo/PluginRepoFac
 import {MyPluginSetup} from "../src/setup/MyPluginSetup.sol";
 
 contract PublishPlugin is Test {
-    PluginRepoFactory repoFactory = PluginRepoFactory(vm.envAddress("PLUGIN_REPO_FACTORY"));
+    PluginRepoFactory repoFactory = PluginRepoFactory(vm.envAddress("PLUGIN_REPO_FACTORY_ADDRESS"));
 
     function test_publish() public {
         vm.createSelectFork(vm.envString("RPC_URL"));

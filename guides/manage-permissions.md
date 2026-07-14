@@ -26,7 +26,7 @@ import {Action} from "@aragon/osx/common/executors/IExecutor.sol";
 import {IPermissionCondition} from "@aragon/osx/common/permission/condition/IPermissionCondition.sol";
 
 contract ManagePermissions is Test {
-    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY"));
+    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY_ADDRESS"));
     DAO dao;
     address alice = address(0xA11CE);
 

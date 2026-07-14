@@ -12,7 +12,7 @@ The split is the safety property: whoever *computes* an installation isn't who *
 
 ## What you need
 
-The one-time [Setup](./setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`**, **`PluginSetupProcessor`** (`PSP`), and **Multisig `PluginRepo`** addresses.
+The one-time [Setup](./setup.md), with the **multisig** plugin's remapping enabled. This guide reads the **`DAOFactory`**, **`PluginSetupProcessor`** (`PLUGIN_SETUP_PROCESSOR_ADDRESS`), and **Multisig `PluginRepo`** addresses.
 
 ## Step 1, the skeleton
 
@@ -35,9 +35,9 @@ import {IPlugin} from "@aragon/osx/common/plugin/IPlugin.sol";
 import {Multisig} from "@aragon/multisig-plugin/Multisig.sol";
 
 contract InstallPlugin is Test {
-    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY"));
-    PluginSetupProcessor psp = PluginSetupProcessor(vm.envAddress("PSP"));
-    PluginRepo multisigRepo = PluginRepo(vm.envAddress("MULTISIG_REPO"));
+    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY_ADDRESS"));
+    PluginSetupProcessor psp = PluginSetupProcessor(vm.envAddress("PLUGIN_SETUP_PROCESSOR_ADDRESS"));
+    PluginRepo multisigRepo = PluginRepo(vm.envAddress("MULTISIG_PLUGIN_REPO_ADDRESS"));
     DAO dao;
 
     function setUp() public {
