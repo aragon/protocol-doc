@@ -19,8 +19,8 @@ Two payoffs make it worth adopting even for a single project:
 
 The clarifying way to see it: a deployment project's configuration falls into exactly three buckets, and just-foundry's job is to erase the biggest and most error-prone one for you.
 
-- **Network-dependent** (RPC, chain id, verifier, and, crucially, the **deployed OSx addresses**, everything that changes per chain) — **handled entirely by just-foundry**. It ships every supported network's settings, so you never hand-assemble or hardcode them.
-- **Project-specific parameters** — yours to set; they're what makes *your* deployment yours.
+- **Public network parameters** (RPC, chain id, verifier, and, crucially, the **deployed OSx addresses**, everything that changes per chain and is *not* secret) — **handled entirely by just-foundry**. It ships every supported network's settings, so you never hand-assemble or hardcode them. They're public, which is exactly why they can live in shared config.
+- **Project-specific parameters** (yours: how many multisig signers, the min-approvals, metadata URIs, whatever your deployment needs) — yours to set; they're what makes *your* deployment yours.
 - **Secrets** (deployer key, API keys) — yours to provide; just-foundry wires up the resolution (optionally through the `vars` encrypted store, or a plain `.env`), you supply the values.
 
 The upshot is that the entire network dimension disappears from your mental load: you `just switch <network>` and `just deploy`, and it works. Period. All you ever think about is the two buckets that are genuinely your project's.
