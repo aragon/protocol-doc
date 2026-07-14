@@ -94,5 +94,5 @@ Note the asymmetry: **create is conditioned, execute is not.** Proposal creation
 
 - [Membership & eligibility](./multisig-plugin/membership.md) — managing members, the `minApprovals` invariant, and the two-speed eligibility model.
 - [Token Voting Plugin](./token-voting-plugin.md) — the token-weighted alternative.
-- [Admin Plugin](./admin-plugin.md) — direct execution with no vote at all (the degenerate case).
+- [Admin Plugin](./admin-plugin.md) — direct execution with no vote at all (the single-controller exception, for getting a DAO started).
 - [Proposals](../common/proposal.md) and [Membership](../common/membership.md) — the shared primitives it builds on.

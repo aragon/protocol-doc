@@ -33,10 +33,10 @@ This works, but it adds real friction: holders must actively wrap (lock) their t
 
 ## Delegation
 
-[Voting power is delegated, not merely held](./voting-power.md#delegation), the rule that catches every token-voting DAO out. What differs between the token types is *how that first delegation happens*:
+[Voting power is delegated, not merely held](./voting-power.md#delegation), the rule that catches every token-voting DAO out. The two tokens differ in **when** that first delegation happens, and whether it's automatic:
 
-- **`GovernanceERC20`** has an `ensureDelegationOnMint` option: when set, minting auto-delegates a recipient to themselves if they haven't delegated yet. Leave it off and freshly-minted holders have balance but no power until they manually `delegate()`, the classic onboarding foot-gun.
-- **`GovernanceWrappedERC20`** always auto-self-delegates on receipt, so wrapping already grants power without a separate step (it compensates for the friction of wrapping).
+- **`GovernanceERC20`** delegates **only on mint**, never on a plain transfer, and only when its `ensureDelegationOnMint` option is set (it then self-delegates a recipient who has no delegate yet). Leave the option off and freshly-minted holders have balance but no power until they manually `delegate()`, the classic onboarding foot-gun.
+- **`GovernanceWrappedERC20`** delegates **on receive**: it auto-self-delegates whenever a receiver has no delegate yet (no flag to disable it, and it won't override an existing delegation), so wrapping grants power without a separate step (it compensates for the friction of wrapping).
 
 > The zkSync variant of the setup (`TokenVotingSetupZkSync`) differs only in *how* it deploys these token contracts (fresh deployment instead of minimal-proxy clones, for zkEVM compatibility); the governance behavior is identical.
 

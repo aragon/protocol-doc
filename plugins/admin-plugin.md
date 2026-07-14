@@ -7,9 +7,9 @@ source: admin-plugin/packages/contracts/src/Admin.sol, admin-plugin/packages/con
 
 # Admin Plugin
 
-The Admin Plugin gives **one address** the power to make the DAO execute any actions **immediately, with no vote and no waiting**. It's the degenerate case of governance: no proposals to gather support, no members to count, no window, just "the admin says do this, and the DAO does it, now."
+The Admin Plugin gives **one address** the power to make the DAO execute any actions **immediately, with no vote and no waiting**: no proposals to gather support, no members to count, no window, just "the admin says do this, and the DAO does it, now." That makes it the **exception** to how a DAO is meant to run, a tool for *getting one off the ground*, not for governing it.
 
-Use it when a DAO is, deliberately, under a single trusted controller: a solo founder, a migration script, or a [Multisig](./multisig-plugin.md)/Safe acting as that one address. A common pattern is **bootstrapping**: run a DAO under Admin while it's being set up, then install real governance and remove Admin (which the admin can do itself, see [migrating away](#migrating-away)).
+Use it when a DAO is, deliberately, under a single trusted controller: a solo founder, a migration script, or a [Multisig](./multisig-plugin.md)/Safe acting as that one address. The common case is **bootstrapping**, run a DAO under Admin while it's being set up, then install real governance and remove Admin (which the admin can do itself, see [migrating away](#migrating-away)). If you only need the DAO to *come up* correctly configured, prefer the [DAO Launchpad](../deployment/dao-launchpad.md)'s one-shot factory, which stands the whole thing up atomically and leaves a verifiable on-chain record; reach for Admin when you genuinely want to *operate* under a single controller for a while, not just to deploy.
 
 ## Why a plugin, not just a permission?
 
@@ -74,5 +74,5 @@ Because the admin can make the DAO execute *any* action, and a DAO holds [`ROOT`
 ## See also
 
 - [Multisig Plugin](./multisig-plugin.md) and [Token Voting Plugin](./token-voting-plugin.md) — governance plugins that *do* store proposals and decide over time; the contrast is the fastest way to understand what Admin strips away.
-- [Proposals](../common/proposal.md) — the `IProposal` interface Admin degenerates.
+- [Proposals](../common/proposal.md) — the `IProposal` interface Admin implements in its most minimal form (a zero-width create-and-execute).
 - [The permission system](../core/permissions.md) — how "the admin" is just a grant, and how the admin can grant its own successor.
