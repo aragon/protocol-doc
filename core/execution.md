@@ -64,6 +64,7 @@ uint256 allowFailureMap = 1 << 1; // set bit 1
 
 - It runs the *same* action-loop (same `MAX_ACTIONS`, same failsafe semantics, same gas guard) but has **no permission check**, anyone can call it.
 - It is meant to be used via **`delegatecall`** from another contract, lending its execute-loop logic while running in the caller's context. To stay `delegatecall`-safe it stores its reentrancy guard in a fixed namespaced storage slot (via assembly) rather than a normal state variable, so it never collides with the caller's storage layout.
+- OSx deploys **one shared instance** of it per network, known as the **`GlobalExecutor`** (that's its deploy name and the protocol-factory `globalExecutor` field; deployment artifacts key the address as `executor`). A plugin whose [`TargetConfig`](../framework/plugins.md#how-a-plugin-makes-the-dao-act) uses `DelegateCall` borrows *that* instance's loop, so it never ships its own, and the contract itself is just called `Executor` in the source.
 
 `DAO.execute` (permissioned, called directly) and `Executor` (permissionless, delegatecalled) share the `IExecutor` interface but are different tools, don't confuse them. Plugins can target either, see [how plugins execute](../framework/plugins.md#how-a-plugin-makes-the-dao-act).
 

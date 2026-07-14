@@ -33,7 +33,7 @@ The rule of thumb: **UUPS unless you have a specific reason to want immutability
 
 ## Initialization
 
-The two proxy-based bases disable initializers in their constructor (so the shared logic contract can't be initialized directly, only through a proxy/clone's own storage) and expose an internal init you call from your `initialize`:
+`PluginCloneable` *is* the clone and `PluginUUPSUpgradeable` *is* the UUPS proxy, so the two bases differ exactly as those proxies do (above), in upgradeability and in how the deploy initializes them. The one thing you write **identically** is the `initialize`: both disable initializers on the shared logic contract (in its constructor, so it can't be initialized directly, only through a proxy/clone's own storage) and expose an internal init you call from yours:
 
 ```solidity
 // UUPS
@@ -48,6 +48,8 @@ function initialize(IDAO _dao, /* your params */) external initializer {
     // ...your setup
 }
 ```
+
+Both proxy bases need this `initialize` (a proxy/clone runs no constructor of its own). What differs is *when the deploy invokes it*: a UUPS proxy initializes during construction, a clone, having no constructor, is initialized by a separate call right after cloning, both atomic within the deploy transaction ([proxy deployment](../common/proxies.md#keep-in-mind)).
 
 `Plugin` (non-upgradeable) instead takes the DAO in its constructor. See [authorizing against a DAO](../common/auth.md) for what the DAO reference is used for.
 

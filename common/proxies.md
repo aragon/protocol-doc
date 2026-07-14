@@ -22,7 +22,7 @@ address c = logic.deployMinimalProxy(abi.encodeCall(MyPlugin.initialize, (dao)))
 The two map directly onto the [plugin types](../framework/plugin-types.md):
 
 - **UUPS proxy** — an ERC-1967 proxy that runs `_initCalldata` against the logic during construction. Backs `PluginUUPSUpgradeable`. Upgradeable (the proxy can point at new logic later).
-- **Minimal proxy (clone)** — an ~45-byte EIP-1167 proxy hard-wired to one logic address. Backs `PluginCloneable`. Cheapest to deploy; a clone's logic can never change (EIP-1167 clones have no constructor, so initialization is a regular call after cloning).
+- **Minimal proxy (clone)** — an ~45-byte EIP-1167 proxy hard-wired to one logic address. Backs `PluginCloneable`. Cheapest to deploy, and because that logic address is fixed, a clone's logic can never change. A clone also has no constructor of its own, so, unlike the UUPS proxy above (which initializes *during* construction), it's initialized by a separate **call** right after cloning (see below).
 
 `ProxyFactory` is a thin contract wrapper around the same two functions that additionally emits a `ProxyCreated` event, useful when you want proxy deployments to be indexable off-chain. Setups can use either the library directly or the factory.
 
