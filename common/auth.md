@@ -54,6 +54,15 @@ Pick the one matching your [plugin type](../framework/plugin-types.md). The thre
 
 Both are meta-transaction aware (they use OpenZeppelin `Context`'s `_msgSender()`/`_msgData()`), so they work behind an ERC-2771 trusted forwarder.
 
+## Which `auth`? (`Unauthorized` vs `DaoUnauthorized`)
+
+`auth`, and its underscore helper `_auth`, appear in **two** places, and which one you're looking at tells you who the authority is:
+
+- **`DaoAuthorizable.auth` (this page)** — for a contract that defers to a *separate* DAO: plugins, and anything else built on `DaoAuthorizable`. The modifier calls the free function `_auth(dao, where, who, permissionId, data)` in `auth.sol`, which asks `dao.hasPermission(...)` and, on failure, reverts **`DaoUnauthorized(dao, where, who, permissionId)`**. The extra **`dao`** field is the whole point: the reverting contract isn't the DAO, so the error has to say *which* DAO denied the call.
+- **`PermissionManager.auth`** ([core](../core/permissions.md#checking-permissions-from-your-own-contract)) — for the DAO, which *is* its own permission manager, gating its **own** privileged functions. Its modifier calls an internal `_auth(permissionId)` that checks `msg.sender` against `address(this)` and reverts **`Unauthorized(where, who, permissionId)`**, no `dao` field, because here the contract *is* the DAO (`where` is it).
+
+Same-named modifier, same `_auth` convention (the underscore version is the implementation the modifier delegates to), opposite sides of the coupling. Rule of thumb: **`DaoUnauthorized` comes from a contract authorizing against a DAO elsewhere; `Unauthorized` comes from the permission manager authorizing itself.**
+
 ## Keep in mind
 
 - **Forgetting `__DaoAuthorizableUpgradeable_init(_dao)`** in your `initialize` leaves the DAO reference at `address(0)`, so every `auth` check calls `address(0).hasPermission(...)` and reverts. If a freshly installed plugin reverts on every gated call, check the init.

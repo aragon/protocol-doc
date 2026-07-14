@@ -30,7 +30,9 @@ function isGranted(address _where, address _who, bytes32 _permissionId, bytes _d
     public view returns (bool);
 ```
 
-(The DAO exposes it as `hasPermission`.) Internally each grant is stored under a hash of `(where, who, permissionId)` mapping to one of three things:
+`isGranted` *is* the resolver. The DAO's [`IDAO`](../common/auth.md) interface re-exposes the identical query as **`hasPermission`**, a one-line forwarder to it, so external callers and every plugin's [`auth`](../common/auth.md) check call `hasPermission` while the engine underneath is this `isGranted`, same arguments, same answer. (Don't confuse either with a **condition's** `isGranted`: that's a different method sharing the signature, the *hook* this resolver calls when a grant is [conditional](../common/permission-conditions.md), not the resolver itself.)
+
+Internally each grant is stored under a hash of `(where, who, permissionId)` mapping to one of three things:
 
 - **unset** (`address(0)`) — not granted.
 - **allow** (`address(2)`) — granted unconditionally.
@@ -100,7 +102,7 @@ If your contract inherits `PermissionManager` (or is a DAO), gate a function wit
 function doPrivileged() external auth(DO_PRIVILEGED_PERMISSION_ID) { ... }
 ```
 
-`auth` calls `isGranted(address(this), msg.sender, permissionId, msg.data)` and reverts `Unauthorized` if false. Because the full `msg.data` is passed through, a [condition](../common/permission-conditions.md) attached to that permission can inspect the exact call arguments. Plugins gate their functions the same way but resolve against their DAO, see [Authorizing against a DAO](../common/auth.md).
+`auth` calls `isGranted(address(this), msg.sender, permissionId, msg.data)` and reverts `Unauthorized` if false. Because the full `msg.data` is passed through, a [condition](../common/permission-conditions.md) attached to that permission can inspect the exact call arguments. Plugins gate their functions the same way but resolve against their DAO, through a **same-named** `auth` from [`DaoAuthorizable`](../common/auth.md#which-auth-unauthorized-vs-daounauthorized) that reverts **`DaoUnauthorized`** (carrying a `dao` field) instead of this `Unauthorized`.
 
 ## Keep in mind
 
