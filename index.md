@@ -44,4 +44,4 @@ Browse by area:
 
 ---
 
-_Operated with the `wiki` CLI: [AGENTS.md](./AGENTS.md) is how to drive it, [WORKFLOW.md](./WORKFLOW.md) is this base's conventions. Work in progress is tracked in the [backlog](./backlog/index.md). These three are for **maintaining** the base, not for learning the protocol, a reader can skip them._
+_Operated with the `wiki` CLI: [AGENTS.md](./AGENTS.md) is how to drive it, [WORKFLOW.md](./WORKFLOW.md) is this base's conventions. Both are for **maintaining** the base, not for learning the protocol, a reader can skip them._

@@ -109,7 +109,8 @@ contract MyPluginSetup is PluginSetup {
         permissions = new PermissionLib.MultiTargetPermission[](2);
         permissions[0] = PermissionLib.MultiTargetPermission({
             operation: PermissionLib.Operation.Revoke, where: _payload.plugin, who: manager,
-            condition: PermissionLib.NO_CONDITION, permissionId: keccak256("MANAGER_PERMISSION")
+            condition: PermissionLib.NO_CONDITION,
+            permissionId: MyUpgradeablePlugin(implementation()).MANAGER_PERMISSION_ID()
         });
         permissions[1] = PermissionLib.MultiTargetPermission({
             operation: PermissionLib.Operation.Revoke, where: _dao, who: _payload.plugin,

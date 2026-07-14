@@ -6,7 +6,7 @@ source: osx/src/framework/plugin/repo/PluginRepoFactory.sol, osx/src/framework/p
 
 # Publish a plugin to a PluginRepo
 
-You [built a plugin and its setup](./build-a-plugin.md); until it's **published** to a [PluginRepo](../framework/plugin-repo.md), no DAO can install it. A PluginRepo is a versioned registry for **one** plugin: every entry is a `PluginSetup` address plus its [metadata](../framework/plugin-metadata.md), tagged with a `(release, build)`, and that tag is exactly what [Deploy your first DAO](./deploy-a-dao.md) and [Install a plugin](./install-a-plugin.md) reference. This guide creates the repo with a first version, then cuts later versions.
+You [built a plugin and its setup](./build-a-plugin.md). The canonical way to make it installable is to **publish** it to a [PluginRepo](../framework/plugin-repo.md): the versioned install / update / uninstall lifecycle the [PSP](../framework/plugin-setup-processor.md) drives all keys off a published version, applying the setup's permissions atomically. (A DAO *can* always wire a plugin in by hand instead, deploy it and grant the permissions directly through governance, but publishing is what buys you versioning, the setup guardrails, and a clean uninstall, so it's the idiomatic, recommended path and almost certainly what you want.) A PluginRepo is a versioned registry for **one** plugin: every entry is a `PluginSetup` address plus its [metadata](../framework/plugin-metadata.md), tagged with a `(release, build)`, and that tag is exactly what [Deploy your first DAO](./deploy-a-dao.md) and [Install a plugin](./install-a-plugin.md) reference. This guide creates the repo with a first version, then cuts later versions.
 
 ## What you need
 
