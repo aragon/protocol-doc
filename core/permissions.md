@@ -59,7 +59,7 @@ If none is set, the answer is `false`.
 
 ## ROOT: the permission to manage permissions
 
-`ROOT_PERMISSION_ID` gates `grant`, `grantWithCondition`, `revoke`, and the batch apply functions. Holding ROOT on a `where` means you control every permission on that contract. In a healthy DAO, **ROOT is held by the DAO itself**, so permission changes happen only through governance (a proposal that executes a `grant`/`revoke`). See the [DAO](./dao.md#deployment-and-the-root-bootstrapping-problem) bootstrapping note for how ROOT gets there safely.
+`ROOT_PERMISSION_ID` gates `grant`, `grantWithCondition`, `revoke`, and the batch apply functions. Holding ROOT on a `where` means you control every permission on that contract. In a healthy DAO, **ROOT is held by the DAO itself**, so permission changes happen only through governance (a proposal that executes a `grant`/`revoke`). See the [DAO](./dao.md#deployment-and-bootstrapping-root) bootstrapping note for how ROOT gets there safely.
 
 ## Granting and revoking
 

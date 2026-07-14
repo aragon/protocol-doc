@@ -50,7 +50,7 @@ contract OsxInOneSitting is Test {
 }
 ```
 
-You now hold the most consequential permission in the protocol. That is fine for a demo and dangerous as an end state, in a real DAO, governance (a plugin) holds `EXECUTE`, not a person. See the [ROOT bootstrapping problem](../core/dao.md#deployment-and-the-root-bootstrapping-problem).
+You now hold the most consequential permission in the protocol. That is fine for a demo and dangerous as an end state, in a real DAO, governance (a plugin) holds `EXECUTE`, not a person. See [how ROOT is bootstrapped safely](../core/dao.md#deployment-and-bootstrapping-root).
 
 ## Step 2, fund it, then make it act
 

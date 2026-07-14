@@ -8,6 +8,8 @@ source: osx-plugin-template-foundry/README.md
 
 Every guide here is Foundry code you run from **your own plugin project**. Set that up once and any guide's snippets drop straight in, each guide then only calls out what's specific to it.
 
+**Prerequisites:** [Foundry](https://getfoundry.sh) (`curl -L https://foundry.paradigm.sh | bash`, then `foundryup`) and [`just`](https://github.com/casey/just) (`brew install just`, `cargo install just`, or your system package manager). Everything below runs through `just`, the template's task runner: between network config, per-chain addresses, remappings, and verification there are too many moving parts to drive by hand, so a task runner isn't optional here.
+
 ## 1. Start from the template
 
 Clone the [Foundry plugin template](../tooling/plugin-template.md) and initialize it:

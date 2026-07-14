@@ -41,7 +41,7 @@ Two invariants are worth carrying to any custom deployment: **the DAO ends up ho
 
 ## See also
 
-- [The DAO contract](../core/dao.md) — what gets deployed and the ROOT bootstrapping problem.
+- [The DAO contract](../core/dao.md) — what gets deployed and how ROOT is bootstrapped.
 - [PluginSetupProcessor](./plugin-setup-processor.md) — the install engine and its temporary-ROOT window.
 - [Registries](./registries.md) — where the new DAO is registered.
 - [Deployment](../deployment/index.md) — deploying the whole protocol, and the DAO launchpad.

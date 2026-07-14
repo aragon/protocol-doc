@@ -6,7 +6,7 @@ source: osx/src/core/permission/PermissionManager.sol, osx/src/common/permission
 
 # Manage permissions through governance
 
-A DAO owns its own [permission database](../core/permissions.md), so changing who may do what is itself an action the DAO performs on itself. Because a healthy DAO [holds `ROOT` over itself](../core/dao.md#deployment-and-the-root-bootstrapping-problem), a passed proposal whose action calls `dao.grant(...)` succeeds, the action runs *as the DAO*, and the DAO is its own permission admin. This guide grants a permission, gates one with a [condition](../common/permission-conditions.md) you write, and rotates a condition safely.
+A DAO owns its own [permission database](../core/permissions.md), so changing who may do what is itself an action the DAO performs on itself. Because a healthy DAO [holds `ROOT` over itself](../core/dao.md#deployment-and-bootstrapping-root), a passed proposal whose action calls `dao.grant(...)` succeeds, the action runs *as the DAO*, and the DAO is its own permission admin. This guide grants a permission, gates one with a [condition](../common/permission-conditions.md) you write, and rotates a condition safely.
 
 `grant`, `revoke`, and `grantWithCondition` are all `auth(ROOT_PERMISSION_ID)`, so they only work when called by (or as) the ROOT holder, which is the DAO itself.
 

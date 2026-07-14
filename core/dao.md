@@ -25,7 +25,9 @@ Everything else, governance, membership, asset management, is added by [plugins]
 
 The design choice that makes OSx cohere: **the DAO is also its own `PermissionManager`.** Because of that, one authorization model governs the DAO's own admin functions, its plugins' functions, and even framework contracts. A plugin doesn't keep its own access-control list; it asks the DAO "does this caller have permission?" (see [Authorizing against a DAO](../common/auth.md)). There is exactly one source of truth for authority per organization, and it is the DAO.
 
-## Deployment and the ROOT bootstrapping problem
+## Deployment and bootstrapping ROOT
+
+A DAO has to *start* with someone holding ROOT: a brand-new DAO has an empty permission database, and someone must make the first grants. Yet the safe *end* state is the DAO holding ROOT over itself, so it self-governs and no outside key can override it. Bootstrapping is getting cleanly from the first to the second, and OSx does it for you in one atomic step (below).
 
 `DAO` is deployed behind a UUPS proxy. The implementation's constructor calls `_disableInitializers()` (so only proxies are ever initialized, the standard OpenZeppelin upgradeable-safety pattern), and each proxy is set up through `initialize`:
 
@@ -43,6 +45,16 @@ function initialize(
 The intended lifecycle: the initial owner sets the DAO up, transfers ROOT **to the DAO itself** (so the organization self-governs), and revokes its own ROOT. In practice you never do this by hand, the [DAOFactory](../framework/dao-factory.md) performs the whole dance atomically in one transaction. The pitfall to remember: **a DAO where an EOA still holds ROOT is a DAO that EOA fully controls.**
 
 > Granting ROOT to the DAO over itself is what lets a DAO manage its own permissions through governance: a proposal can execute `grant`/`revoke` actions on the DAO.
+
+### Where ROOT ends up
+
+Once bootstrapped, ROOT on a DAO can rest in one of three end states, and the choice sets how mutable the organization is:
+
+- **The DAO itself** (the usual case). The organization self-governs: every permission change, plugin install, update, or uninstall happens only through a passed proposal that executes `grant`/`revoke` **as the DAO**. This is what a healthy DAO looks like.
+- **A parent DAO.** A DAO can grant ROOT to *another* DAO and revoke its own, making itself **subordinate**: the parent now controls its permission setup. This is the building block for sub-DAOs and hierarchical organizations.
+- **Nobody, on purpose.** ROOT is an ordinary permission and `revoke` has no floor, so a DAO can revoke ROOT from *every* holder, itself included. With no ROOT anywhere, `grant`, `revoke`, `grantWithCondition`, and the `apply*` batch functions become **permanently uncallable** (all are `auth(ROOT_PERMISSION_ID)`, and [`isGranted`](./permissions.md) gives ROOT no bypass). The permission table is **frozen forever**: no new plugins, no updates or uninstalls, no rewiring, ever.
+
+That last option is a tool, not an accident: revoking ROOT entirely is how you make a permission setup **immutable**. It freezes the *structure*, not activity, the DAO can still `execute` actions and its installed plugins keep working (those are gated by `EXECUTE` and their own permissions, not ROOT); it just can never change who may do what again. And it is irreversible: with no ROOT, nothing can ever grant ROOT back.
 
 ## Permissions the DAO defines
 
