@@ -120,9 +120,9 @@ contract MyPluginSetup is PluginSetup {
 }
 ```
 
-The install `data` layout (`(address manager, uint256 initialNumber)` here) is your plugin's public contract with installers, publish it in the build [metadata](../framework/plugin-metadata.md), and expose a typed `encodeInstallationParameters` / `decodeInstallationParameters` pair on your setup so callers never hand-pack bytes ([shown below](#recommended-typed-install-data)). Two rules the [permission system](../core/permissions.md) enforces on this array: a **conditional** grant must use `Operation.GrantWithCondition` (a plain `Grant` carrying a non-zero condition reverts), and uninstall should return the *mirror* of what install granted, so nothing is stranded.
+The install `data` layout (`(address manager, uint256 initialNumber)` here) is your plugin's public contract with installers, publish it in the build [metadata](../framework/plugin-metadata.md), and expose a typed `encodeInstallationParameters` / `decodeInstallationParameters` pair on your setup so callers never hand-pack bytes ([shown below](#typed-install-data)). Two rules the [permission system](../core/permissions.md) enforces on this array: a **conditional** grant must use `Operation.GrantWithCondition` (a plain `Grant` carrying a non-zero condition reverts), and uninstall should return the *mirror* of what install granted, so nothing is stranded.
 
-## Best practice: typed install data
+## Typed install data
 
 The install `data` is positional `abi.encode`d bytes, and hand-packing them is where installers slip: a wrong field order or type makes `prepareInstallation` revert on `abi.decode` (or, worse, silently misconfigure). Publish the ABI *as code*, a matched pair of `pure` helpers on your setup, and route `prepareInstallation` through the decoder so the encode and decode sides can't drift. This is what the [Token Voting setup](../plugins/token-voting-plugin.md) ships, and it's the norm worth copying:
 

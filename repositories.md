@@ -21,5 +21,6 @@ Every part of the protocol is open source. This maps each component to its **can
 | [DAO Launchpad](./deployment/dao-launchpad.md) | [`aragon/dao-launchpad`](https://github.com/aragon/dao-launchpad) |
 | [Plugin template](./tooling/plugin-template.md) | [`aragon/osx-plugin-template`](https://github.com/aragon/osx-plugin-template) |
 | [just-foundry](./tooling/just-foundry.md) | [`aragon/just-foundry`](https://github.com/aragon/just-foundry) |
+| [EVM Mirror](./tooling/evm-mirror.md) | [`aragon/evm-mirror`](https://github.com/aragon/evm-mirror) |
 
 The three non-obvious ones: the **SPP** repo is `staged-proposal-processor-plugin` (not `spp`), the **condition library** is `conditions` (not `condition-library`), and the **plugin template** is `osx-plugin-template` (it dropped the `-foundry` suffix). osx-commons is not a repo, it folded into `osx` at `src/common`.
