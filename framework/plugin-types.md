@@ -41,6 +41,12 @@ function initialize(IDAO _dao, /* your params */) external initializer {
     __PluginUUPSUpgradeable_init(_dao);
     // ...your setup
 }
+
+// PluginCloneable, same shape, its own base init (you must call it; it isn't automatic)
+function initialize(IDAO _dao, /* your params */) external initializer {
+    __PluginCloneable_init(_dao);
+    // ...your setup
+}
 ```
 
 `Plugin` (non-upgradeable) instead takes the DAO in its constructor. See [authorizing against a DAO](../common/auth.md) for what the DAO reference is used for.

@@ -28,7 +28,20 @@ Each registration can claim a subdomain under a protocol-owned ENS parent (e.g. 
 - Subdomain characters are validated (`a-z`, `0-9`, `-`) by `RegistryUtils.isSubdomainValid`.
 - It requires off-chain setup: the registrar must be made owner/operator of the ENS parent node before it can mint children.
 
-Registering a DAO or repo without a subdomain is allowed by the registries, but the factories always pass one.
+Whether a name is **required** depends on the registry and the release, so this bites in practice:
+
+- **DAOs, always optional.** `DAORegistry` registers the DAO whether or not you pass a subdomain; an empty one just skips the ENS step.
+- **Plugin repos, version-dependent.** Through **v1.3.0** a subdomain was **required**, an empty one reverts `EmptyPluginRepoSubdomain`. **v1.4.0 relaxed it to optional.** So on older deployments a name is mandatory; treat providing one as the norm regardless. (`PluginRepoFactory` still carries a stale `@dev` comment claiming empty reverts, a leftover from the v1.3.0 rule.)
+- **Duplicates always revert** (`AlreadyRegistered`): a subdomain can be claimed once, and a contract can't register twice.
+
+## A third registry, deliberately separate
+
+A [`MemberRegistry`](./member-registry.md) also mints ENS names (`alice.members.dao.eth`), so it's tempting to file all three together. It's kept apart on purpose, because it isn't the same *kind* of thing:
+
+- The **DAO and plugin registries** register **protocol components** (contracts), share the `InterfaceBasedRegistry` base, and are **permissioned**, only the official factories may add entries, which is exactly what makes them a trust boundary.
+- The **member registry** registers **people's identities**, is **permissionless** (anyone self-registers), and is built on a different base entirely (no `InterfaceBasedRegistry`). It shares only the ENS subnode-custody pattern.
+
+So the grouping is two near-identical component registries plus one identity registry that merely rhymes with them, which is why this page covers the first two and the [member registry](./member-registry.md) stands alone.
 
 ## See also
 

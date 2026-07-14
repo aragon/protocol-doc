@@ -10,7 +10,7 @@ Moving an installed plugin to a newer version runs the **same prepare → govern
 
 ## Step 1, prepare the update (release-locked)
 
-`prepareUpdate` is permissionless like `prepareInstallation`, but it enforces the [versioning rule](../framework/plugin-repo.md#release-vs-build): the **release must stay the same and the build must strictly increase**, or it reverts `InvalidUpdateVersion`. (Crossing a release is an incompatible change, so that's an [uninstall + reinstall](../framework/plugin-setup-processor.md#the-three-lifecycles), not an update.)
+`prepareUpdate` is permissionless like `prepareInstallation`, but it enforces the [versioning rule](../framework/plugin-repo.md#release-vs-build): the **release must stay the same and the build must strictly increase**, or it reverts `InvalidUpdateVersion`. (Crossing a release is an incompatible change: the existing instance can't morph into another release, so you **install a fresh instance** of it, a new contract with its own address and empty state, and uninstall the old one. That's an [uninstall + reinstall](../framework/plugin-setup-processor.md#the-three-lifecycles), not an in-place update.)
 
 ```solidity
 function test_update() public {
@@ -108,7 +108,7 @@ After it applies, the plugin's applied-setup id is cleared, so the same plugin *
 
 - Update is prepare → apply like install, but **release-locked**: same release, strictly higher build (`InvalidUpdateVersion` otherwise). Its apply does the UUPS upgrade, which needs the PSP to hold `UPGRADE_PLUGIN_PERMISSION` on the plugin, **`ROOT` alone doesn't authorize the upgrade**.
 - A **metadata-only** update changes nothing on-chain, so it skips the ROOT window and needs only `APPLY_UPDATE`.
-- **Uninstall** is the same window with the setup's *revoke* list; a cross-release migration is uninstall + reinstall.
+- **Uninstall** is the same window with the setup's *revoke* list; a cross-release migration is uninstall + reinstall (a **fresh instance** with a new address, not the old one upgraded).
 
 ## Next
 

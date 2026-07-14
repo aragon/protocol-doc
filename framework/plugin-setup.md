@@ -13,7 +13,7 @@ Installing a plugin is more than deploying one contract, which is why the factor
 
 Why not just wire it by hand? You *could* deploy a plugin and grant its permissions one call at a time, but that's precisely the kind of multi-step, order-sensitive work where one missed or mis-ordered grant leaves a DAO half-configured, a plugin that can't execute, or a stray permission left dangling. A setup instead bundles the **complete, consistent** set of changes for a version so the [PluginSetupProcessor](./plugin-setup-processor.md) applies them as a single atomic step: all of it lands or none of it does, and the DAO is in a clean, fully-wired state both before and after. No half-installed plugins.
 
-The key design idea: **a setup is declarative.** It does not mutate the DAO. It *deploys* the plugin and its helpers and *returns a description* of the permission changes required. Something else, the [PluginSetupProcessor](./plugin-setup-processor.md), decides whether and when to actually apply them. This separation is what makes installation reviewable by governance instead of a blind trust in the plugin author (see [why two steps](./plugin-setup-processor.md#why-prepare-and-apply-are-separate)).
+The key design idea: **a setup is declarative.** It does not mutate the DAO. It *deploys* the plugin and its helpers and *returns a description* of the permission changes required, applying nothing itself. Whether and when to apply them is a **governance decision**: a permitted caller (in a healthy DAO, a passed proposal) drives the [PluginSetupProcessor](./plugin-setup-processor.md), which then applies exactly what was prepared, under permission control. The PSP is the mechanism, not the decider. This separation is what makes installation reviewable by governance instead of a blind trust in the plugin author (see [why two steps](./plugin-setup-processor.md#why-prepare-and-apply-are-separate)).
 
 ## What a setup implements
 
@@ -74,7 +74,9 @@ contract MyPluginSetup is PluginUpgradeableSetup {
         plugin = implementation().deployUUPSProxy(          // see /common/proxies.md
             abi.encodeCall(MyPlugin.initialize, (IDAO(_dao), p))
         );
-        // Describe (do not apply) the permissions the DAO must grant:
+        // Describe (do not apply) the permissions the DAO must grant. `_installPermissions`
+        // here is a stand-in: it returns a PermissionLib.MultiTargetPermission[] of Grants.
+        // See "Build a plugin" for that array written out in full.
         prepared.permissions = _installPermissions(_dao, plugin);
         // prepared.helpers = ...any auxiliary contracts...
     }
@@ -83,7 +85,7 @@ contract MyPluginSetup is PluginUpgradeableSetup {
 }
 ```
 
-Fresh installs run `initialize`; in-place updates run a re-initializer (`initializeFrom`) with the `initData` your `prepareUpdate` returns.
+Fresh installs run `initialize`; in-place updates run a re-initializer (`initializeFrom`) with the `initData` your `prepareUpdate` returns. For a complete setup with the permission arrays and `prepareUninstallation` written out (no stand-ins), see the [Build a plugin](../guides/build-a-plugin.md) guide.
 
 ## Keep in mind
 
