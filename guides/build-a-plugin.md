@@ -120,13 +120,41 @@ contract MyPluginSetup is PluginSetup {
 }
 ```
 
-The install `data` layout (`(address manager, uint256 initialNumber)` here) is your plugin's public contract with installers, publish it in the build [metadata](../framework/plugin-metadata.md), and expose an `encodeInstallationParams(...)` helper on your setup so callers get a typed encoder instead of hand-packing bytes. Two rules the [permission system](../core/permissions.md) enforces on this array: a **conditional** grant must use `Operation.GrantWithCondition` (a plain `Grant` carrying a non-zero condition reverts), and uninstall should return the *mirror* of what install granted, so nothing is stranded.
+The install `data` layout (`(address manager, uint256 initialNumber)` here) is your plugin's public contract with installers, publish it in the build [metadata](../framework/plugin-metadata.md), and expose a typed `encodeInstallationParameters` / `decodeInstallationParameters` pair on your setup so callers never hand-pack bytes ([shown below](#recommended-typed-install-data)). Two rules the [permission system](../core/permissions.md) enforces on this array: a **conditional** grant must use `Operation.GrantWithCondition` (a plain `Grant` carrying a non-zero condition reverts), and uninstall should return the *mirror* of what install granted, so nothing is stranded.
+
+## Best practice: typed install data
+
+The install `data` is positional `abi.encode`d bytes, and hand-packing them is where installers slip: a wrong field order or type makes `prepareInstallation` revert on `abi.decode` (or, worse, silently misconfigure). Publish the ABI *as code*, a matched pair of `pure` helpers on your setup, and route `prepareInstallation` through the decoder so the encode and decode sides can't drift. This is what the [Token Voting setup](../plugins/token-voting-plugin.md) ships, and it's the norm worth copying:
+
+```solidity
+// Add to MyPluginSetup:
+function encodeInstallationParameters(address manager, uint256 initialNumber)
+    external pure returns (bytes memory)
+{
+    return abi.encode(manager, initialNumber);
+}
+
+function decodeInstallationParameters(bytes memory _data)
+    public pure returns (address manager, uint256 initialNumber)
+{
+    (manager, initialNumber) = abi.decode(_data, (address, uint256));
+}
+```
+
+Then `prepareInstallation` decodes through the pair instead of a raw `abi.decode`:
+
+```solidity
+(address manager, uint256 initialNumber) = decodeInstallationParameters(_data);
+```
+
+Now the layout lives in exactly one place. Installers build their `data` with `setup.encodeInstallationParameters(manager, n)` rather than hand-rolling `abi.encode`, which is precisely what [Launch a governance token](./launch-a-governance-token.md) does against the Token Voting setup. Keep the pair in lockstep with the build [metadata](../framework/plugin-metadata.md) ABI: they describe the same thing, so a change to one is a change to both.
 
 ## What you just saw
 
 - A plugin is your **logic + a setup recipe**; the recipe, not the plugin, wires permissions.
 - `auth` defers to the DAO (the plugin is the `where`); to make the DAO act, the setup grants the plugin `EXECUTE` on the DAO.
 - `prepareUninstallation` mirrors `prepareInstallation`'s grants as revokes. For an **updatable** plugin, extend [`PluginUpgradeableSetup`](../framework/plugin-setup.md) and add `prepareUpdate` (see [Update a plugin](./update-a-plugin.md)).
+- **Publish typed install params.** Add an `encodeInstallationParameters`/`decodeInstallationParameters` pair to your setup so installers never hand-pack `data`, the pattern the Token Voting setup and the [launch guide](./launch-a-governance-token.md) use.
 
 ## Next
 
