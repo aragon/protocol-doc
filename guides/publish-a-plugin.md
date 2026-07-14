@@ -17,7 +17,7 @@ The one-time [Setup](./setup.md), plus:
 
 ## Step 1, create the repo and its first version
 
-`PluginRepoFactory.createPluginRepoWithFirstVersion` does it all in one call: deploys the repo, registers its ENS **subdomain** in the [PluginRepoRegistry](../framework/registries.md), publishes version **(release 1, build 1)**, i.e. `1.1`, and grants your `maintainer` the repo permissions, including the `MAINTAINER_PERMISSION` that gates future publishing (plus repo-upgrade and root rights over the repo).
+`PluginRepoFactory.createPluginRepoWithFirstVersion` does it all in one call: deploys the repo, registers its ENS **subdomain** in the [PluginRepoRegistry](../framework/plugin-repo-registry.md), publishes version **(release 1, build 1)**, i.e. `1.1`, and grants your `maintainer` the repo permissions, including the `MAINTAINER_PERMISSION` that gates future publishing (plus repo-upgrade and root rights over the repo).
 
 ```solidity
 // SPDX-License-Identifier: MIT

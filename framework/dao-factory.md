@@ -26,7 +26,7 @@ Each `PluginSettings` names a plugin version (a [repo](./plugin-repo.md) + versi
 This is the [temporary-ROOT dance](./plugin-setup-processor.md#the-temporary-root-window) made concrete. When creating a DAO with plugins:
 
 1. **Deploy the DAO proxy**, with the factory as initial owner, so the factory transiently holds `ROOT` on the new DAO.
-2. **Register** the DAO in the [DAORegistry](./registries.md) (assigning its ENS subdomain).
+2. **Register** the DAO in the [DAORegistry](./dao-registry.md) (assigning its ENS subdomain).
 3. **Install each plugin through the [PSP temporary-ROOT window](./plugin-setup-processor.md#the-temporary-root-window):** grant the PSP `ROOT` and the factory `APPLY_INSTALLATION`, `prepareInstallation` + `applyInstallation` each plugin, then revoke both temporary grants.
 4. **Grant the DAO ROOT and its admin permissions over itself** (`UPGRADE_DAO`, `SET_METADATA`, …), so the organization self-governs.
 5. **Revoke the factory's own initial ROOT, last.** After this the factory has zero control.

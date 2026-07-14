@@ -40,7 +40,7 @@ The repo's own upgrades are gated by `UPGRADE_REPO_PERMISSION_ID`, and both main
 
 ## Publishing a plugin: `PluginRepoFactory`
 
-You don't deploy a `PluginRepo` by hand. `PluginRepoFactory` does it and registers the repo in the [PluginRepoRegistry](./registries.md) (which assigns its ENS name):
+You don't deploy a `PluginRepo` by hand. `PluginRepoFactory` does it and registers the repo in the [PluginRepoRegistry](./plugin-repo-registry.md) (which assigns its ENS name):
 
 - **`createPluginRepo(subdomain, initialOwner)`** — an empty repo owned by `initialOwner`, no versions yet.
 - **`createPluginRepoWithFirstVersion(subdomain, pluginSetup, maintainer, releaseMetadata, buildMetadata)`** — the common path: deploys the repo, publishes version **1.1** (the first published version is always **1.1**, not 1.0: version **0** is the reserved "nothing published yet" state, and release and build each begin at 1), and hands full ownership (`MAINTAINER`, `UPGRADE_REPO`, `ROOT`) to `maintainer` while the factory relinquishes everything.
