@@ -45,6 +45,8 @@ struct TargetConfig { address target; Operation operation; }
 - **`Call`** (the normal case) forwards to `target.execute(callId, actions, allowFailureMap)`, the DAO's [execute](../core/execution.md). Actions run as the DAO.
 - **`DelegateCall`** runs the executor's logic in the plugin's own context (advanced; for plugins that embed execution rather than delegating to the DAO).
 
+**The `target` defaults to its own DAO.** A `target` of `address(0)` is a sentinel: `getTargetConfig()` resolves it at read time to `TargetConfig(dao(), Call)`, so a plugin that configures nothing simply acts through its DAO with a plain `call`. This is why install data commonly passes `target: address(0)`, you get the sensible default without naming the DAO's address (which you may not know yet at install time).
+
 Older OSx hard-wired plugins to always execute on their `dao()`. `TargetConfig` generalizes that so a plugin can target a different [executor](../core/execution.md#the-standalone-executor). Setting it is gated by `SET_TARGET_CONFIG_PERMISSION_ID`.
 
 > **Safety guard:** you cannot set a `TargetConfig` that both points at a contract implementing `IDAO` **and** uses `DelegateCall`, delegatecalling *into* a DAO would run DAO code in the plugin's storage and brick it. The base contract rejects that combination (`InvalidTargetConfig`).

@@ -84,7 +84,7 @@ To **reuse** an existing `IVotes` token instead, set `addr` to it and leave `nam
 
 ## Step 3, set the rules and deploy
 
-The rest of the install data is the [voting configuration](../plugins/majority-voting.md) (thresholds are ratios out of `1_000_000`), plus the same `target: address(0)` [own-DAO sentinel](./deploy-a-dao.md) you saw for multisig. The full `data` is seven fields, in this order:
+The rest of the install data is the [voting configuration](../plugins/majority-voting.md) (thresholds are ratios out of `1_000_000`), plus the same `target: address(0)` [own-DAO sentinel](./deploy-a-dao.md) you saw for multisig. There are seven fields, but you don't hand-pack them: `TokenVotingSetup` exposes a typed **`encodeInstallationParameters(...)`**, so instead of a positional `abi.encode` that breaks silently if a field ever moves, you resolve the setup from the repo version and let it build the `data`. (This is the [encoder-on-your-setup pattern](./build-a-plugin.md) plugin authors are told to provide; not every setup does, multisig's doesn't, but Token Voting's does.)
 
 ```solidity
     MajorityVotingBase.VotingSettings memory votingSettings = MajorityVotingBase.VotingSettings({
@@ -100,7 +100,10 @@ The rest of the install data is the [voting configuration](../plugins/majority-v
 
     address[] memory excludedAccounts = new address[](0); // subtracted from total voting power (e.g. the treasury); none here
 
-    bytes memory installData = abi.encode(
+    // Resolve the setup for the version we install, then let it encode the 7 fields in the right order.
+    PluginRepo.Tag memory versionTag = PluginRepo.Tag({release: 1, build: 4}); // pick the current build from the repo
+    TokenVotingSetup setup = TokenVotingSetup(tokenVotingRepo.getVersion(versionTag).pluginSetup);
+    bytes memory installData = setup.encodeInstallationParameters(
         votingSettings,
         tokenSettings,
         mintSettings,
@@ -110,7 +113,6 @@ The rest of the install data is the [voting configuration](../plugins/majority-v
         excludedAccounts
     );
 
-    PluginRepo.Tag memory versionTag = PluginRepo.Tag({release: 1, build: 4}); // pick the current build from the repo
     DAOFactory.PluginSettings[] memory pluginSettings = new DAOFactory.PluginSettings[](1);
     pluginSettings[0] = DAOFactory.PluginSettings({
         pluginSetupRef: PluginSetupRef({versionTag: versionTag, pluginSetupRepo: tokenVotingRepo}),
