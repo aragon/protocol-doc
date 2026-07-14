@@ -75,19 +75,31 @@ If a new build changes **only** the off-chain [metadata](../framework/plugin-met
 Uninstalling is the same shape, `prepareUninstallation` returns the permissions to **revoke** (not grant), and `applyUninstallation` runs in the same governed window (with `APPLY_UNINSTALLATION_PERMISSION_ID`):
 
 ```solidity
-PluginSetupRef memory ref =
-    PluginSetupRef({versionTag: PluginRepo.Tag({release: 1, build: 4}), pluginSetupRepo: repo});
-IPluginSetup.SetupPayload memory payload =
-    IPluginSetup.SetupPayload({plugin: plugin, currentHelpers: currentHelpers, data: bytes("")});
+function test_uninstall() public {
+    PluginSetupRef memory ref =
+        PluginSetupRef({versionTag: PluginRepo.Tag({release: 1, build: 4}), pluginSetupRepo: repo});
+    IPluginSetup.SetupPayload memory payload =
+        IPluginSetup.SetupPayload({plugin: plugin, currentHelpers: currentHelpers, data: bytes("")});
 
-PermissionLib.MultiTargetPermission[] memory toRevoke =
-    psp.prepareUninstallation(address(dao), PluginSetupProcessor.PrepareUninstallationParams(ref, payload));
+    // Prepare (permissionless): returns the permissions to REVOKE, the mirror of install's grants.
+    PermissionLib.MultiTargetPermission[] memory toRevoke =
+        psp.prepareUninstallation(address(dao), PluginSetupProcessor.PrepareUninstallationParams(ref, payload));
 
-PluginSetupProcessor.ApplyUninstallationParams memory applyParams =
-    PluginSetupProcessor.ApplyUninstallationParams({plugin: plugin, pluginSetupRef: ref, permissions: toRevoke});
-// Wrap psp.applyUninstallation(address(dao), applyParams) in a 3-action ROOT window
-// (grant PSP ROOT -> applyUninstallation -> revoke PSP ROOT). Simpler than update: uninstall only
-// revokes permissions, there's no proxy upgrade, so no UPGRADE grant (and no APPLY_* when self-executed).
+    PluginSetupProcessor.ApplyUninstallationParams memory applyParams =
+        PluginSetupProcessor.ApplyUninstallationParams({plugin: plugin, pluginSetupRef: ref, permissions: toRevoke});
+
+    // Apply in a temporary-ROOT window. Simpler than update: uninstall only revokes permissions,
+    // there's no proxy upgrade (no UPGRADE grant) and, self-executed by the DAO, no APPLY_UNINSTALLATION_PERMISSION.
+    bytes32 ROOT = dao.ROOT_PERMISSION_ID();
+    Action[] memory actions = new Action[](3);
+    actions[0] = Action(address(dao), 0, abi.encodeCall(PermissionManager.grant,  (address(dao), address(psp), ROOT)));
+    actions[1] = Action(address(psp), 0, abi.encodeCall(PluginSetupProcessor.applyUninstallation, (address(dao), applyParams)));
+    actions[2] = Action(address(dao), 0, abi.encodeCall(PermissionManager.revoke, (address(dao), address(psp), ROOT)));
+    dao.execute(bytes32(0), actions, 0);
+
+    // The plugin can no longer make the DAO act.
+    assertFalse(dao.hasPermission(address(dao), plugin, dao.EXECUTE_PERMISSION_ID(), ""));
+}
 ```
 
 After it applies, the plugin's applied-setup id is cleared, so the same plugin *could* later be reinstalled fresh.
