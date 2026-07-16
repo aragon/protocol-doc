@@ -2,7 +2,7 @@
 
 Linear, task-oriented, **Foundry-based** walkthroughs that link into the [concept graph](../index.md) for depth. Read a guide top to bottom; follow its links when you want the underlying detail. (The one exception to "Foundry-based" is the narrative *Why OSx*, which has no code.)
 
-Guides are written in the order below; each links the concepts it uses rather than re-explaining them. Unwritten entries below are the to-write list (`wiki unresolved`).
+Guides are written in the order below; each links the concepts it uses rather than re-explaining them.
 
 **Before you start:** [Setup](./setup.md), the one-time Foundry project scaffold (start from the template, point at a deployed protocol) that every guide below assumes.
 
@@ -25,15 +25,6 @@ Guides are written in the order below; each links the concepts it uses rather th
 - [Build a plugin](./build-a-plugin.md) — from the template: pick a base type, write the plugin's `auth`-gated logic, and write its `PluginSetup` (the permission arrays).
 - [Publish a plugin to a PluginRepo](./publish-a-plugin.md) — first version 1.1, release vs build, metadata, and the registry.
 
-## Advanced (candidates, not yet written)
+## More to come
 
-Deeper single-subsystem guides, deferred pending confirmation (tracked in the [guides backlog](../backlog/use-cases.md)):
-
-- **Compose multi-stage governance (SPP)** — stage plugins into a pipeline (multisig → token vote, with a council veto): [stages & bodies](../plugins/spp-plugin/stages-and-bodies.md), the rule condition, advancing.
-- **Automate a capital flow (Capital Router)** — assemble a [Strategy](../plugins/capital-router/strategies.md) (budget + splitter) and install a Dispatcher/Requester policy ([dispatch vs request](../plugins/capital-router/dispatch-vs-request.md)); worked as payroll or buyback.
-- **Gate permissions with the condition library** — use ready-made [conditions](../helpers/condition-library.md) (scope `EXECUTE` to specific calls, bridge a Safe's owners) instead of writing your own; extends [Manage permissions](./manage-permissions.md).
-- **Deploy the whole protocol (Protocol Factory)** — bring OSx up on a new chain (framework + ENS + [Management DAO](../deployment/protocol-factory.md) + core plugin repos). For protocol operators.
-
----
-
-_Progress and scope are tracked in the [guides backlog](../backlog/use-cases.md)._
+Deeper single-subsystem guides are planned: composing [multi-stage governance with the SPP](../plugins/spp-plugin.md), automating a capital flow with the [Capital Router](../plugins/capital-router.md), gating permissions with the ready-made [condition library](../helpers/condition-library.md), and [deploying the whole protocol](../deployment/protocol-factory.md) on a new chain. Until each lands, follow those concept pages for the underlying detail.

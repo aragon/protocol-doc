@@ -25,7 +25,7 @@ The payoff is the thing organizations actually need: **you can change how the or
 Flexibility usually trades against safety. OSx is designed so it doesn't have to:
 
 - **Nothing changes by accident.** A plugin never arrives loose. It comes with a [setup](../framework/plugin-setup.md) that spells out exactly what will be deployed and which permissions will be granted or revoked, applied as a single, reviewable, all-or-nothing step. Governance approves the *exact* change before it happens.
-- **The organization governs itself.** After setup, no founder, deployer, or Aragon-controlled key holds power over a DAO, [the DAO holds authority over itself](../core/dao.md#deployment-and-the-root-bootstrapping-problem), so every change runs through the organization's own governance.
+- **The organization governs itself.** After setup, no founder, deployer, or Aragon-controlled key holds power over a DAO, [the DAO holds authority over itself](../core/dao.md#deployment-and-bootstrapping-root), so every change runs through the organization's own governance.
 - **Small core, audited.** Because the core is minimal and the authorization model is one shared layer, there is little surface for something to go wrong, and that surface is [audited repeatedly](https://github.com/aragon/osx/tree/main/audits) (by firms including Halborn and Code4rena, across releases). Security here is a design choice, a lean, well-reviewed core, not a bolt-on.
 
 ## Where to go next

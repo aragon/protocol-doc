@@ -10,7 +10,7 @@ source: token-voting-plugin/src/TokenVotingSetup.sol, osx/src/framework/dao/DAOF
 
 ## What you need
 
-The one-time [Setup](./setup.md), with the **token voting** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Token Voting `PluginRepo`** (`TOKEN_VOTING_REPO`) addresses.
+The one-time [Setup](./setup.md), with the **token voting** plugin's remapping enabled. This guide reads the **`DAOFactory`** and **Token Voting `PluginRepo`** (`TOKEN_VOTING_PLUGIN_REPO_ADDRESS`) addresses.
 
 ## The token decision
 
@@ -44,8 +44,8 @@ import {TokenVotingSetup} from "@aragon/token-voting-plugin/TokenVotingSetup.sol
 import {GovernanceERC20} from "@aragon/token-voting-plugin/erc20/GovernanceERC20.sol";
 
 contract DeployWithTokenVoting is Test {
-    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY"));
-    PluginRepo tokenVotingRepo = PluginRepo(vm.envAddress("TOKEN_VOTING_REPO"));
+    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY_ADDRESS"));
+    PluginRepo tokenVotingRepo = PluginRepo(vm.envAddress("TOKEN_VOTING_PLUGIN_REPO_ADDRESS"));
 
     function setUp() public {
         vm.createSelectFork(vm.envString("RPC_URL"));
@@ -84,7 +84,7 @@ To **reuse** an existing `IVotes` token instead, set `addr` to it and leave `nam
 
 ## Step 3, set the rules and deploy
 
-The rest of the install data is the [voting configuration](../plugins/majority-voting.md) (thresholds are ratios out of `1_000_000`), plus the same `target: address(0)` [own-DAO sentinel](./deploy-a-dao.md) you saw for multisig. The full `data` is seven fields, in this order:
+The rest of the install data is the [voting configuration](../plugins/majority-voting.md) (thresholds are ratios out of `1_000_000`), plus the same `target: address(0)` [own-DAO sentinel](./deploy-a-dao.md) you saw for multisig. There are seven fields, but you don't hand-pack them: `TokenVotingSetup` exposes a typed **`encodeInstallationParameters(...)`**, so instead of a positional `abi.encode` that breaks silently if a field ever moves, you resolve the setup from the repo version and let it build the `data`. (This is the [encoder-on-your-setup pattern](./build-a-plugin.md) plugin authors are told to provide; not every setup does, multisig's doesn't, but Token Voting's does.)
 
 ```solidity
     MajorityVotingBase.VotingSettings memory votingSettings = MajorityVotingBase.VotingSettings({
@@ -100,7 +100,10 @@ The rest of the install data is the [voting configuration](../plugins/majority-v
 
     address[] memory excludedAccounts = new address[](0); // subtracted from total voting power (e.g. the treasury); none here
 
-    bytes memory installData = abi.encode(
+    // Resolve the setup for the version we install, then let it encode the 7 fields in the right order.
+    PluginRepo.Tag memory versionTag = PluginRepo.Tag({release: 1, build: 4}); // pick the current build from the repo
+    TokenVotingSetup setup = TokenVotingSetup(tokenVotingRepo.getVersion(versionTag).pluginSetup);
+    bytes memory installData = setup.encodeInstallationParameters(
         votingSettings,
         tokenSettings,
         mintSettings,
@@ -110,7 +113,6 @@ The rest of the install data is the [voting configuration](../plugins/majority-v
         excludedAccounts
     );
 
-    PluginRepo.Tag memory versionTag = PluginRepo.Tag({release: 1, build: 4}); // pick the current build from the repo
     DAOFactory.PluginSettings[] memory pluginSettings = new DAOFactory.PluginSettings[](1);
     pluginSettings[0] = DAOFactory.PluginSettings({
         pluginSetupRef: PluginSetupRef({versionTag: versionTag, pluginSetupRepo: tokenVotingRepo}),
@@ -129,7 +131,7 @@ The rest of the install data is the [voting configuration](../plugins/majority-v
 }
 ```
 
-Get the field order or types wrong and `prepareInstallation` reverts on `abi.decode`, the ABI is dictated by the plugin's [setup](../framework/plugin-setup.md), published in its build metadata.
+Because that `data` came from the setup's own `encodeInstallationParameters`, its layout is guaranteed to match what the same setup's `prepareInstallation` `abi.decode`s, the two can't drift. Hand-pack the bytes yourself instead and that safety net is gone: a wrong field order or type makes `prepareInstallation` revert on `abi.decode`. Either way the ABI is dictated by the plugin's [setup](../framework/plugin-setup.md), published in its build metadata.
 
 ## What you just saw
 

@@ -7,46 +7,58 @@ source: osx/src/common/permission/condition/extensions/RuledCondition.sol
 
 # RuledCondition (the rule engine)
 
-Many [permission conditions](./permission-conditions.md) are just boolean combinations of small checks: "after this timestamp", "before this block", "the argument equals X", "and also this other condition passes". `RuledCondition` lets you express that logic as **data**, a list of rules, instead of writing and auditing bespoke Solidity for each one.
+Many [permission conditions](./permission-conditions.md) are just boolean combinations of small checks: "after this timestamp", "the argument equals X", "and this other condition also passes". `RuledCondition` lets you express that logic as **data**, an array of rules, instead of writing and auditing bespoke Solidity for each one.
 
-It's an abstract base (inherit it, populate the rules, expose your own `isGranted` that evaluates them). The reusable conditions in the [condition library](../helpers/index.md) are built on it.
+It's an abstract base: you inherit it, set the rules, and expose your own `isGranted` that evaluates them. The reusable conditions in the [condition library](../helpers/index.md) are built this way.
 
-## The rule
+## One rule
 
 ```solidity
 struct Rule {
-    uint8   id;           // what value this rule reads
-    uint8   op;           // the operator (see Op)
-    uint240 value;        // literal / address / packed operand indices
-    bytes32 permissionId; // optional per-rule permission override
+    uint8   id;           // where the LEFT operand comes from
+    uint8   op;           // the operator
+    uint240 value;        // the RIGHT operand (its meaning depends on id/op, see below)
+    bytes32 permissionId; // optional per-rule permission override (delegated conditions)
 }
 ```
 
-The `id` selects where the rule's value comes from:
+A rule computes a **left value** from `id`, then applies `op`: a comparison op compares that left value against `value` (the **right operand**); `RET` just returns whether the left value is truthy. `id` selects where the left value comes from:
 
-| `id` | Meaning |
+| `id` | Left value is… |
 |---|---|
-| `200` `BLOCK_NUMBER_RULE_ID` | current `block.number` |
-| `201` `TIMESTAMP_RULE_ID` | current `block.timestamp` |
-| `202` `CONDITION_RULE_ID` | delegate to another `IPermissionCondition` (address packed in `value`) |
-| `203` `LOGIC_OP_RULE_ID` | a boolean operator combining other rules by index |
-| `204` `VALUE_RULE_ID` | a literal constant in `value` |
-| `< 200` | index into a runtime `_compareList` (values decoded from the call `_data`) |
+| `< 200` | `_compareList[id]` — a runtime operand the subclass decoded from the call `_data` (truncated to 240 bits) |
+| `200` `BLOCK_NUMBER_RULE_ID` | `block.number` |
+| `201` `TIMESTAMP_RULE_ID` | `block.timestamp` |
+| `204` `VALUE_RULE_ID` | the literal in `value` itself (used with `RET`, or as a constant operand) |
+| `202` `CONDITION_RULE_ID` | the boolean result of **another** `IPermissionCondition` (its address packed in `value`); the rule then tests whether it passed |
+| `203` `LOGIC_OP_RULE_ID` | not a comparison — combines other rules (below) |
 
-The `op` is one of `NONE, EQ, NEQ, GT, LT, GTE, LTE, RET, NOT, AND, OR, XOR, IF_ELSE`. `RET` returns whether the value is truthy; the logic ops (`AND`/`OR`/`NOT`/`XOR`/`IF_ELSE`) combine *other rules by index*, letting a flat `Rule[]` array encode a small boolean expression tree. `AND`/`OR` short-circuit to save gas.
+`op` is one of `NONE, EQ, NEQ, GT, LT, GTE, LTE, RET, NOT, AND, OR, XOR, IF_ELSE`. The comparison ops (`EQ`…`LTE`) test `leftValue <op> value`; `RET` returns `leftValue > 0`; the rest are logic operators.
 
-Helper encoders pack operand indices into the 240-bit `value`: `encodeLogicalOperator(idx1, idx2)` and `encodeIfElse(cond, onTrue, onFalse)`.
+## Combining rules
 
-## How evaluation runs
+A logic-op rule (`id = LOGIC_OP_RULE_ID`) reads no value, it references **other rules by their array index**, so a flat `Rule[]` encodes a boolean expression tree. The index operands are packed into `value` with the helpers `encodeLogicalOperator(idxA, idxB)` (for `AND`/`OR`/`XOR`; `NOT` uses only `idxA`) and `encodeIfElse(condIdx, thenIdx, elseIdx)`.
 
-A subclass typically decodes the call's `_data` into a `uint256[] _compareList` (the runtime operands), then evaluates a top-level rule against block/timestamp/literals/delegated-conditions and the compare list. Rules are set once via `_updateRules` (emits `RulesUpdated`) and read with `getRules()`.
+Evaluation starts at **rule 0**, the root (usually the top combinator). `AND`/`OR` short-circuit to save gas.
+
+## A worked example
+
+"Allow only while `block.timestamp ≤ deadline` **and** the first decoded argument equals `expected`":
+
+| index | `id` | `op` | `value` |
+|---|---|---|---|
+| **0** (root) | `LOGIC_OP_RULE_ID` | `AND` | `encodeLogicalOperator(1, 2)` |
+| 1 | `TIMESTAMP_RULE_ID` | `LTE` | `deadline` |
+| 2 | `0` (i.e. `_compareList[0]`) | `EQ` | `expected` |
+
+The subclass decodes the call's `_data` into `_compareList` (here `[firstArg]`) and evaluates rule 0. Rule 0 is `rule1 AND rule2`; rule 1 is `block.timestamp ≤ deadline`; rule 2 is `_compareList[0] == expected`. Rules are set once via `_updateRules` (emits `RulesUpdated`) and read with `getRules()`.
 
 ## Keep in mind
 
 - **`value` is `uint240`, and compare-list entries are truncated to 240 bits** (the source even comments "force lost precision"). Comparing certain `uint256`s or raw `address` values can silently lose the top bits.
-- **Delegated conditions fail closed.** A `CONDITION_RULE_ID` rule calls the other condition via a raw `staticcall`; a revert, a non-contract, or a wrong-sized return is treated as `false`, same fail-closed philosophy as the [permission system](../core/permissions.md).
-- **A delegated sub-condition does *not* see the original calldata.** When a rule delegates via `CONDITION_RULE_ID`, `RuledCondition` passes `abi.encode(_compareList)` as the sub-condition's `_data`, the parent's already-decoded operands, re-encoded, not the raw `msg.data`. So a [condition](./permission-conditions.md) that normally re-parses call arguments can only observe what the parent decoded into the compare list. Feed it every operand it needs; it cannot reach back to the original call.
-- Rules are trusted input. A malformed rule set (bad indices) can recurse deeply; only set rules you control via `_updateRules`.
+- **Delegated conditions fail closed.** A `CONDITION_RULE_ID` rule calls the other condition via a raw `staticcall`; a revert, a non-contract, or a wrong-sized return is treated as `false`, the same fail-closed philosophy as the [permission system](../core/permissions.md).
+- **A delegated sub-condition does *not* see the original calldata.** `RuledCondition` passes `abi.encode(_compareList)` as the sub-condition's `_data`, the parent's already-decoded operands re-encoded, not the raw `msg.data`. So a [condition](./permission-conditions.md) that normally re-parses call arguments can only observe what the parent decoded into the compare list. Feed it every operand it needs; it cannot reach back to the original call.
+- **Rules are trusted input.** A malformed rule set (bad indices) can recurse deeply; only set rules you control, via `_updateRules`.
 
 Reach for `RuledCondition` when your logic is a composition of standard comparisons; write a plain [condition](./permission-conditions.md) when it's simpler to express directly in Solidity.
 

@@ -7,7 +7,7 @@ source: osx/src/framework/member/MemberRegistry.sol, osx/src/framework/member/IM
 
 # Member registry
 
-The `MemberRegistry` gives the people who participate in DAOs a **self-sovereign on-chain identity**: any address can claim a human-readable ENS subdomain (e.g. `alice.members.dao.eth`) and attach a profile to it (avatar, text records, contenthash). It exists so that members are addressable by name, not just by a hex address, and so that identity is something a person owns and controls directly rather than something an admin issues. It's the identity counterpart to the protocol's [DAO and plugin registries](./registries.md).
+The `MemberRegistry` is a **convenience fallback** for DAO members who want a human-friendly ENS name but would rather not buy one. Instead of registering a name on the open market, any address can claim a **free subdomain** under the parent the registry manages (an `initialize` parameter, not hardcoded; Aragon's deployment binds it to **`aragon.eth`**, so members claim `alice.aragon.eth`) and attach a profile to it (avatar, text records, contenthash). It's self-service and member-owned: you claim, manage, and give up your own name, nobody issues it to you. The point is simply that members can be addressable by name rather than a hex address, without the cost or hassle of their own ENS domain. It's the people-facing counterpart to the protocol's component [registries](./registries.md).
 
 > A newer addition to the codebase (authored 2026, on a later compiler), layered onto the v1.4.0 core.
 

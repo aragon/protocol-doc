@@ -30,11 +30,22 @@ The factory is also a permanent, tamper-proof **record of exactly what was deplo
 - `getParameters()` — the exact configuration the deployment used.
 - `getDeployment()` — every address it produced (the registries, the `DAOFactory`/`PluginRepoFactory`, the PSP, the ENS contracts, the Management DAO and its multisig, and each core plugin repo).
 
-Nobody can touch it afterwards. So the factory *is* the canonical source of truth for that chain's OSx deployment: point anyone at its address and they can read, trustlessly and permanently, both the settings used and the addresses produced, no off-chain manifest to trust, nothing that can be quietly re-pointed later. (The run is split into sequential phases, an external `deployPhase()` the deployer calls repeatedly until it reports complete, because on some chains doing it all in one transaction would exceed code-size and gas limits; that externality is exactly why the run is multi-transaction, and the deploy-once-then-frozen semantics are unchanged.)
+Nobody can touch it afterwards. So the factory *is* the canonical source of truth for that chain's OSx deployment: point anyone at its address and they can read, trustlessly and permanently, both the settings used and the addresses produced, no off-chain manifest to trust, nothing that can be quietly re-pointed later.
+
+## Split to fit chain limits
+
+The full graph is too big for one contract in one transaction, so the factory works around two EVM limits, without weakening the deploy-once-then-frozen guarantees:
+
+- **Code size (EIP-170's ~24 KB).** The bulk of the deployment logic is offloaded to separate **helper deployer factories**, `DAOHelper`, `ENSHelper`, `PluginRepoHelper`, and `PSPHelper`, passed into the ProtocolFactory's constructor. Embedding it all in one contract would blow the bytecode cap.
+- **Per-transaction gas.** The run is split into **five sequential phases**: the deployer calls `deployPhase()` repeatedly until it reports complete, because doing it in a single transaction would exceed the gas limit on many networks.
+
+So a real bring-up is multi-contract *and* multi-transaction. The frozen record (above) and the powerless-at-the-end guarantee (below) are unchanged; only the deployment path is chunked.
 
 ## Correct from genesis
 
 As it builds, the factory holds a temporary `ROOT` + `EXECUTE` handle on the Management DAO, wires every permission across the registries, registrars, repos, and the DAO's own multisig install, and then **revokes both as the final step**. When the deployment concludes the factory has no power over anything it created; the Management DAO's multisig is the sole authority. The deployed bytecode is verified against OSx's audited source, so the running protocol provably matches reviewed code.
+
+This temporary-power-then-revoke discipline (and the deploy-once, atomic, on-chain-and-verifiable shape) isn't unique to this factory, it's the general Aragon factory pattern; the [DAO Launchpad](./dao-launchpad.md)'s one-shot factory applies the same at the scale of a single DAO.
 
 **Version parity across chains.** When a core plugin's canonical version is a build > 1, the factory publishes placeholder versions for the earlier builds before the real one, so a plugin's `(release, build)` means the *same* thing on every chain.
 

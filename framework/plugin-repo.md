@@ -25,7 +25,7 @@ struct Version { Tag tag; address pluginSetup; bytes buildMetadata; }
 
 A version reads as **`release.build`** (`1.4` = release 1, build 4), and the consumer rule of thumb falls out of the two definitions: **always take the latest *build*** of whatever release you run (builds are compatible, so a newer one is strictly better, fixes and compatible features), but you may deliberately stay on an **older *release*** if you prefer its feature set or behaviour, moving release is an opt-in, breaking migration, not a free upgrade.
 
-This is why the [PSP forbids updates across releases](./plugin-setup-processor.md#the-three-lifecycles): a release boundary *means* "not a drop-in replacement," so crossing it is an uninstall + reinstall, not an in-place upgrade. Choosing release vs build correctly is a contract you make with every DAO running your plugin.
+This is why the [PSP forbids updates across releases](./plugin-setup-processor.md#the-three-lifecycles): a release boundary *means* "not a drop-in replacement." An update upgrades the *existing* plugin instance in place (same address and state, new logic); a release can't be reached that way, the existing instance can't morph into another release without breaking. Instead you **install a fresh instance** of the new release, a different contract with its own address that starts from empty state (migrating anything from the old one is on you), and uninstall the old one. Choosing release vs build correctly is a contract you make with every DAO running your plugin.
 
 ## Publishing versions
 
@@ -40,7 +40,7 @@ The repo's own upgrades are gated by `UPGRADE_REPO_PERMISSION_ID`, and both main
 
 ## Publishing a plugin: `PluginRepoFactory`
 
-You don't deploy a `PluginRepo` by hand. `PluginRepoFactory` does it and registers the repo in the [PluginRepoRegistry](./registries.md) (which assigns its ENS name):
+You don't deploy a `PluginRepo` by hand. `PluginRepoFactory` does it and registers the repo in the [PluginRepoRegistry](./plugin-repo-registry.md) (which assigns its ENS name):
 
 - **`createPluginRepo(subdomain, initialOwner)`** — an empty repo owned by `initialOwner`, no versions yet.
 - **`createPluginRepoWithFirstVersion(subdomain, pluginSetup, maintainer, releaseMetadata, buildMetadata)`** — the common path: deploys the repo, publishes version **1.1** (the first published version is always **1.1**, not 1.0: version **0** is the reserved "nothing published yet" state, and release and build each begin at 1), and hands full ownership (`MAINTAINER`, `UPGRADE_REPO`, `ROOT`) to `maintainer` while the factory relinquishes everything.

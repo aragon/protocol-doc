@@ -30,7 +30,9 @@ function isGranted(address _where, address _who, bytes32 _permissionId, bytes _d
     public view returns (bool);
 ```
 
-(The DAO exposes it as `hasPermission`.) Internally each grant is stored under a hash of `(where, who, permissionId)` mapping to one of three things:
+`isGranted` *is* the resolver. The DAO's [`IDAO`](../common/auth.md) interface re-exposes the identical query as **`hasPermission`**, a one-line forwarder to it, so external callers and every plugin's [`auth`](../common/auth.md) check call `hasPermission` while the engine underneath is this `isGranted`, same arguments, same answer. (Don't confuse either with a **condition's** `isGranted`: that's a different method sharing the signature, the *hook* this resolver calls when a grant is [conditional](../common/permission-conditions.md), not the resolver itself.)
+
+Internally each grant is stored under a hash of `(where, who, permissionId)` mapping to one of three things:
 
 - **unset** (`address(0)`) — not granted.
 - **allow** (`address(2)`) — granted unconditionally.
@@ -59,7 +61,11 @@ If none is set, the answer is `false`.
 
 ## ROOT: the permission to manage permissions
 
-`ROOT_PERMISSION_ID` gates `grant`, `grantWithCondition`, `revoke`, and the batch apply functions. Holding ROOT on a `where` means you control every permission on that contract. In a healthy DAO, **ROOT is held by the DAO itself**, so permission changes happen only through governance (a proposal that executes a `grant`/`revoke`). See the [DAO](./dao.md#deployment-and-the-root-bootstrapping-problem) bootstrapping note for how ROOT gets there safely.
+`ROOT_PERMISSION_ID` gates `grant`, `grantWithCondition`, `revoke`, and the batch apply functions. Holding ROOT on a `where` means you can grant or revoke every permission on that contract.
+
+**ROOT is not a runtime bypass**, and this catches people. It does *not* make you pass *other* permission checks: `isGranted` never consults ROOT, so a ROOT holder who lacks `EXECUTE` still cannot call `execute` directly. What ROOT lets you do is **grant yourself** (or anyone) that permission first, then use it. It's god-mode over the permission *table*, not a skeleton key at call time, the same reason a plugin upgrade needs `UPGRADE_PLUGIN_PERMISSION` explicitly rather than riding on ROOT. (A condition attached to your ROOT grant constrains that granting power itself; it never enters the `EXECUTE` check, which ignores ROOT regardless.)
+
+In a healthy DAO, **ROOT is held by the DAO itself**, so permission changes happen only through governance (a proposal that executes a `grant`/`revoke`). See the [DAO](./dao.md#deployment-and-bootstrapping-root) bootstrapping note for how ROOT gets there safely.
 
 ## Granting and revoking
 
@@ -100,7 +106,7 @@ If your contract inherits `PermissionManager` (or is a DAO), gate a function wit
 function doPrivileged() external auth(DO_PRIVILEGED_PERMISSION_ID) { ... }
 ```
 
-`auth` calls `isGranted(address(this), msg.sender, permissionId, msg.data)` and reverts `Unauthorized` if false. Because the full `msg.data` is passed through, a [condition](../common/permission-conditions.md) attached to that permission can inspect the exact call arguments. Plugins gate their functions the same way but resolve against their DAO, see [Authorizing against a DAO](../common/auth.md).
+`auth` calls `isGranted(address(this), msg.sender, permissionId, msg.data)` and reverts `Unauthorized` if false. Because the full `msg.data` is passed through, a [condition](../common/permission-conditions.md) attached to that permission can inspect the exact call arguments. Plugins gate their functions the same way but resolve against their DAO, through a **same-named** `auth` from [`DaoAuthorizable`](../common/auth.md#which-auth-unauthorized-vs-daounauthorized) that reverts **`DaoUnauthorized`** (carrying a `dao` field) instead of this `Unauthorized`.
 
 ## Keep in mind
 

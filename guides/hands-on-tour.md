@@ -12,7 +12,7 @@ By the end you'll have seen the three things a DAO *is*, a treasury, an [executo
 
 ## What you need
 
-Do the one-time [Setup](./setup.md) first, a plugin project pointed at a chain where OSx is deployed. This guide reads just the **`DAOFactory`** address (`DAO_FACTORY`); nothing plugin-specific.
+Do the one-time [Setup](./setup.md) first, a plugin project pointed at a chain where OSx is deployed. This guide reads just the **`DAOFactory`** address (`DAO_FACTORY_ADDRESS`); nothing plugin-specific.
 
 We fork rather than deploy the whole protocol locally: standing up OSx from scratch is the [Protocol Factory](../deployment/protocol-factory.md)'s job, not something you need for a first look.
 
@@ -30,7 +30,7 @@ import {DAOFactory} from "@aragon/osx/framework/dao/DAOFactory.sol";
 import {Action} from "@aragon/osx/common/executors/IExecutor.sol";
 
 contract OsxInOneSitting is Test {
-    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY")); // from the deployment artifacts
+    DAOFactory factory = DAOFactory(vm.envAddress("DAO_FACTORY_ADDRESS")); // exported by just-foundry
     DAO dao;
 
     function setUp() public {
@@ -50,7 +50,7 @@ contract OsxInOneSitting is Test {
 }
 ```
 
-You now hold the most consequential permission in the protocol. That is fine for a demo and dangerous as an end state, in a real DAO, governance (a plugin) holds `EXECUTE`, not a person. See the [ROOT bootstrapping problem](../core/dao.md#deployment-and-the-root-bootstrapping-problem).
+You now hold the most consequential permission in the protocol. That is fine for a demo and dangerous as an end state, in a real DAO, governance (a plugin) holds `EXECUTE`, not a person. See [how ROOT is bootstrapped safely](../core/dao.md#deployment-and-bootstrapping-root).
 
 ## Step 2, fund it, then make it act
 

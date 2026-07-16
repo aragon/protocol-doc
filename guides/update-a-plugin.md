@@ -10,7 +10,7 @@ Moving an installed plugin to a newer version runs the **same prepare → govern
 
 ## Step 1, prepare the update (release-locked)
 
-`prepareUpdate` is permissionless like `prepareInstallation`, but it enforces the [versioning rule](../framework/plugin-repo.md#release-vs-build): the **release must stay the same and the build must strictly increase**, or it reverts `InvalidUpdateVersion`. (Crossing a release is an incompatible change, so that's an [uninstall + reinstall](../framework/plugin-setup-processor.md#the-three-lifecycles), not an update.)
+`prepareUpdate` is permissionless like `prepareInstallation`, but it enforces the [versioning rule](../framework/plugin-repo.md#release-vs-build): the **release must stay the same and the build must strictly increase**, or it reverts `InvalidUpdateVersion`. (Crossing a release is an incompatible change: the existing instance can't morph into another release, so you **install a fresh instance** of it, a new contract with its own address and empty state, and uninstall the old one. That's an [uninstall + reinstall](../framework/plugin-setup-processor.md#the-three-lifecycles), not an in-place update.)
 
 ```solidity
 function test_update() public {
@@ -75,19 +75,31 @@ If a new build changes **only** the off-chain [metadata](../framework/plugin-met
 Uninstalling is the same shape, `prepareUninstallation` returns the permissions to **revoke** (not grant), and `applyUninstallation` runs in the same governed window (with `APPLY_UNINSTALLATION_PERMISSION_ID`):
 
 ```solidity
-PluginSetupRef memory ref =
-    PluginSetupRef({versionTag: PluginRepo.Tag({release: 1, build: 4}), pluginSetupRepo: repo});
-IPluginSetup.SetupPayload memory payload =
-    IPluginSetup.SetupPayload({plugin: plugin, currentHelpers: currentHelpers, data: bytes("")});
+function test_uninstall() public {
+    PluginSetupRef memory ref =
+        PluginSetupRef({versionTag: PluginRepo.Tag({release: 1, build: 4}), pluginSetupRepo: repo});
+    IPluginSetup.SetupPayload memory payload =
+        IPluginSetup.SetupPayload({plugin: plugin, currentHelpers: currentHelpers, data: bytes("")});
 
-PermissionLib.MultiTargetPermission[] memory toRevoke =
-    psp.prepareUninstallation(address(dao), PluginSetupProcessor.PrepareUninstallationParams(ref, payload));
+    // Prepare (permissionless): returns the permissions to REVOKE, the mirror of install's grants.
+    PermissionLib.MultiTargetPermission[] memory toRevoke =
+        psp.prepareUninstallation(address(dao), PluginSetupProcessor.PrepareUninstallationParams(ref, payload));
 
-PluginSetupProcessor.ApplyUninstallationParams memory applyParams =
-    PluginSetupProcessor.ApplyUninstallationParams({plugin: plugin, pluginSetupRef: ref, permissions: toRevoke});
-// Wrap psp.applyUninstallation(address(dao), applyParams) in a 3-action ROOT window
-// (grant PSP ROOT -> applyUninstallation -> revoke PSP ROOT). Simpler than update: uninstall only
-// revokes permissions, there's no proxy upgrade, so no UPGRADE grant (and no APPLY_* when self-executed).
+    PluginSetupProcessor.ApplyUninstallationParams memory applyParams =
+        PluginSetupProcessor.ApplyUninstallationParams({plugin: plugin, pluginSetupRef: ref, permissions: toRevoke});
+
+    // Apply in a temporary-ROOT window. Simpler than update: uninstall only revokes permissions,
+    // there's no proxy upgrade (no UPGRADE grant) and, self-executed by the DAO, no APPLY_UNINSTALLATION_PERMISSION.
+    bytes32 ROOT = dao.ROOT_PERMISSION_ID();
+    Action[] memory actions = new Action[](3);
+    actions[0] = Action(address(dao), 0, abi.encodeCall(PermissionManager.grant,  (address(dao), address(psp), ROOT)));
+    actions[1] = Action(address(psp), 0, abi.encodeCall(PluginSetupProcessor.applyUninstallation, (address(dao), applyParams)));
+    actions[2] = Action(address(dao), 0, abi.encodeCall(PermissionManager.revoke, (address(dao), address(psp), ROOT)));
+    dao.execute(bytes32(0), actions, 0);
+
+    // The plugin can no longer make the DAO act.
+    assertFalse(dao.hasPermission(address(dao), plugin, dao.EXECUTE_PERMISSION_ID(), ""));
+}
 ```
 
 After it applies, the plugin's applied-setup id is cleared, so the same plugin *could* later be reinstalled fresh.
@@ -96,7 +108,7 @@ After it applies, the plugin's applied-setup id is cleared, so the same plugin *
 
 - Update is prepare → apply like install, but **release-locked**: same release, strictly higher build (`InvalidUpdateVersion` otherwise). Its apply does the UUPS upgrade, which needs the PSP to hold `UPGRADE_PLUGIN_PERMISSION` on the plugin, **`ROOT` alone doesn't authorize the upgrade**.
 - A **metadata-only** update changes nothing on-chain, so it skips the ROOT window and needs only `APPLY_UPDATE`.
-- **Uninstall** is the same window with the setup's *revoke* list; a cross-release migration is uninstall + reinstall.
+- **Uninstall** is the same window with the setup's *revoke* list; a cross-release migration is uninstall + reinstall (a **fresh instance** with a new address, not the old one upgraded).
 
 ## Next
 

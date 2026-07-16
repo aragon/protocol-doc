@@ -18,7 +18,7 @@ New to plugins? Read the model, then how you build one, then the publish/install
 - [PluginRepo](./plugin-repo.md) — per-plugin versioning (`release.build`) and publishing.
 - [The PluginSetupProcessor (PSP)](./plugin-setup-processor.md) — the two-step prepare→apply install/update/uninstall engine.
 - [DAOFactory](./dao-factory.md) — one-transaction DAO creation and its permission choreography.
-- [Registries and ENS names](./registries.md) — the canonical DAO and plugin-repo registries and their ENS naming.
+- [Registries and ENS names](./registries.md) — how the canonical registries and ENS naming work (overview), covering the [DAO Registry](./dao-registry.md) and [PluginRepo Registry](./plugin-repo-registry.md).
 - [Member registry](./member-registry.md) — permissionless member-identity ENS names.
 
 ## A note on the word "factory"
