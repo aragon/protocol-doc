@@ -17,7 +17,6 @@ The **Snapshot** column pins the exact commit each component's docs were generat
 | [Admin](./plugins/admin-plugin.md) | [`aragon/admin-plugin`](https://github.com/aragon/admin-plugin) | [`ef1727ab`](https://github.com/aragon/admin-plugin/commit/ef1727abaf) |
 | [Staged Proposal Processor](./plugins/spp-plugin.md) | [`aragon/staged-proposal-processor-plugin`](https://github.com/aragon/staged-proposal-processor-plugin) | [`676617a9`](https://github.com/aragon/staged-proposal-processor-plugin/commit/676617a9ca) |
 | [Lock to Vote](./plugins/lock-to-vote-plugin.md) | [`aragon/lock-to-vote-plugin`](https://github.com/aragon/lock-to-vote-plugin) | [`5a513e3d`](https://github.com/aragon/lock-to-vote-plugin/commit/5a513e3d9f) |
-| [Capital Router](./plugins/capital-router.md) | [`aragon/capital-router`](https://github.com/aragon/capital-router) | [`75fb97d4`](https://github.com/aragon/capital-router/commit/75fb97d4d2) |
 | [Condition library](./helpers/condition-library.md) | [`aragon/conditions`](https://github.com/aragon/conditions) | [`7a9bb0df`](https://github.com/aragon/conditions/commit/7a9bb0dfb1) |
 | [Protocol Factory](./deployment/protocol-factory.md) | [`aragon/protocol-factory`](https://github.com/aragon/protocol-factory) | [`444bc98a`](https://github.com/aragon/protocol-factory/commit/444bc98a4b) |
 | [DAO Launchpad](./deployment/dao-launchpad.md) | [`aragon/dao-launchpad`](https://github.com/aragon/dao-launchpad) | [`b9fb5947`](https://github.com/aragon/dao-launchpad/commit/b9fb59475a) |

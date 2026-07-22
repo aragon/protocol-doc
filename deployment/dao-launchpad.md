@@ -33,17 +33,14 @@ Its answer, and the best practice it encodes, is the **one-shot on-chain factory
 
 The launchpad is a **monorepo**: one workbench hosting many self-contained deployment projects, one per launch. They share a single set of dependencies and one inherited task runner (from [just-foundry](../tooling/just-foundry.md)), so a new launch starts batteries-included instead of re-bootstrapping Foundry, remappings, network configs, and secrets every time. Each project then owns only what's specific to *its* launch: the factory, the custom contracts, the parameters.
 
-A **template** is the starting point, a minimal working DAO that proves the wiring end to end, but it's only a scaffold: the substance lives in the real projects you build from it. The worked example below is one, and it doubles as the richest tour of the [Capital Router](../plugins/capital-router.md):
-
-- [The money machine](./dao-launchpad/money-machine.md) — a worked example: one atomic factory deploying a treasury-automation DAO, built from custom Capital Router pieces.
+A **template** is the starting point, a minimal working DAO that proves the wiring end to end, but it's only a scaffold: the substance lives in the real projects you build from it, each replacing the template with its own factory, custom contracts, and parameters.
 
 ## Keep in mind
 
 - **The value is the atomic factory, not the scripts.** The scripts just deploy the factory and pull the trigger; the correctness guarantees all come from doing the setup on-chain in one call.
-- **The template is a scaffold, not the product.** You start from it and replace it with your launch's own contracts; the [money-machine example](./dao-launchpad/money-machine.md) shows what a fully built-out one looks like.
+- **The template is a scaffold, not the product.** You start from it and replace it with your launch's own contracts.
 
 ## See also
 
-- [The money machine](./dao-launchpad/money-machine.md) — the worked example.
 - [DAOFactory](../framework/dao-factory.md) and [the PluginSetupProcessor](../framework/plugin-setup-processor.md) — the OSx machinery every launch factory drives.
 - [Deployment overview](./index.md); the [Protocol Factory](./protocol-factory.md) deploys the protocol a launch targets.

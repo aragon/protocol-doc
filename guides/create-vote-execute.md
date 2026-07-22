@@ -6,7 +6,7 @@ source: osx/src/core/dao/DAO.sol, osx/src/common/executors/IExecutor.sol, multis
 
 # Create, vote, and execute a proposal
 
-You've [deployed a DAO with a plugin](./deploy-a-dao.md). Now make it *do* something. A DAO acts whenever something holding [`EXECUTE_PERMISSION_ID`](./deploy-a-dao.md) calls its [`execute`](../core/execution.md#the-execute-function). Most often, and by best practice, that caller is a governance plugin enacting a [**proposal**](../common/proposal.md): a bundle of [actions](../core/execution.md) put up for a decision and, if it passes, run on the DAO. (It's not the *only* way, the [Admin plugin](../plugins/admin-plugin.md) executes with no vote, and policy components like the [Capital Router](../plugins/capital-router.md) act on preset rules, but a proposal is what you'll use most, and it's this guide's subject.) Every governance plugin shares the **same lifecycle**, they differ only in how the decision is made:
+You've [deployed a DAO with a plugin](./deploy-a-dao.md). Now make it *do* something. A DAO acts whenever something holding [`EXECUTE_PERMISSION_ID`](./deploy-a-dao.md) calls its [`execute`](../core/execution.md#the-execute-function). Most often, and by best practice, that caller is a governance plugin enacting a [**proposal**](../common/proposal.md): a bundle of [actions](../core/execution.md) put up for a decision and, if it passes, run on the DAO. (It's not the *only* way, the [Admin plugin](../plugins/admin-plugin.md) executes with no vote, but a proposal is what you'll use most, and it's this guide's subject.) Every governance plugin shares the **same lifecycle**, they differ only in how the decision is made:
 
 ```
 createProposal(...) -> id      // package the actions

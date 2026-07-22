@@ -28,8 +28,8 @@ platform-docs/
 │   └── index.md      #   auth, conditions, proposals, membership, ratio, proxies, versioning
 ├── framework/        # AREA — the plugin model + publish/install machinery (osx: src/framework + plugin bases)
 │   └── index.md      #   plugin model, base types, setup, metadata, PluginRepo, PSP, factories, registries
-├── plugins/          # AREA — the governance plugins + the Capital Router (automation)
-│   └── index.md      #   token-voting, multisig, admin, staged-proposal-processor, lock-to-vote, capital-router
+├── plugins/          # AREA — the governance plugins
+│   └── index.md      #   token-voting, multisig, admin, staged-proposal-processor, lock-to-vote
 ├── helpers/          # AREA — protocol helpers
 │   └── index.md      #   condition-library
 ├── deployment/       # AREA — deploying the protocol and DAOs
@@ -49,7 +49,7 @@ platform-docs/
 
 **File by area from the first page.** An area folder mixes `concept`, `reference`, and `example`; there is no `concepts/` folder. Keep it one level deep. Pages link freely across areas (define-once-link-everywhere): the graph, not the tree, carries relationships. Add an area only when a real cluster appears; split one when it outgrows its home (`wiki move` rewrites the links).
 
-**Querying: by component vs by concern.** The folder *is* the component, so search a component by its folder, not a tag: `wiki list --prefix plugins/capital-router/`, `wiki list --prefix core/`. **Tags are only for cross-cutting concerns** that span folders (`security`, `permissions`, `upgradeability`, `ens`, …), queried with `wiki list --where tags=security`. Don't add a tag that just mirrors a folder (`core`, `capital-router`, …): it duplicates what `--prefix` answers and silently drifts (a page always lives in its folder; a tag has to be maintained). So: **by component → `--prefix`; by cross-cutting concern → `--where tags=`.**
+**Querying: by component vs by concern.** The folder *is* the component, so search a component by its folder, not a tag: `wiki list --prefix plugins/`, `wiki list --prefix core/`. **Tags are only for cross-cutting concerns** that span folders (`security`, `permissions`, `upgradeability`, `ens`, …), queried with `wiki list --where tags=security`. Don't add a tag that just mirrors a folder (`core`, `plugins`, …): it duplicates what `--prefix` answers and silently drifts (a page always lives in its folder; a tag has to be maintained). So: **by component → `--prefix`; by cross-cutting concern → `--where tags=`.**
 
 **Links are relative.** Cross-page links resolve **relative to the linking file** (`../core/permissions.md`, `./sibling.md`), not root-absolute. Don't hand-compute them: write the target however is convenient, then run `wiki tidy` to canonicalize every link to its relative form (and filenames to slugs). `wiki move` keeps links correct when a page relocates, and `wiki check` verifies both targets and `#anchor` fragments.
 
@@ -75,9 +75,9 @@ A `guide` walks through a task start to finish, **linking into concepts** for de
 
 ## Ingesting from source
 
-Docs are distilled from **source code** (the 12 repos). The material is the input, not the wiki. Work in two phases, gradually, one repo at a time in this order:
+Docs are distilled from **source code** (the 11 repos). The material is the input, not the wiki. Work in two phases, gradually, one repo at a time in this order:
 
-> `osx` → `token-voting-plugin` → `multisig-plugin` → `admin-plugin` → `spp` → `lock-to-vote-plugin` → `capital-router` → `dao-launchpad` → `protocol-factory` → `condition-library` → `osx-plugin-template-foundry` → `just-foundry`
+> `osx` → `token-voting-plugin` → `multisig-plugin` → `admin-plugin` → `spp` → `lock-to-vote-plugin` → `dao-launchpad` → `protocol-factory` → `condition-library` → `osx-plugin-template-foundry` → `just-foundry`
 
 1. **Extract into `raw/`.** Pull the relevant facts out of a repo's source into rough notes under `raw/<repo>/` before shaping them (delegate this to an extraction agent if it helps). `raw/` is git-ignored and unindexed: interim scratch you mine, not the committed base. Read source contracts, not test files (mine a test only for a real usage example), and not the repos' own docs beyond a final checklist so nothing is forgotten, never mirror their structure.
 2. **Build incrementally, from `raw/`.** Promote raw notes into atomic entries a few at a time: write one page, file it into its area, link it, `wiki check`, then delete the raw note you mined. `raw/<repo>/` empty = that repo's batch is done. Let `wiki unresolved` guide the order: each page names others, and those become the next to-write items.
