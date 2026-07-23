@@ -9,14 +9,14 @@ source: spp/src/StagedProposalProcessor.sol
 
 The whole point of the [SPP](../spp-plugin.md) is that a stage's decision-makers, its **bodies**, are *other* contracts: existing governance plugins, a Safe, even an EOA. This page is the integration contract: how a body plugs in, and how to make your own plugin usable as one.
 
-First, a framing that clears up most confusion: **acting in a body decides the parent, not the actions.** When someone votes or approves inside a body, they're voting on whether to *advance or veto the SPP proposal at that stage*, not on the proposal's underlying actions directly. The body is a gate; SPP owns the actions and the final execution.
+**Acting in a body decides the parent, not the actions.** When someone votes or approves inside a body, they're voting on whether to *advance or veto the SPP proposal at that stage*, not on the proposal's underlying actions directly. The body is a gate; SPP owns the actions and the final execution.
 
 ## Automatic vs. manual bodies
 
 Every body is one of two kinds ([configured per stage](./stages-and-bodies.md#bodies)). The split comes down to **how SPP learns the body's verdict**, which depends on whether the body speaks OSx's proposal interface:
 
 - **Automatic** (`isManual = false`): the body is an OSx-native plugin that reports success through [`IProposal`](../../common/proposal.md). So SPP can create a sub-proposal on it when the stage begins (its single action is a callback to `reportProposalResult` pre-filled with the body's verdict), *and* SPP can simply [poll the body's `hasSucceeded`](./lifecycle.md#how-a-stages-results-are-tallied-push-and-pull) directly, no custom wiring either way. Requires ERC-165 `IProposal` support and that SPP holds `CREATE_PROPOSAL_PERMISSION` on the body.
-- **Manual** (`isManual = true`): the body is something that *doesn't* implement OSx's proposal interface, a Safe, a vault, an external Governor, an EOA, so there's no `hasSucceeded` for SPP to poll and no sub-proposal to create. Instead the external system **pushes** its verdict in: it calls `reportProposalResult` to *notify* SPP that it has approved or vetoed. That's the whole point, manual mode is the **interoperability** escape hatch that lets any external address take part in a stage without adopting a single Aragon interface. The trade-off is that someone has to drive that reporting; it isn't automated for you.
+- **Manual** (`isManual = true`): the body is something that *doesn't* implement OSx's proposal interface, a Safe, a vault, an external Governor, an EOA, so there's no `hasSucceeded` for SPP to poll and no sub-proposal to create. Instead the external system **pushes** its verdict in: it calls `reportProposalResult` to *notify* SPP that it has approved or vetoed. Manual mode is the **interoperability** escape hatch that lets any external address take part in a stage without adopting a single Aragon interface. The trade-off is that someone has to drive that reporting; it isn't automated for you.
 
 ## Making your plugin an automatic body
 

@@ -9,7 +9,7 @@ source: spp/src/StagedProposalProcessor.sol, spp/src/StagedProposalProcessorSetu
 
 The Staged Proposal Processor is **meta-governance**: it decides nothing on its own. Instead it orchestrates *other* governance plugins into a multi-step pipeline. A proposal walks an ordered list of **stages**; at each stage a committee of already-existing plugins (or plain addresses) weighs in, and SPP just tallies whether enough of them said yes (or too many said no) within a time window before letting the proposal move to the next stage, and finally executing it.
 
-The mental model to hold: **a proposal is a token that walks through an ordered list of stages; at each stage, a committee of existing plugins votes on whether to let it through.**
+**A proposal is a token that walks through an ordered list of stages; at each stage, a committee of existing plugins votes on whether to let it through.**
 
 ## Why it exists
 

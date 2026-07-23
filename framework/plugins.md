@@ -7,7 +7,7 @@ source: osx/src/common/plugin/IPlugin.sol, osx/src/common/plugin/Plugin.sol
 
 # The plugin model
 
-The [DAO](../core/dao.md) is deliberately minimal: treasury, executor, permission database. **Everything else is a plugin.** Voting, multisig approval, membership, token management, spending policies, all of it is functionality installed onto a DAO rather than baked into it. This is the central bet of OSx: keep the core tiny and immutable-in-spirit, and make capability modular, versioned, and upgradeable.
+The [DAO](../core/dao.md) is deliberately minimal: treasury, executor, permission database. **Everything else is a plugin.** Voting, multisig approval, membership, token management, spending policies, all of it is functionality installed onto a DAO rather than baked into it. OSx keeps the core tiny and immutable in spirit, and makes capability modular, versioned, and upgradeable.
 
 A plugin is a smart contract associated with one DAO. It gates its own functions by [authorizing them against that DAO](../common/auth.md) (which resolves through the [permission system](../core/permissions.md)), and it acts on the world by having the DAO [execute](../core/execution.md) actions on its behalf. A governance plugin, for instance, is just a contract that (a) decides when a proposal has passed and (b) holds `EXECUTE_PERMISSION_ID` on the DAO so it can enact the result.
 

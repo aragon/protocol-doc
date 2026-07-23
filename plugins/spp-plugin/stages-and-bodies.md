@@ -30,7 +30,7 @@ The thresholds and timings are validated when stages are set (`minAdvance < maxA
 
 ### Thresholds count bodies, not votes
 
-This is the point to internalize: `approvalThreshold` and `vetoThreshold` are **counts of bodies**, not weighted votes. Each body contributes exactly *one* unit to the stage's tally once it reports, regardless of how that body reached its own decision. A 9-signer multisig and a single EOA each count as **1**. Whatever weighting, quorum, or token math happens *inside* a body is invisible to SPP; SPP only asks "did this body approve / veto?" So "3-of-5 bodies must approve" means five bodies, three approvals, not five tokens or five voters.
+`approvalThreshold` and `vetoThreshold` are **counts of bodies**, not weighted votes. Each body contributes exactly *one* unit to the stage's tally once it reports, regardless of how that body reached its own decision. A 9-signer multisig and a single EOA each count as **1**. Whatever weighting, quorum, or token math happens *inside* a body is invisible to SPP; SPP only asks "did this body approve / veto?" So "3-of-5 bodies must approve" means five bodies, three approvals, not five tokens or five voters.
 
 ### Vetoes always win
 

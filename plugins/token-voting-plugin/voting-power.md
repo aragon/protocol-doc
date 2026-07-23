@@ -15,7 +15,7 @@ The plugin itself holds no balances or vote bookkeeping. It reads power from an 
 
 When a proposal is created it fixes a **snapshot** at the timepoint *just before* creation (`block.number - 1`, or `block.timestamp - 1` for timestamp-based tokens). Every vote on that proposal is then weighed by `getPastVotes(voter, snapshot)`, the voter's power *at that fixed point*, no matter when they actually vote.
 
-Two things make this the right design, not an implementation detail:
+Two things make this the right design:
 
 - **It defeats double voting.** Without historical snapshots, a holder could vote, transfer the tokens to a fresh address, and vote again with the same tokens. Because power is read at a frozen past point, moving tokens after the snapshot changes nothing.
 - **Using the *prior* block blocks same-block manipulation.** If the snapshot were the current block, someone could watch a proposal enter the mempool and, in the same block, acquire or delegate tokens to inflate their weight for it. The prior block is already finalized before the proposal transaction is mined, so it can't be gamed.
@@ -24,7 +24,7 @@ A proposal whose snapshot total is zero reverts (`NoVotingPower`), a governance 
 
 ## Delegation
 
-The single most common surprise for token-voting DAOs: with `IVotes`, **holding tokens grants zero voting power until the balance is delegated** (even to yourself). `getVotes` reflects *delegated* power, not raw balance. A holder who never delegates has tokens but no vote.
+With `IVotes`, **holding tokens grants zero voting power until the balance is delegated** (even to yourself), which trips up most token-voting DAOs. `getVotes` reflects *delegated* power, not raw balance. A holder who never delegates has tokens but no vote.
 
 How each token type handles this differs, and it's the practical reason the token choice matters, see [Governance tokens → delegation](./governance-tokens.md#delegation). In short: a freshly minted `GovernanceERC20` may leave holders undelegated (unless minting auto-delegates), while the wrapped token auto-delegates on receipt.
 

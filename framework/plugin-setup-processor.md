@@ -18,7 +18,7 @@ Every lifecycle operation is **two steps**:
 
 Why split them? Because the party who *computes* an installation (permissionless, could be anyone, could be malicious) must not be the party who *authorizes* it. Splitting lets a DAO's governance review the **exact** permission set a preparation would apply, and approve it through a proposal, before any state changes. The preparer can grant themselves nothing; only a DAO-authorized `apply` mutates anything. A [hashing scheme](#setup-ids-what-keeps-apply-honest) binds what gets applied to what was prepared, so nothing can be swapped in between.
 
-This is the core safety property: **permissionless preparation, governed application.**
+This is the core safety property: preparation is **permissionless**, application is **governed**.
 
 ## The apply permissions
 
@@ -48,7 +48,7 @@ Creating a DAO isn't the only time you install a plugin, more often you add one 
 2. call `PSP.applyInstallation(...)` (against a preparation someone already made permissionlessly),
 3. revoke the PSP's `ROOT`.
 
-When that proposal passes and the DAO [executes](../core/execution.md) it, the plugin is installed, its permissions wired, and the temporary ROOT gone, all in the one transaction the DAO's own governance authorized. This is the mental model for every "add a plugin" integration: **a proposal that wraps the ROOT window around an apply.** Updates and uninstalls work the same way, with the matching `APPLY_*` permission and `apply…` call.
+When that proposal passes and the DAO [executes](../core/execution.md) it, the plugin is installed, its permissions wired, and the temporary ROOT gone, all in the one transaction the DAO's own governance authorized. The mental model for every "add a plugin" integration is **a proposal that wraps the ROOT window around an apply.** Updates and uninstalls work the same way, with the matching `APPLY_*` permission and `apply…` call.
 
 ## Setup IDs: what keeps apply honest
 

@@ -13,7 +13,7 @@ Each plugin install gets its **own** LockManager, bound to it **1:1 and permanen
 
 ## Locking
 
-After approving the vault to spend your ERC-20, `lock()` (your full available balance) or `lock(amount)` pulls the tokens in and credits `lockedBalances[you]`. Two things to internalize:
+After approving the vault to spend your ERC-20, `lock()` (your full available balance) or `lock(amount)` pulls the tokens in and credits `lockedBalances[you]`. There are two things to internalize:
 
 - **Your locked balance isn't "spent" by voting or proposing.** The same locked amount backs your voting power on *every* proposal simultaneously, and keeps proving your eligibility to propose. It's a standing stake, not a per-proposal deposit.
 - **Voting power is read live from this balance.** Lock more and your weight goes up immediately, even on proposals already open (subject to the [mode rules](../lock-to-vote-plugin.md#the-voting-model-and-how-it-differs)).

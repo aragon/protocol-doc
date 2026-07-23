@@ -9,7 +9,7 @@ source: token-voting-plugin/src/base/MajorityVotingBase.sol, token-voting-plugin
 
 Majority voting is a reusable decision engine for governance plugins (`MajorityVotingBase`): the rules that turn a set of Yes/No/Abstain votes into a pass or fail. It deliberately separates *how do we decide* (here) from *where does voting power come from* (the concrete plugin supplies that, e.g. the [Token Voting Plugin](./token-voting-plugin.md) weights votes by token balance). Any voting plugin can build on it.
 
-The design worth understanding: a proposal succeeds only if **three independent criteria all hold**, plus it ran for a minimum time. They're independent on purpose, each guards against a different failure of a naive "most votes win" rule.
+A proposal succeeds only if **three independent criteria all hold**, plus it ran for a minimum time. They're independent on purpose, each guards against a different failure of a naive "most votes win" rule.
 
 ## The three thresholds
 
