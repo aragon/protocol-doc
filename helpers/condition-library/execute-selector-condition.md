@@ -7,7 +7,7 @@ source: condition-library/src/ExecuteSelectorCondition.sol
 
 # ExecuteSelectorCondition
 
-`ExecuteSelectorCondition` scopes a DAO's [`EXECUTE_PERMISSION_ID`](../../core/execution.md) so the holder can only make the DAO run a **specific set of `(target, function)` calls**. It's the [condition library](../condition-library.md)'s most powerful member, and the one whose behavior is easiest to misplace, so contrast it with its sibling [SelectorCondition](./selector-condition.md) as you read.
+`ExecuteSelectorCondition` scopes a DAO's [`EXECUTE_PERMISSION_ID`](../../core/execution.md) so the holder can only make the DAO run a **specific set of `(target, function)` calls**. It's the [condition library](../condition-library.md) member that reaches *inside* an `execute()` batch, and the one whose behavior is easiest to misplace, so contrast it with its sibling [SelectorCondition](./selector-condition.md) as you read.
 
 ## When to use it
 
