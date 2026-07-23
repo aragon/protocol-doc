@@ -16,7 +16,7 @@ No organization stays the same. It starts small and informal, grows, adds functi
 
 - **The core stays lean.** The [DAO](../core/dao.md) itself does only three things: hold funds, execute decisions, and answer "is this allowed?". It is deliberately minimal, so there is very little in it to break, and it rarely needs to change.
 - **Capabilities are [plugins](../framework/plugins.md).** Governance (a multisig, token voting, staged approvals), treasury automation, membership, anything, is a module you install onto the DAO and can later upgrade or remove. The organization gains and sheds capabilities without being rebuilt.
-- **One rulebook governs everything.** A single [permission system](../core/permissions.md) decides who may do what, across the DAO and all its plugins. There is one place to reason about authority, not a patchwork per feature.
+- **One rulebook governs everything.** A single [permission system](../core/permissions.md) decides who may do what, across the DAO and all its plugins. There is one place to reason about authority.
 
 In practice, that means **you can change how the organization works without tearing it down.** Move from a founder-run multisig to full token voting, then to a staged process where a council can veto, all on the *same* DAO, its funds and history untouched. Add payroll or buyback automation years after launch. Wind a capability down when it's no longer needed.
 
@@ -34,4 +34,4 @@ Flexibility usually trades against safety. OSx is designed so it doesn't have to
 - To try it, [A hands-on tour of OSx](./hands-on-tour.md) stands up a DAO and makes it act, in one short Foundry test.
 - To launch one properly, [Deploy your first DAO](./deploy-a-dao.md) hands control to a governance plugin from the first block.
 
-OSx is infrastructure for an organization that expects to change, and intends to survive doing so.
+OSx is infrastructure for an organization that expects to change over time.
