@@ -88,7 +88,7 @@ function test_multisigProposal() public {
 
 ## Token Voting: decide by weight
 
-A [token vote](../plugins/token-voting-plugin.md) weighs each vote by the voter's power at the proposal's [snapshot](../plugins/token-voting-plugin/voting-power.md#the-snapshot). Mind the classic trap: **power is delegated, not merely held.** Tokens are *not* delegated by default, so a holder has **zero** voting power until they [delegate](../plugins/token-voting-plugin/voting-power.md#delegation), to themselves or someone else, and that delegation must be in place *before* the proposal is created to count. (The [`launch` guide](./launch-a-governance-token.md) minted with `ensureDelegationOnMint: true` to auto-self-delegate on mint; a plain transfer or a reused token gives no such thing.) Votes are a `VoteOption` (`None`, `Abstain`, `Yes`, `No`):
+A [token vote](../plugins/token-voting-plugin.md) weighs each vote by the voter's power at the proposal's [snapshot](../plugins/token-voting-plugin/voting-power.md#the-snapshot). A common trap is that **power is delegated, not merely held.** Tokens are *not* delegated by default, so a holder has **zero** voting power until they [delegate](../plugins/token-voting-plugin/voting-power.md#delegation), to themselves or someone else, and that delegation must be in place *before* the proposal is created to count. (The [`launch` guide](./launch-a-governance-token.md) minted with `ensureDelegationOnMint: true` to auto-self-delegate on mint; a plain transfer or a reused token gives no such thing.) Votes are a `VoteOption` (`None`, `Abstain`, `Yes`, `No`):
 
 ```solidity
 function test_tokenVote() public {

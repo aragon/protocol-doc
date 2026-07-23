@@ -9,7 +9,7 @@ Guides are written in the order below; each links the concepts it uses rather th
 ## Understand
 
 - [Why OSx: the organization that can reinvent itself](./why-osx.md) — Why a lean core + swappable plugins + one permission layer lets an organization iterate, pivot, and endure.
-- [A hands-on tour of OSx](./hands-on-tour.md) — the smallest end-to-end loop: deploy a DAO, fund it, make it execute an action, and watch a permission gate the call. The hands-on on-ramp.
+- [A hands-on tour of OSx](./hands-on-tour.md) — the smallest end-to-end loop: deploy a DAO, fund it, make it execute an action, and watch a permission gate the call.
 
 ## Use and operate a DAO
 

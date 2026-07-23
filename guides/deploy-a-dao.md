@@ -108,7 +108,7 @@ Confirm the plugin can make the DAO act and you cannot:
 }
 ```
 
-That's the whole point: the DAO now acts only when a multisig [proposal](../common/proposal.md) passes and calls [`dao.execute`](../core/execution.md). No EOA holds the keys, and the DAO holds ROOT over itself, so even changing *that* is a governance decision.
+The DAO now acts only when a multisig [proposal](../common/proposal.md) passes and calls [`dao.execute`](../core/execution.md). No EOA holds the keys, and the DAO holds ROOT over itself, so even changing *that* is a governance decision.
 
 ## What you just saw
 
