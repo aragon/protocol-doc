@@ -7,7 +7,7 @@ source: osx/src/core/dao/DAO.sol, osx/src/core/dao/IEIP4824.sol, osx/src/core/ut
 
 # The DAO contract
 
-A DAO in Aragon OSx is **a single smart contract**. Not a collection of contracts, not an off-chain entity with an on-chain treasury: one `DAO` contract that *is* the organization. Everything a DAO can do reduces to functionality this contract exposes or delegates.
+A DAO in Aragon OSx is **a single smart contract**, one `DAO` contract that *is* the organization, rather than a collection of contracts or an off-chain entity with an on-chain treasury. Everything a DAO can do reduces to functionality this contract exposes or delegates.
 
 That one contract wears several hats at once:
 
@@ -17,13 +17,13 @@ That one contract wears several hats at once:
 - **A signer.** It can validate signatures on the organization's behalf via [EIP-1271](./signature-validation.md).
 - **A discoverable, upgradeable identity.** It implements [EIP-4824](https://eips.ethereum.org/EIPS/eip-4824) (`daoURI`) for off-chain metadata, and is deployed behind a [UUPS proxy](../common/proxies.md) so it can be upgraded.
 
-That first cluster, hold assets, execute anything, own the rules for who may do what, is the whole point: a durable on-chain **organization**. Upgradeability (the proxy) matters too, but it's how the organization endures, not what it's *for*; if proxies are new to you, read [Proxy deployment](../common/proxies.md) first, then come back.
+That first cluster, hold assets, execute anything, own the rules for who may do what, is what a DAO is for: a durable on-chain **organization**. Upgradeability (the proxy) matters too, but it's how the organization endures, not what it's *for*; if proxies are new to you, read [Proxy deployment](../common/proxies.md) first, then come back.
 
 Everything else, governance, membership, asset management, is added by [plugins](../framework/plugins.md). The DAO itself stays deliberately lean: it holds funds, executes actions, and answers "is this allowed?".
 
 ## Why one contract holds everything
 
-The design choice that makes OSx cohere: **the DAO is also its own `PermissionManager`.** Because of that, one authorization model governs the DAO's own admin functions, its plugins' functions, and even framework contracts. A plugin doesn't keep its own access-control list; it asks the DAO "does this caller have permission?" (see [Authorizing against a DAO](../common/auth.md)). There is exactly one source of truth for authority per organization, and it is the DAO.
+**The DAO is also its own `PermissionManager`**, which is what makes OSx cohere. Because of that, one authorization model governs the DAO's own admin functions, its plugins' functions, and even framework contracts. A plugin doesn't keep its own access-control list; it asks the DAO "does this caller have permission?" (see [Authorizing against a DAO](../common/auth.md)). There is exactly one source of truth for authority per organization, and it is the DAO.
 
 ## Deployment and bootstrapping ROOT
 
@@ -42,7 +42,7 @@ function initialize(
 
 `initialize` grants `ROOT_PERMISSION_ID` to `_initialOwner`. **ROOT is god-mode** (see [Permissions](./permissions.md)): whoever holds it can grant or revoke any permission. A freshly initialized DAO therefore has its initial owner in total control, which is fine as a *bootstrap* step and dangerous as an *end state*.
 
-The intended lifecycle: the initial owner sets the DAO up, transfers ROOT **to the DAO itself** (so the organization self-governs), and revokes its own ROOT. In practice you never do this by hand, the [DAOFactory](../framework/dao-factory.md) performs the whole dance atomically in one transaction. The pitfall to remember: **a DAO where an EOA still holds ROOT is a DAO that EOA fully controls.**
+The intended lifecycle looks like: the initial owner sets the DAO up, transfers ROOT **to the DAO itself** (so the organization self-governs), and revokes its own ROOT. In practice you never do this by hand, the [DAOFactory](../framework/dao-factory.md) performs the whole dance atomically in one transaction. The pitfall to remember is that **a DAO where an EOA still holds ROOT is a DAO that EOA fully controls.**
 
 > Granting ROOT to the DAO over itself is what lets a DAO manage its own permissions through governance: a proposal can execute `grant`/`revoke` actions on the DAO.
 
@@ -50,11 +50,11 @@ The intended lifecycle: the initial owner sets the DAO up, transfers ROOT **to t
 
 Once bootstrapped, ROOT on a DAO can rest in one of three end states, and the choice sets how mutable the organization is:
 
-- **The DAO itself** (the usual case). The organization self-governs: every permission change, plugin install, update, or uninstall happens only through a passed proposal that executes `grant`/`revoke` **as the DAO**. This is what a healthy DAO looks like.
+- **The DAO itself** (the usual case). The organization self-governs: every permission change, plugin install, update, or uninstall happens only through a passed proposal that executes `grant`/`revoke` **as the DAO**.
 - **A parent DAO.** A DAO can grant ROOT to *another* DAO and revoke its own, making itself **subordinate**: the parent now controls its permission setup. This is the building block for sub-DAOs and hierarchical organizations.
 - **Nobody, on purpose.** ROOT is an ordinary permission and `revoke` has no floor, so a DAO can revoke ROOT from *every* holder, itself included. With no ROOT anywhere, `grant`, `revoke`, `grantWithCondition`, and the `apply*` batch functions become **permanently uncallable** (all are `auth(ROOT_PERMISSION_ID)`, and [`isGranted`](./permissions.md) gives ROOT no bypass). The permission table is **frozen forever**: no new plugins, no updates or uninstalls, no rewiring, ever.
 
-That last option is a tool, not an accident: revoking ROOT entirely is how you make a permission setup **immutable**. It freezes the *structure*, not activity, the DAO can still `execute` actions and its installed plugins keep working (those are gated by `EXECUTE` and their own permissions, not ROOT); it just can never change who may do what again. And it is irreversible: with no ROOT, nothing can ever grant ROOT back.
+That last option is deliberate: revoking ROOT entirely is how you make a permission setup **immutable**. It freezes the *structure*, not activity, the DAO can still `execute` actions and its installed plugins keep working (those are gated by `EXECUTE` and their own permissions, not ROOT); it just can never change who may do what again. It is irreversible: with no ROOT, nothing can ever grant ROOT back.
 
 ## Permissions the DAO defines
 
@@ -76,7 +76,7 @@ The first five can **never** be granted to the `ANY_ADDR` wildcard (the DAO over
 - **`deposit(token, amount, reference)`** is the tracked deposit path. Native coin (`token == address(0)`) requires `msg.value == amount`; an ERC-20 pulls via `safeTransferFrom` and requires `msg.value == 0`. Emits `Deposited`, and is **permissionless**, anyone can fund a DAO.
 - **`receive()`** handles plain native-coin transfers and just emits `NativeTokenDeposited`. (It does no bookkeeping. Beware the 2300-gas stipend that `.transfer`/`.send` senders impose: such a transfer to the DAO can run out of gas in `receive`; a sender using a normal `call` is unaffected.)
 
-Assets *leave* the DAO only through [`execute`](./execution.md), which is permission-gated. So funding is open; spending is governed.
+Assets *leave* the DAO only through [`execute`](./execution.md), which is permission-gated, so funding is open while spending is governed.
 
 ## Adaptive token callbacks
 
