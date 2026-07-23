@@ -35,7 +35,7 @@ Browse by area:
 - **[Core](./core/index.md)** — the DAO contract and its permission system: what a DAO is and how it authorizes actions.
 - **[Common](./common/index.md)** — the shared cross-cutting primitives (now part of osx at `src/common`, formerly the standalone osx-commons): conditions, proposals, membership, ratio, auth, proxies, versioning.
 - **[Framework](./framework/index.md)** — what a plugin *is* and how it's built, published, and installed: the plugin model, base types, setup, PluginRepo, the PluginSetupProcessor, the factories, the registries.
-- **[Plugins](./plugins/index.md)** — the governance plugins (token voting, multisig, admin, staged proposals, lock-to-vote) and the automation-focused Capital Router.
+- **[Plugins](./plugins/index.md)** — the governance plugins (token voting, multisig, admin, staged proposals, lock-to-vote).
 - **[Helpers](./helpers/index.md)** — protocol helpers: the condition library.
 - **[Deployment](./deployment/index.md)** — deploying the protocol and DAOs: the protocol factory and the DAO launchpad.
 - **[Tooling](./tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template and the `just`/Foundry task runner.

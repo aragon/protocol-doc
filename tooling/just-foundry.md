@@ -1,10 +1,10 @@
 ---
 type: concept
-title: just-foundry
+title: Foundry Task Runner (just-foundry)
 source: just-foundry/README.md
 ---
 
-# just-foundry
+# Foundry Task Runner (just-foundry)
 
 A drop-in **task runner and environment manager** for Foundry projects. Add it as a submodule and write a two-line `justfile`, and your project inherits a consistent one-stop workflow across every supported chain. Two wins in one: it turns multi-step Foundry flows (simulate → broadcast → verify → log) into single commands, *and* it **abstracts network configuration away entirely**, you never hand-manage the pile of per-network environment variables (RPC, chain id, verifier, and the Aragon OSx addresses) that Foundry projects otherwise accumulate. You switch network, and everything resolves. It's the shared tooling the Aragon repos build on: the [plugin template](./plugin-template.md) inits and runs with it (`just init`), the [DAO Launchpad](../deployment/dao-launchpad.md)'s projects inherit it, and the [Protocol Factory](../deployment/protocol-factory.md) uses it.
 

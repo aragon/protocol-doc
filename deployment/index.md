@@ -10,8 +10,7 @@ The two share one best practice, the **correct-from-genesis one-shot factory**: 
 ## Key pages
 
 - [The deployment checklist](./deployment-checklist.md) — the guarantees a safe production deployment ceremony enforces, and why each one matters.
-- [The money machine](./dao-launchpad/money-machine.md) — a worked example, end to end, and the richest illustration of the [Capital Router](../plugins/capital-router.md) in practice.
 
 ## Where to start
 
-Understand the [core](../core/index.md) (what gets deployed and why) before the factory (how it all gets deployed at once). Then read the [Protocol Factory](./protocol-factory.md) (standing up OSx itself), the [DAO Launchpad](./dao-launchpad.md), and its [money-machine worked example](./dao-launchpad/money-machine.md).
+Understand the [core](../core/index.md) (what gets deployed and why) before the factory (how it all gets deployed at once). Then read the [Protocol Factory](./protocol-factory.md) (standing up OSx itself) and the [DAO Launchpad](./dao-launchpad.md).

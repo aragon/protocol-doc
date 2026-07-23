@@ -27,4 +27,4 @@ Guides are written in the order below; each links the concepts it uses rather th
 
 ## More to come
 
-Deeper single-subsystem guides are planned: composing [multi-stage governance with the SPP](../plugins/spp-plugin.md), automating a capital flow with the [Capital Router](../plugins/capital-router.md), gating permissions with the ready-made [condition library](../helpers/condition-library.md), and [deploying the whole protocol](../deployment/protocol-factory.md) on a new chain. Until each lands, follow those concept pages for the underlying detail.
+Deeper single-subsystem guides are planned: composing [multi-stage governance with the SPP](../plugins/spp-plugin.md), gating permissions with the ready-made [condition library](../helpers/condition-library.md), and [deploying the whole protocol](../deployment/protocol-factory.md) on a new chain. Until each lands, follow those concept pages for the underlying detail.

@@ -1,6 +1,6 @@
 # Plugins
 
-The **plugins**: ready-made functionality a DAO installs. Most are **governance** plugins, they make decisions (propose → vote → execute). The [Capital Router](./capital-router.md) is the exception: an **automation** family where governance installs a *policy* once and capital then flows without a vote each time. Either way, each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so they share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Read one closely and the rest read faster.
+The **plugins**: ready-made functionality a DAO installs. They are **governance** plugins, they make decisions (propose → vote → execute). Each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so they share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Read one closely and the rest read faster.
 
 ## Token Voting Plugin
 
@@ -43,16 +43,6 @@ Token-weighted voting where power comes from tokens you *lock* into escrow (cust
 
 - [Lock to Vote Plugin](./lock-to-vote-plugin.md) — lock-vs-snapshot, the voting model, and permissions. **Start here.**
 - [The LockManager](./lock-to-vote-plugin/lock-manager.md) — the vault, and the all-important unlock rules.
-
-## Capital Router
-
-The one **automation** family, not governance: a DAO installs a capital-flow *policy* once, then funds move on their own (payroll, buybacks, rewards, DCA) with no per-action vote. A standard library of composable budget / splitter / strategy building blocks:
-
-- [Capital Router](./capital-router.md) — policy-not-governance, and the Strategy = Budget + Splitter model. **Start here.**
-- [Dispatch vs. request](./capital-router/dispatch-vs-request.md) — push to everyone vs. pull-your-own-slice, the central axis.
-- [The plugins](./capital-router/plugins.md) — Dispatcher, Requester, DispatchHub, plus the failsafe map and permissions.
-- [Budgets](./capital-router/budgets.md), [Splitters](./capital-router/splitters.md), [Strategies](./capital-router/strategies.md), [Oracles](./capital-router/oracles.md) — the composable pieces a flow is assembled from.
-- [What you can build](./capital-router/use-cases.md) — payroll, vesting, DCA, buybacks, rewards, and how each maps to the blocks.
 
 ## Where to start
 
