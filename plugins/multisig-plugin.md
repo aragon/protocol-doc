@@ -9,7 +9,7 @@ source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/pac
 
 The Multisig Plugin is the simplest governance [plugin](../framework/plugins.md): a fixed list of members, and a proposal executes once enough of them have **approved** it. No tokens, no weights, no percentages, just "N of the M members said yes."
 
-If you know the [Token Voting Plugin](./token-voting-plugin.md), the contrast is the fastest way in:
+If you know the [Token Voting Plugin](./token-voting-plugin.md), the contrast is the quickest way in:
 
 | | Multisig | [Token Voting](./token-voting-plugin.md) |
 |---|---|---|

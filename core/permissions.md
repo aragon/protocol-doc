@@ -77,7 +77,7 @@ grantWithCondition(where, who, permissionId, condition); // guarded, see conditi
 revoke(where, who, permissionId);
 ```
 
-Semantics worth knowing:
+A few semantics:
 
 - **Idempotent, and that cuts both ways.** Granting an already-granted permission is a silent no-op (no revert, no new event); same for revoking an unset one. In particular, a plain `grant` over a permission that is currently *conditional* is **also** a no-op: it does **not** strip the condition down to unconditional-allow. Trying to "remove a condition" by re-granting plainly leaves the old condition fully in force, silently. To drop or change a condition you must `revoke` first, then re-grant (see the rotation note below).
 - **Conditions are immutable once set.** `grantWithCondition` on a permission already granted with a *different* condition **reverts** (`PermissionAlreadyGrantedForDifferentCondition`). To change a condition you must `revoke` first, then re-grant. This stops a second ROOT holder from silently swapping the condition out. **Consequence:** that `revoke` drops the entry to *unset*, so, unless a broader [wildcard tier](#the-wildcard-any_addr) still covers that caller, the permission is **denied in the gap between the two calls**. Rotate a condition by putting the `revoke` and the re-`grantWithCondition` in the *same* [action batch](./execution.md) (one proposal), never two transactions, or you flicker the permission off mid-flight.

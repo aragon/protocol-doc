@@ -73,6 +73,6 @@ Because the admin can make the DAO execute *any* action, and a DAO holds [`ROOT`
 
 ## See also
 
-- [Multisig Plugin](./multisig-plugin.md) and [Token Voting Plugin](./token-voting-plugin.md) — governance plugins that *do* store proposals and decide over time; the contrast is the fastest way to understand what Admin strips away.
+- [Multisig Plugin](./multisig-plugin.md) and [Token Voting Plugin](./token-voting-plugin.md) — governance plugins that *do* store proposals and decide over time; the contrast is the clearest way to understand what Admin strips away.
 - [Proposals](../common/proposal.md) — the `IProposal` interface Admin implements in its most minimal form (a zero-width create-and-execute).
 - [The permission system](../core/permissions.md) — how "the admin" is just a grant, and how the admin can grant its own successor.

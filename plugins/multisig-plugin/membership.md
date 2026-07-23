@@ -7,7 +7,7 @@ source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/pac
 
 # Multisig membership & eligibility
 
-The [Multisig Plugin](../multisig-plugin.md)'s member list is just the shared [Addresslist](../../common/membership.md), a checkpointed set of addresses, reused directly (the plugin adds no membership storage of its own). `isMember` is a one-liner over `isListed`. What's worth understanding is the two rules layered on top: the **`minApprovals` invariant** and the **two-speed eligibility** model, both easy to trip on.
+The [Multisig Plugin](../multisig-plugin.md)'s member list is just the shared [Addresslist](../../common/membership.md), a checkpointed set of addresses, reused directly (the plugin adds no membership storage of its own). `isMember` is a one-liner over `isListed`. Two rules layered on top need care: the **`minApprovals` invariant** and the **two-speed eligibility** model, both easy to trip on.
 
 ## Managing members
 

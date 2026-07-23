@@ -37,7 +37,7 @@ Because it's one transaction, if any step reverts the whole thing rolls back, **
 
 ## The takeaway
 
-Two invariants are worth carrying to any custom deployment: **the DAO ends up holding ROOT over itself**, and **no external address (factory, PSP, deployer) retains any elevated permission**. If you ever wire a DAO by hand instead of via the factory, reproduce exactly that end state.
+Two invariants carry over to any custom deployment: **the DAO ends up holding ROOT over itself**, and **no external address (factory, PSP, deployer) retains any elevated permission**. If you ever wire a DAO by hand instead of via the factory, reproduce exactly that end state.
 
 ## See also
 

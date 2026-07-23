@@ -65,7 +65,7 @@ A body's `resultType` is set at configuration. For an **automatic** body it's bi
 
 ## The three stage shapes
 
-One `Stage` struct expresses three distinct governance patterns, worth recognizing by name:
+One `Stage` struct expresses three distinct governance patterns:
 
 - **Normal stage** — bodies are `Approval`, `vetoThreshold = 0`. A plain "N of M must approve" gate.
 - **Optimistic stage** — bodies are `Veto`, `approvalThreshold = 0`, `vetoThreshold > 0`. The proposal passes *automatically* unless enough bodies veto it within the [`voteDuration`](#voteduration-the-field-that-does-two-jobs) window. Good for "let it through unless someone objects."

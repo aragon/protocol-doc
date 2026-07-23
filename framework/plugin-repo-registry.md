@@ -21,7 +21,7 @@ Registration is **permissioned** (`REGISTER_PLUGIN_REPO_PERMISSION_ID`), held on
 
 ## Keep in mind
 
-- **Registered = trusted = installable.** The PSP's `entries(repo)` gate is the whole point: an unregistered repo can't be installed from, no matter how valid its contracts are.
+- **Registered = trusted = installable.** The PSP's `entries(repo)` gate is what counts: an unregistered repo can't be installed from, no matter how valid its contracts are.
 - **The subdomain requirement is version-dependent.** Through v1.3.0 a name was required (an empty one reverts `EmptyPluginRepoSubdomain`); v1.4.0 made it optional. See the [subdomain rules](./registries.md#ens-subdomains).
 
 ## See also

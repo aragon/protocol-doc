@@ -7,7 +7,7 @@ source: spp/src/StagedProposalProcessor.sol
 
 # Composing SPP bodies
 
-The whole point of the [SPP](../spp-plugin.md) is that a stage's decision-makers, its **bodies**, are *other* contracts: existing governance plugins, a Safe, even an EOA. This page is the integration contract: how a body plugs in, and how to make your own plugin usable as one.
+In [SPP](../spp-plugin.md), a stage's decision-makers, its **bodies**, are *other* contracts: existing governance plugins, a Safe, even an EOA. This page is the integration contract: how a body plugs in, and how to make your own plugin usable as one.
 
 **Acting in a body decides the parent, not the actions.** When someone votes or approves inside a body, they're voting on whether to *advance or veto the SPP proposal at that stage*, not on the proposal's underlying actions directly. The body is a gate; SPP owns the actions and the final execution.
 

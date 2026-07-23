@@ -34,7 +34,7 @@ It's a fresh take on source verification: Aragon used Lido's DiffyScan extensive
 
 - **It proves source parity, not behavior.** A clean diff means the verified on-chain sources match your reference; it doesn't judge whether that code is *correct*, that's what the audit the commit corresponds to is for.
 - **Same-repo assumption.** Verifying is smoothest against the repo that deployed the contract; comparing against a differently-structured repo needs explicit remappings.
-- **Verify against what you deployed.** The reference is the exact commit that produced the deployment (and the audit it maps to), not a generic "latest," that's the whole point of the check.
+- **Verify against what you deployed.** The reference is the exact commit that produced the deployment (and the audit it maps to), not a generic "latest."
 
 ## See also
 

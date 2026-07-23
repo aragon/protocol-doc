@@ -23,7 +23,7 @@ return allowedSelectors[getSelector(_data)];
 
 It inspects the **selector of the call being authorized** (the first 4 bytes of that call's calldata) and returns whether it's allow-listed. Two things follow:
 
-- **It gates the *direct* call's own function.** If you instead want to constrain the actions *inside* a DAO `execute()`, that's the sibling [ExecuteSelectorCondition](./execute-selector-condition.md), a distinction worth getting right.
+- **It gates the *direct* call's own function.** If you instead want to constrain the actions *inside* a DAO `execute()`, that's the sibling [ExecuteSelectorCondition](./execute-selector-condition.md).
 - **It ignores who is calling.** The `where`/`who`/`permissionId` are unused; only the selector matters. So granting to [`ANY_ADDR`](../../core/permissions.md#the-wildcard-any_addr) with this condition means *anyone may call the allow-listed functions*, the gate is on **what** is called, not **who**.
 
 The allow-list is **global** (a plain `mapping(bytes4 => bool)`, no per-target dimension), so an allowed selector is allowed wherever this condition applies.
