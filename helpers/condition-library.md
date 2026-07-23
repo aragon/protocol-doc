@@ -17,7 +17,7 @@ Each is its own tool with its own use case, the first thing to get right is *wha
 - **[ExecuteSelectorCondition](./condition-library/execute-selector-condition.md)** — scope the DAO's [`EXECUTE_PERMISSION_ID`](../core/execution.md) by reaching *inside* an `execute()` batch and allow-listing each action's `(target, selector)`. "This plugin may make the DAO execute, but only these calls."
 - **[SafeOwnerCondition](./condition-library/safe-owner-condition.md)** — allow only the current owners of a given [Safe](https://safe.global), a live bridge from a Safe's membership to a DAO permission.
 
-The distinction that trips people: **`SelectorCondition` gates the direct call's own selector; `ExecuteSelectorCondition` gates the selectors of the actions *inside* an `execute()`.** Pick by which call the permission you're guarding actually receives.
+**`SelectorCondition` gates the direct call's own selector; `ExecuteSelectorCondition` gates the selectors of the actions *inside* an `execute()`.** Pick by which call the permission you're guarding actually receives.
 
 ## The `ConditionFactory`
 

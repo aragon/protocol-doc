@@ -21,7 +21,7 @@ function hasSucceeded(uint256 proposalId) external view returns (bool);
 function execute(uint256 proposalId)     external;
 ```
 
-One subtlety is that **`hasSucceeded` must reflect only the *outcome* (did it reach threshold / approval), not the time window.** Whether the voting period is over is a separate axis, folded into `canExecute`. Keeping "did it win" apart from "is it executable now" is what lets, say, an early-execution rule work cleanly. Honor that separation when you implement a governance plugin.
+**`hasSucceeded` must reflect only the *outcome* (did it reach threshold / approval), not the time window.** Whether the voting period is over is a separate axis, folded into `canExecute`. Keeping "did it win" apart from "is it executable now" is what lets, say, an early-execution rule work cleanly. Honor that separation when you implement a governance plugin.
 
 `customProposalParamsABI()` lets a plugin advertise, as a human-readable ABI string, the extra fields it packs into `createProposal`'s `data`, so a UI can render the right form without hard-coding per-plugin knowledge.
 

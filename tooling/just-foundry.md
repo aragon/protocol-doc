@@ -23,7 +23,7 @@ The clarifying way to see it: a deployment project's configuration falls into ex
 - **Project-specific parameters** (yours: how many multisig signers, the min-approvals, metadata URIs, whatever your deployment needs) — yours to set; they're what makes *your* deployment yours.
 - **Secrets** (deployer key, API keys) — yours to provide; just-foundry wires up the resolution (optionally through the `vars` encrypted store, or a plain `.env`), you supply the values.
 
-The upshot is that the entire network dimension disappears from your mental load: you `just switch <network>` and `just deploy`, and it works. Period. All you ever think about is the two buckets that are genuinely your project's.
+The upshot is that the entire network dimension disappears from your mental load: you `just switch <network>` and `just deploy`, and it works. All you ever think about is the two buckets that are genuinely your project's.
 
 ## What it gives a project
 

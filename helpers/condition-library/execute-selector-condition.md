@@ -25,7 +25,7 @@ if (getSelector(_data) != IExecutor.execute.selector) return false;   // must be
 
 For every [action](../../core/execution.md) it checks the target-and-selector pair against a **per-target** allow-list (`allowedSelectors[target][selector]`), plus a separate per-target flag for native-coin movements (`allowedNativeTransfers[target]`). So it constrains *the selectors of the actions the DAO is asked to run*, not the direct call.
 
-Two rules to get right:
+There are two rules to get right:
 
 - **All-or-nothing across the batch.** If *any* action's target/selector isn't allowed, the whole `execute` is denied, one stray action fails the lot.
 - **Value needs clearing, even for a function call.** An action carrying a non-zero `value` is denied unless its target is native-transfer-cleared, *on top of* its selector being allow-listed. Allow-listing a payable `deposit()` but not clearing native transfers to that target still rejects a value-bearing call. A plain transfer (an action with no calldata) likewise needs the target cleared.

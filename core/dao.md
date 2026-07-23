@@ -42,7 +42,7 @@ function initialize(
 
 `initialize` grants `ROOT_PERMISSION_ID` to `_initialOwner`. **ROOT is god-mode** (see [Permissions](./permissions.md)): whoever holds it can grant or revoke any permission. A freshly initialized DAO therefore has its initial owner in total control, which is fine as a *bootstrap* step and dangerous as an *end state*.
 
-The intended lifecycle looks like: the initial owner sets the DAO up, transfers ROOT **to the DAO itself** (so the organization self-governs), and revokes its own ROOT. In practice you never do this by hand, the [DAOFactory](../framework/dao-factory.md) performs the whole dance atomically in one transaction. The pitfall to remember is that **a DAO where an EOA still holds ROOT is a DAO that EOA fully controls.**
+The intended lifecycle looks like: the initial owner sets the DAO up, transfers ROOT **to the DAO itself** (so the organization self-governs), and revokes its own ROOT. In practice you never do this by hand, the [DAOFactory](../framework/dao-factory.md) performs the whole dance atomically in one transaction. **A DAO where an EOA still holds ROOT is a DAO that EOA fully controls.**
 
 > Granting ROOT to the DAO over itself is what lets a DAO manage its own permissions through governance: a proposal can execute `grant`/`revoke` actions on the DAO.
 
