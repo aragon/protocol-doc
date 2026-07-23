@@ -54,7 +54,7 @@ Once bootstrapped, ROOT on a DAO can rest in one of three end states, and the ch
 - **A parent DAO.** A DAO can grant ROOT to *another* DAO and revoke its own, making itself **subordinate**: the parent now controls its permission setup. This is the building block for sub-DAOs and hierarchical organizations.
 - **Nobody, on purpose.** ROOT is an ordinary permission and `revoke` has no floor, so a DAO can revoke ROOT from *every* holder, itself included. With no ROOT anywhere, `grant`, `revoke`, `grantWithCondition`, and the `apply*` batch functions become **permanently uncallable** (all are `auth(ROOT_PERMISSION_ID)`, and [`isGranted`](./permissions.md) gives ROOT no bypass). The permission table is **frozen forever**: no new plugins, no updates or uninstalls, no rewiring, ever.
 
-That last option is deliberate: revoking ROOT entirely is how you make a permission setup **immutable**. It freezes the *structure*, not activity, the DAO can still `execute` actions and its installed plugins keep working (those are gated by `EXECUTE` and their own permissions, not ROOT); it just can never change who may do what again. It is irreversible: with no ROOT, nothing can ever grant ROOT back.
+That last option is deliberate: revoking ROOT entirely is how you make a permission setup **immutable**. It freezes the *structure*, not activity, the DAO can still `execute` actions and its installed plugins keep working (those are gated by `EXECUTE` and their own permissions, not ROOT); it just can never change who may do what again. It is also irreversible: with no ROOT, nothing can ever grant ROOT back.
 
 ## Permissions the DAO defines
 
