@@ -7,7 +7,7 @@ Deploying the protocol itself and the DAOs built on it.
 
 The two share one best practice, the **correct-from-genesis one-shot factory**: everything is wired in a single atomic, verifiable deployment that ends with the factory holding no power. One does it at protocol scale, the other at DAO scale.
 
-## Key pages
+### Key pages
 
 - [The deployment checklist](./deployment-checklist.md) — the guarantees a safe production deployment ceremony enforces, and why each one matters.
 
