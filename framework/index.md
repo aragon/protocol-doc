@@ -6,14 +6,14 @@ The [core](../core/index.md) DAO is deliberately minimal and [common](../common/
 
 New to plugins? Read the model, then how you build one, then the publish/install machinery.
 
-**What a plugin is, and building one**
+## What a plugin is, and building one
 
 - [The plugin model](./plugins.md) — what a plugin *is* and how it acts on a DAO. **Start here.**
 - [Choosing a plugin base](./plugin-types.md) — Plugin vs Cloneable vs UUPS, and how to decide.
 - [Plugin setup](./plugin-setup.md) — the per-version contract that deploys a plugin and declares its permissions.
 - [Plugin metadata](./plugin-metadata.md) — the release/build JSON a version points to (incl. the install-params schema), and on-chain instance metadata.
 
-**Publishing and installing**
+## Publishing and installing
 
 - [PluginRepo](./plugin-repo.md) — per-plugin versioning (`release.build`) and publishing.
 - [The PluginSetupProcessor (PSP)](./plugin-setup-processor.md) — the two-step prepare→apply install/update/uninstall engine.
@@ -21,7 +21,7 @@ New to plugins? Read the model, then how you build one, then the publish/install
 - [Registries and ENS names](./registries.md) — how the canonical registries and ENS naming work (overview), covering the [DAO Registry](./dao-registry.md) and [PluginRepo Registry](./plugin-repo-registry.md).
 - [Member registry](./member-registry.md) — permissionless member-identity ENS names.
 
-## A note on the word "factory"
+### A note on the word "factory"
 
 OSx reuses "factory" for several distinct things; keep them apart by *what they produce*:
 
@@ -33,6 +33,6 @@ OSx reuses "factory" for several distinct things; keep them apart by *what they 
 
 Rule of thumb: *setup* = one install; *DAOFactory* / *launchpad* = one DAO; *PluginRepoFactory* = one repo; *Protocol Factory* = the whole protocol.
 
-## Builds on
+### Builds on
 
 Plugins reuse the cross-cutting primitives in [common](../common/index.md) (conditions, proposals, membership, auth, proxies) and act on the [DAO](../core/dao.md) and its [permission system](../core/permissions.md) from the core.
