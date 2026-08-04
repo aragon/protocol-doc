@@ -7,7 +7,7 @@ source: token-voting-plugin/src/TokenVoting.sol, token-voting-plugin/src/TokenVo
 
 # Token Voting Plugin
 
-The Token Voting Plugin is the "one token, one vote" governance [plugin](../framework/plugins.md), the most common way an OSx DAO governs itself. Members' influence is proportional to the governance tokens they hold (or that others delegate to them), and a proposal passes when it meets a configurable [majority-voting rule](./majority-voting.md). It's also the clearest worked example of the protocol's [shared building blocks](../common/index.md) in action: it reuses the [proposal](../common/proposal.md), [membership](../common/membership.md), and [ratio](../common/ratio.md) primitives, adds token-based [voting power](./token-voting-plugin/voting-power.md), and is installed through the standard [framework](../framework/plugin-setup-processor.md).
+The Token Voting Plugin is the "one token, one vote" governance [plugin](../framework/plugins.md), the most common way an OSx DAO governs itself. Members' influence is proportional to the governance tokens they hold (or that others delegate to them), and a proposal passes when it meets a configurable [majority-voting rule](./majority-voting.md). It also puts the protocol's [shared building blocks](../common/index.md) to work: it reuses the [proposal](../common/proposal.md), [membership](../common/membership.md), and [ratio](../common/ratio.md) primitives, adds token-based [voting power](./token-voting-plugin/voting-power.md), and is installed through the standard [framework](../framework/plugin-setup-processor.md).
 
 This folder covers it in four pages:
 

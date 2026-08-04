@@ -48,7 +48,7 @@ contract MyUpgradeablePlugin is PluginUUPSUpgradeable {
 }
 ```
 
-Three things to internalize. `auth(MANAGER_PERMISSION_ID)` doesn't check a local list, it asks the DAO "does the caller hold this on *this plugin*" (the [plugin is the `where`](../common/auth.md)). A plugin makes the DAO act by building [actions](../core/execution.md) and calling `dao.execute`, which only works if the plugin holds `EXECUTE_PERMISSION_ID` on the DAO, and *that* grant comes from the setup below. The `__gap` preserves storage layout across [upgrades](../framework/plugin-types.md).
+There are three things to note. `auth(MANAGER_PERMISSION_ID)` doesn't check a local list, it asks the DAO "does the caller hold this on *this plugin*" (the [plugin is the `where`](../common/auth.md)). A plugin makes the DAO act by building [actions](../core/execution.md) and calling `dao.execute`, which only works if the plugin holds `EXECUTE_PERMISSION_ID` on the DAO, and *that* grant comes from the setup below. The `__gap` preserves storage layout across [upgrades](../framework/plugin-types.md).
 
 ## Step 2, the PluginSetup
 

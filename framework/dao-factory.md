@@ -7,7 +7,7 @@ source: osx/src/framework/dao/DAOFactory.sol
 
 # DAOFactory (creating a DAO)
 
-`DAOFactory.createDao` is the front door to the protocol: in **one transaction** it deploys a [DAO](../core/dao.md), registers it, installs an initial set of [plugins](./plugins.md), and leaves the DAO safely self-governing with no external party in control. It is the canonical, and safest, way to create a DAO, and the clearest worked example of the [permission](../core/permissions.md) choreography the whole framework depends on.
+`DAOFactory.createDao` is the front door to the protocol: in **one transaction** it deploys a [DAO](../core/dao.md), registers it, installs an initial set of [plugins](./plugins.md), and leaves the DAO safely self-governing with no external party in control. It is the canonical, and safest, way to create a DAO, and a worked example of the [permission](../core/permissions.md) choreography the whole framework depends on.
 
 ## What you pass
 
@@ -37,7 +37,7 @@ Because it's one transaction, if any step reverts the whole thing rolls back, **
 
 ## The takeaway
 
-Two invariants are worth carrying to any custom deployment: **the DAO ends up holding ROOT over itself**, and **no external address (factory, PSP, deployer) retains any elevated permission**. If you ever wire a DAO by hand instead of via the factory, reproduce exactly that end state.
+Two invariants carry over to any custom deployment: **the DAO ends up holding ROOT over itself**, and **no external address (factory, PSP, deployer) retains any elevated permission**. If you ever wire a DAO by hand instead of via the factory, reproduce exactly that end state.
 
 ## See also
 

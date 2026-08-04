@@ -33,7 +33,7 @@ From `state`, the rest follows: `canProposalAdvance` is "state is Advanceable"; 
 
 ## How a stage's results are tallied: push and pull
 
-A stage's tally, how many bodies have approved or vetoed, is computed two ways per body, and this duality is worth understanding:
+A stage's tally, how many bodies have approved or vetoed, is computed two ways per body:
 
 - **Push (a body reports).** A body (or anyone acting for it) calls `reportProposalResult`, which records its verdict in storage. Once recorded, that verdict is **cached permanently and trusted**, SPP never re-checks it. This is how [automatic bodies](./composing-bodies.md) feed back: the sub-proposal SPP created on them has a single action that calls `reportProposalResult` when the body's own process executes it.
 - **Pull (SPP asks).** If a body hasn't reported but is automatic and had a sub-proposal created, SPP does a read-only `hasSucceeded` call on that sub-proposal on the fly; if it succeeded, the body's registered [`resultType`](./stages-and-bodies.md#bodies) (approval or veto) is credited. SPP doesn't ask *which way* the body voted, it decided at config time what "this body succeeded" means.

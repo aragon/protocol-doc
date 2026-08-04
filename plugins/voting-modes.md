@@ -34,7 +34,7 @@ A voter can call `vote` again and change their choice any time before the end da
 
 ## Why Early Execution and Vote Replacement are mutually exclusive
 
-They can't be combined, and it's not a limitation, it's the math. Early execution declares an outcome *final* while the proposal is still open. That's only sound if cast votes can't change: if a "yes" could later flip to "no", no outcome is ever truly settled before the deadline. Vote replacement is exactly the ability to flip a vote. So the two are contradictory, and a proposal is in one mode or the other.
+They can't be combined, and it comes down to the math. Early execution declares an outcome *final* while the proposal is still open. That's only sound if cast votes can't change: if a "yes" could later flip to "no", no outcome is ever truly settled before the deadline. Vote replacement is exactly the ability to flip a vote. So the two are contradictory, and a proposal is in one mode or the other.
 
 ## Keep in mind
 

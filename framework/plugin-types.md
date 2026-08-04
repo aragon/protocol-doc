@@ -29,7 +29,7 @@ Every plugin extends one of three base contracts. They give you the same develop
 
 **`Plugin`** — non-upgradeable, deployed with `new` as full bytecode per install. Highest deploy gas, no proxy indirection at call time. Choose it when immutability is a *feature*, a governance-critical plugin whose code should be provably unchangeable is more trustworthy when it literally cannot be upgraded.
 
-The rule of thumb: **UUPS unless you have a specific reason to want immutability (`Plugin`) or ultra-cheap disposable instances (`Cloneable`).**
+As a rule of thumb, **UUPS unless you have a specific reason to want immutability (`Plugin`) or ultra-cheap disposable instances (`Cloneable`).**
 
 ## Initialization
 

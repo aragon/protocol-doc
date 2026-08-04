@@ -13,7 +13,7 @@ A repo is itself a UUPS proxy, and, notably, **it is its own [`PermissionManager
 
 ## Release vs build
 
-Versions are `release.build` tags, and the distinction is the whole point of the versioning model:
+Versions are `release.build` tags, and the release/build distinction is the core of the versioning model:
 
 ```solidity
 struct Tag { uint8 release; uint16 build; }

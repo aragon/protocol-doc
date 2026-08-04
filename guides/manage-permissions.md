@@ -85,7 +85,7 @@ contract OnlyBeforeDeadline is PermissionCondition {
 }
 ```
 
-Two things to hold onto: a condition [fails closed](../common/permission-conditions.md) (revert or garbage return counts as "denied"), and the `data` argument is the *full calldata* of the gated call, so a richer condition can decode and check the arguments. For boolean combinations of standard checks (time, block, sub-conditions) you often don't need bespoke code, [`RuledCondition`](../common/ruled-condition.md) expresses them as data, and the [condition library](../helpers/condition-library.md) ships ready-made ones.
+There are two things to hold onto: a condition [fails closed](../common/permission-conditions.md) (revert or garbage return counts as "denied"), and the `data` argument is the *full calldata* of the gated call, so a richer condition can decode and check the arguments. For boolean combinations of standard checks (time, block, sub-conditions) you often don't need bespoke code, [`RuledCondition`](../common/ruled-condition.md) expresses them as data, and the [condition library](../helpers/condition-library.md) ships ready-made ones.
 
 ## Step 4, gate a permission, then rotate the condition safely
 

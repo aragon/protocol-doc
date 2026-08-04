@@ -9,7 +9,7 @@ source: osx/src/core/dao/DAO.sol
 
 A DAO is a contract, so it has no private key and cannot produce ECDSA signatures. [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) is the standard by which a contract answers "is this signature valid for me?" via `isValidSignature(hash, signature)`. Many integrations (Safe modules, exchanges, off-chain order books) call it to check whether a smart-contract account approved something.
 
-OSx implements EIP-1271 in an unusual, elegant way: **the DAO delegates the decision to its own [permission system](./permissions.md).** It holds no signature logic of its own.
+OSx implements EIP-1271 without any signature logic of its own: **the DAO delegates the decision to its own [permission system](./permissions.md).**
 
 ## How it works
 

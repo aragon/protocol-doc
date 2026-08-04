@@ -9,7 +9,7 @@ source: spp/src/StagedProposalProcessor.sol, spp/src/StagedProposalProcessorSetu
 
 The Staged Proposal Processor is **meta-governance**: it decides nothing on its own. Instead it orchestrates *other* governance plugins into a multi-step pipeline. A proposal walks an ordered list of **stages**; at each stage a committee of already-existing plugins (or plain addresses) weighs in, and SPP just tallies whether enough of them said yes (or too many said no) within a time window before letting the proposal move to the next stage, and finally executing it.
 
-The mental model to hold: **a proposal is a token that walks through an ordered list of stages; at each stage, a committee of existing plugins votes on whether to let it through.**
+**A proposal is a token that walks through an ordered list of stages; at each stage, a committee of existing plugins votes on whether to let it through.**
 
 ## Why it exists
 
@@ -39,7 +39,7 @@ Creating a proposal is permission-gated (`CREATE_PROPOSAL_PERMISSION_ID`), and m
 - **Composable.** Because it's a rule tree, "who may propose" can defer to other conditions and combine them with boolean logic, restrict creation to the members of an existing plugin, or to any of several. Eligibility is whatever the DAO configures, not a rule fixed inside SPP.
 - **Governed.** Rules change via `updateRules` (gated by `UPDATE_RULES_PERMISSION_ID`, held by the DAO), so who may propose is itself a governance decision.
 
-> A guard-rail worth knowing: when you compose a rule that defers to another condition, `SPPRuleCondition` test-calls that condition with empty `data` and rejects it if it reverts. SPP can't predict what `data` a nested condition will need for a live `createProposal`, so only **data-independent** conditions compose safely; this check stops a DAO from wiring in a condition that would silently brick proposal creation for everyone.
+> There's a guard-rail here: when you compose a rule that defers to another condition, `SPPRuleCondition` test-calls that condition with empty `data` and rejects it if it reverts. SPP can't predict what `data` a nested condition will need for a live `createProposal`, so only **data-independent** conditions compose safely; this check stops a DAO from wiring in a condition that would silently brick proposal creation for everyone.
 
 ## Installation & permissions
 

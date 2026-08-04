@@ -6,7 +6,7 @@ source: osx/src/framework/dao/DAOFactory.sol, osx/src/core/dao/DAO.sol
 
 # A hands-on tour of OSx
 
-The fastest way to *feel* how OSx works: in one Foundry test you'll deploy a real [DAO](../core/dao.md), fund it, make it perform an on-chain action, and then watch the [permission system](../core/permissions.md) reject the same action from the wrong caller. Fifteen minutes, and the mental model sticks.
+The fastest way to *feel* how OSx works: in one Foundry test you'll deploy a real [DAO](../core/dao.md), fund it, make it perform an on-chain action, and then watch the [permission system](../core/permissions.md) reject the same action from the wrong caller.
 
 By the end you'll have seen the three things a DAO *is*, a treasury, an [executor](../core/execution.md), and its own permission database, in motion, and you'll know exactly what the later guides build on.
 
@@ -77,7 +77,7 @@ function test_fundAndSpend() public {
 }
 ```
 
-Two things to notice. Funding is **permissionless**, anyone can pay a DAO, but assets leave *only* through [`execute`](../core/execution.md), which is permission-gated: open in, governed out. And the transfer runs **as the DAO**, at Bob's address `msg.sender` is the DAO and the ether is the DAO's, because `execute` uses `call`, not `delegatecall` (the same reason a DAO can call *itself* to change its own permissions, see [why it's a `call`](../core/execution.md#the-execute-function)).
+There are two things to notice. Funding is **permissionless**, anyone can pay a DAO, but assets leave *only* through [`execute`](../core/execution.md), which is permission-gated. The transfer runs **as the DAO**, at Bob's address `msg.sender` is the DAO and the ether is the DAO's, because `execute` uses `call`, not `delegatecall` (the same reason a DAO can call *itself* to change its own permissions, see [why it's a `call`](../core/execution.md#the-execute-function)).
 
 ## Step 3, watch the permission gate
 

@@ -6,7 +6,7 @@ source: token-voting-plugin/src/TokenVotingSetup.sol, osx/src/framework/dao/DAOF
 
 # Launch a governance token with your DAO
 
-[Deploy your first DAO](./deploy-a-dao.md) installed a multisig, a fixed member set. This guide installs [Token Voting](../plugins/token-voting-plugin.md) instead, so decisions are made by *token holders*. The mechanics of `createDao` are identical; what's new, and genuinely the interesting decision, is **the token**. Token Voting only works with an [`IVotes` token](../plugins/token-voting-plugin/voting-power.md) (checkpointed, delegatable balances), and its setup gives you three ways to supply one, in a single install.
+[Deploy your first DAO](./deploy-a-dao.md) installed a multisig, a fixed member set. This guide installs [Token Voting](../plugins/token-voting-plugin.md) instead, so decisions are made by *token holders*. The mechanics of `createDao` are identical; what's new is **the token**. Token Voting only works with an [`IVotes` token](../plugins/token-voting-plugin/voting-power.md) (checkpointed, delegatable balances), and its setup gives you three ways to supply one, in a single install.
 
 ## What you need
 

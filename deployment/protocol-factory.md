@@ -51,7 +51,7 @@ This temporary-power-then-revoke discipline (and the deploy-once, atomic, on-cha
 
 ## A fresh OSx for building plugins
 
-The factory doubles as the cleanest way to get a *realistic* OSx into a plugin's test suite. A `ProtocolFactoryBuilder` (Foundry) stands up a complete, fresh protocol, defaults or selectively overridden, and you read the results straight back:
+The factory doubles as a way to get a *realistic* OSx into a plugin's test suite. A `ProtocolFactoryBuilder` (Foundry) stands up a complete, fresh protocol, defaults or selectively overridden, and you read the results straight back:
 
 ```solidity
 ProtocolFactory factory = new ProtocolFactoryBuilder().build();

@@ -31,7 +31,7 @@ The template ships **examples of every variant** so each pattern is there to lea
 - **Publish the plugin** to a [PluginRepo](../framework/plugin-repo.md) (`DeploySimple`), the main path, what makes your plugin installable by any DAO.
 - **Deploy a DAO with your plugin(s) installed** (`DeployDaoWithPlugins`, trusted) or **via a one-shot factory** (`DeployViaFactory`, trustless), included so you can stand up a DAO *to exercise your plugin*: a demo, an end-to-end test, or a simple one-off.
 
-If your goal is actually **launching a DAO** rather than building a plugin, reach for the [DAO Launchpad](../deployment/dao-launchpad.md) instead, it's the workbench for assembling a custom DAO from heterogeneous components (and it can install the plugin you published here). Rule of thumb: **build/publish a plugin → this template; launch a DAO → the Launchpad.**
+If your goal is actually **launching a DAO** rather than building a plugin, reach for the [DAO Launchpad](../deployment/dao-launchpad.md) instead, it's the workbench for assembling a custom DAO from heterogeneous components (and it can install the plugin you published here). As a rule of thumb, **build/publish a plugin → this template; launch a DAO → the Launchpad.**
 
 For tests, two builders stand up a DAO with your plugin installed: a **SimpleBuilder** (local) and a **ForkBuilder** (against a real deployed protocol, using the configured factory addresses).
 
