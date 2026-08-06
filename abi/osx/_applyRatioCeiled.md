@@ -1,7 +1,8 @@
 ---
+type: reference
 title: _applyRatioCeiled
 kind: function
-source: src/common/utils/math/Ratio.sol
+source: osx/src/common/utils/math/Ratio.sol
 summary: "Applies a ratio to a value and ceils the remainder."
 ---
 

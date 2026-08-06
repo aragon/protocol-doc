@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PluginSetupProcessor
 kind: contract
-source: src/framework/plugin/setup/PluginSetupProcessor.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessor.sol
 summary: "This contract processes the preparation and application of plugin setups (installation, update, uninstallation) on behalf of a requesting DAO."
 ---
 
@@ -495,7 +496,7 @@ bytes32 public constant APPLY_INSTALLATION_PERMISSION_ID =
         keccak256("APPLY_INSTALLATION_PERMISSION");
 ```
 
-Selector: `0x747e5ec1`
+Value: `0xf796b89427c6552c1ac705d833bfb7909f8eb5ce502c1db97f85fabc6ad83548`
 
 The ID of the permission required to call the `applyInstallation` function.
 
@@ -506,7 +507,7 @@ bytes32 public constant APPLY_UNINSTALLATION_PERMISSION_ID =
         keccak256("APPLY_UNINSTALLATION_PERMISSION");
 ```
 
-Selector: `0xca211f7f`
+Value: `0xbd4dbacf5ba6d9793f600403b3293d6ecd695fcc703a2b5edcf245f45fda6cfa`
 
 The ID of the permission required to call the `applyUninstallation` function.
 
@@ -516,7 +517,7 @@ The ID of the permission required to call the `applyUninstallation` function.
 bytes32 public constant APPLY_UPDATE_PERMISSION_ID = keccak256("APPLY_UPDATE_PERMISSION");
 ```
 
-Selector: `0x9665861a`
+Value: `0xb03cf3d518f6d49560b7f5bece1ccb8fd50ea7370f02f5e5210edba04be3c4f7`
 
 The ID of the permission required to call the `applyUpdate` function.
 

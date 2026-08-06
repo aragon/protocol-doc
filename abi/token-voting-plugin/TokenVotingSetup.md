@@ -1,7 +1,8 @@
 ---
+type: reference
 title: TokenVotingSetup
 kind: contract
-source: src/TokenVotingSetup.sol
+source: token-voting-plugin/src/TokenVotingSetup.sol
 summary: "The setup contract of the `TokenVoting` plugin."
 ---
 
@@ -259,8 +260,6 @@ _Public, so each is also readable through a generated getter._
 address public immutable governanceERC20Base;
 ```
 
-Selector: `0x599cb1a6`
-
 The address of the `GovernanceERC20` base contract.
 
 ### governanceWrappedERC20Base
@@ -268,8 +267,6 @@ The address of the `GovernanceERC20` base contract.
 ```solidity
 address public immutable governanceWrappedERC20Base;
 ```
-
-Selector: `0xe89b6b91`
 
 The address of the `GovernanceWrappedERC20` base contract.
 

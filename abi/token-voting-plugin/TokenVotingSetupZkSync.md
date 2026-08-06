@@ -1,7 +1,8 @@
 ---
+type: reference
 title: TokenVotingSetupZkSync
 kind: contract
-source: src/TokenVotingSetupZkSync.sol
+source: token-voting-plugin/src/TokenVotingSetupZkSync.sol
 summary: "The setup contract of the `TokenVoting` plugin."
 ---
 

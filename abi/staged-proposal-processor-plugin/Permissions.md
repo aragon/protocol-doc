@@ -1,7 +1,8 @@
 ---
+type: reference
 title: Permissions
 kind: library
-source: src/libraries/Permissions.sol
+source: staged-proposal-processor-plugin/src/libraries/Permissions.sol
 summary: ""
 ---
 

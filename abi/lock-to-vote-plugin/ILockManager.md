@@ -1,7 +1,8 @@
 ---
+type: reference
 title: ILockManager
 kind: interface
-source: src/interfaces/ILockManager.sol
+source: lock-to-vote-plugin/src/interfaces/ILockManager.sol
 summary: "Helper contract acting as the vault for locked tokens used to vote on LockToGovern plugins."
 ---
 

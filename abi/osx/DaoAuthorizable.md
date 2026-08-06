@@ -1,8 +1,9 @@
 ---
+type: reference
 title: DaoAuthorizable
 kind: abstract contract
-source: src/common/permission/auth/DaoAuthorizable.sol
-summary: "An abstract contract providing a meta-transaction compatible modifier for non-upgradeable contracts instantiated via the `new` keyword to authorize function cal"
+source: osx/src/common/permission/auth/DaoAuthorizable.sol
+summary: "An abstract contract providing a meta-transaction compatible modifier for non-upgradeable contracts instantiated via the `new` keyword to authorize function…"
 ---
 
 # DaoAuthorizable

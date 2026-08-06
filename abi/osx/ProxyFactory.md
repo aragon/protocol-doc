@@ -1,8 +1,9 @@
 ---
+type: reference
 title: ProxyFactory
 kind: contract
-source: src/common/utils/deployment/ProxyFactory.sol
-summary: "A factory to deploy proxies via the UUPS pattern (see [ERC-1822](https://eips.ethereum.org/EIPS/eip-1822)) and minimal proxy pattern (see [ERC-1167](https://eip"
+source: osx/src/common/utils/deployment/ProxyFactory.sol
+summary: "A factory to deploy proxies via the UUPS pattern (see [ERC-1822](https://eips.ethereum.org/EIPS/eip-1822)) and minimal proxy pattern (see…"
 ---
 
 # ProxyFactory

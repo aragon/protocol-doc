@@ -1,8 +1,9 @@
 ---
+type: reference
 title: GovernanceERC20
 kind: contract
-source: src/erc20/GovernanceERC20.sol
-summary: "An [OpenZeppelin `Votes`](https://docs.openzeppelin.com/contracts/4.x/api/governance#Votes) compatible [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token, us"
+source: token-voting-plugin/src/erc20/GovernanceERC20.sol
+summary: "An [OpenZeppelin `Votes`](https://docs.openzeppelin.com/contracts/4.x/api/governance#Votes) compatible [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token,…"
 ---
 
 # GovernanceERC20
@@ -581,7 +582,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant MINT_PERMISSION_ID = keccak256("MINT_PERMISSION");
 ```
 
-Selector: `0xb2d2989c`
+Value: `0xb737b436e6cc542520cb79ec04245c720c38eebfa56d9e2d99b043979db20e4c`
 
 The permission identifier to mint new tokens
 

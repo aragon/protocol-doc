@@ -1,7 +1,8 @@
 ---
+type: reference
 title: _getPreparedSetupId
 kind: function
-source: src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
 summary: "Returns an ID for prepared setup obtained from hashing characterizing elements."
 ---
 

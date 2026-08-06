@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PluginSetupRef
 kind: struct
-source: src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
 summary: ""
 ---
 

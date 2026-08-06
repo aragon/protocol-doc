@@ -1,7 +1,8 @@
 ---
+type: reference
 title: RuledCondition
 kind: abstract contract
-source: src/common/permission/condition/extensions/RuledCondition.sol
+source: osx/src/common/permission/condition/extensions/RuledCondition.sol
 summary: "An abstract contract to create conditional permissions using rules."
 ---
 
@@ -188,6 +189,22 @@ enum Op {
     IF_ELSE
 }
 ```
+
+| Option | Value |
+| --- | --- |
+| `NONE` | `0` |
+| `EQ` | `1` |
+| `NEQ` | `2` |
+| `GT` | `3` |
+| `LT` | `4` |
+| `GTE` | `5` |
+| `LTE` | `6` |
+| `RET` | `7` |
+| `NOT` | `8` |
+| `AND` | `9` |
+| `OR` | `10` |
+| `XOR` | `11` |
+| `IF_ELSE` | `12` |
 
 ## Structs
 

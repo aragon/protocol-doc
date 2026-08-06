@@ -1,7 +1,8 @@
 ---
+type: reference
 title: Addresslist
 kind: abstract contract
-source: src/common/plugin/extensions/governance/Addresslist.sol
+source: osx/src/common/plugin/extensions/governance/Addresslist.sol
 summary: "The majority voting implementation using a list of member addresses."
 ---
 

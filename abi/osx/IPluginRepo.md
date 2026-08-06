@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IPluginRepo
 kind: interface
-source: src/framework/plugin/repo/IPluginRepo.sol
+source: osx/src/framework/plugin/repo/IPluginRepo.sol
 summary: "The interface required for a plugin repository."
 ---
 

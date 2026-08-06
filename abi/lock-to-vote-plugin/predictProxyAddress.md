@@ -1,7 +1,8 @@
 ---
+type: reference
 title: predictProxyAddress
 kind: function
-source: src/util/proxy.sol
+source: lock-to-vote-plugin/src/util/proxy.sol
 summary: ""
 ---
 

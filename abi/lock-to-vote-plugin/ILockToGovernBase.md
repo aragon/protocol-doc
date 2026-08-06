@@ -1,7 +1,8 @@
 ---
+type: reference
 title: ILockToGovernBase
 kind: interface
-source: src/interfaces/ILockToGovernBase.sol
+source: lock-to-vote-plugin/src/interfaces/ILockToGovernBase.sol
 summary: "ILockToGovernBase"
 ---
 

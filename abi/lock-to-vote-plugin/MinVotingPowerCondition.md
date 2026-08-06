@@ -1,7 +1,8 @@
 ---
+type: reference
 title: MinVotingPowerCondition
 kind: contract
-source: src/conditions/MinVotingPowerCondition.sol
+source: lock-to-vote-plugin/src/conditions/MinVotingPowerCondition.sol
 summary: "Checks if an account's voting power or token balance meets the threshold defined on the given plugin."
 ---
 
@@ -110,8 +111,6 @@ _Public, so each is also readable through a generated getter._
 ILockManager public immutable lockManager;
 ```
 
-Selector: `0xacca30a2`
-
 The address of the LockManager used by the plugin.
 
 ### plugin
@@ -120,8 +119,6 @@ The address of the LockManager used by the plugin.
 ILockToGovernBase public immutable plugin;
 ```
 
-Selector: `0xef01df4f`
-
 The address of the `ILockToGovernBase` plugin used to fetch the settings from.
 
 ### token
@@ -129,7 +126,5 @@ The address of the `ILockToGovernBase` plugin used to fetch the settings from.
 ```solidity
 IERC20 public immutable token;
 ```
-
-Selector: `0xfc0c546a`
 
 The `IERC20` token interface used to check token balance.

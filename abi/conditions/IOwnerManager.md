@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IOwnerManager
 kind: interface
-source: src/interfaces/IOwnerManager.sol
+source: conditions/src/interfaces/IOwnerManager.sol
 summary: "Interface for managing Safe owners and a threshold to authorize transactions."
 ---
 

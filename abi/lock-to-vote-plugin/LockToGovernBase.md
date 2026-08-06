@@ -1,7 +1,8 @@
 ---
+type: reference
 title: LockToGovernBase
 kind: abstract contract
-source: src/base/LockToGovernBase.sol
+source: lock-to-vote-plugin/src/base/LockToGovernBase.sol
 summary: "LockToGovernBase"
 ---
 

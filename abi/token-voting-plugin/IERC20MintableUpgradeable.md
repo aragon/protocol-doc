@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IERC20MintableUpgradeable
 kind: interface
-source: src/erc20/IERC20MintableUpgradeable.sol
+source: token-voting-plugin/src/erc20/IERC20MintableUpgradeable.sol
 summary: "Interface to allow minting of [ERC-20](https://eips.ethereum.org/EIPS/eip-20) tokens."
 ---
 

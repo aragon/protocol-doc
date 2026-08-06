@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PermissionLib
 kind: library
-source: src/common/permission/PermissionLib.sol
+source: osx/src/common/permission/PermissionLib.sol
 summary: "A library containing objects for permission processing."
 ---
 
@@ -25,8 +26,6 @@ _Public, so each is also readable through a generated getter._
 address public constant NO_CONDITION = address(0);
 ```
 
-Selector: `0x6dd02a5b`
-
 A constant expressing that no condition is applied to a permission.
 
 ## Enums
@@ -40,6 +39,12 @@ enum Operation {
     GrantWithCondition
 }
 ```
+
+| Option | Value |
+| --- | --- |
+| `Grant` | `0` |
+| `Revoke` | `1` |
+| `GrantWithCondition` | `2` |
 
 ## Structs
 

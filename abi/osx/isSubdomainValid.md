@@ -1,7 +1,8 @@
 ---
+type: reference
 title: isSubdomainValid
 kind: function
-source: src/framework/utils/RegistryUtils.sol
+source: osx/src/framework/utils/RegistryUtils.sol
 summary: "Validates that a subdomain name is composed only from characters in the allowed character set: - the lowercase letters `a-z` - the digits `0-9` - the hyphen `-`"
 ---
 

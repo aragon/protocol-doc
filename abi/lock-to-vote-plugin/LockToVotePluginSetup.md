@@ -1,7 +1,8 @@
 ---
+type: reference
 title: LockToVotePluginSetup
 kind: contract
-source: src/setup/LockToVotePluginSetup.sol
+source: lock-to-vote-plugin/src/setup/LockToVotePluginSetup.sol
 summary: "The setup contract of the `LockToVotePlugin` contract."
 ---
 

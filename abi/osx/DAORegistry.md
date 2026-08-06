@@ -1,7 +1,8 @@
 ---
+type: reference
 title: DAORegistry
 kind: contract
-source: src/framework/dao/DAORegistry.sol
+source: osx/src/framework/dao/DAORegistry.sol
 summary: "This contract provides the possibility to register a DAO."
 ---
 
@@ -297,7 +298,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant REGISTER_DAO_PERMISSION_ID = keccak256("REGISTER_DAO_PERMISSION");
 ```
 
-Selector: `0xa2298b4b`
+Value: `0xde5e253d6956bc5fb69cfa564733633f4e53b143e42859306cd13cdc54856215`
 
 The ID of the permission required to call the `register` function.
 
@@ -308,6 +309,6 @@ bytes32 public constant UPGRADE_REGISTRY_PERMISSION_ID =
         keccak256("UPGRADE_REGISTRY_PERMISSION");
 ```
 
-Selector: `0x74574eb7`
+Value: `0x60b96ff9fb5f29153c29c1747515b8be4ee523d686cc6f453ec294b0afa72932`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.

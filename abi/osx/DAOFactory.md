@@ -1,7 +1,8 @@
 ---
+type: reference
 title: DAOFactory
 kind: contract
-source: src/framework/dao/DAOFactory.sol
+source: osx/src/framework/dao/DAOFactory.sol
 summary: "This contract is used to create a DAO."
 ---
 
@@ -109,8 +110,6 @@ _Public, so each is also readable through a generated getter._
 address public immutable daoBase;
 ```
 
-Selector: `0xd9f8bd23`
-
 The DAO base contract, to be used for creating new `DAO`s via `createERC1967Proxy` function.
 
 ### daoRegistry
@@ -119,8 +118,6 @@ The DAO base contract, to be used for creating new `DAO`s via `createERC1967Prox
 DAORegistry public immutable daoRegistry;
 ```
 
-Selector: `0x2a2b6ba0`
-
 The DAO registry listing the `DAO` contracts created via this contract.
 
 ### pluginSetupProcessor
@@ -128,8 +125,6 @@ The DAO registry listing the `DAO` contracts created via this contract.
 ```solidity
 PluginSetupProcessor public immutable pluginSetupProcessor;
 ```
-
-Selector: `0xa9445d9b`
 
 The plugin setup processor for installing plugins on the newly created `DAO`s.
 

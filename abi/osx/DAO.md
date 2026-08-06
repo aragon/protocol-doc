@@ -1,7 +1,8 @@
 ---
+type: reference
 title: DAO
 kind: contract
-source: src/core/dao/DAO.sol
+source: osx/src/core/dao/DAO.sol
 summary: "This contract is the entry point to the Aragon DAO framework and provides our users a simple and easy to use public interface."
 ---
 
@@ -866,7 +867,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant EXECUTE_PERMISSION_ID = keccak256("EXECUTE_PERMISSION");
 ```
 
-Selector: `0x0729d054`
+Value: `0xbf04b4486c9663d805744005c3da000eda93de6e3308a4a7a812eb565327b78d`
 
 The ID of the permission required to call the `execute` function.
 
@@ -877,7 +878,7 @@ bytes32 public constant REGISTER_STANDARD_CALLBACK_PERMISSION_ID =
         keccak256("REGISTER_STANDARD_CALLBACK_PERMISSION");
 ```
 
-Selector: `0x26875b1f`
+Value: `0xfaf505be9907aa6951c2ebe5b0312f4980e14f21912ed355372103cc8bd683bc`
 
 The ID of the permission required to call the `registerStandardCallback` function.
 
@@ -887,7 +888,7 @@ The ID of the permission required to call the `registerStandardCallback` functio
 bytes32 public constant ROOT_PERMISSION_ID = keccak256("ROOT_PERMISSION");
 ```
 
-Selector: `0x09e56b14`
+Value: `0x815fe80e4b37c8582a3b773d1d7071f983eacfd56b5965db654f3087c25ada33`
 
 The ID of the permission required to call the `grant`, `grantWithCondition`, `revoke`, and `bulk` function.
 
@@ -897,7 +898,7 @@ The ID of the permission required to call the `grant`, `grantWithCondition`, `re
 bytes32 public constant SET_METADATA_PERMISSION_ID = keccak256("SET_METADATA_PERMISSION");
 ```
 
-Selector: `0xe306bee7`
+Value: `0x4707e94b25cfce1a7c363508fbb838c35864388ad77284b248282b9746982b9b`
 
 The ID of the permission required to call the `setMetadata` function.
 
@@ -908,7 +909,7 @@ bytes32 public constant SET_TRUSTED_FORWARDER_PERMISSION_ID =
         keccak256("SET_TRUSTED_FORWARDER_PERMISSION");
 ```
 
-Selector: `0x829331a1`
+Value: `0x06d294bc8cbad2e393408b20dd019a772661f60b8d633e56761157cb1ec85f8c`
 
 The ID of the permission required to call the `setTrustedForwarder` function.
 
@@ -918,7 +919,7 @@ The ID of the permission required to call the `setTrustedForwarder` function.
 bytes32 public constant UPGRADE_DAO_PERMISSION_ID = keccak256("UPGRADE_DAO_PERMISSION");
 ```
 
-Selector: `0x24b4d73f`
+Value: `0x1f53edd44352e5d15bad2b29233baa93bcd595e09457780bc7c5445bbbe751cc`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.
 
@@ -929,6 +930,6 @@ bytes32 public constant VALIDATE_SIGNATURE_PERMISSION_ID =
         keccak256("VALIDATE_SIGNATURE_PERMISSION");
 ```
 
-Selector: `0x4ec7ac23`
+Value: `0x968c17ebf04aa1b7544168e69314cdab6b69ba813bb6080d49c0c40a65560f58`
 
 The ID of the permission required to validate [ERC-1271](https://eips.ethereum.org/EIPS/eip-1271) signatures.

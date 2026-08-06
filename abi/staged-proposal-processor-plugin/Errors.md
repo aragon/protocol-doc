@@ -1,7 +1,8 @@
 ---
+type: reference
 title: Errors
 kind: library
-source: src/libraries/Errors.sol
+source: staged-proposal-processor-plugin/src/libraries/Errors.sol
 summary: "Library containing all custom errors the plugin may revert with."
 ---
 

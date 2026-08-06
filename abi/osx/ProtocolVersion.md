@@ -1,7 +1,8 @@
 ---
+type: reference
 title: ProtocolVersion
 kind: abstract contract
-source: src/common/utils/versioning/ProtocolVersion.sol
+source: osx/src/common/utils/versioning/ProtocolVersion.sol
 summary: "An abstract, stateless, non-upgradeable contract providing the current Aragon OSx protocol version number."
 ---
 

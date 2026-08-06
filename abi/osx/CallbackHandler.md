@@ -1,7 +1,8 @@
 ---
+type: reference
 title: CallbackHandler
 kind: abstract contract
-source: src/core/utils/CallbackHandler.sol
+source: osx/src/core/utils/CallbackHandler.sol
 summary: "This contract handles callbacks by registering a magic number together with the callback function's selector."
 ---
 

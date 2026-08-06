@@ -13,7 +13,7 @@ Generated from [`lock-to-vote-plugin`](https://github.com/aragon/lock-to-vote-pl
 - [`LockToVotePluginSetup`](./LockToVotePluginSetup.md) — The setup contract of the `LockToVotePlugin` contract.
 - [`MajorityVotingBase`](./MajorityVotingBase.md) — The abstract implementation of majority voting plugins.
 - [`MinVotingPowerCondition`](./MinVotingPowerCondition.md) — Checks if an account's voting power or token balance meets the threshold defined on the given plugin.
-- [`PluginUUPSUpgradeable`](./PluginUUPSUpgradeable.md) — An abstract, upgradeable contract to inherit from when creating a plugin being deployed via the UUPS pattern (see [ERC-1822](https://eips.ethereum.org/EIPS/eip-
+- [`PluginUUPSUpgradeable`](./PluginUUPSUpgradeable.md) — An abstract, upgradeable contract to inherit from when creating a plugin being deployed via the UUPS pattern (see…
 
 ## Interfaces
 

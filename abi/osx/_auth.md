@@ -1,8 +1,9 @@
 ---
+type: reference
 title: _auth
 kind: function
-source: src/common/permission/auth/auth.sol
-summary: "A free function checking if a caller is granted permissions on a target contract via a permission identifier that redirects the approval to a `PermissionConditi"
+source: osx/src/common/permission/auth/auth.sol
+summary: "A free function checking if a caller is granted permissions on a target contract via a permission identifier that redirects the approval to a…"
 ---
 
 # _auth

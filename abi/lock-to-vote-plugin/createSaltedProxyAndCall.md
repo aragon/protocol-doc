@@ -1,7 +1,8 @@
 ---
+type: reference
 title: createSaltedProxyAndCall
 kind: function
-source: src/util/proxy.sol
+source: lock-to-vote-plugin/src/util/proxy.sol
 summary: ""
 ---
 

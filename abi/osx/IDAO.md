@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IDAO
 kind: interface
-source: src/common/dao/IDAO.sol
+source: osx/src/common/dao/IDAO.sol
 summary: "The interface required for DAOs within the Aragon App DAO framework."
 ---
 

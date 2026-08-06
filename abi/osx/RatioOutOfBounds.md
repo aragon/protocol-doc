@@ -1,7 +1,8 @@
 ---
+type: reference
 title: RatioOutOfBounds
 kind: error
-source: src/common/utils/math/Ratio.sol
+source: osx/src/common/utils/math/Ratio.sol
 summary: "Thrown if a ratio value exceeds the maximal value of `10**6`."
 ---
 

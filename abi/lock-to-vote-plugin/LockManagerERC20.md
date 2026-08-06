@@ -1,7 +1,8 @@
 ---
+type: reference
 title: LockManagerERC20
 kind: contract
-source: src/LockManagerERC20.sol
+source: lock-to-vote-plugin/src/LockManagerERC20.sol
 summary: "Helper contract acting as the vault for locked tokens used to vote on LockToGovern plugins."
 ---
 

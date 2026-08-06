@@ -1,7 +1,8 @@
 ---
+type: reference
 title: StagedProposalProcessor
 kind: contract
-source: src/StagedProposalProcessor.sol
+source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
 summary: "A multi-stage proposal processor where proposals progress through defined stages."
 ---
 
@@ -1149,7 +1150,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant SET_METADATA_PERMISSION_ID = keccak256("SET_METADATA_PERMISSION");
 ```
 
-Selector: `0xe306bee7`
+Value: `0x4707e94b25cfce1a7c363508fbb838c35864388ad77284b248282b9746982b9b`
 
 The ID of the permission required to call the `setMetadata` function.
 
@@ -1160,7 +1161,7 @@ bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
         keccak256("SET_TARGET_CONFIG_PERMISSION");
 ```
 
-Selector: `0x8cb75059`
+Value: `0x568cc693d84eb1901f8bcecba154cbdef23ca3cf67efc0a0b698528a06c660f7`
 
 The ID of the permission required to call the `setTargetConfig` function.
 
@@ -1170,7 +1171,7 @@ The ID of the permission required to call the `setTargetConfig` function.
 bytes32 public constant UPGRADE_PLUGIN_PERMISSION_ID = keccak256("UPGRADE_PLUGIN_PERMISSION");
 ```
 
-Selector: `0xc9c4bfca`
+Value: `0x821b6e3a557148015a918c89e5d092e878a69854a2d1a410635f771bd5a8a3f5`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.
 
@@ -1187,6 +1188,11 @@ enum Operation {
 
 Specifies the type of operation to perform.
 
+| Option | Value |
+| --- | --- |
+| `Call` | `0` |
+| `DelegateCall` | `1` |
+
 ### PluginType _(from IPlugin)_
 
 ```solidity
@@ -1198,6 +1204,12 @@ enum PluginType {
 ```
 
 Types of plugin implementations available within OSx.
+
+| Option | Value |
+| --- | --- |
+| `UUPS` | `0` |
+| `Cloneable` | `1` |
+| `Constructable` | `2` |
 
 ### ProposalState
 
@@ -1213,13 +1225,13 @@ enum ProposalState {
 
 The states of the proposal.
 
-| Option | Description |
-| --- | --- |
-| `Active` (0) | Whether the proposal is not advanceable. |
-| `Canceled` (1) | Whether the proposal is canceled. |
-| `Executed` (2) | Whether the proposal is executed. |
-| `Advanceable` (3) | Whether the proposal can be advanced to the next stage. |
-| `Expired` (4) | Whether the proposal's stage maxAdvance time has passed. |
+| Option | Value | Description |
+| --- | --- | --- |
+| `Active` | `0` | Whether the proposal is not advanceable. |
+| `Canceled` | `1` | Whether the proposal is canceled. |
+| `Executed` | `2` | Whether the proposal is executed. |
+| `Advanceable` | `3` | Whether the proposal can be advanced to the next stage. |
+| `Expired` | `4` | Whether the proposal's stage maxAdvance time has passed. |
 
 ### ResultType
 
@@ -1233,11 +1245,11 @@ enum ResultType {
 
 The different types that bodies can be registered as.
 
-| Option | Description |
-| --- | --- |
-| `None` (0) | Used to check if the body reported the result or not. |
-| `Approval` (1) | Used to allow a body to report approval result. |
-| `Veto` (2) | Used to allow a body to report veto result. |
+| Option | Value | Description |
+| --- | --- | --- |
+| `None` | `0` | Used to check if the body reported the result or not. |
+| `Approval` | `1` | Used to allow a body to report approval result. |
+| `Veto` | `2` | Used to allow a body to report veto result. |
 
 ## Structs
 

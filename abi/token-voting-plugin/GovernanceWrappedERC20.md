@@ -1,8 +1,9 @@
 ---
+type: reference
 title: GovernanceWrappedERC20
 kind: contract
-source: src/erc20/GovernanceWrappedERC20.sol
-summary: "Wraps an existing [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token by inheriting from `ERC20WrapperUpgradeable` and allows using it for voting by inheritin"
+source: token-voting-plugin/src/erc20/GovernanceWrappedERC20.sol
+summary: "Wraps an existing [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token by inheriting from `ERC20WrapperUpgradeable` and allows using it for voting by…"
 ---
 
 # GovernanceWrappedERC20

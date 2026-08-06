@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IPermissionCondition
 kind: interface
-source: src/common/permission/condition/IPermissionCondition.sol
+source: osx/src/common/permission/condition/IPermissionCondition.sol
 summary: "An interface to be implemented to support custom permission logic."
 ---
 

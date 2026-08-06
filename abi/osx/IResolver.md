@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IResolver
 kind: interface
-source: src/framework/utils/ens/IResolver.sol
+source: osx/src/framework/utils/ens/IResolver.sol
 summary: "Minimal resolver interface for MemberRegistry."
 ---
 

@@ -1,7 +1,8 @@
 ---
+type: reference
 title: getSelector
 kind: function
-source: src/lib/common.sol
+source: conditions/src/lib/common.sol
 summary: "Extracts the selector given the calldata."
 ---
 

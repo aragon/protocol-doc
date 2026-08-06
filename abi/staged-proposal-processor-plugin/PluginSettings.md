@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PluginSettings
 kind: library
-source: src/utils/PluginSettings.sol
+source: staged-proposal-processor-plugin/src/utils/PluginSettings.sol
 summary: "Provides constant values and metadata for the \"StagedProposalProcessor\" plugin, including contract names, versioning, and IPFS metadata for builds and releases."
 ---
 
@@ -25,16 +26,12 @@ string public constant BUILD_METADATA =
         "ipfs://QmaxGSvvnTAZcDLYz2BMtaXmcx3i1GcaKGaxNEpfQe3Vyv";
 ```
 
-Selector: `0xa0b05232`
-
 ### PLACEHOLDER_BUILD_METADATA
 
 ```solidity
 string public constant PLACEHOLDER_BUILD_METADATA =
         "ipfs://QmZDx8G5xuF9vqVbFGZ3KhF5nioL8gXwV3JbsEsSHvNMiz";
 ```
-
-Selector: `0xb0afd4ff`
 
 Aragon's canonical empty-schema placeholder build metadata, used when filling skipped builds
 on a fresh-network deploy so on-chain build numbers stay aligned across networks.
@@ -47,15 +44,11 @@ on a fresh-network deploy so on-chain build numbers stay aligned across networks
 string public constant PLUGIN_CONTRACT_NAME = "StagedProposalProcessor";
 ```
 
-Selector: `0xb7fc37fd`
-
 ### PLUGIN_REPO_ENS_SUBDOMAIN_NAME
 
 ```solidity
 string public constant PLUGIN_REPO_ENS_SUBDOMAIN_NAME = "spp";
 ```
-
-Selector: `0xc1d91595`
 
 ### PLUGIN_SETUP_CONTRACT_NAME
 
@@ -63,16 +56,12 @@ Selector: `0xc1d91595`
 string public constant PLUGIN_SETUP_CONTRACT_NAME = "StagedProposalProcessorSetup";
 ```
 
-Selector: `0xf5492987`
-
 ### PROPOSAL_METADATA
 
 ```solidity
 string public constant PROPOSAL_METADATA =
         "ipfs://QmTS3Nrjrs8nuMeqUqSRjBxbGUhZB4nW6N1GiK8vFmfDcD";
 ```
-
-Selector: `0x0bb65f47`
 
 Title/summary/description/resources JSON pinned for this version's management DAO proposal.
 
@@ -85,20 +74,14 @@ string public constant RELEASE_METADATA =
         "ipfs://bafkreif23p6yw325rkwwlhgkudiasvq64lonqmfnt7ls5ksfam5hedcb4m";
 ```
 
-Selector: `0x185fa07c`
-
 ### VERSION_BUILD
 
 ```solidity
 uint8 public constant VERSION_BUILD = 2;
 ```
 
-Selector: `0x0fef486a`
-
 ### VERSION_RELEASE
 
 ```solidity
 uint8 public constant VERSION_RELEASE = 1;
 ```
-
-Selector: `0x917ec2e8`

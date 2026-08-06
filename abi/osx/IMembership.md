@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IMembership
 kind: interface
-source: src/common/plugin/extensions/membership/IMembership.sol
+source: osx/src/common/plugin/extensions/membership/IMembership.sol
 summary: "An interface to be implemented by DAO plugins that define membership."
 ---
 

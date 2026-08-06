@@ -1,7 +1,8 @@
 ---
+type: reference
 title: ENSDomain
 kind: library
-source: src/framework/utils/ens/ENSDomain.sol
+source: osx/src/framework/utils/ens/ENSDomain.sol
 summary: "Pure-string utilities for working with ENS domain names: namehash (EIP-137) and splitting at the first dot."
 ---
 

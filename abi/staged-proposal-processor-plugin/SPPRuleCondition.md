@@ -1,7 +1,8 @@
 ---
+type: reference
 title: SPPRuleCondition
 kind: contract
-source: src/utils/SPPRuleCondition.sol
+source: staged-proposal-processor-plugin/src/utils/SPPRuleCondition.sol
 summary: "The SPP Condition that must be granted for `createProposal` function of `StagedProposalProcessor`."
 ---
 
@@ -247,7 +248,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant UPDATE_RULES_PERMISSION_ID = keccak256("UPDATE_RULES_PERMISSION");
 ```
 
-Selector: `0xb580939c`
+Value: `0xd3d98e95f3486fc234d80c098cf0d2a0a3fb187833d7e9cc930f8c4f8335a0e7`
 
 The ID of the permission required to call the `updateRules` function.
 
@@ -275,21 +276,21 @@ enum Op {
 
 Represents various operations that can be performed in a rule.
 
-| Option | Description |
-| --- | --- |
-| `NONE` (0) | No operation. |
-| `EQ` (1) | Equal to operation. |
-| `NEQ` (2) | Not equal to operation. |
-| `GT` (3) | Greater than operation. |
-| `LT` (4) | Less than operation. |
-| `GTE` (5) | Greater than or equal to operation. |
-| `LTE` (6) | Less than or equal to operation. |
-| `RET` (7) | Return the evaluation result. |
-| `NOT` (8) | Logical NOT operation. |
-| `AND` (9) | Logical AND operation. |
-| `OR` (10) | Logical OR operation. |
-| `XOR` (11) | Logical XOR operation. |
-| `IF_ELSE` (12) | Conditional evaluation with IF-ELSE logic. |
+| Option | Value | Description |
+| --- | --- | --- |
+| `NONE` | `0` | No operation. |
+| `EQ` | `1` | Equal to operation. |
+| `NEQ` | `2` | Not equal to operation. |
+| `GT` | `3` | Greater than operation. |
+| `LT` | `4` | Less than operation. |
+| `GTE` | `5` | Greater than or equal to operation. |
+| `LTE` | `6` | Less than or equal to operation. |
+| `RET` | `7` | Return the evaluation result. |
+| `NOT` | `8` | Logical NOT operation. |
+| `AND` | `9` | Logical AND operation. |
+| `OR` | `10` | Logical OR operation. |
+| `XOR` | `11` | Logical XOR operation. |
+| `IF_ELSE` | `12` | Conditional evaluation with IF-ELSE logic. |
 
 ## Structs
 

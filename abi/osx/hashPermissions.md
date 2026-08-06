@@ -1,7 +1,8 @@
 ---
+type: reference
 title: hashPermissions
 kind: function
-source: src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
 summary: "Returns a hash of an array of multi-targeted permission operations."
 ---
 

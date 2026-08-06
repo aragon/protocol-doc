@@ -1,8 +1,9 @@
 ---
+type: reference
 title: ENSSubdomainRegistrar
 kind: contract
-source: src/framework/utils/ens/ENSSubdomainRegistrar.sol
-summary: "This contract registers ENS subdomains under a parent domain specified in the initialization process and maintains ownership of the subdomain since only the res"
+source: osx/src/framework/utils/ens/ENSSubdomainRegistrar.sol
+summary: "This contract registers ENS subdomains under a parent domain specified in the initialization process and maintains ownership of the subdomain since only the…"
 ---
 
 # ENSSubdomainRegistrar
@@ -274,7 +275,7 @@ bytes32 public constant REGISTER_ENS_SUBDOMAIN_PERMISSION_ID =
         keccak256("REGISTER_ENS_SUBDOMAIN_PERMISSION");
 ```
 
-Selector: `0x9848ba51`
+Value: `0xbbdfd23f099d7ed9f535e0f97d2123efb1332b16e023b8359b3b879eaecd3c14`
 
 The ID of the permission required to call the `registerSubnode` and `setDefaultResolver` function.
 
@@ -285,6 +286,6 @@ bytes32 public constant UPGRADE_REGISTRAR_PERMISSION_ID =
         keccak256("UPGRADE_REGISTRAR_PERMISSION");
 ```
 
-Selector: `0xaf7b2fed`
+Value: `0xa1fcba4efb1e94b7648f5e0504bfd39734aead5f17965d12705915d771c859ff`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.

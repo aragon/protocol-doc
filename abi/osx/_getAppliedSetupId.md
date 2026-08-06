@@ -1,7 +1,8 @@
 ---
+type: reference
 title: _getAppliedSetupId
 kind: function
-source: src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
 summary: "Returns an identifier for applied installations."
 ---
 

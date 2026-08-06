@@ -1,8 +1,9 @@
 ---
+type: reference
 title: PluginUUPSUpgradeable
 kind: abstract contract
-source: src/lib/PluginUUPSUpgradeable.sol
-summary: "An abstract, upgradeable contract to inherit from when creating a plugin being deployed via the UUPS pattern (see [ERC-1822](https://eips.ethereum.org/EIPS/eip-"
+source: lock-to-vote-plugin/src/lib/PluginUUPSUpgradeable.sol
+summary: "An abstract, upgradeable contract to inherit from when creating a plugin being deployed via the UUPS pattern (see…"
 ---
 
 # PluginUUPSUpgradeable
@@ -260,7 +261,7 @@ bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
         keccak256("SET_TARGET_CONFIG_PERMISSION");
 ```
 
-Selector: `0x8cb75059`
+Value: `0x568cc693d84eb1901f8bcecba154cbdef23ca3cf67efc0a0b698528a06c660f7`
 
 The ID of the permission required to call the `setTargetConfig` function.
 
@@ -270,7 +271,7 @@ The ID of the permission required to call the `setTargetConfig` function.
 bytes32 public constant UPGRADE_PLUGIN_PERMISSION_ID = keccak256("UPGRADE_PLUGIN_PERMISSION");
 ```
 
-Selector: `0xc9c4bfca`
+Value: `0x821b6e3a557148015a918c89e5d092e878a69854a2d1a410635f771bd5a8a3f5`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.
 
@@ -287,6 +288,11 @@ enum Operation {
 
 Specifies the type of operation to perform.
 
+| Option | Value |
+| --- | --- |
+| `Call` | `0` |
+| `DelegateCall` | `1` |
+
 ### PluginType _(from IPlugin)_
 
 ```solidity
@@ -298,6 +304,12 @@ enum PluginType {
 ```
 
 Types of plugin implementations available within OSx.
+
+| Option | Value |
+| --- | --- |
+| `UUPS` | `0` |
+| `Cloneable` | `1` |
+| `Constructable` | `2` |
 
 ## Structs
 

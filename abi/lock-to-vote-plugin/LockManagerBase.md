@@ -1,7 +1,8 @@
 ---
+type: reference
 title: LockManagerBase
 kind: abstract contract
-source: src/base/LockManagerBase.sol
+source: lock-to-vote-plugin/src/base/LockManagerBase.sol
 summary: "Helper contract acting as the vault for locked tokens used to vote on LockToGovern plugins."
 ---
 

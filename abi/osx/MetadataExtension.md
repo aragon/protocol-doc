@@ -1,7 +1,8 @@
 ---
+type: reference
 title: MetadataExtension
 kind: abstract contract
-source: src/common/utils/metadata/MetadataExtension.sol
+source: osx/src/common/utils/metadata/MetadataExtension.sol
 summary: "An abstract, non upgradeable contract for managing and retrieving metadata associated with a plugin."
 ---
 
@@ -104,6 +105,6 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant SET_METADATA_PERMISSION_ID = keccak256("SET_METADATA_PERMISSION");
 ```
 
-Selector: `0xe306bee7`
+Value: `0x4707e94b25cfce1a7c363508fbb838c35864388ad77284b248282b9746982b9b`
 
 The ID of the permission required to call the `setMetadata` function.

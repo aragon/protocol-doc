@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PluginRepoRegistry
 kind: contract
-source: src/framework/plugin/repo/PluginRepoRegistry.sol
+source: osx/src/framework/plugin/repo/PluginRepoRegistry.sol
 summary: "This contract maintains an address-based registry of plugin repositories in the Aragon App DAO framework."
 ---
 
@@ -294,7 +295,7 @@ bytes32 public constant REGISTER_PLUGIN_REPO_PERMISSION_ID =
         keccak256("REGISTER_PLUGIN_REPO_PERMISSION");
 ```
 
-Selector: `0xce091c86`
+Value: `0x055973dfb6d3b3cd890dde3a801f5427fa973864752b6d2a1ae61cbd5ae5dc09`
 
 The ID of the permission required to call the `register` function.
 
@@ -305,6 +306,6 @@ bytes32 public constant UPGRADE_REGISTRY_PERMISSION_ID =
         keccak256("UPGRADE_REGISTRY_PERMISSION");
 ```
 
-Selector: `0x74574eb7`
+Value: `0x60b96ff9fb5f29153c29c1747515b8be4ee523d686cc6f453ec294b0afa72932`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.

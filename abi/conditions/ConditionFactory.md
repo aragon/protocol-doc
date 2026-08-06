@@ -1,7 +1,8 @@
 ---
+type: reference
 title: ConditionFactory
 kind: contract
-source: src/factory/ConditionFactory.sol
+source: conditions/src/factory/ConditionFactory.sol
 summary: "A factory used to deploy new condition instances"
 ---
 

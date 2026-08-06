@@ -1,8 +1,9 @@
 ---
+type: reference
 title: PluginCloneable
 kind: abstract contract
-source: src/common/plugin/PluginCloneable.sol
-summary: "An abstract, non-upgradeable contract to inherit from when creating a plugin being deployed via the minimal clones pattern (see [ERC-1167](https://eips.ethereum"
+source: osx/src/common/plugin/PluginCloneable.sol
+summary: "An abstract, non-upgradeable contract to inherit from when creating a plugin being deployed via the minimal clones pattern (see…"
 ---
 
 # PluginCloneable
@@ -170,7 +171,7 @@ bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
         keccak256("SET_TARGET_CONFIG_PERMISSION");
 ```
 
-Selector: `0x8cb75059`
+Value: `0x568cc693d84eb1901f8bcecba154cbdef23ca3cf67efc0a0b698528a06c660f7`
 
 The ID of the permission required to call the `setTargetConfig` function.
 
@@ -185,6 +186,11 @@ enum Operation {
 }
 ```
 
+| Option | Value |
+| --- | --- |
+| `Call` | `0` |
+| `DelegateCall` | `1` |
+
 ### PluginType _(from IPlugin)_
 
 ```solidity
@@ -194,6 +200,12 @@ enum PluginType {
     Constructable
 }
 ```
+
+| Option | Value |
+| --- | --- |
+| `UUPS` | `0` |
+| `Cloneable` | `1` |
+| `Constructable` | `2` |
 
 ## Structs
 

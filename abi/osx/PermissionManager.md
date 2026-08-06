@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PermissionManager
 kind: abstract contract
-source: src/core/permission/PermissionManager.sol
+source: osx/src/core/permission/PermissionManager.sol
 summary: "The abstract permission manager used in a DAO, its associated plugins, and other framework-related components."
 ---
 
@@ -286,6 +287,6 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant ROOT_PERMISSION_ID = keccak256("ROOT_PERMISSION");
 ```
 
-Selector: `0x09e56b14`
+Value: `0x815fe80e4b37c8582a3b773d1d7071f983eacfd56b5965db654f3087c25ada33`
 
 The ID of the permission required to call the `grant`, `grantWithCondition`, `revoke`, and `bulk` function.

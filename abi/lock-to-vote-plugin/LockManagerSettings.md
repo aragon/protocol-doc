@@ -1,7 +1,8 @@
 ---
+type: reference
 title: LockManagerSettings
 kind: struct
-source: src/interfaces/ILockManager.sol
+source: lock-to-vote-plugin/src/interfaces/ILockManager.sol
 summary: "The struct containing the LockManager helper settings."
 ---
 

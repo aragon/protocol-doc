@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IMajorityVoting
 kind: interface
-source: src/base/IMajorityVoting.sol
+source: token-voting-plugin/src/base/IMajorityVoting.sol
 summary: "The interface of majority voting plugin."
 ---
 
@@ -243,9 +244,9 @@ enum VoteOption {
 
 Vote options that a voter can chose from.
 
-| Option | Description |
-| --- | --- |
-| `None` (0) | The default option state of a voter indicating the absence from the vote. This option neither influences support nor participation. |
-| `Abstain` (1) | This option does not influence the support but counts towards participation. |
-| `Yes` (2) | This option increases the support and counts towards participation. |
-| `No` (3) | This option decreases the support and counts towards participation. |
+| Option | Value | Description |
+| --- | --- | --- |
+| `None` | `0` | The default option state of a voter indicating the absence from the vote. This option neither influences support nor participation. |
+| `Abstain` | `1` | This option does not influence the support but counts towards participation. |
+| `Yes` | `2` | This option increases the support and counts towards participation. |
+| `No` | `3` | This option decreases the support and counts towards participation. |

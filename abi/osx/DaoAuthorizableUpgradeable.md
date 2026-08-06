@@ -1,8 +1,9 @@
 ---
+type: reference
 title: DaoAuthorizableUpgradeable
 kind: abstract contract
-source: src/common/permission/auth/DaoAuthorizableUpgradeable.sol
-summary: "An abstract contract providing a meta-transaction compatible modifier for upgradeable or cloneable contracts to authorize function calls through an associated D"
+source: osx/src/common/permission/auth/DaoAuthorizableUpgradeable.sol
+summary: "An abstract contract providing a meta-transaction compatible modifier for upgradeable or cloneable contracts to authorize function calls through an associated…"
 ---
 
 # DaoAuthorizableUpgradeable

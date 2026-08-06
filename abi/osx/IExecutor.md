@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IExecutor
 kind: interface
-source: src/common/executors/IExecutor.sol
+source: osx/src/common/executors/IExecutor.sol
 summary: "The interface required for Executors within the Aragon App DAO framework."
 ---
 

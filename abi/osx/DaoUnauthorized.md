@@ -1,7 +1,8 @@
 ---
+type: reference
 title: DaoUnauthorized
 kind: error
-source: src/common/permission/auth/auth.sol
+source: osx/src/common/permission/auth/auth.sol
 summary: "Thrown if a call is unauthorized in the associated DAO."
 ---
 

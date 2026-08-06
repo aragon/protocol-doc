@@ -1,7 +1,8 @@
 ---
+type: reference
 title: StagedProposalProcessorSetup
 kind: contract
-source: src/StagedProposalProcessorSetup.sol
+source: staged-proposal-processor-plugin/src/StagedProposalProcessorSetup.sol
 summary: "The setup contract of the `StagedProposalProcessor` plugin."
 ---
 
@@ -180,8 +181,6 @@ _Public, so each is also readable through a generated getter._
 bool public immutable CLONES_SUPPORTED;
 ```
 
-Selector: `0x0e2679d2`
-
 Whether the network supports EIP-1167 minimal proxies (clones).
 
 > **Dev:** False on networks like ZkSync that lack CREATE2 clone support; falls back to UUPS.
@@ -191,8 +190,6 @@ Whether the network supports EIP-1167 minimal proxies (clones).
 ```solidity
 address public immutable CONDITION_IMPLEMENTATION;
 ```
-
-Selector: `0x7da5dd7c`
 
 The address of the condition implementation contract.
 

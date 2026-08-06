@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IMemberRegistry
 kind: interface
-source: src/framework/member/IMemberRegistry.sol
+source: osx/src/framework/member/IMemberRegistry.sol
 summary: "Permissionless member self-registration via ENS subdomain claims."
 ---
 

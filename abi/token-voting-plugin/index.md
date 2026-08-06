@@ -6,8 +6,8 @@ Generated from [`token-voting-plugin`](https://github.com/aragon/token-voting-pl
 
 ## Contracts
 
-- [`GovernanceERC20`](./GovernanceERC20.md) — An [OpenZeppelin `Votes`](https://docs.openzeppelin.com/contracts/4.x/api/governance#Votes) compatible [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token, us
-- [`GovernanceWrappedERC20`](./GovernanceWrappedERC20.md) — Wraps an existing [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token by inheriting from `ERC20WrapperUpgradeable` and allows using it for voting by inheritin
+- [`GovernanceERC20`](./GovernanceERC20.md) — An [OpenZeppelin `Votes`](https://docs.openzeppelin.com/contracts/4.x/api/governance#Votes) compatible [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token,…
+- [`GovernanceWrappedERC20`](./GovernanceWrappedERC20.md) — Wraps an existing [ERC-20](https://eips.ethereum.org/EIPS/eip-20) token by inheriting from `ERC20WrapperUpgradeable` and allows using it for voting by…
 - [`MajorityVotingBase`](./MajorityVotingBase.md) — The abstract implementation of majority voting plugins.
 - [`TokenVoting`](./TokenVoting.md) — The majority voting implementation using an [OpenZeppelin `Votes`](https://docs.openzeppelin.com/contracts/4.x/api/governance#Votes) compatible governance token.
 - [`TokenVotingSetup`](./TokenVotingSetup.md) — The setup contract of the `TokenVoting` plugin.

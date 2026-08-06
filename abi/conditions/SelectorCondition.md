@@ -1,7 +1,8 @@
 ---
+type: reference
 title: SelectorCondition
 kind: contract
-source: src/SelectorCondition.sol
+source: conditions/src/SelectorCondition.sol
 summary: "A permission that only allows a specified group of function selectors to be invoked within DAO.execute()"
 ---
 
@@ -164,4 +165,4 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant MANAGE_SELECTORS_PERMISSION_ID = keccak256("MANAGE_SELECTORS_PERMISSION");
 ```
 
-Selector: `0x83ddb519`
+Value: `0x485a22b473de7ee3091c71c5ce05019fd1466a1650b1228784a9bcd5b7bed510`

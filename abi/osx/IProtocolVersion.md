@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IProtocolVersion
 kind: interface
-source: src/common/utils/versioning/IProtocolVersion.sol
+source: osx/src/common/utils/versioning/IProtocolVersion.sol
 summary: "An interface defining the semantic Aragon OSx protocol version number."
 ---
 

@@ -1,8 +1,9 @@
 ---
+type: reference
 title: PluginUpgradeableSetup
 kind: abstract contract
-source: src/common/plugin/setup/PluginUpgradeableSetup.sol
-summary: "An abstract contract to inherit from to implement the plugin setup for upgradeable plugins, i.e, `PluginUUPSUpgradeable` being deployed via the UUPS pattern (se"
+source: osx/src/common/plugin/setup/PluginUpgradeableSetup.sol
+summary: "An abstract contract to inherit from to implement the plugin setup for upgradeable plugins, i.e, `PluginUUPSUpgradeable` being deployed via the UUPS pattern…"
 ---
 
 # PluginUpgradeableSetup

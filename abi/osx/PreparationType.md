@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PreparationType
 kind: enum
-source: src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
 summary: ""
 ---
 
@@ -17,3 +18,10 @@ enum PreparationType {
     Uninstallation
 }
 ```
+
+| Option | Value |
+| --- | --- |
+| `None` | `0` |
+| `Installation` | `1` |
+| `Update` | `2` |
+| `Uninstallation` | `3` |

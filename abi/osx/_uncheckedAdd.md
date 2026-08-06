@@ -1,7 +1,8 @@
 ---
+type: reference
 title: _uncheckedAdd
 kind: function
-source: src/common/utils/math/UncheckedMath.sol
+source: osx/src/common/utils/math/UncheckedMath.sol
 summary: "Adds two unsigned integers without checking the result for overflow errors (using safe math)."
 ---
 

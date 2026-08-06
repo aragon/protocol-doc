@@ -4,7 +4,7 @@ spec = "0.1"
 types = ["concept", "reference", "guide", "example", "task"]
 
 # Files that are NOT wiki entries (excluded from index and check; globs supported)
-ignore = ["AGENTS.md", "CLAUDE.md", "WORKFLOW.md", "README.md", "raw/**"]
+ignore = ["AGENTS.md", "CLAUDE.md", "WORKFLOW.md", "README.md", "scripts/README.md", "raw/**"]
 
 # Indexed and checked, but kept out of `wiki orphans` (parked backlog tasks aren't all board-linked)
 ignore_orphans = ["backlog/**"]

@@ -1,7 +1,8 @@
 ---
+type: reference
 title: ILockToVote
 kind: interface
-source: src/interfaces/ILockToVote.sol
+source: lock-to-vote-plugin/src/interfaces/ILockToVote.sol
 summary: "Governance plugin allowing token holders to use tokens locked without a snapshot requirement and engage in proposals immediately"
 ---
 

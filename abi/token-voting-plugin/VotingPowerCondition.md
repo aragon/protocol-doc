@@ -1,7 +1,8 @@
 ---
+type: reference
 title: VotingPowerCondition
 kind: contract
-source: src/condition/VotingPowerCondition.sol
+source: token-voting-plugin/src/condition/VotingPowerCondition.sol
 summary: "Checks if an account's voting power or token balance meets the threshold set in an associated TokenVoting plugin."
 ---
 

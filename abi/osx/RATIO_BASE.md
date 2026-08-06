@@ -1,7 +1,8 @@
 ---
+type: reference
 title: RATIO_BASE
 kind: constant
-source: src/common/utils/math/Ratio.sol
+source: osx/src/common/utils/math/Ratio.sol
 summary: ""
 ---
 

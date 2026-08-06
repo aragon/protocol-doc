@@ -1,7 +1,8 @@
 ---
+type: reference
 title: ProposalUpgradeable
 kind: abstract contract
-source: src/common/plugin/extensions/proposal/ProposalUpgradeable.sol
+source: osx/src/common/plugin/extensions/proposal/ProposalUpgradeable.sol
 summary: "An abstract contract containing the traits and internal functionality to create and execute proposals that can be inherited by upgradeable DAO plugins."
 ---
 

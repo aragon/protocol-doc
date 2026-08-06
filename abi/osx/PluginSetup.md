@@ -1,8 +1,9 @@
 ---
+type: reference
 title: PluginSetup
 kind: abstract contract
-source: src/common/plugin/setup/PluginSetup.sol
-summary: "An abstract contract to inherit from to implement the plugin setup for non-upgradeable plugins, i.e, - `Plugin` being deployed via the `new` keyword - `PluginCl"
+source: osx/src/common/plugin/setup/PluginSetup.sol
+summary: "An abstract contract to inherit from to implement the plugin setup for non-upgradeable plugins, i.e, - `Plugin` being deployed via the `new` keyword -…"
 ---
 
 # PluginSetup

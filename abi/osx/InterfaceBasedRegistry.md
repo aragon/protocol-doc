@@ -1,7 +1,8 @@
 ---
+type: reference
 title: InterfaceBasedRegistry
 kind: abstract contract
-source: src/framework/utils/InterfaceBasedRegistry.sol
+source: osx/src/framework/utils/InterfaceBasedRegistry.sol
 summary: "An [ERC-165](https://eips.ethereum.org/EIPS/eip-165)-based registry for contracts."
 ---
 
@@ -195,6 +196,6 @@ bytes32 public constant UPGRADE_REGISTRY_PERMISSION_ID =
         keccak256("UPGRADE_REGISTRY_PERMISSION");
 ```
 
-Selector: `0x74574eb7`
+Value: `0x60b96ff9fb5f29153c29c1747515b8be4ee523d686cc6f453ec294b0afa72932`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.

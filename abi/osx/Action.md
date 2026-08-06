@@ -1,7 +1,8 @@
 ---
+type: reference
 title: Action
 kind: struct
-source: src/common/executors/IExecutor.sol
+source: osx/src/common/executors/IExecutor.sol
 summary: ""
 ---
 

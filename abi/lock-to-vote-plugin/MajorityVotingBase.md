@@ -1,7 +1,8 @@
 ---
+type: reference
 title: MajorityVotingBase
 kind: abstract contract
-source: src/base/MajorityVotingBase.sol
+source: lock-to-vote-plugin/src/base/MajorityVotingBase.sol
 summary: "The abstract implementation of majority voting plugins."
 ---
 
@@ -878,7 +879,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant EXECUTE_PROPOSAL_PERMISSION_ID = keccak256("EXECUTE_PROPOSAL_PERMISSION");
 ```
 
-Selector: `0xcfceb588`
+Value: `0xf281525e53675515a6ba7cc7bea8a81e649b3608423ee2d73be1752cea887889`
 
 The ID of the permission required to call the `execute` function.
 
@@ -888,7 +889,7 @@ The ID of the permission required to call the `execute` function.
 bytes32 public constant SET_METADATA_PERMISSION_ID = keccak256("SET_METADATA_PERMISSION");
 ```
 
-Selector: `0xe306bee7`
+Value: `0x4707e94b25cfce1a7c363508fbb838c35864388ad77284b248282b9746982b9b`
 
 The ID of the permission required to call the `setMetadata` function.
 
@@ -899,7 +900,7 @@ bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
         keccak256("SET_TARGET_CONFIG_PERMISSION");
 ```
 
-Selector: `0x8cb75059`
+Value: `0x568cc693d84eb1901f8bcecba154cbdef23ca3cf67efc0a0b698528a06c660f7`
 
 The ID of the permission required to call the `setTargetConfig` function.
 
@@ -909,7 +910,7 @@ The ID of the permission required to call the `setTargetConfig` function.
 bytes32 public constant UPDATE_SETTINGS_PERMISSION_ID = keccak256("UPDATE_SETTINGS_PERMISSION");
 ```
 
-Selector: `0x6ff44abd`
+Value: `0x371f7eb46741163a91bb271e73a2a58ae7a0b6bc80c10a8c7e03ae2e4bc0e425`
 
 The ID of the permission required to call the `updateVotingSettings` function.
 
@@ -919,7 +920,7 @@ The ID of the permission required to call the `updateVotingSettings` function.
 bytes32 public constant UPGRADE_PLUGIN_PERMISSION_ID = keccak256("UPGRADE_PLUGIN_PERMISSION");
 ```
 
-Selector: `0xc9c4bfca`
+Value: `0x821b6e3a557148015a918c89e5d092e878a69854a2d1a410635f771bd5a8a3f5`
 
 The ID of the permission required to call the `_authorizeUpgrade` function.
 
@@ -936,6 +937,11 @@ enum Operation {
 
 Specifies the type of operation to perform.
 
+| Option | Value |
+| --- | --- |
+| `Call` | `0` |
+| `DelegateCall` | `1` |
+
 ### PluginType _(from IPlugin)_
 
 ```solidity
@@ -947,6 +953,12 @@ enum PluginType {
 ```
 
 Types of plugin implementations available within OSx.
+
+| Option | Value |
+| --- | --- |
+| `UUPS` | `0` |
+| `Cloneable` | `1` |
+| `Constructable` | `2` |
 
 ### VoteOption _(from IMajorityVoting)_
 
@@ -961,12 +973,12 @@ enum VoteOption {
 
 Vote options that a voter can chose from.
 
-| Option | Description |
-| --- | --- |
-| `None` (0) | The default option state of a voter indicating the absence from the vote. This option neither influences support nor participation. |
-| `Abstain` (1) | This option does not influence the support but counts towards participation. |
-| `Yes` (2) | This option increases the support and counts towards participation. |
-| `No` (3) | This option decreases the support and counts towards participation. |
+| Option | Value | Description |
+| --- | --- | --- |
+| `None` | `0` | The default option state of a voter indicating the absence from the vote. This option neither influences support nor participation. |
+| `Abstain` | `1` | This option does not influence the support but counts towards participation. |
+| `Yes` | `2` | This option increases the support and counts towards participation. |
+| `No` | `3` | This option decreases the support and counts towards participation. |
 
 ### VotingMode
 
@@ -979,10 +991,10 @@ enum VotingMode {
 
 The different voting modes available.
 
-| Option | Description |
-| --- | --- |
-| `Standard` (0) | In standard mode, the voting power can be increased but votes cannot be replaced. |
-| `VoteReplacement` (1) | In vote replacement mode, voters can change their vote multiple times and only the latest vote option is tallied. |
+| Option | Value | Description |
+| --- | --- | --- |
+| `Standard` | `0` | In standard mode, the voting power can be increased but votes cannot be replaced. |
+| `VoteReplacement` | `1` | In vote replacement mode, voters can change their vote multiple times and only the latest vote option is tallied. |
 
 ## Structs
 

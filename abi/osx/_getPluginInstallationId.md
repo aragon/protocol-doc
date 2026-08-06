@@ -1,7 +1,8 @@
 ---
+type: reference
 title: _getPluginInstallationId
 kind: function
-source: src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol
 summary: "Returns an ID for plugin installation by hashing the DAO and plugin address."
 ---
 

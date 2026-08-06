@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PermissionConditionUpgradeable
 kind: abstract contract
-source: src/common/permission/condition/PermissionConditionUpgradeable.sol
+source: osx/src/common/permission/condition/PermissionConditionUpgradeable.sol
 summary: "An abstract contract for upgradeable or cloneable contracts to inherit from and to support customary permissions depending on arbitrary on-chain state."
 ---
 

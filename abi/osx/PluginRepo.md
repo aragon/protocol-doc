@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PluginRepo
 kind: contract
-source: src/framework/plugin/repo/PluginRepo.sol
+source: osx/src/framework/plugin/repo/PluginRepo.sol
 summary: "The plugin repository contract required for managing and publishing different plugin versions within the Aragon DAO framework."
 ---
 
@@ -652,7 +653,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant MAINTAINER_PERMISSION_ID = keccak256("MAINTAINER_PERMISSION");
 ```
 
-Selector: `0xafe5eb78`
+Value: `0xa0885006fe6672eeafd1deca6c67bcdc6dd79cfe2b157a98539ddf73cd8c04ea`
 
 The ID of the permission required to call the `createVersion` function.
 
@@ -662,7 +663,7 @@ The ID of the permission required to call the `createVersion` function.
 bytes32 public constant ROOT_PERMISSION_ID = keccak256("ROOT_PERMISSION");
 ```
 
-Selector: `0x09e56b14`
+Value: `0x815fe80e4b37c8582a3b773d1d7071f983eacfd56b5965db654f3087c25ada33`
 
 The ID of the permission required to call the `grant`, `grantWithCondition`, `revoke`, and `bulk` function.
 
@@ -672,7 +673,7 @@ The ID of the permission required to call the `grant`, `grantWithCondition`, `re
 bytes32 public constant UPGRADE_REPO_PERMISSION_ID = keccak256("UPGRADE_REPO_PERMISSION");
 ```
 
-Selector: `0xcc98b8f5`
+Value: `0x5aa4f06bdc18535eff05128093a2315c2c960a2722e20021cbff28da04760f5b`
 
 The ID of the permission required to call the `createVersion` function.
 

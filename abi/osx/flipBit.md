@@ -1,7 +1,8 @@
 ---
+type: reference
 title: flipBit
 kind: function
-source: src/common/utils/math/BitMap.sol
+source: osx/src/common/utils/math/BitMap.sol
 summary: ""
 ---
 

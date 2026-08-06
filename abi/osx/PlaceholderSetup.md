@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PlaceholderSetup
 kind: contract
-source: src/framework/plugin/repo/placeholder/PlaceholderSetup.sol
+source: osx/src/framework/plugin/repo/placeholder/PlaceholderSetup.sol
 summary: "A placeholder setup contract for outdated plugin builds."
 ---
 

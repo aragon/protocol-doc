@@ -1,8 +1,9 @@
 ---
+type: reference
 title: ProxyLib
 kind: library
-source: src/common/utils/deployment/ProxyLib.sol
-summary: "A library containing methods for the deployment of proxies via the UUPS pattern (see [ERC-1822](https://eips.ethereum.org/EIPS/eip-1822)) and minimal proxy patt"
+source: osx/src/common/utils/deployment/ProxyLib.sol
+summary: "A library containing methods for the deployment of proxies via the UUPS pattern (see [ERC-1822](https://eips.ethereum.org/EIPS/eip-1822)) and minimal proxy…"
 ---
 
 # ProxyLib

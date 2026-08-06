@@ -1,7 +1,8 @@
 ---
+type: reference
 title: SafeOwnerCondition
 kind: contract
-source: src/SafeOwnerCondition.sol
+source: conditions/src/SafeOwnerCondition.sol
 summary: "A permission that only allows Safe owners to make use of a granted permission."
 ---
 

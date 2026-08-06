@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PluginRepoFactory
 kind: contract
-source: src/framework/plugin/repo/PluginRepoFactory.sol
+source: osx/src/framework/plugin/repo/PluginRepoFactory.sol
 summary: "This contract creates `PluginRepo` proxies and registers them on a `PluginRepoRegistry` contract."
 ---
 

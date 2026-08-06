@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IProposal
 kind: interface
-source: src/common/plugin/extensions/proposal/IProposal.sol
+source: osx/src/common/plugin/extensions/proposal/IProposal.sol
 summary: "An interface to be implemented by DAO plugins that create and execute proposals."
 ---
 

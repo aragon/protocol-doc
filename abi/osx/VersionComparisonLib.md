@@ -1,7 +1,8 @@
 ---
+type: reference
 title: VersionComparisonLib
 kind: library
-source: src/common/utils/versioning/VersionComparisonLib.sol
+source: osx/src/common/utils/versioning/VersionComparisonLib.sol
 summary: "A library containing methods for [semantic version number](https://semver.org/spec/v2.0.0.html) comparison."
 ---
 

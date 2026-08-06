@@ -1,8 +1,9 @@
 ---
+type: reference
 title: PermissionCondition
 kind: abstract contract
-source: src/common/permission/condition/PermissionCondition.sol
-summary: "An abstract contract for non-upgradeable contracts instantiated via the `new` keyword to inherit from to support customary permissions depending on arbitrary on"
+source: osx/src/common/permission/condition/PermissionCondition.sol
+summary: "An abstract contract for non-upgradeable contracts instantiated via the `new` keyword to inherit from to support customary permissions depending on arbitrary…"
 ---
 
 # PermissionCondition

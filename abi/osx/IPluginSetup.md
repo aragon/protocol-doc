@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IPluginSetup
 kind: interface
-source: src/common/plugin/setup/IPluginSetup.sol
+source: osx/src/common/plugin/setup/IPluginSetup.sol
 summary: "The interface required for a plugin setup contract to be consumed by the `PluginSetupProcessor` for plugin installations, updates, and uninstallations."
 ---
 

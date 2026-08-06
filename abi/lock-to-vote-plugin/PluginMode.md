@@ -1,7 +1,8 @@
 ---
+type: reference
 title: PluginMode
 kind: enum
-source: src/interfaces/ILockManager.sol
+source: lock-to-vote-plugin/src/interfaces/ILockManager.sol
 summary: "Defines wether the accepted plugin types."
 ---
 
@@ -17,3 +18,7 @@ enum PluginMode {
 
 Defines wether the accepted plugin types. Currently: voting.
 Placeholder for future plugin variants
+
+| Option | Value |
+| --- | --- |
+| `Voting` | `0` |

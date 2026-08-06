@@ -1,7 +1,8 @@
 ---
+type: reference
 title: MemberRegistry
 kind: contract
-source: src/framework/member/MemberRegistry.sol
+source: osx/src/framework/member/MemberRegistry.sol
 summary: "Permissionless member self-registration via ENS subdomain claims."
 ---
 
@@ -473,7 +474,7 @@ _Public, so each is also readable through a generated getter._
 bytes32 public constant EVICT_SUBDOMAIN_PERMISSION_ID = keccak256("EVICT_SUBDOMAIN_PERMISSION");
 ```
 
-Selector: `0x453ecec1`
+Value: `0x9586822989ef45dd4a50f192e8b5063684aa930288ca589d9882bc9b44d65519`
 
 The ID of the permission required to call `evict`.
 
@@ -483,7 +484,7 @@ The ID of the permission required to call `evict`.
 bytes32 public constant UPGRADE_REGISTRY_PERMISSION_ID = keccak256("UPGRADE_REGISTRY_PERMISSION");
 ```
 
-Selector: `0x74574eb7`
+Value: `0x60b96ff9fb5f29153c29c1747515b8be4ee523d686cc6f453ec294b0afa72932`
 
 The ID of the permission required to call `_authorizeUpgrade`.
 

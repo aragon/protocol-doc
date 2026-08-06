@@ -1,7 +1,8 @@
 ---
+type: reference
 title: IPlugin
 kind: interface
-source: src/common/plugin/IPlugin.sol
+source: osx/src/common/plugin/IPlugin.sol
 summary: "An interface defining the traits of a plugin."
 ---
 
@@ -38,6 +39,11 @@ enum Operation {
 }
 ```
 
+| Option | Value |
+| --- | --- |
+| `Call` | `0` |
+| `DelegateCall` | `1` |
+
 ### PluginType
 
 ```solidity
@@ -47,6 +53,12 @@ enum PluginType {
     Constructable
 }
 ```
+
+| Option | Value |
+| --- | --- |
+| `UUPS` | `0` |
+| `Cloneable` | `1` |
+| `Constructable` | `2` |
 
 ## Structs
 

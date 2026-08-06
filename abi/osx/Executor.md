@@ -1,7 +1,8 @@
 ---
+type: reference
 title: Executor
 kind: contract
-source: src/common/executors/Executor.sol
+source: osx/src/common/executors/Executor.sol
 summary: "Simple Executor that loops through the actions and executes them."
 ---
 

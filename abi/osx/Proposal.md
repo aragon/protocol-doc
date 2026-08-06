@@ -1,7 +1,8 @@
 ---
+type: reference
 title: Proposal
 kind: abstract contract
-source: src/common/plugin/extensions/proposal/Proposal.sol
+source: osx/src/common/plugin/extensions/proposal/Proposal.sol
 summary: "An abstract contract containing the traits and internal functionality to create and execute proposals that can be inherited by non-upgradeable DAO plugins."
 ---
 
