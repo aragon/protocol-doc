@@ -30,6 +30,8 @@ Both share one property: the rules are compiled into the contract they protect. 
 
 The manager is richer than a role list. Roles are `uint64` numbers rather than hashes. `setTargetFunctionRole(target, selectors, roleId)` says which role may call which functions on which contract. `grantRole(roleId, account, executionDelay)` can give a member a delay, so their calls have to be scheduled and then executed rather than sent directly. And `setTargetClosed` is a break-glass that shuts a contract off entirely.
 
+OpenZeppelin Contracts is a library, not a full product. You inherit from it, and the organization that results is whatever your team designs, deploys and maintains. Nothing is running that you can point at, you own the release lifecycle, and the answer to "who administers this" is only ever the one you built.
+
 ### Safe + Zodiac: authorization lives in the call path
 
 A plain Safe has one rule: *m* of *n* owners sign a transaction and `execTransaction` runs it. This involves no roles and no per-function scoping. If you are an owner and enough co-owners agree, the Safe does what you ask.
@@ -44,6 +46,8 @@ A **Modifier** sits between a module and the avatar. It implements the avatar in
 
 The rule is not attached to the function being protected. Instead, it lives on the route the call travels to get there.
 
+Note: these are two products from two teams. Safe is maintained by the Safe ecosystem, Zodiac by Gnosis Guild, with separate repositories, audits and release schedules. Day to day that is invisible but anything you assemble across the two, you also upgrade across two roadmaps.
+
 ### Hats: authorization is a credential you wear
 
 A [hat](https://docs.hatsprotocol.xyz/) is a token that represents a role. It is ERC-1155 and non-transferable, and holding a balance of 1 makes you its *wearer*. You cannot hand your hat to someone else; only an admin can move it.
@@ -53,6 +57,8 @@ Hierarchy is built into the identifier. A hat ID is a 32-byte bitmap that encode
 Two pluggable modules decide whether a hat currently counts. An **eligibility** module decides who may wear it and whether they are in good standing. A **toggle** module decides whether the hat is active at all. Both are consulted inside `balanceOf`, which means revocation takes effect immediately rather than waiting for someone to send a transaction.
 
 Gating on a hat is therefore just a balance check: `balanceOf(who, hatId) == 1`, or the friendlier `isWearerOfHat`. Note that Hats does *not* execute things. It does answer "who holds this role" but leaves enforcement to whatever reads the answer, most often a Safe through Hats Signer Gate.
+
+So Hats is a primitive rather than a complete system. There is no treasury, no execution, no proposals: you pair it with something that acts. That narrowness is on purpose, and it is why Hats composes with everything else on this page, OSx included.
 
 ### OSx: authorization is a database the organization owns
 
@@ -64,10 +70,13 @@ Any grant can carry a [condition](./common/permission-conditions.md): a contract
 
 What makes the rest governable is the `ROOT_PERMISSION_ID`. The permission to make the DAO grant and revoke permissions is itself an ordinary permission in the same table. So the power to change the rules is handed out the same way as every other power. In a healthy DAO it is held by the DAO itself.
 
+OSx takes the opposite trade to the other three. It is a framework rather than a library or a primitive: the permission database, execution and a versioned install system arrive as one thing from one team. The tradeoff is that you take on the whole model to use any of it. [Where other options fit better](#where-other-options-fit-better) is honest about the rest.
+
 ## Axis by axis
 
 | | OpenZeppelin | Safe + Zodiac | Hats | OSx |
 |---|---|---|---|---|
+| **What it is** | a library you inherit from and assemble yourself | two products, two teams, two release schedules | a role primitive, paired with something that executes | a framework you deploy and operate as one piece |
 | **State lives** | in each contract (`AccessControl`); in one manager (`AccessManager`) | in the Safe (owners, module list) and in each Modifier | in the Hats singleton, shared by all orgs | in each DAO's own storage |
 | **Addressed by** | role → function, per contract | route → target + selector + params | wearer → hat | `(where, who, permissionId)` + calldata |
 | **Who may change it** | role admin / `ADMIN_ROLE` | Safe owners | the admin *hat* | whoever holds `ROOT` (tipically the DAO) |
