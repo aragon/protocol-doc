@@ -10,6 +10,8 @@ summary: "The abstract implementation of majority voting plugins."
 
 **Abstract contract** · [`src/base/MajorityVotingBase.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/base/MajorityVotingBase.sol)
 
+**Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
+
 **Author:** Aragon X - 2022-2025
 
 **Inherits:** [`IMajorityVoting`](./IMajorityVoting.md), `Initializable`, `ERC165Upgradeable`, `MetadataExtensionUpgradeable`, [`PluginUUPSUpgradeable`](./PluginUUPSUpgradeable.md), `ProposalUpgradeable`

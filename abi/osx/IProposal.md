@@ -10,6 +10,8 @@ summary: "An interface to be implemented by DAO plugins that create and execute 
 
 **Interface** · [`src/common/plugin/extensions/proposal/IProposal.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/extensions/proposal/IProposal.sol)
 
+**Explained in:** [Proposals](../../common/proposal.md)
+
 **Author:** Aragon X - 2022-2024
 
 An interface to be implemented by DAO plugins that create and execute proposals.

@@ -10,6 +10,8 @@ summary: "Thrown if a call is unauthorized in the associated DAO."
 
 **Error** · [`src/common/permission/auth/auth.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/auth/auth.sol)
 
+**Explained in:** [Authorizing against a DAO](../../common/auth.md)
+
 ```solidity
 error DaoUnauthorized(address dao, address where, address who, bytes32 permissionId);
 ```

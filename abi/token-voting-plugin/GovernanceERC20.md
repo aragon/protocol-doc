@@ -10,6 +10,8 @@ summary: "An [OpenZeppelin `Votes`](https://docs.openzeppelin.com/contracts/4.x/
 
 **Contract** · [`src/erc20/GovernanceERC20.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/erc20/GovernanceERC20.sol)
 
+**Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md)
+
 **Author:** Aragon X
 
 **Inherits:** [`IERC20MintableUpgradeable`](./IERC20MintableUpgradeable.md), `Initializable`, `ERC165Upgradeable`, `ERC20VotesUpgradeable`, `DaoAuthorizableUpgradeable`

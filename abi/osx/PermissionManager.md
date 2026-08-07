@@ -10,6 +10,8 @@ summary: "The abstract permission manager used in a DAO, its associated plugins,
 
 **Abstract contract** · [`src/core/permission/PermissionManager.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/core/permission/PermissionManager.sol)
 
+**Explained in:** [Manage permissions through governance](../../guides/manage-permissions.md), [The permission system](../../core/permissions.md)
+
 **Author:** Aragon X - 2021-2023
 
 **Inherits:** `Initializable`

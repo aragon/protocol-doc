@@ -10,6 +10,8 @@ summary: "Interface to allow minting of [ERC-20](https://eips.ethereum.org/EIPS/
 
 **Interface** · [`src/erc20/IERC20MintableUpgradeable.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/erc20/IERC20MintableUpgradeable.sol)
 
+**Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md)
+
 Interface to allow minting of [ERC-20](https://eips.ethereum.org/EIPS/eip-20) tokens.
 
 **security-contact:** sirt@aragon.org

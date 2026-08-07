@@ -4,6 +4,8 @@ The **shared cross-cutting primitives** of Aragon OSx. These were once a separat
 
 _What it means to *be* a plugin, the base contracts, the setup, and the plugin model, lives in the [framework](../framework/index.md), since a plugin is defined by using the framework to operate a DAO. This area is the primitives it reuses._
 
+**Exact signatures:** the generated [`osx` ABI reference](../abi/osx/index.md) has every public function, event, error and constant of these contracts, with its NatSpec.
+
 ## Authorization building blocks
 
 - [Authorizing against a DAO](./auth.md) — `DaoAuthorizable` and the `auth` modifier: how any contract defers access control to a DAO.

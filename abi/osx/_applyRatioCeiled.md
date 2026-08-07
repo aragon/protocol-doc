@@ -10,6 +10,8 @@ summary: "Applies a ratio to a value and ceils the remainder."
 
 **Function** · [`src/common/utils/math/Ratio.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/utils/math/Ratio.sol)
 
+**Explained in:** [Ratio (threshold math)](../../common/ratio.md)
+
 ```solidity
 function _applyRatioCeiled(uint256 _value, uint256 _ratio) pure returns (uint256 result)
 ```

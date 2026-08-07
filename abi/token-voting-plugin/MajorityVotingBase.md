@@ -10,6 +10,8 @@ summary: "The abstract implementation of majority voting plugins."
 
 **Abstract contract** · [`src/base/MajorityVotingBase.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/base/MajorityVotingBase.sol)
 
+**Explained in:** [Create, vote, and execute a proposal](../../guides/create-vote-execute.md), [Majority voting](../../plugins/majority-voting.md), [Voting modes](../../plugins/voting-modes.md)
+
 **Author:** Aragon X - 2022-2025
 
 **Inherits:** [`IMajorityVoting`](./IMajorityVoting.md), `Initializable`, `ERC165Upgradeable`, `MetadataExtensionUpgradeable`, `PluginUUPSUpgradeable`, `ProposalUpgradeable`

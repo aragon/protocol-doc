@@ -10,6 +10,8 @@ summary: "Checks if an account's voting power or token balance meets the thresho
 
 **Contract** · [`src/condition/VotingPowerCondition.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/condition/VotingPowerCondition.sol)
 
+**Explained in:** [Voting power (Token Voting Plugin)](../../plugins/token-voting-plugin/voting-power.md)
+
 **Author:** Aragon X - 2025
 
 **Inherits:** `PermissionCondition`

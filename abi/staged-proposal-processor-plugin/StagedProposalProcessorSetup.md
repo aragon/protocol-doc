@@ -10,6 +10,8 @@ summary: "The setup contract of the `StagedProposalProcessor` plugin."
 
 **Contract** · [`src/StagedProposalProcessorSetup.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/StagedProposalProcessorSetup.sol)
 
+**Explained in:** [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
+
 **Author:** Aragon X - 2024
 
 **Inherits:** `PluginUpgradeableSetup`

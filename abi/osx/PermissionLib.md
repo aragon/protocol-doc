@@ -10,6 +10,8 @@ summary: "A library containing objects for permission processing."
 
 **Library** · [`src/common/permission/PermissionLib.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/PermissionLib.sol)
 
+**Explained in:** [The permission system](../../core/permissions.md)
+
 **Author:** Aragon X - 2021-2023
 
 A library containing objects for permission processing.

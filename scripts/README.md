@@ -94,7 +94,31 @@ build root.
 This is all temporary: both repos are being migrated to Foundry, after which the `NON_FOUNDRY`
 table and the `abi-legacy` recipe can be deleted and they join `abi-all`.
 
-### Known gaps
+## `abi-crosslink.ts` — wiring it into the wiki
+
+```sh
+just abi-link           # re-run after `abi-all`, which overwrites the ABI pages
+```
+
+Bundle-specific glue, kept separate on purpose: `abi-docs.ts` is a standalone
+Solidity-to-Markdown tool with no knowledge of this wiki, and this pass only reads what is
+already on disk. The bridge is the `source:` frontmatter both layers already carry, so the
+mapping is exact and needs no heuristics.
+
+- **ABI → KB is written.** Each ABI page gets an `**Explained in:**` line under its title.
+  Safe to automate, since those files are generated anyway, and it stops a signature page
+  being a dead end. Idempotent: the line is replaced, never duplicated.
+- **KB → ABI is not.** Each area's `index.md` carries that link by hand; anything finer
+  belongs in the sentence that earns it, so the prose stays hand-owned.
+
+It then reports `source:` values matching no ABI page, grouped by repo. Most of those are
+repos nobody generates (`protocol-factory`, the tooling) or non-Solidity sources (a
+`build-metadata.json`, a `README.md`) — but a **wrong prefix** surfaces here too, and nowhere
+else. That is how `condition-library` (the repo is `conditions`) and `spp` were caught
+linking to nothing at all. If a repo you *do* generate appears in this list, check that the
+`source:` prefix is the repo name.
+
+## Known gaps
 
 - **No selectors for events and errors.** Function selectors come free from
   `methodIdentifiers`; the others would need a `cast sig-event` call per member. Cheap enough

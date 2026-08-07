@@ -10,6 +10,8 @@ summary: "A factory used to deploy new condition instances"
 
 **Contract** · [`src/factory/ConditionFactory.sol`](https://github.com/aragon/conditions/blob/33918b06b95233dd8890bef6cc60da6227fa5af1/src/factory/ConditionFactory.sol)
 
+**Explained in:** [Condition Library](../../helpers/condition-library.md)
+
 **Author:** AragonX 2025
 
 A factory used to deploy new condition instances

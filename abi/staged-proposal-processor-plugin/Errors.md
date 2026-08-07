@@ -10,6 +10,8 @@ summary: "Library containing all custom errors the plugin may revert with."
 
 **Library** · [`src/libraries/Errors.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/libraries/Errors.sol)
 
+**Explained in:** [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
+
 **Author:** Aragon X - 2024
 
 Library containing all custom errors the plugin may revert with.

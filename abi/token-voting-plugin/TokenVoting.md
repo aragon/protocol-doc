@@ -10,6 +10,8 @@ summary: "The majority voting implementation using an [OpenZeppelin `Votes`](htt
 
 **Contract** · [`src/TokenVoting.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/TokenVoting.sol)
 
+**Explained in:** [Create, vote, and execute a proposal](../../guides/create-vote-execute.md), [Token Voting Plugin](../../plugins/token-voting-plugin.md), [Voting power (Token Voting Plugin)](../../plugins/token-voting-plugin/voting-power.md)
+
 **Author:** Aragon X - 2021-2025
 
 **Inherits:** `IMembership`, [`MajorityVotingBase`](./MajorityVotingBase.md)

@@ -10,6 +10,8 @@ summary: "This contract provides the possibility to register a DAO."
 
 **Contract** · [`src/framework/dao/DAORegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/dao/DAORegistry.sol)
 
+**Explained in:** [DAO Registry](../../framework/dao-registry.md), [Registries and ENS names](../../framework/registries.md)
+
 **Register your unique DAO subdomain**
 
 **Author:** Aragon X - 2022-2023

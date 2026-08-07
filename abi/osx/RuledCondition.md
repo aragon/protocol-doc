@@ -10,6 +10,8 @@ summary: "An abstract contract to create conditional permissions using rules."
 
 **Abstract contract** · [`src/common/permission/condition/extensions/RuledCondition.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/condition/extensions/RuledCondition.sol)
 
+**Explained in:** [RuledCondition (the rule engine)](../../common/ruled-condition.md)
+
 **Author:** Aragon X - 2024
 
 **Inherits:** [`PermissionConditionUpgradeable`](./PermissionConditionUpgradeable.md)

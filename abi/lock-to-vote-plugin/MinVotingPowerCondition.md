@@ -10,6 +10,8 @@ summary: "Checks if an account's voting power or token balance meets the thresho
 
 **Contract** · [`src/conditions/MinVotingPowerCondition.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/conditions/MinVotingPowerCondition.sol)
 
+**Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
+
 **Author:** Aragon X - 2024
 
 **Inherits:** `PermissionCondition`

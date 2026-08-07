@@ -10,6 +10,8 @@ summary: "This contract registers ENS subdomains under a parent domain specified
 
 **Contract** · [`src/framework/utils/ens/ENSSubdomainRegistrar.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/utils/ens/ENSSubdomainRegistrar.sol)
 
+**Explained in:** [Registries and ENS names](../../framework/registries.md)
+
 **Author:** Aragon X - 2022-2023
 
 **Inherits:** `UUPSUpgradeable`, [`DaoAuthorizableUpgradeable`](./DaoAuthorizableUpgradeable.md), [`ProtocolVersion`](./ProtocolVersion.md)

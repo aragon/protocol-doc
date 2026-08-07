@@ -10,6 +10,8 @@ summary: "An abstract contract for upgradeable or cloneable contracts to inherit
 
 **Abstract contract** · [`src/common/permission/condition/PermissionConditionUpgradeable.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/condition/PermissionConditionUpgradeable.sol)
 
+**Explained in:** [Permission conditions](../../common/permission-conditions.md)
+
 **Author:** Aragon X - 2023
 
 **Inherits:** `ERC165Upgradeable`, [`IPermissionCondition`](./IPermissionCondition.md), [`ProtocolVersion`](./ProtocolVersion.md)

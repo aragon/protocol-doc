@@ -10,6 +10,8 @@ summary: "The interface required for a plugin repository."
 
 **Interface** · [`src/framework/plugin/repo/IPluginRepo.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/plugin/repo/IPluginRepo.sol)
 
+**Explained in:** [PluginRepo (versioning & publishing)](../../framework/plugin-repo.md)
+
 **Author:** Aragon X - 2022-2023
 
 The interface required for a plugin repository.

@@ -10,6 +10,8 @@ summary: "This contract is used to create a DAO."
 
 **Contract** · [`src/framework/dao/DAOFactory.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/dao/DAOFactory.sol)
 
+**Explained in:** [A hands-on tour of OSx](../../guides/hands-on-tour.md), [DAOFactory (creating a DAO)](../../framework/dao-factory.md), [Deploy your first DAO](../../guides/deploy-a-dao.md), [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [Launch a governance token with your DAO](../../guides/launch-a-governance-token.md), [Manage permissions through governance](../../guides/manage-permissions.md)
+
 **Author:** Aragon X - 2022-2023
 
 **Inherits:** `ERC165`, [`ProtocolVersion`](./ProtocolVersion.md)

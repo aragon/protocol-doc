@@ -10,6 +10,8 @@ summary: "A factory to deploy proxies via the UUPS pattern (see [ERC-1822](https
 
 **Contract** · [`src/common/utils/deployment/ProxyFactory.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/utils/deployment/ProxyFactory.sol)
 
+**Explained in:** [Proxy deployment (UUPS & minimal proxies)](../../common/proxies.md)
+
 **Author:** Aragon X - 2024
 
 A factory to deploy proxies via the UUPS pattern (see [ERC-1822](https://eips.ethereum.org/EIPS/eip-1822)) and minimal proxy pattern (see [ERC-1167](https://eips.ethereum.org/EIPS/eip-1167)).

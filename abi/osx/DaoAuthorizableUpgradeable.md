@@ -10,6 +10,8 @@ summary: "An abstract contract providing a meta-transaction compatible modifier 
 
 **Abstract contract** · [`src/common/permission/auth/DaoAuthorizableUpgradeable.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/auth/DaoAuthorizableUpgradeable.sol)
 
+**Explained in:** [Authorizing against a DAO](../../common/auth.md)
+
 **Author:** Aragon X - 2022-2023
 
 **Inherits:** `ContextUpgradeable`

@@ -10,6 +10,8 @@ summary: "Simple Executor that loops through the actions and executes them."
 
 **Contract** · [`src/common/executors/Executor.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/executors/Executor.sol)
 
+**Explained in:** [Actions and execution](../../core/execution.md)
+
 **IDAO**
 
 **Author:** Aragon X - 2024

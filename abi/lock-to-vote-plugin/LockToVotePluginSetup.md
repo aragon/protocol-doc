@@ -10,6 +10,8 @@ summary: "The setup contract of the `LockToVotePlugin` contract."
 
 **Contract** · [`src/setup/LockToVotePluginSetup.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/setup/LockToVotePluginSetup.sol)
 
+**Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
+
 **Author:** Aragon X - 2022-2025
 
 **Inherits:** `PluginSetup`

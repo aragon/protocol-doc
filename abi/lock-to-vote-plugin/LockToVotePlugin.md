@@ -10,6 +10,8 @@ summary: ""
 
 **Contract** · [`src/LockToVotePlugin.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/LockToVotePlugin.sol)
 
+**Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
+
 **Inherits:** [`ILockToVote`](./ILockToVote.md), [`MajorityVotingBase`](./MajorityVotingBase.md), [`LockToGovernBase`](./LockToGovernBase.md)
 
 ## Functions

@@ -10,6 +10,8 @@ summary: "The interface required for DAOs within the Aragon App DAO framework."
 
 **Interface** · [`src/common/dao/IDAO.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/dao/IDAO.sol)
 
+**Explained in:** [The DAO contract](../../core/dao.md)
+
 **Author:** Aragon X - 2022-2024
 
 The interface required for DAOs within the Aragon App DAO framework.

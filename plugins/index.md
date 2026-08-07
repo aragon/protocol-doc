@@ -2,6 +2,8 @@
 
 The **plugins**: ready-made functionality a DAO installs. They are **governance** plugins, they make decisions (propose → vote → execute). Each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so they share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Read one closely and the rest read faster.
 
+**Exact signatures:** the generated ABI reference, one per plugin repo, has every public function, event, error and constant with its NatSpec: [token voting](../abi/token-voting-plugin/index.md), [multisig](../abi/multisig-plugin/index.md), [admin](../abi/admin-plugin/index.md), [SPP](../abi/staged-proposal-processor-plugin/index.md), [lock to vote](../abi/lock-to-vote-plugin/index.md).
+
 ## Token Voting Plugin
 
 Token-weighted "one token, one vote" governance:

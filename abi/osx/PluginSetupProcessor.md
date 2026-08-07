@@ -10,6 +10,8 @@ summary: "This contract processes the preparation and application of plugin setu
 
 **Contract** · [`src/framework/plugin/setup/PluginSetupProcessor.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/plugin/setup/PluginSetupProcessor.sol)
 
+**Explained in:** [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [The PluginSetupProcessor (PSP)](../../framework/plugin-setup-processor.md), [Update a plugin](../../guides/update-a-plugin.md)
+
 **Author:** Aragon X - 2022-2023
 
 **Inherits:** [`ProtocolVersion`](./ProtocolVersion.md)

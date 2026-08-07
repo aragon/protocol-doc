@@ -10,6 +10,8 @@ summary: "A multi-stage proposal processor where proposals progress through defi
 
 **Contract** · [`src/StagedProposalProcessor.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/StagedProposalProcessor.sol)
 
+**Explained in:** [Composing SPP bodies](../../plugins/spp-plugin/composing-bodies.md), [SPP lifecycle & state machine](../../plugins/spp-plugin/lifecycle.md), [SPP stages & bodies](../../plugins/spp-plugin/stages-and-bodies.md), [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
+
 **Author:** Aragon X - 2024
 
 **Inherits:** `ProposalUpgradeable`, `MetadataExtensionUpgradeable`, `PluginUUPSUpgradeable`

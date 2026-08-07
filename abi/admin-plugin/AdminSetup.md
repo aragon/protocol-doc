@@ -10,6 +10,8 @@ summary: "The setup contract of the `Admin` plugin."
 
 **Contract** · [`packages/contracts/src/AdminSetup.sol`](https://github.com/aragon/admin-plugin/blob/ef1727abafe42022373ef14e933653cdc9a10f05/packages/contracts/src/AdminSetup.sol)
 
+**Explained in:** [Admin Plugin](../../plugins/admin-plugin.md)
+
 **AdminAddressSetup**
 
 **Author:** Aragon X - 2022-2024

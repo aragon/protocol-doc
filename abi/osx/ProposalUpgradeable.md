@@ -10,6 +10,8 @@ summary: "An abstract contract containing the traits and internal functionality 
 
 **Abstract contract** · [`src/common/plugin/extensions/proposal/ProposalUpgradeable.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/extensions/proposal/ProposalUpgradeable.sol)
 
+**Explained in:** [Proposals](../../common/proposal.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** [`IProposal`](./IProposal.md), `ERC165Upgradeable`

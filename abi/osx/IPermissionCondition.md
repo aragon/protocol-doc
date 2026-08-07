@@ -10,6 +10,8 @@ summary: "An interface to be implemented to support custom permission logic."
 
 **Interface** · [`src/common/permission/condition/IPermissionCondition.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/condition/IPermissionCondition.sol)
 
+**Explained in:** [Permission conditions](../../common/permission-conditions.md)
+
 **Author:** Aragon X - 2021-2023
 
 An interface to be implemented to support custom permission logic.

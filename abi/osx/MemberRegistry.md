@@ -10,6 +10,8 @@ summary: "Permissionless member self-registration via ENS subdomain claims."
 
 **Contract** · [`src/framework/member/MemberRegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/member/MemberRegistry.sol)
 
+**Explained in:** [Member registry](../../framework/member-registry.md)
+
 **Author:** Aragon X - 2026
 
 **Inherits:** [`IMemberRegistry`](./IMemberRegistry.md), `UUPSUpgradeable`, [`DaoAuthorizableUpgradeable`](./DaoAuthorizableUpgradeable.md), [`ProtocolVersion`](./ProtocolVersion.md)

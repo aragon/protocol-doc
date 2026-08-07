@@ -10,6 +10,8 @@ summary: "Helper contract acting as the vault for locked tokens used to vote on 
 
 **Interface** · [`src/interfaces/ILockManager.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/interfaces/ILockManager.sol)
 
+**Explained in:** [The LockManager](../../plugins/lock-to-vote-plugin/lock-manager.md)
+
 **Author:** Aragon X 2025
 
 Helper contract acting as the vault for locked tokens used to vote on LockToGovern plugins.

@@ -32,6 +32,10 @@ abi-legacy:
         {{ repos }}/multisig-plugin/packages/contracts/src \
         {{ repos }}/admin-plugin/packages/contracts/src
 
+# Cross-link the ABI reference with the wiki (re-run after `abi-all`, which overwrites it)
+abi-link:
+    @deno run --allow-read --allow-write --allow-run --allow-env scripts/abi-crosslink.ts
+
 # Verify the bundle: links, anchors, required frontmatter
 check:
     @wiki check

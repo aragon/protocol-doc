@@ -10,6 +10,8 @@ summary: "An interface for an on-chain multisig governance plugin in which a pro
 
 **Interface** · [`packages/contracts/src/IMultisig.sol`](https://github.com/aragon/multisig-plugin/blob/c1b0e04919819f8fb1ec110743085dfb0dd7cc02/packages/contracts/src/IMultisig.sol)
 
+**Explained in:** [Multisig Plugin](../../plugins/multisig-plugin.md)
+
 **Author:** Aragon X - 2022-2024
 
 An interface for an on-chain multisig governance plugin in which a proposal passes

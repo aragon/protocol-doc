@@ -10,6 +10,8 @@ summary: "A condition contract that checks if an address is listed as a member i
 
 **Contract** · [`packages/contracts/src/ListedCheckCondition.sol`](https://github.com/aragon/multisig-plugin/blob/c1b0e04919819f8fb1ec110743085dfb0dd7cc02/packages/contracts/src/ListedCheckCondition.sol)
 
+**Explained in:** [Multisig membership & eligibility](../../plugins/multisig-plugin/membership.md)
+
 **Author:** Aragon X - 2024
 
 **Inherits:** `PermissionCondition`

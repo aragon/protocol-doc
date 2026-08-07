@@ -10,6 +10,8 @@ summary: "An abstract, non-upgradeable contract to inherit from when creating a 
 
 **Abstract contract** · [`src/common/plugin/Plugin.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/Plugin.sol)
 
+**Explained in:** [Choosing a plugin base](../../framework/plugin-types.md), [The plugin model](../../framework/plugins.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** [`IPlugin`](./IPlugin.md), `ERC165`, [`DaoAuthorizable`](./DaoAuthorizable.md), [`ProtocolVersion`](./ProtocolVersion.md)

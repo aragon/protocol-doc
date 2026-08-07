@@ -10,6 +10,8 @@ summary: "The majority voting implementation using a list of member addresses."
 
 **Abstract contract** · [`src/common/plugin/extensions/governance/Addresslist.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/extensions/governance/Addresslist.sol)
 
+**Explained in:** [Membership and the address list](../../common/membership.md)
+
 **Author:** Aragon X - 2021-2023
 
 The majority voting implementation using a list of member addresses.

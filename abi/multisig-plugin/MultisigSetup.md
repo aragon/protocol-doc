@@ -10,6 +10,8 @@ summary: "The setup contract of the `Multisig` plugin."
 
 **Contract** · [`packages/contracts/src/MultisigSetup.sol`](https://github.com/aragon/multisig-plugin/blob/c1b0e04919819f8fb1ec110743085dfb0dd7cc02/packages/contracts/src/MultisigSetup.sol)
 
+**Explained in:** [Deploy your first DAO](../../guides/deploy-a-dao.md), [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [Multisig Plugin](../../plugins/multisig-plugin.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** `PluginUpgradeableSetup`

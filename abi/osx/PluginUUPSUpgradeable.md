@@ -10,6 +10,8 @@ summary: "An abstract, upgradeable contract to inherit from when creating a plug
 
 **Abstract contract** · [`src/common/plugin/PluginUUPSUpgradeable.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/PluginUUPSUpgradeable.sol)
 
+**Explained in:** [Choosing a plugin base](../../framework/plugin-types.md), [Deploy your first DAO](../../guides/deploy-a-dao.md), [Update a plugin](../../guides/update-a-plugin.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** [`IPlugin`](./IPlugin.md), `ERC165Upgradeable`, `UUPSUpgradeable`, [`DaoAuthorizableUpgradeable`](./DaoAuthorizableUpgradeable.md), [`ProtocolVersion`](./ProtocolVersion.md)

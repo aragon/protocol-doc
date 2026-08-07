@@ -10,6 +10,8 @@ summary: "Validates that a subdomain name is composed only from characters in th
 
 **Function** · [`src/framework/utils/RegistryUtils.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/utils/RegistryUtils.sol)
 
+**Explained in:** [Registries and ENS names](../../framework/registries.md)
+
 ```solidity
 function isSubdomainValid(string calldata subDomain) pure returns (bool)
 ```

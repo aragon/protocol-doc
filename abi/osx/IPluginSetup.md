@@ -10,6 +10,8 @@ summary: "The interface required for a plugin setup contract to be consumed by t
 
 **Interface** · [`src/common/plugin/setup/IPluginSetup.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/setup/IPluginSetup.sol)
 
+**Explained in:** [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [Plugin setup](../../framework/plugin-setup.md), [Update a plugin](../../guides/update-a-plugin.md)
+
 **Author:** Aragon X - 2022-2023
 
 The interface required for a plugin setup contract to be consumed by the `PluginSetupProcessor` for plugin installations, updates, and uninstallations.

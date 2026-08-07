@@ -10,6 +10,8 @@ summary: "An abstract, non-upgradeable contract to inherit from when creating a 
 
 **Abstract contract** · [`src/common/plugin/PluginCloneable.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/PluginCloneable.sol)
 
+**Explained in:** [Choosing a plugin base](../../framework/plugin-types.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** [`IPlugin`](./IPlugin.md), `ERC165Upgradeable`, [`DaoAuthorizableUpgradeable`](./DaoAuthorizableUpgradeable.md), [`ProtocolVersion`](./ProtocolVersion.md)

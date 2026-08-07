@@ -10,6 +10,8 @@ summary: "The admin governance plugin giving execution permission on the DAO to 
 
 **Contract** · [`packages/contracts/src/Admin.sol`](https://github.com/aragon/admin-plugin/blob/ef1727abafe42022373ef14e933653cdc9a10f05/packages/contracts/src/Admin.sol)
 
+**Explained in:** [Admin Plugin](../../plugins/admin-plugin.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** `IMembership`, `PluginCloneable`, `ProposalUpgradeable`

@@ -10,6 +10,8 @@ summary: "An [ERC-165](https://eips.ethereum.org/EIPS/eip-165)-based registry fo
 
 **Abstract contract** · [`src/framework/utils/InterfaceBasedRegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/utils/InterfaceBasedRegistry.sol)
 
+**Explained in:** [DAO Registry](../../framework/dao-registry.md), [PluginRepo Registry](../../framework/plugin-repo-registry.md), [Registries and ENS names](../../framework/registries.md)
+
 **Author:** Aragon X - 2022-2023
 
 **Inherits:** `UUPSUpgradeable`, [`DaoAuthorizableUpgradeable`](./DaoAuthorizableUpgradeable.md)

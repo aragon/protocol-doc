@@ -2,7 +2,7 @@
 type: concept
 title: Condition Library
 tags: [permissions]
-source: condition-library/src/factory/ConditionFactory.sol, condition-library/src/lib/common.sol
+source: conditions/src/factory/ConditionFactory.sol, conditions/src/lib/common.sol
 ---
 
 # Condition Library

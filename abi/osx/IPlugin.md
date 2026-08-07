@@ -10,6 +10,8 @@ summary: "An interface defining the traits of a plugin."
 
 **Interface** · [`src/common/plugin/IPlugin.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/IPlugin.sol)
 
+**Explained in:** [The plugin model](../../framework/plugins.md)
+
 **Author:** Aragon X - 2022-2024
 
 An interface defining the traits of a plugin.

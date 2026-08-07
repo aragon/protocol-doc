@@ -2,7 +2,7 @@
 type: concept
 title: ExecuteSelectorCondition
 tags: [permissions]
-source: condition-library/src/ExecuteSelectorCondition.sol
+source: conditions/src/ExecuteSelectorCondition.sol
 ---
 
 # ExecuteSelectorCondition

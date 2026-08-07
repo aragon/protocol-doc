@@ -10,6 +10,8 @@ summary: "The on-chain multisig governance plugin in which a proposal passes if 
 
 **Contract** · [`packages/contracts/src/Multisig.sol`](https://github.com/aragon/multisig-plugin/blob/c1b0e04919819f8fb1ec110743085dfb0dd7cc02/packages/contracts/src/Multisig.sol)
 
+**Explained in:** [Create, vote, and execute a proposal](../../guides/create-vote-execute.md), [Multisig membership & eligibility](../../plugins/multisig-plugin/membership.md), [Multisig Plugin](../../plugins/multisig-plugin.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** [`IMultisig`](./IMultisig.md), `IMembership`, `MetadataExtensionUpgradeable`, `PluginUUPSUpgradeable`, `ProposalUpgradeable`, `Addresslist`

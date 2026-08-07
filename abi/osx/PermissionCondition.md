@@ -10,6 +10,8 @@ summary: "An abstract contract for non-upgradeable contracts instantiated via th
 
 **Abstract contract** · [`src/common/permission/condition/PermissionCondition.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/condition/PermissionCondition.sol)
 
+**Explained in:** [Manage permissions through governance](../../guides/manage-permissions.md), [Permission conditions](../../common/permission-conditions.md)
+
 **Author:** Aragon X - 2023
 
 **Inherits:** `ERC165`, [`IPermissionCondition`](./IPermissionCondition.md), [`ProtocolVersion`](./ProtocolVersion.md)

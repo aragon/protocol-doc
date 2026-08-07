@@ -10,6 +10,8 @@ summary: "An abstract, stateless, non-upgradeable contract providing the current
 
 **Abstract contract** · [`src/common/utils/versioning/ProtocolVersion.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/utils/versioning/ProtocolVersion.sol)
 
+**Explained in:** [Protocol version](../../common/protocol-version.md)
+
 **Author:** Aragon X - 2023
 
 **Inherits:** [`IProtocolVersion`](./IProtocolVersion.md)

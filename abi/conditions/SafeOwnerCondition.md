@@ -10,6 +10,8 @@ summary: "A permission that only allows Safe owners to make use of a granted per
 
 **Contract** · [`src/SafeOwnerCondition.sol`](https://github.com/aragon/conditions/blob/33918b06b95233dd8890bef6cc60da6227fa5af1/src/SafeOwnerCondition.sol)
 
+**Explained in:** [SafeOwnerCondition](../../helpers/condition-library/safe-owner-condition.md)
+
 **Author:** AragonX 2025
 
 **Inherits:** `ERC165`, `IPermissionCondition`

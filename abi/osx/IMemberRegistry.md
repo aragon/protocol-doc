@@ -10,6 +10,8 @@ summary: "Permissionless member self-registration via ENS subdomain claims."
 
 **Interface** · [`src/framework/member/IMemberRegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/member/IMemberRegistry.sol)
 
+**Explained in:** [Member registry](../../framework/member-registry.md)
+
 Permissionless member self-registration via ENS subdomain claims.
 Members claim a subdomain under a configurable parent domain, manage their own
 resolver records (text, avatar, etc.) via per-node approval, and can release or

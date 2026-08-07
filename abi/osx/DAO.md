@@ -10,6 +10,8 @@ summary: "This contract is the entry point to the Aragon DAO framework and provi
 
 **Contract** · [`src/core/dao/DAO.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/core/dao/DAO.sol)
 
+**Explained in:** [A hands-on tour of OSx](../../guides/hands-on-tour.md), [Actions and execution](../../core/execution.md), [Create, vote, and execute a proposal](../../guides/create-vote-execute.md), [DAO metadata](../../core/dao-metadata.md), [DAO signature validation (EIP-1271)](../../core/signature-validation.md), [Manage permissions through governance](../../guides/manage-permissions.md), [The DAO contract](../../core/dao.md)
+
 **Author:** Aragon X - 2021-2024
 
 **Inherits:** [`IEIP4824`](./IEIP4824.md), `Initializable`, `IERC1271`, `ERC165StorageUpgradeable`, [`IDAO`](./IDAO.md), [`IExecutor`](./IExecutor.md), `UUPSUpgradeable`, [`ProtocolVersion`](./ProtocolVersion.md), [`PermissionManager`](./PermissionManager.md), [`CallbackHandler`](./CallbackHandler.md)

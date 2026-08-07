@@ -10,6 +10,8 @@ summary: "An abstract contract to inherit from to implement the plugin setup for
 
 **Abstract contract** · [`src/common/plugin/setup/PluginUpgradeableSetup.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/setup/PluginUpgradeableSetup.sol)
 
+**Explained in:** [Plugin setup](../../framework/plugin-setup.md)
+
 **Author:** Aragon X - 2022-2024
 
 **Inherits:** `ERC165`, [`IPluginSetup`](./IPluginSetup.md), [`ProtocolVersion`](./ProtocolVersion.md)

@@ -10,6 +10,8 @@ summary: "A free function checking if a caller is granted permissions on a targe
 
 **Function** · [`src/common/permission/auth/auth.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/permission/auth/auth.sol)
 
+**Explained in:** [Authorizing against a DAO](../../common/auth.md)
+
 ```solidity
 function _auth(
     IDAO _dao,

@@ -10,6 +10,8 @@ summary: "This contract maintains an address-based registry of plugin repositori
 
 **Contract** · [`src/framework/plugin/repo/PluginRepoRegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/plugin/repo/PluginRepoRegistry.sol)
 
+**Explained in:** [PluginRepo Registry](../../framework/plugin-repo-registry.md), [Registries and ENS names](../../framework/registries.md)
+
 **Author:** Aragon X - 2022-2023
 
 **Inherits:** [`InterfaceBasedRegistry`](./InterfaceBasedRegistry.md), [`ProtocolVersion`](./ProtocolVersion.md)

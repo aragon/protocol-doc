@@ -10,6 +10,8 @@ summary: "Governance plugin allowing token holders to use tokens locked without 
 
 **Interface** · [`src/interfaces/ILockToVote.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/interfaces/ILockToVote.sol)
 
+**Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
+
 **Author:** Aragon X
 
 **Inherits:** [`ILockToGovernBase`](./ILockToGovernBase.md)

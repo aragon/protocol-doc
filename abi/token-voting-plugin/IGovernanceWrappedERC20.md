@@ -10,6 +10,8 @@ summary: "An interface for the token wrapping contract wrapping existing [ERC-20
 
 **Interface** · [`src/erc20/IGovernanceWrappedERC20.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/erc20/IGovernanceWrappedERC20.sol)
 
+**Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md)
+
 **Author:** Aragon X
 
 An interface for the token wrapping contract wrapping existing
