@@ -78,19 +78,21 @@ collide with the page's own outline.
 
 ### Non-Foundry repositories
 
-`multisig-plugin` and `admin-plugin` are Hardhat (`packages/contracts/`), and the script
-currently refuses them rather than guessing. This is a *configuration* gap, not a format one:
-`forge` is a solc driver and will compile any layout given a source dir and remappings, and
-Hardhat writes the same `build-info` format anyway. Both contracts' only external imports are
-`@openzeppelin/contracts-upgradeable` and `@aragon/osx-commons-contracts`, so:
+`multisig-plugin` and `admin-plugin` are Hardhat, with their sources under
+`packages/contracts/`. They work anyway:
 
 ```sh
-cd ../multisig-plugin/packages/contracts && yarn install
-forge build --contracts src --libs node_modules --build-info --build-info-path <dir>
+just abi-legacy        # installs their deps, then generates as usual
+forge build --root . --contracts src --lib-paths node_modules --skip '*/mocks/*'
 ```
 
-should be enough. Wiring that in means letting a repo declare its `--contracts`/`--libs`
-overrides; it was left out until the approach is confirmed against an actual install.
+Because forge runs in `packages/contracts` while the git root is one level up, `source:` and
+the GitHub links are written relative to the **git root**
+(`multisig-plugin/packages/contracts/src/Multisig.sol`) while build-info lookups use the
+build root.
+
+This is all temporary: both repos are being migrated to Foundry, after which the `NON_FOUNDRY`
+table and the `abi-legacy` recipe can be deleted and they join `abi-all`.
 
 ### Known gaps
 

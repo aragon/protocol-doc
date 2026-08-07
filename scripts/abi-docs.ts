@@ -7,7 +7,7 @@
 // Paths may be files or directories, in any repo, mixed freely; they are grouped by git
 // root and each group is compiled once. See scripts/README.md for the how and why.
 
-import { basename, dirname, join, relative, resolve } from "jsr:@std/path@1";
+import { basename, dirname, globToRegExp, join, relative, resolve } from "jsr:@std/path@1";
 
 // ---------------------------------------------------------------- solc types
 
@@ -575,7 +575,37 @@ function topLevelPage(n: AstNode, path: string, bi: BuildInfo): (Omit<Page, "fil
 
 // -------------------------------------------------------------------- driver
 
-type Repo = { root: string; name: string; commit: string; dirty: boolean; url: string; files: string[] };
+type Repo = {
+  root: string; // the git root — what `name`, `commit` and the source links are relative to
+  buildRoot: string; // where forge runs; differs from `root` only for the Hardhat repos
+  prefix: string; // buildRoot relative to root, "" when they are the same
+  buildArgs: string[]; // extra forge flags for a project that has no foundry.toml
+  name: string;
+  commit: string;
+  dirty: boolean;
+  url: string;
+  files: string[];
+};
+
+/**
+ * Projects that are not Foundry. `forge` is only a solc driver, so it compiles these fine
+ * once told where the sources and the remappings live; it just cannot infer it without a
+ * foundry.toml. Deps come from `bun install --ignore-scripts` (see scripts/README.md).
+ *
+ * Temporary: both repos are being migrated to Foundry, at which point these entries and the
+ * `abi-legacy` recipe go away and they join `abi-all` like everything else.
+ */
+const NON_FOUNDRY: Record<string, { dir: string; args: string[] }> = {
+  "multisig-plugin": {
+    dir: "packages/contracts",
+    // Mocks are not documented, and Migration.sol imports two aliased packages that 404.
+    args: ["--contracts", "src", "--lib-paths", "node_modules", "--skip", "*/mocks/*"],
+  },
+  "admin-plugin": {
+    dir: "packages/contracts",
+    args: ["--contracts", "src", "--lib-paths", "node_modules", "--skip", "*/mocks/*"],
+  },
+};
 
 async function describeRepo(root: string, files: string[]): Promise<Repo> {
   const commit = await run("git", ["rev-parse", "HEAD"], root).catch(() => "");
@@ -583,7 +613,24 @@ async function describeRepo(root: string, files: string[]): Promise<Repo> {
   // pinned commit, and `forge build` itself touches tracked files like `foundry.lock`.
   const dirty = (await run("git", ["status", "--porcelain", "--", ...files], root).catch(() => "")) !== "";
   const url = httpsRemote(await run("git", ["remote", "get-url", "origin"], root).catch(() => ""));
-  return { root, name: basename(root), commit, dirty, url, files };
+  const name = basename(root);
+  const override = own(NON_FOUNDRY, name);
+  const buildRoot = override ? join(root, override.dir) : root;
+  // Drop what the build was told to skip, so "not in the build output" stays a real warning.
+  const skips = (override?.args ?? [])
+    .filter((a, i, all) => all[i - 1] === "--skip")
+    .map((g) => globToRegExp(g, { globstar: true }));
+  return {
+    root,
+    buildRoot,
+    prefix: override ? override.dir : "",
+    buildArgs: override?.args ?? [],
+    name,
+    commit,
+    dirty,
+    url,
+    files: files.filter((f) => !skips.some((re) => re.test(relative(buildRoot, f)))),
+  };
 }
 
 async function solFiles(path: string): Promise<string[]> {
@@ -595,18 +642,23 @@ async function solFiles(path: string): Promise<string[]> {
 }
 
 async function loadBuildInfo(repo: Repo): Promise<BuildInfo> {
-  if (!(await Deno.stat(join(repo.root, "foundry.toml")).catch(() => null))) {
+  if (!repo.buildArgs.length && !(await Deno.stat(join(repo.buildRoot, "foundry.toml")).catch(() => null))) {
     throw new Error(
-      `${repo.name}: no foundry.toml.\n` +
-        `  forge can still compile it, but it needs the source dir and remappings:\n` +
-        `    (cd ${repo.root} && bun install --ignore-scripts && forge build --contracts src --libs node_modules ...)\n` +
+      `${repo.name}: no foundry.toml, and no entry in NON_FOUNDRY.\n` +
+        `  forge can still compile it, but it needs the source dir and remappings.\n` +
         `  See scripts/README.md, "Non-Foundry repositories".`,
+    );
+  }
+  if (repo.buildArgs.length && !(await Deno.stat(join(repo.buildRoot, "node_modules")).catch(() => null))) {
+    throw new Error(
+      `${repo.name}: no node_modules in ${repo.prefix}.\n` +
+        `  Run \`just abi-legacy\`, which installs them first.`,
     );
   }
   const dir = await Deno.makeTempDir({ prefix: "abi-docs-" });
   try {
     console.error(`  compiling ${repo.name}…`);
-    await run("forge", ["build", "--build-info", "--build-info-path", dir], repo.root);
+    await run("forge", ["build", "--root", ".", ...repo.buildArgs, "--build-info", "--build-info-path", dir], repo.buildRoot);
     const merged: BuildInfo = { input: { sources: {} }, output: { sources: {}, contracts: {} } };
     const names = [...Deno.readDirSync(dir)].map((e) => e.name).filter((n) => n.endsWith(".json")).sort();
     for (const n of names) {
@@ -626,7 +678,7 @@ function pagesFor(repo: Repo, bi: BuildInfo): Page[] {
   const raw: (Omit<Page, "file" | "render"> & { deps: string[] })[] = [];
 
   for (const abs of repo.files.sort()) {
-    const rel = relative(repo.root, abs);
+    const rel = relative(repo.buildRoot, abs);
     const ast = bi.output.sources[rel]?.ast;
     if (!ast) {
       console.error(`  ! ${rel}: not in the build output (unreachable from the compilation targets?)`);
@@ -655,15 +707,16 @@ function pagesFor(repo: Repo, bi: BuildInfo): Page[] {
       ...p,
       file,
       render: (linkable: Set<string>) => {
+        const repoPath = [repo.prefix, p.sourcePath].filter(Boolean).join("/");
         const src = repo.url && repo.commit
-          ? `[\`${p.sourcePath}\`](${repo.url}/blob/${repo.commit}/${p.sourcePath})`
-          : `\`${p.sourcePath}\``;
+          ? `[\`${repoPath}\`](${repo.url}/blob/${repo.commit}/${repoPath})`
+          : `\`${repoPath}\``;
         const head = [
           "---",
           "type: reference", // precise lookup material, per WORKFLOW.md's vocabulary
           `title: ${p.name}`,
           `kind: ${p.kind}`, // the Solidity kind, orthogonal to the wiki `type`
-          `source: ${repo.name}/${p.sourcePath}`,
+          `source: ${repo.name}/${repoPath}`,
           `summary: ${JSON.stringify(p.summary)}`,
           "---",
           "",
