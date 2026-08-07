@@ -69,6 +69,10 @@ Returns whether the account has voted for the proposal.
 | `_proposalId` | `uint256` | The ID of the proposal. |
 | `_account` | `address` | The account address to be checked. |
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IMajorityVoting.VoteEntry`](#voteentry) |  |
+
 ### isMinApprovalReached
 
 ```solidity
@@ -166,7 +170,7 @@ Emitted when a vote is cast by a voter.
 | --- | --- | --- |
 | `proposalId` | `uint256` | The ID of the proposal. |
 | `voter` | `address` | The voter casting the vote. |
-| `voteOption` | `IMajorityVoting.VoteOption` | The casted vote option. |
+| `voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) | The casted vote option. |
 | `votingPower` | `uint256` | The voting power behind this vote. |
 
 ## Enums
@@ -206,5 +210,5 @@ Holds the state of an account's vote
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `voteOption` | `IMajorityVoting.VoteOption` | 1 -> abstain, 2 -> yes, 3 -> no |
+| `voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) | 1 -> abstain, 2 -> yes, 3 -> no |
 | `votingPower` | `uint256` | How many tokens the account has allocated to `voteOption` |

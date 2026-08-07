@@ -32,6 +32,11 @@ Disables the initializers on the implementation contract to prevent it from bein
 
 **oz-upgrades-unsafe-allow:** constructor
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `_dao` | `address` |  |
+| `_rules` | [`RuledCondition.Rule[]`](#rule) |  |
+
 ## Functions
 
 ### dao
@@ -112,6 +117,10 @@ Selector: `0x45e2984a`
 
 Retrieves the current rules stored in this contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`RuledCondition.Rule[]`](#rule) |  |
+
 ### initialize
 
 ```solidity
@@ -125,7 +134,7 @@ Initializes the component.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The IDAO interface of the associated DAO. |
-| `_rules` | `RuledCondition.Rule[]` | The rules that decide who can create a proposal on `StagedProposalProcessor`. |
+| `_rules` | [`RuledCondition.Rule[]`](#rule) | The rules that decide who can create a proposal on `StagedProposalProcessor`. |
 
 ### isGranted
 
@@ -199,7 +208,7 @@ Updates the rules that will be used as a check upon proposal creation on `Staged
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_rules` | `RuledCondition.Rule[]` | The rules that decide who can create a proposal on `StagedProposalProcessor`. |
+| `_rules` | [`RuledCondition.Rule[]`](#rule) | The rules that decide who can create a proposal on `StagedProposalProcessor`. |
 
 ## Events
 
@@ -221,7 +230,7 @@ Emitted when the rules are updated.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `rules` | `RuledCondition.Rule[]` | The new rules that replaces old rules. |
+| `rules` | [`RuledCondition.Rule[]`](#rule) | The new rules that replaces old rules. |
 
 ## Errors
 
@@ -256,7 +265,9 @@ The ID of the permission required to call the `updateRules` function.
 
 ## Enums
 
-### Op _(from RuledCondition)_
+### Op
+
+_Inherited from `RuledCondition`._
 
 ```solidity
 enum Op {
@@ -296,7 +307,9 @@ Represents various operations that can be performed in a rule.
 
 ## Structs
 
-### Rule _(from RuledCondition)_
+### Rule
+
+_Inherited from `RuledCondition`._
 
 ```solidity
 struct Rule {

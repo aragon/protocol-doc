@@ -18,3 +18,8 @@ struct PluginSetupRef {
     PluginRepo pluginSetupRepo;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `versionTag` | `PluginRepo.Tag` |  |
+| `pluginSetupRepo` | [`PluginRepo`](./PluginRepo.md) |  |

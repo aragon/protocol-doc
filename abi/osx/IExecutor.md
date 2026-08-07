@@ -37,7 +37,7 @@ Executes a list of actions. If a zero allow-failure map is provided, a failing a
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_callId` | `bytes32` | The ID of the call. The definition of the value of `callId` is up to the calling contract and can be used, e.g., as a nonce. |
-| `_actions` | `Action[]` | The array of actions. |
+| `_actions` | [`Action[]`](./Action.md) | The array of actions. |
 | `_allowFailureMap` | `uint256` | A bitmap allowing execution to succeed, even if individual actions might revert. If the bit at index `i` is 1, the execution succeeds even if the `i`th action reverts. A failure map value of 0 requires every action to not revert. |
 
 ## Events
@@ -64,7 +64,7 @@ Emitted when a proposal is executed.
 | --- | --- | --- |
 | `actor` | `address` | The address of the caller. |
 | `callId` | `bytes32` | The ID of the call. |
-| `actions` | `Action[]` | The array of actions executed. |
+| `actions` | [`Action[]`](./Action.md) | The array of actions executed. |
 | `allowFailureMap` | `uint256` | The allow failure map encoding which actions are allowed to fail. |
 | `failureMap` | `uint256` | The failure map encoding which actions have failed. |
 | `execResults` | `bytes[]` | The array with the results of the executed actions. |

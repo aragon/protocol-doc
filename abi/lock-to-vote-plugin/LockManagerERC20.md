@@ -164,6 +164,10 @@ Selector: `0xef01df4f`
 
 The address of the lock to vote plugin to use
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`ILockToGovernBase`](./ILockToGovernBase.md) |  |
+
 ### proposalCreated
 
 ```solidity
@@ -204,6 +208,10 @@ Selector: `0x587a6b40`
 
 Defines the given plugin address as the target for voting.
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `_newPluginAddress` | [`ILockToGovernBase`](./ILockToGovernBase.md) |  |
+
 ### settings
 
 ```solidity
@@ -213,6 +221,10 @@ function settings() external view returns (PluginMode pluginMode)
 Selector: `0xe06174e4`
 
 The current LockManager settings
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `pluginMode` | [`PluginMode`](./PluginMode.md) |  |
 
 ### token
 

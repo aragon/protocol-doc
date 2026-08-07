@@ -31,7 +31,7 @@ Configures a new instance with the given set of allowed selectors
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `IDAO` | The address of the DAO where the contract should read the permissions from |
-| `_initialEntries` | `ExecuteSelectorCondition.SelectorTarget[]` | The list of allowed selectors and the addresses where they can be invoked |
+| `_initialEntries` | [`ExecuteSelectorCondition.SelectorTarget[]`](#selectortarget) | The list of allowed selectors and the addresses where they can be invoked |
 
 ## Functions
 
@@ -83,7 +83,7 @@ Marks the given selectors as allowed on the given where address
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_newEntry` | `ExecuteSelectorCondition.SelectorTarget` | The new selectors and the address where they can be invoked |
+| `_newEntry` | [`ExecuteSelectorCondition.SelectorTarget`](#selectortarget) | The new selectors and the address where they can be invoked |
 
 ### dao
 
@@ -121,7 +121,7 @@ Marks the given selector(s) as disallowed
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_entry` | `ExecuteSelectorCondition.SelectorTarget` | The selectors to remove and the address where they can no longer be invoked |
+| `_entry` | [`ExecuteSelectorCondition.SelectorTarget`](#selectortarget) | The selectors to remove and the address where they can no longer be invoked |
 
 ### isGranted
 

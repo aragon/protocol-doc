@@ -44,6 +44,10 @@ Selector: `0x64e074a5`
 
 Decodes the given byte array into the original installation parameters
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `installationParams` | [`LockToVotePluginSetup.InstallationParameters`](#installationparameters) |  |
+
 ### encodeInstallationParams
 
 ```solidity
@@ -55,6 +59,10 @@ function encodeInstallationParams(
 Selector: `0xc65ba11e`
 
 Encodes the given installation parameters into a byte array
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `installationParams` | [`LockToVotePluginSetup.InstallationParameters`](#installationparameters) |  |
 
 ### implementation
 
@@ -93,7 +101,7 @@ Prepares the installation of a plugin.
 | Returns | Type | Description |
 | --- | --- | --- |
 | `plugin` | `address` | The address of the `Plugin` contract being prepared for installation. |
-| `preparedSetupData` | `IPluginSetup.PreparedSetupData` | The deployed plugin's relevant data which consists of helpers and permissions. |
+| `preparedSetupData` | [`IPluginSetup.PreparedSetupData`](#preparedsetupdata) | The deployed plugin's relevant data which consists of helpers and permissions. |
 
 ### prepareUninstallation
 
@@ -111,7 +119,7 @@ Prepares the uninstallation of a plugin.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the uninstalling DAO. |
-| `_payload` | `IPluginSetup.SetupPayload` | The relevant data necessary for the `prepareUninstallation`. See above. |
+| `_payload` | [`IPluginSetup.SetupPayload`](#setuppayload) | The relevant data necessary for the `prepareUninstallation`. See above. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
@@ -137,12 +145,12 @@ Prepares the update of a plugin.
 | --- | --- | --- |
 | `_dao` | `address` | The address of the updating DAO. |
 | `_fromBuild` | `uint16` | The build number of the plugin to update from. |
-| `_payload` | `IPluginSetup.SetupPayload` | The relevant data necessary for the `prepareUpdate`. See above. |
+| `_payload` | [`IPluginSetup.SetupPayload`](#setuppayload) | The relevant data necessary for the `prepareUpdate`. See above. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
 | `[0]` | `bytes` | The initialization data to be passed to upgradeable contracts when the update is applied in the `PluginSetupProcessor`. |
-| `[1]` | `IPluginSetup.PreparedSetupData` | The deployed plugin's relevant data which consists of helpers and permissions. |
+| `[1]` | [`IPluginSetup.PreparedSetupData`](#preparedsetupdata) | The deployed plugin's relevant data which consists of helpers and permissions. |
 
 ### protocolVersion
 
@@ -246,7 +254,9 @@ Struct containing all the parameters to set up the plugin, helpers and permissio
 | `executeCaller` | `address` | The address that can call execute (can be ANY_ADDR) |
 | `targetConfig` | `IPlugin.TargetConfig` | Where and how the plugin will execute actions |
 
-### PreparedSetupData _(from IPluginSetup)_
+### PreparedSetupData
+
+_Inherited from `IPluginSetup`._
 
 ```solidity
 struct PreparedSetupData {
@@ -262,7 +272,9 @@ The data associated with a prepared setup.
 | `helpers` | `address[]` | The address array of helpers (contracts or EOAs) associated with this plugin version after the installation or update. |
 | `permissions` | `PermissionLib.MultiTargetPermission[]` | The array of multi-targeted permission operations to be applied by the `PluginSetupProcessor` to the installing or updating DAO. |
 
-### SetupPayload _(from IPluginSetup)_
+### SetupPayload
+
+_Inherited from `IPluginSetup`._
 
 ```solidity
 struct SetupPayload {

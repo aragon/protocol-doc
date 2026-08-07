@@ -145,6 +145,10 @@ Selector: `0xef01df4f`
 
 Returns the address of the voting plugin.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`ILockToGovernBase`](./ILockToGovernBase.md) |  |
+
 ### proposalCreated
 
 ```solidity
@@ -205,7 +209,7 @@ Defines the given plugin address as the target for voting.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `plugin` | `ILockToGovernBase` | The address of the contract to use as the plugin. |
+| `plugin` | [`ILockToGovernBase`](./ILockToGovernBase.md) | The address of the contract to use as the plugin. |
 
 ### settings
 
@@ -219,7 +223,7 @@ Returns the current settings of the LockManager.
 
 | Returns | Type | Description |
 | --- | --- | --- |
-| `pluginMode` | `PluginMode` | The plugin mode (currently, voting only) |
+| `pluginMode` | [`PluginMode`](./PluginMode.md) | The plugin mode (currently, voting only) |
 
 ### token
 

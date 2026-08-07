@@ -67,7 +67,7 @@ Only moves the caller's own subdomain. Reverts if not registered or new label ta
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `newSubdomain` | `string` | The new subdomain label to claim. |
-| `records` | `IMemberRegistry.Records` | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) keeps the default (msg.sender). Empty contenthash is skipped. |
+| `records` | [`IMemberRegistry.Records`](#records) | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) keeps the default (msg.sender). Empty contenthash is skipped. |
 
 ### move(string)
 
@@ -119,7 +119,7 @@ One subdomain per address. Reverts if already registered (release first).
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `subdomain` | `string` | The subdomain label to claim (e.g., "alice"). |
-| `records` | `IMemberRegistry.Records` | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) defaults to msg.sender. Empty contenthash is skipped. |
+| `records` | [`IMemberRegistry.Records`](#records) | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) defaults to msg.sender. Empty contenthash is skipped. |
 
 ### register(string)
 
@@ -276,6 +276,12 @@ struct Records {
     bytes contenthash;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `textRecords` | [`IMemberRegistry.TextRecord[]`](#textrecord) |  |
+| `addr` | `address` |  |
+| `contenthash` | `bytes` |  |
 
 ### TextRecord
 

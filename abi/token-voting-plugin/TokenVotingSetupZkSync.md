@@ -34,7 +34,7 @@ The contract constructor deploying the plugin implementation contract.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_tokenVotingBase` | `TokenVoting` | The base `TokenVoting` contract to create proxies for. |
+| `_tokenVotingBase` | [`TokenVoting`](./TokenVoting.md) | The base `TokenVoting` contract to create proxies for. |
 
 ## Functions
 
@@ -49,6 +49,16 @@ function decodeInstallationParameters(
 Selector: `0xf2ad76f9`
 
 Decodes the given byte array into the original installation parameters
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `votingSettings` | `MajorityVotingBase.VotingSettings` |  |
+| `tokenSettings` | [`TokenVotingSetupZkSync.TokenSettings`](#tokensettings) |  |
+| `mintSettings` | `GovernanceERC20.MintSettings` |  |
+| `targetConfig` | `IPlugin.TargetConfig` |  |
+| `minApprovals` | `uint256` |  |
+| `pluginMetadata` | `bytes` |  |
+| `excludedAccounts` | `address[]` |  |
 
 ### encodeInstallationParameters
 
@@ -67,6 +77,16 @@ function encodeInstallationParameters(
 Selector: `0xb37edb51`
 
 Encodes the given installation parameters into a byte array
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `votingSettings` | `MajorityVotingBase.VotingSettings` |  |
+| `tokenSettings` | [`TokenVotingSetupZkSync.TokenSettings`](#tokensettings) |  |
+| `mintSettings` | `GovernanceERC20.MintSettings` |  |
+| `targetConfig` | `IPlugin.TargetConfig` |  |
+| `minApprovals` | `uint256` |  |
+| `pluginMetadata` | `bytes` |  |
+| `excludedAccounts` | `address[]` |  |
 
 ### implementation
 
@@ -105,7 +125,7 @@ Prepares the installation of a plugin.
 | Returns | Type | Description |
 | --- | --- | --- |
 | `plugin` | `address` | The address of the `Plugin` contract being prepared for installation. |
-| `preparedSetupData` | `IPluginSetup.PreparedSetupData` | The deployed plugin's relevant data which consists of helpers and permissions. |
+| `preparedSetupData` | [`IPluginSetup.PreparedSetupData`](#preparedsetupdata) | The deployed plugin's relevant data which consists of helpers and permissions. |
 
 ### prepareUninstallation
 
@@ -123,7 +143,7 @@ Prepares the uninstallation of a plugin.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the uninstalling DAO. |
-| `_payload` | `IPluginSetup.SetupPayload` | The relevant data necessary for the `prepareUninstallation`. See above. |
+| `_payload` | [`IPluginSetup.SetupPayload`](#setuppayload) | The relevant data necessary for the `prepareUninstallation`. See above. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
@@ -149,12 +169,12 @@ Prepares the update of a plugin.
 | --- | --- | --- |
 | `_dao` | `address` | The address of the updating DAO. |
 | `_fromBuild` | `uint16` | The build number of the plugin to update from. |
-| `_payload` | `IPluginSetup.SetupPayload` | The relevant data necessary for the `prepareUpdate`. See above. |
+| `_payload` | [`IPluginSetup.SetupPayload`](#setuppayload) | The relevant data necessary for the `prepareUpdate`. See above. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
 | `initData` | `bytes` | The initialization data to be passed to upgradeable contracts when the update is applied in the `PluginSetupProcessor`. |
-| `preparedSetupData` | `IPluginSetup.PreparedSetupData` | The deployed plugin's relevant data which consists of helpers and permissions. |
+| `preparedSetupData` | [`IPluginSetup.PreparedSetupData`](#preparedsetupdata) | The deployed plugin's relevant data which consists of helpers and permissions. |
 
 ### protocolVersion
 
@@ -247,7 +267,9 @@ Thrown if token address is not ERC20.
 
 ## Structs
 
-### PreparedSetupData _(from IPluginSetup)_
+### PreparedSetupData
+
+_Inherited from `IPluginSetup`._
 
 ```solidity
 struct PreparedSetupData {
@@ -263,7 +285,9 @@ The data associated with a prepared setup.
 | `helpers` | `address[]` | The address array of helpers (contracts or EOAs) associated with this plugin version after the installation or update. |
 | `permissions` | `PermissionLib.MultiTargetPermission[]` | The array of multi-targeted permission operations to be applied by the `PluginSetupProcessor` to the installing or updating DAO. |
 
-### SetupPayload _(from IPluginSetup)_
+### SetupPayload
+
+_Inherited from `IPluginSetup`._
 
 ```solidity
 struct SetupPayload {

@@ -32,7 +32,7 @@ Initializes the contract with the `ILockToGovernBase` plugin address and caches 
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_plugin` | `ILockToGovernBase` | The address of the `ILockToGovernBase` plugin. |
+| `_plugin` | [`ILockToGovernBase`](./ILockToGovernBase.md) | The address of the `ILockToGovernBase` plugin. |
 
 ## Functions
 

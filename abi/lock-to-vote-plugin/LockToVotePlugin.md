@@ -52,6 +52,12 @@ Checks if an account can participate on a proposal. This can fail because the vo
 
 > **Dev:** Reverts if the proposal with the given `_proposalId` does not exist.
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `_proposalId` | `uint256` |  |
+| `_voter` | `address` |  |
+| `_voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) |  |
+
 | Returns | Type | Description |
 | --- | --- | --- |
 | `[0]` | `bool` | Returns true if the account is allowed to vote. |
@@ -162,6 +168,10 @@ Selector: `0xc98425ee`
 
 Returns the currently set target contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ### getMetadata
 
 ```solidity
@@ -192,11 +202,11 @@ Returns all information for a proposal by its ID.
 | --- | --- | --- |
 | `open` | `bool` | Whether the proposal is open or not. |
 | `executed` | `bool` | Whether the proposal is executed or not. |
-| `parameters` | `MajorityVotingBase.ProposalParameters` | The parameters of the proposal. |
-| `tally` | `MajorityVotingBase.Tally` | The current tally of the proposal. |
+| `parameters` | [`MajorityVotingBase.ProposalParameters`](#proposalparameters) | The parameters of the proposal. |
+| `tally` | [`MajorityVotingBase.Tally`](#tally) | The current tally of the proposal. |
 | `actions` | `Action[]` | The actions to be executed to the `target` contract address. |
 | `allowFailureMap` | `uint256` | The bit map representations of which actions are allowed to revert so tx still succeeds. |
-| `targetConfig` | `IPlugin.TargetConfig` | Execution configuration, applied to the proposal when it was created. Added in build 3. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | Execution configuration, applied to the proposal when it was created. Added in build 3. |
 
 ### getTargetConfig
 
@@ -207,6 +217,10 @@ function getTargetConfig() external view returns (IPlugin.TargetConfig)
 Selector: `0xdd63c06f`
 
 A convenient function to get current target config only if its target is not address(0), otherwise dao().
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
 
 ### getVote
 
@@ -230,7 +244,7 @@ Returns whether the account has voted for the proposal.
 
 | Returns | Type | Description |
 | --- | --- | --- |
-| `[0]` | `IMajorityVoting.VoteEntry` | The vote option cast by a voter for a certain proposal. |
+| `[0]` | [`IMajorityVoting.VoteEntry`](#voteentry) | The vote option cast by a voter for a certain proposal. |
 
 ### getVotingSettings
 
@@ -241,6 +255,10 @@ function getVotingSettings() external view returns (MajorityVotingBase.VotingSet
 Selector: `0xf6832643`
 
 Returns the current voting settings.
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`MajorityVotingBase.VotingSettings`](#votingsettings) |  |
 
 ### hasSucceeded
 
@@ -293,9 +311,9 @@ Initializes the component.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `IDAO` | The IDAO interface of the associated DAO. |
-| `_lockManager` | `ILockManager` |  |
-| `_votingSettings` | `MajorityVotingBase.VotingSettings` | The voting settings. |
-| `_targetConfig` | `IPlugin.TargetConfig` | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 3. |
+| `_lockManager` | [`ILockManager`](./ILockManager.md) |  |
+| `_votingSettings` | [`MajorityVotingBase.VotingSettings`](#votingsettings) | The voting settings. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 3. |
 | `_pluginMetadata` | `bytes` | The plugin specific information encoded in bytes. This can also be an ipfs cid encoded in bytes. |
 
 ### isMember
@@ -418,6 +436,10 @@ Selector: `0xacca30a2`
 
 Returns the address of the manager contract, which holds the locked balances and the allocated vote balances.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`ILockManager`](./ILockManager.md) |  |
+
 ### minApprovalRatio
 
 ```solidity
@@ -469,6 +491,10 @@ function pluginType() external pure returns (IPlugin.PluginType)
 Selector: `0x41de6830`
 
 Returns the plugin's type
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.PluginType`](#plugintype) |  |
 
 ### proposalCount
 
@@ -557,7 +583,7 @@ IMPORTANT: Defining any other executor in DelegateCall mode (operation), can lea
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_targetConfig` | `IPlugin.TargetConfig` | The target Config containing the executor address and operation mode. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target Config containing the executor address and operation mode. |
 
 ### supportsInterface
 
@@ -615,7 +641,7 @@ Updates the voting settings.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_votingSettings` | `MajorityVotingBase.VotingSettings` | The new voting settings. |
+| `_votingSettings` | [`MajorityVotingBase.VotingSettings`](#votingsettings) | The new voting settings. |
 
 ### upgradeTo
 
@@ -681,6 +707,13 @@ Votes on a proposal and, depending on the mode, executes it.
 
 > **Dev:** `voteOption`, 1 -> abstain, 2 -> yes, 3 -> novotingPower updates any prior voting power, it does not add to the existing amount.
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `_proposalId` | `uint256` |  |
+| `_voter` | `address` |  |
+| `_voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) |  |
+| `_newVotingPower` | `uint256` |  |
+
 ### votingMode
 
 ```solidity
@@ -690,6 +723,10 @@ function votingMode() external view returns (MajorityVotingBase.VotingMode)
 Selector: `0x23d07188`
 
 Returns the vote mode stored in the voting settings.
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`MajorityVotingBase.VotingMode`](#votingmode) |  |
 
 ## Events
 
@@ -727,7 +764,7 @@ Emitted when the address of the LockManager is set.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `lockManager` | `ILockManager` | The address of the LockManager contract |
+| `lockManager` | [`ILockManager`](./ILockManager.md) | The address of the LockManager contract |
 
 ### MembersAdded
 
@@ -819,6 +856,10 @@ event TargetSet(IPlugin.TargetConfig newTargetConfig)
 
 Emitted each time the TargetConfig is set.
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newTargetConfig` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ### Upgraded
 
 ```solidity
@@ -844,7 +885,7 @@ Emitted when a vote is cast by a voter.
 | --- | --- | --- |
 | `proposalId` | `uint256` | The ID of the proposal. |
 | `voter` | `address` | The voter casting the vote. |
-| `voteOption` | `IMajorityVoting.VoteOption` | The casted vote option. |
+| `voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) | The casted vote option. |
 | `votingPower` | `uint256` | The voting power behind this vote. |
 
 ### VoteCleared
@@ -877,7 +918,7 @@ Emitted when the voting settings are updated.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `votingMode` | `MajorityVotingBase.VotingMode` | A parameter to select the vote mode. |
+| `votingMode` | [`MajorityVotingBase.VotingMode`](#votingmode) | A parameter to select the vote mode. |
 | `supportThresholdRatio` | `uint32` | The support threshold ratio. |
 | `minParticipationRatio` | `uint32` | The minimum participation ratio. |
 | `minApprovalRatio` | `uint32` | The minimum ratio of yes votes over the token supply needed for the proposal advance. |
@@ -975,7 +1016,7 @@ Thrown when target is of type 'IDAO', but operation is `delegateCall`.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `targetConfig` | `IPlugin.TargetConfig` | The target config to update it to. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target config to update it to. |
 
 ### LockManagerAlreadyDefined
 
@@ -1135,7 +1176,9 @@ Value: `0x8c433a4cd6b51969eca37f974940894297b9fcf4b282a213fea5cd8f85289c90`
 
 The ID of the permission required to call the `createProposal` functions.
 
-### EXECUTE_PROPOSAL_PERMISSION_ID _(from MajorityVotingBase)_
+### EXECUTE_PROPOSAL_PERMISSION_ID
+
+_Inherited from `MajorityVotingBase`._
 
 ```solidity
 bytes32 public constant EXECUTE_PROPOSAL_PERMISSION_ID = keccak256("EXECUTE_PROPOSAL_PERMISSION");
@@ -1155,7 +1198,9 @@ Value: `0x28959d3c8d9c85fe68b3927a0425322ccc2f64692cea992da81e150c47353017`
 
 The ID of the permission required to call `vote` and `clearVote`.
 
-### SET_METADATA_PERMISSION_ID _(from MetadataExtensionUpgradeable)_
+### SET_METADATA_PERMISSION_ID
+
+_Inherited from `MetadataExtensionUpgradeable`._
 
 ```solidity
 bytes32 public constant SET_METADATA_PERMISSION_ID = keccak256("SET_METADATA_PERMISSION");
@@ -1165,7 +1210,9 @@ Value: `0x4707e94b25cfce1a7c363508fbb838c35864388ad77284b248282b9746982b9b`
 
 The ID of the permission required to call the `setMetadata` function.
 
-### SET_TARGET_CONFIG_PERMISSION_ID _(from PluginUUPSUpgradeable)_
+### SET_TARGET_CONFIG_PERMISSION_ID
+
+_Inherited from `PluginUUPSUpgradeable`._
 
 ```solidity
 bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
@@ -1176,7 +1223,9 @@ Value: `0x568cc693d84eb1901f8bcecba154cbdef23ca3cf67efc0a0b698528a06c660f7`
 
 The ID of the permission required to call the `setTargetConfig` function.
 
-### UPDATE_SETTINGS_PERMISSION_ID _(from MajorityVotingBase)_
+### UPDATE_SETTINGS_PERMISSION_ID
+
+_Inherited from `MajorityVotingBase`._
 
 ```solidity
 bytes32 public constant UPDATE_SETTINGS_PERMISSION_ID = keccak256("UPDATE_SETTINGS_PERMISSION");
@@ -1186,7 +1235,9 @@ Value: `0x371f7eb46741163a91bb271e73a2a58ae7a0b6bc80c10a8c7e03ae2e4bc0e425`
 
 The ID of the permission required to call the `updateVotingSettings` function.
 
-### UPGRADE_PLUGIN_PERMISSION_ID _(from PluginUUPSUpgradeable)_
+### UPGRADE_PLUGIN_PERMISSION_ID
+
+_Inherited from `PluginUUPSUpgradeable`._
 
 ```solidity
 bytes32 public constant UPGRADE_PLUGIN_PERMISSION_ID = keccak256("UPGRADE_PLUGIN_PERMISSION");
@@ -1198,7 +1249,9 @@ The ID of the permission required to call the `_authorizeUpgrade` function.
 
 ## Enums
 
-### Operation _(from IPlugin)_
+### Operation
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum Operation {
@@ -1214,7 +1267,9 @@ Specifies the type of operation to perform.
 | `Call` | `0` |
 | `DelegateCall` | `1` |
 
-### PluginType _(from IPlugin)_
+### PluginType
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum PluginType {
@@ -1232,7 +1287,9 @@ Types of plugin implementations available within OSx.
 | `Cloneable` | `1` |
 | `Constructable` | `2` |
 
-### VoteOption _(from IMajorityVoting)_
+### VoteOption
+
+_Inherited from `IMajorityVoting`._
 
 ```solidity
 enum VoteOption {
@@ -1252,7 +1309,9 @@ Vote options that a voter can chose from.
 | `Yes` | `2` | This option increases the support and counts towards participation. |
 | `No` | `3` | This option decreases the support and counts towards participation. |
 
-### VotingMode _(from MajorityVotingBase)_
+### VotingMode
+
+_Inherited from `MajorityVotingBase`._
 
 ```solidity
 enum VotingMode {
@@ -1270,7 +1329,9 @@ The different voting modes available.
 
 ## Structs
 
-### MetadataExtensionStorage _(from MetadataExtensionUpgradeable)_
+### MetadataExtensionStorage
+
+_Inherited from `MetadataExtensionUpgradeable`._
 
 ```solidity
 struct MetadataExtensionStorage {
@@ -1278,7 +1339,9 @@ struct MetadataExtensionStorage {
 }
 ```
 
-### Proposal _(from MajorityVotingBase)_
+### Proposal
+
+_Inherited from `MajorityVotingBase`._
 
 ```solidity
 struct Proposal {
@@ -1297,14 +1360,16 @@ A container for proposal-related information.
 | Field | Type | Description |
 | --- | --- | --- |
 | `executed` | `bool` | Whether the proposal is executed or not. |
-| `parameters` | `MajorityVotingBase.ProposalParameters` | The proposal parameters at the time of the proposal creation. |
-| `tally` | `MajorityVotingBase.Tally` | The vote tally of the proposal. |
+| `parameters` | [`MajorityVotingBase.ProposalParameters`](#proposalparameters) | The proposal parameters at the time of the proposal creation. |
+| `tally` | [`MajorityVotingBase.Tally`](#tally) | The vote tally of the proposal. |
 | `votes` | `mapping(address => IMajorityVoting.VoteEntry)` | The voting power cast by each voter. |
 | `actions` | `Action[]` | The actions to be executed when the proposal passes. |
 | `allowFailureMap` | `uint256` | A bitmap allowing the proposal to succeed, even if individual actions might revert. If the bit at index `i` is 1, the proposal succeeds even if the `i`th action reverts. A failure map value of 0 requires every action to not revert. |
-| `targetConfig` | `IPlugin.TargetConfig` | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 3. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 3. |
 
-### ProposalParameters _(from MajorityVotingBase)_
+### ProposalParameters
+
+_Inherited from `MajorityVotingBase`._
 
 ```solidity
 struct ProposalParameters {
@@ -1321,14 +1386,16 @@ A container for the proposal parameters at the time of proposal creation.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `votingMode` | `MajorityVotingBase.VotingMode` | A parameter to select the vote mode. |
+| `votingMode` | [`MajorityVotingBase.VotingMode`](#votingmode) | A parameter to select the vote mode. |
 | `supportThresholdRatio` | `uint32` | The support threshold ratio. Its value has to be in the interval [0, 10^6) defined by `RATIO_BASE = 10**6`. This is intended as the primary metric for proposals to pass. |
 | `startDate` | `uint64` | The timestamp on which a proposal starts accepting votes. Range: `[startDate, endDate)` |
 | `endDate` | `uint64` | The timestamp on which a proposal no longer accepts votes. |
 | `minParticipationRatio` | `uint256` | The minimum voting power ratio needed for a proposal to reach the minimum participation. Its value has to be in the interval [0, 10^6] defined by `RATIO_BASE = 10**6`. This is a intended as secondary metric to prevent noise or spam from passing unadvertedly. Relatively high ratios are not encouraged. |
 | `minApprovalRatio` | `uint256` | Minimum ratio of allocated YES votes. Its value has to be in the interval [0, 10^6] defined by `RATIO_BASE = 10**6`. This is a intended as secondary metric to prevent noise or spam from passing unadvertedly. Relatively high ratios are not encouraged. |
 
-### Tally _(from MajorityVotingBase)_
+### Tally
+
+_Inherited from `MajorityVotingBase`._
 
 ```solidity
 struct Tally {
@@ -1346,7 +1413,9 @@ A container for the proposal vote tally.
 | `yes` | `uint256` | The number of yes votes casted. |
 | `no` | `uint256` | The number of no votes casted. |
 
-### TargetConfig _(from IPlugin)_
+### TargetConfig
+
+_Inherited from `IPlugin`._
 
 ```solidity
 struct TargetConfig {
@@ -1364,9 +1433,11 @@ Configuration for the target contract that the plugin will interact with, includ
 | Field | Type | Description |
 | --- | --- | --- |
 | `target` | `address` | The address of the target contract, typically the associated DAO but configurable to a custom executor. |
-| `operation` | `IPlugin.Operation` | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |
+| `operation` | [`IPlugin.Operation`](#operation) | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |
 
-### VoteEntry _(from IMajorityVoting)_
+### VoteEntry
+
+_Inherited from `IMajorityVoting`._
 
 ```solidity
 struct VoteEntry {
@@ -1379,10 +1450,12 @@ Holds the state of an account's vote
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `voteOption` | `IMajorityVoting.VoteOption` | 1 -> abstain, 2 -> yes, 3 -> no |
+| `voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) | 1 -> abstain, 2 -> yes, 3 -> no |
 | `votingPower` | `uint256` | How many tokens the account has allocated to `voteOption` |
 
-### VotingSettings _(from MajorityVotingBase)_
+### VotingSettings
+
+_Inherited from `MajorityVotingBase`._
 
 ```solidity
 struct VotingSettings {
@@ -1399,7 +1472,7 @@ A container for the majority voting settings that will be applied as parameters 
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `votingMode` | `MajorityVotingBase.VotingMode` | A parameter to select the vote mode. In standard mode (0), the voting power can be increased but votes cannot be replaced. In vote replacement mode (1), voters can change their vote multiple times and only the latest vote option is tallied. |
+| `votingMode` | [`MajorityVotingBase.VotingMode`](#votingmode) | A parameter to select the vote mode. In standard mode (0), the voting power can be increased but votes cannot be replaced. In vote replacement mode (1), voters can change their vote multiple times and only the latest vote option is tallied. |
 | `supportThresholdRatio` | `uint32` | The support threshold ratio. Its value has to be in the interval [0, 10^6) defined by `RATIO_BASE = 10**6`. This is intended as the primary metric for proposals to pass. |
 | `minParticipationRatio` | `uint32` | The minimum voting power ratio needed for a proposal to reach the minimum participation. Its value has to be in the interval [0, 10^6] defined by `RATIO_BASE = 10**6`. This is a intended as secondary metric to prevent noise or spam from passing unadvertedly. Relatively high ratios are not encouraged. |
 | `minApprovalRatio` | `uint32` | Minimum ratio of allocated YES votes. Its value has to be in the interval [0, 10^6] defined by `RATIO_BASE = 10**6`. This is a intended as secondary metric to prevent noise or spam from passing unadvertedly. Relatively high ratios are not encouraged. |

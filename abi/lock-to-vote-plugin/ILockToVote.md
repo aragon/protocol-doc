@@ -101,6 +101,10 @@ Selector: `0xacca30a2`
 
 Returns the address of the manager contract, which holds the locked balances and the allocated vote balances.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`ILockManager`](./ILockManager.md) |  |
+
 ### minProposerVotingPower
 
 ```solidity

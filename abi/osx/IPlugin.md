@@ -30,6 +30,10 @@ Selector: `0x41de6830`
 
 Returns the plugin's type
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.PluginType`](#plugintype) |  |
+
 ## Enums
 
 ### Operation
@@ -72,3 +76,8 @@ struct TargetConfig {
     IPlugin.Operation operation;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `target` | `address` |  |
+| `operation` | [`IPlugin.Operation`](#operation) |  |

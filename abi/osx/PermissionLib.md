@@ -62,6 +62,14 @@ struct MultiTargetPermission {
 }
 ```
 
+| Field | Type | Description |
+| --- | --- | --- |
+| `operation` | [`PermissionLib.Operation`](#operation) |  |
+| `where` | `address` |  |
+| `who` | `address` |  |
+| `condition` | `address` |  |
+| `permissionId` | `bytes32` |  |
+
 ### SingleTargetPermission
 
 ```solidity
@@ -71,3 +79,9 @@ struct SingleTargetPermission {
     bytes32 permissionId;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `operation` | [`PermissionLib.Operation`](#operation) |  |
+| `who` | `address` |  |
+| `permissionId` | `bytes32` |  |

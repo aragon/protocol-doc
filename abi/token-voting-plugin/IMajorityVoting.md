@@ -56,7 +56,7 @@ Checks if an account can participate on a proposal. This can be because the vote
 | --- | --- | --- |
 | `_proposalId` | `uint256` | The proposal Id. |
 | `_account` | `address` | The account address to be checked. |
-| `_voteOption` | `IMajorityVoting.VoteOption` | Whether the voter abstains, supports or opposes the proposal. |
+| `_voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) | Whether the voter abstains, supports or opposes the proposal. |
 
 ### execute
 
@@ -92,6 +92,10 @@ Returns whether the account has voted for the proposal.
 | --- | --- | --- |
 | `_proposalId` | `uint256` | The ID of the proposal. |
 | `_account` | `address` | The account address to be checked. |
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IMajorityVoting.VoteOption`](#voteoption) |  |
 
 ### isMinApprovalReached
 
@@ -206,7 +210,7 @@ Votes on a proposal and, optionally, executes the proposal.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_proposalId` | `uint256` | The ID of the proposal. |
-| `_voteOption` | `IMajorityVoting.VoteOption` | The chosen vote option. |
+| `_voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) | The chosen vote option. |
 | `_tryEarlyExecution` | `bool` | If `true`, early execution is tried after the vote cast. The call does not revert if early execution is not possible. |
 
 ## Events
@@ -228,7 +232,7 @@ Emitted when a vote is cast by a voter.
 | --- | --- | --- |
 | `proposalId` | `uint256` | The ID of the proposal. |
 | `voter` | `address` | The voter casting the vote. |
-| `voteOption` | `IMajorityVoting.VoteOption` | The casted vote option. |
+| `voteOption` | [`IMajorityVoting.VoteOption`](#voteoption) | The casted vote option. |
 | `votingPower` | `uint256` | The voting power behind this vote. |
 
 ## Enums

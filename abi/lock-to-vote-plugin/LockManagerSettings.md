@@ -19,3 +19,7 @@ struct LockManagerSettings {
 ```
 
 The struct containing the LockManager helper settings. They are immutable after deployed.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `pluginMode` | [`PluginMode`](./PluginMode.md) |  |

@@ -34,6 +34,10 @@ Selector: `0x4162169f`
 
 Returns the DAO contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IDAO`](./IDAO.md) |  |
+
 ## Events
 
 ### Initialized

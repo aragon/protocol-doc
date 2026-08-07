@@ -26,6 +26,10 @@ A permission that only allows Safe owners to make use of a granted permission.
 constructor(IOwnerManager _safe)
 ```
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `_safe` | [`IOwnerManager`](./IOwnerManager.md) |  |
+
 ## Functions
 
 ### isGranted
@@ -61,6 +65,10 @@ function safe() external view returns (IOwnerManager)
 ```
 
 Selector: `0x186f0354`
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IOwnerManager`](./IOwnerManager.md) |  |
 
 ### supportsInterface
 

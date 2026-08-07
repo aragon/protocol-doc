@@ -61,7 +61,7 @@ Prepares the installation of a plugin.
 | Returns | Type | Description |
 | --- | --- | --- |
 | `plugin` | `address` | The address of the `Plugin` contract being prepared for installation. |
-| `preparedSetupData` | `IPluginSetup.PreparedSetupData` | The deployed plugin's relevant data which consists of helpers and permissions. |
+| `preparedSetupData` | [`IPluginSetup.PreparedSetupData`](#preparedsetupdata) | The deployed plugin's relevant data which consists of helpers and permissions. |
 
 ### prepareUninstallation
 
@@ -79,7 +79,7 @@ Prepares the uninstallation of a plugin.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the uninstalling DAO. |
-| `_payload` | `IPluginSetup.SetupPayload` | The relevant data necessary for the `prepareUninstallation`. See above. |
+| `_payload` | [`IPluginSetup.SetupPayload`](#setuppayload) | The relevant data necessary for the `prepareUninstallation`. See above. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
@@ -105,12 +105,12 @@ Prepares the update of a plugin.
 | --- | --- | --- |
 | `_dao` | `address` | The address of the updating DAO. |
 | `_fromBuild` | `uint16` | The build number of the plugin to update from. |
-| `_payload` | `IPluginSetup.SetupPayload` | The relevant data necessary for the `prepareUpdate`. See above. |
+| `_payload` | [`IPluginSetup.SetupPayload`](#setuppayload) | The relevant data necessary for the `prepareUpdate`. See above. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
 | `[0]` | `bytes` | The initialization data to be passed to upgradeable contracts when the update is applied in the `PluginSetupProcessor`. |
-| `[1]` | `IPluginSetup.PreparedSetupData` | The deployed plugin's relevant data which consists of helpers and permissions. |
+| `[1]` | [`IPluginSetup.PreparedSetupData`](#preparedsetupdata) | The deployed plugin's relevant data which consists of helpers and permissions. |
 
 ### protocolVersion
 
@@ -154,7 +154,9 @@ Thrown when attempting to prepare an update on a non-upgradeable plugin.
 
 ## Structs
 
-### PreparedSetupData _(from IPluginSetup)_
+### PreparedSetupData
+
+_Inherited from `IPluginSetup`._
 
 ```solidity
 struct PreparedSetupData {
@@ -163,7 +165,9 @@ struct PreparedSetupData {
 }
 ```
 
-### SetupPayload _(from IPluginSetup)_
+### SetupPayload
+
+_Inherited from `IPluginSetup`._
 
 ```solidity
 struct SetupPayload {

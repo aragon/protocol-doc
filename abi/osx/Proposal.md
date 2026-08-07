@@ -56,7 +56,7 @@ Creates a new proposal.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_metadata` | `bytes` | The metadata of the proposal. |
-| `_actions` | `Action[]` | The actions that will be executed after the proposal passes. |
+| `_actions` | [`Action[]`](./Action.md) | The actions that will be executed after the proposal passes. |
 | `_startDate` | `uint64` | The start date of the proposal. |
 | `_endDate` | `uint64` | The end date of the proposal. |
 | `_data` | `bytes` | The additional abi-encoded data to include more necessary fields. |
@@ -166,7 +166,7 @@ Emitted when a proposal is created.
 | `startDate` | `uint64` | The start date of the proposal in seconds. |
 | `endDate` | `uint64` | The end date of the proposal in seconds. |
 | `metadata` | `bytes` | The metadata of the proposal. |
-| `actions` | `Action[]` | The actions that will be executed if the proposal passes. |
+| `actions` | [`Action[]`](./Action.md) | The actions that will be executed if the proposal passes. |
 | `allowFailureMap` | `uint256` | A bitmap allowing the proposal to succeed, even if individual actions might revert. If the bit at index `i` is 1, the proposal succeeds even if the `i`th action reverts. A failure map value of 0 requires every action to not revert. |
 
 ### ProposalExecuted

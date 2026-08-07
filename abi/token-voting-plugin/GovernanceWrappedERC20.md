@@ -102,6 +102,10 @@ Selector: `0xf1127ed8`
 
 > **Dev:** Get the `pos`-th checkpoint for `account`.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`ERC20VotesUpgradeable.Checkpoint`](#checkpoint) |  |
+
 ### clock
 
 ```solidity
@@ -511,7 +515,9 @@ event Transfer(address indexed from, address indexed to, uint256 value)
 
 ## Structs
 
-### Checkpoint _(from ERC20VotesUpgradeable)_
+### Checkpoint
+
+_Inherited from `ERC20VotesUpgradeable`._
 
 ```solidity
 struct Checkpoint {

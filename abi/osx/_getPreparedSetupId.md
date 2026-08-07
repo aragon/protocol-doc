@@ -28,8 +28,8 @@ Returns an ID for prepared setup obtained from hashing characterizing elements.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_pluginSetupRef` | `PluginSetupRef` | The reference of the plugin setup containing plugin setup repo and version tag. |
+| `_pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) | The reference of the plugin setup containing plugin setup repo and version tag. |
 | `_permissionsHash` | `bytes32` | The hash of the permission operations requested by the setup. |
 | `_helpersHash` | `bytes32` | The hash of the helper contract addresses. |
 | `_data` | `bytes` | The bytes-encoded initialize data for the upgrade that is returned by `prepareUpdate`. |
-| `_preparationType` | `PreparationType` | The type of preparation the plugin is currently undergoing. Without this, it is possible to call `applyUpdate` even after `applyInstallation` is called. |
+| `_preparationType` | [`PreparationType`](./PreparationType.md) | The type of preparation the plugin is currently undergoing. Without this, it is possible to call `applyUpdate` even after `applyInstallation` is called. |

@@ -78,7 +78,7 @@ Returns the address of the manager contract, which holds the locked balances and
 
 | Returns | Type | Description |
 | --- | --- | --- |
-| `[0]` | `ILockManager` | The address of the LockManager contract associated with the plugin. |
+| `[0]` | [`ILockManager`](./ILockManager.md) | The address of the LockManager contract associated with the plugin. |
 
 ### minProposerVotingPower
 
@@ -153,7 +153,7 @@ Emitted when the address of the LockManager is set.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `lockManager` | `ILockManager` | The address of the LockManager contract |
+| `lockManager` | [`ILockManager`](./ILockManager.md) | The address of the LockManager contract |
 
 ### MembersAdded
 

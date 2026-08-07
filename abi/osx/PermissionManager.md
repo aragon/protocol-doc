@@ -96,7 +96,7 @@ Grants permission to an address to call methods in a target contract guarded by 
 | `_where` | `address` | The address of the target contract for which `_who` receives permission. |
 | `_who` | `address` | The address (EOA or contract) receiving the permission. |
 | `_permissionId` | `bytes32` | The permission identifier. |
-| `_condition` | `IPermissionCondition` | The `PermissionCondition` that will be asked for authorization on calls connected to the specified permission identifier. |
+| `_condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The `PermissionCondition` that will be asked for authorization on calls connected to the specified permission identifier. |
 
 ### isGranted
 
@@ -211,7 +211,7 @@ Thrown if a condition contract does not support the `IPermissionCondition` inter
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `condition` | `IPermissionCondition` | The address that is not a contract. |
+| `condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The address that is not a contract. |
 
 ### ConditionNotAContract
 
@@ -223,7 +223,7 @@ Thrown if a condition address is not a contract.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `condition` | `IPermissionCondition` | The address that is not a contract. |
+| `condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The address that is not a contract. |
 
 ### GrantWithConditionNotSupported
 

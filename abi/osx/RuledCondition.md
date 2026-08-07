@@ -88,6 +88,10 @@ Selector: `0x45e2984a`
 
 Retrieves the current rules stored in this contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`RuledCondition.Rule[]`](#rule) |  |
+
 ### isGranted
 
 ```solidity
@@ -168,7 +172,7 @@ Emitted when the rules are updated.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `rules` | `RuledCondition.Rule[]` | The new rules that replaces old rules. |
+| `rules` | [`RuledCondition.Rule[]`](#rule) | The new rules that replaces old rules. |
 
 ## Enums
 

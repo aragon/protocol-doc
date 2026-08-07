@@ -44,6 +44,10 @@ Selector: `0x4162169f`
 
 Returns the DAO contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IDAO`](./IDAO.md) |  |
+
 ### entries
 
 ```solidity
@@ -66,8 +70,8 @@ Initializes the contract by setting calling the `InterfaceBasedRegistry` base cl
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_dao` | `IDAO` | The address of the managing DAO. |
-| `_subdomainRegistrar` | `ENSSubdomainRegistrar` | The `ENSSubdomainRegistrar` where `ENS` subdomain will be registered. |
+| `_dao` | [`IDAO`](./IDAO.md) | The address of the managing DAO. |
+| `_subdomainRegistrar` | [`ENSSubdomainRegistrar`](./ENSSubdomainRegistrar.md) | The `ENSSubdomainRegistrar` where `ENS` subdomain will be registered. |
 
 ### protocolVersion
 
@@ -126,6 +130,10 @@ function subdomainRegistrar() external view returns (ENSSubdomainRegistrar)
 Selector: `0x00077393`
 
 The ENS subdomain registrar registering the PluginRepo subdomains.
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`ENSSubdomainRegistrar`](./ENSSubdomainRegistrar.md) |  |
 
 ### targetInterfaceId
 
@@ -301,7 +309,9 @@ Value: `0x055973dfb6d3b3cd890dde3a801f5427fa973864752b6d2a1ae61cbd5ae5dc09`
 
 The ID of the permission required to call the `register` function.
 
-### UPGRADE_REGISTRY_PERMISSION_ID _(from InterfaceBasedRegistry)_
+### UPGRADE_REGISTRY_PERMISSION_ID
+
+_Inherited from `InterfaceBasedRegistry`._
 
 ```solidity
 bytes32 public constant UPGRADE_REGISTRY_PERMISSION_ID =

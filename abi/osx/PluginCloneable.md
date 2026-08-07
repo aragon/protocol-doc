@@ -32,6 +32,10 @@ Selector: `0x4162169f`
 
 Returns the DAO contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IDAO`](./IDAO.md) |  |
+
 ### getCurrentTargetConfig
 
 ```solidity
@@ -41,6 +45,10 @@ function getCurrentTargetConfig() external view returns (IPlugin.TargetConfig)
 Selector: `0xc98425ee`
 
 Returns the currently set target contract.
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
 
 ### getTargetConfig
 
@@ -52,6 +60,10 @@ Selector: `0xdd63c06f`
 
 A convenient function to get current target config only if its target is not address(0), otherwise dao().
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ### pluginType
 
 ```solidity
@@ -61,6 +73,10 @@ function pluginType() external pure returns (IPlugin.PluginType)
 Selector: `0x41de6830`
 
 Returns the plugin's type
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.PluginType`](#plugintype) |  |
 
 ### protocolVersion
 
@@ -91,7 +107,7 @@ Selector: `0xbb225da2`
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_targetConfig` | `IPlugin.TargetConfig` | The target Config containing the address and operation type. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target Config containing the address and operation type. |
 
 ### supportsInterface
 
@@ -124,6 +140,10 @@ event TargetSet(IPlugin.TargetConfig newTargetConfig)
 ```
 
 Emitted each time the TargetConfig is set.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newTargetConfig` | [`IPlugin.TargetConfig`](#targetconfig) |  |
 
 ## Errors
 
@@ -160,7 +180,7 @@ Thrown when target is of type 'IDAO', but operation is `delegateCall`.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `targetConfig` | `IPlugin.TargetConfig` | The target config to update it to. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target config to update it to. |
 
 ## Constants
 
@@ -179,7 +199,9 @@ The ID of the permission required to call the `setTargetConfig` function.
 
 ## Enums
 
-### Operation _(from IPlugin)_
+### Operation
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum Operation {
@@ -193,7 +215,9 @@ enum Operation {
 | `Call` | `0` |
 | `DelegateCall` | `1` |
 
-### PluginType _(from IPlugin)_
+### PluginType
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum PluginType {
@@ -211,7 +235,9 @@ enum PluginType {
 
 ## Structs
 
-### TargetConfig _(from IPlugin)_
+### TargetConfig
+
+_Inherited from `IPlugin`._
 
 ```solidity
 struct TargetConfig {
@@ -219,3 +245,8 @@ struct TargetConfig {
     IPlugin.Operation operation;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `target` | `address` |  |
+| `operation` | [`IPlugin.Operation`](#operation) |  |

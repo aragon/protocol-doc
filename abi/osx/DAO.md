@@ -127,7 +127,7 @@ Executes a list of actions. If a zero allow-failure map is provided, a failing a
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_callId` | `bytes32` | The ID of the call. The definition of the value of `callId` is up to the calling contract and can be used, e.g., as a nonce. |
-| `_actions` | `Action[]` | The array of actions. |
+| `_actions` | [`Action[]`](./Action.md) | The array of actions. |
 | `_allowFailureMap` | `uint256` | A bitmap allowing execution to succeed, even if individual actions might revert. If the bit at index `i` is 1, the execution succeeds even if the `i`th action reverts. A failure map value of 0 requires every action to not revert. |
 
 | Returns | Type | Description |
@@ -191,7 +191,7 @@ Grants permission to an address to call methods in a target contract guarded by 
 | `_where` | `address` | The address of the target contract for which `_who` receives permission. |
 | `_who` | `address` | The address (EOA or contract) receiving the permission. |
 | `_permissionId` | `bytes32` | The permission identifier. |
-| `_condition` | `IPermissionCondition` | The `PermissionCondition` that will be asked for authorization on calls connected to the specified permission identifier. |
+| `_condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The `PermissionCondition` that will be asked for authorization on calls connected to the specified permission identifier. |
 
 ### hasPermission
 
@@ -545,7 +545,7 @@ Emitted when a proposal is executed.
 | --- | --- | --- |
 | `actor` | `address` | The address of the caller. |
 | `callId` | `bytes32` | The ID of the call. |
-| `actions` | `Action[]` | The array of actions executed. |
+| `actions` | [`Action[]`](./Action.md) | The array of actions executed. |
 | `allowFailureMap` | `uint256` | The allow failure map encoding which actions are allowed to fail. |
 | `failureMap` | `uint256` | The failure map encoding which actions have failed. |
 | `execResults` | `bytes[]` | The array with the results of the executed actions. |
@@ -717,7 +717,7 @@ Thrown if a condition contract does not support the `IPermissionCondition` inter
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `condition` | `IPermissionCondition` | The address that is not a contract. |
+| `condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The address that is not a contract. |
 
 ### ConditionNotAContract
 
@@ -729,7 +729,7 @@ Thrown if a condition address is not a contract.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `condition` | `IPermissionCondition` | The address that is not a contract. |
+| `condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The address that is not a contract. |
 
 ### FunctionRemoved
 
@@ -884,7 +884,9 @@ Value: `0xfaf505be9907aa6951c2ebe5b0312f4980e14f21912ed355372103cc8bd683bc`
 
 The ID of the permission required to call the `registerStandardCallback` function.
 
-### ROOT_PERMISSION_ID _(from PermissionManager)_
+### ROOT_PERMISSION_ID
+
+_Inherited from `PermissionManager`._
 
 ```solidity
 bytes32 public constant ROOT_PERMISSION_ID = keccak256("ROOT_PERMISSION");

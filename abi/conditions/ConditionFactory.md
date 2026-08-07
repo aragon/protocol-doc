@@ -29,6 +29,10 @@ function deployExecuteSelectorCondition(
 
 Selector: `0x5968851e`
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`ExecuteSelectorCondition`](./ExecuteSelectorCondition.md) |  |
+
 ### deploySafeOwnerCondition
 
 ```solidity
@@ -38,6 +42,10 @@ function deploySafeOwnerCondition(
 ```
 
 Selector: `0x1002e8ad`
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`SafeOwnerCondition`](./SafeOwnerCondition.md) |  |
 
 ### deploySelectorCondition
 
@@ -50,6 +58,10 @@ function deploySelectorCondition(
 
 Selector: `0xa907b318`
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`SelectorCondition`](./SelectorCondition.md) |  |
+
 ## Events
 
 ### ExecuteSelectorConditionDeployed
@@ -58,14 +70,26 @@ Selector: `0xa907b318`
 event ExecuteSelectorConditionDeployed(ExecuteSelectorCondition newContract)
 ```
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`ExecuteSelectorCondition`](./ExecuteSelectorCondition.md) |  |
+
 ### SafeOwnerConditionDeployed
 
 ```solidity
 event SafeOwnerConditionDeployed(SafeOwnerCondition newContract)
 ```
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`SafeOwnerCondition`](./SafeOwnerCondition.md) |  |
+
 ### SelectorConditionDeployed
 
 ```solidity
 event SelectorConditionDeployed(SelectorCondition newContract)
 ```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`SelectorCondition`](./SelectorCondition.md) |  |

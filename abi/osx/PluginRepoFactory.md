@@ -32,7 +32,7 @@ Initializes the addresses of the Aragon plugin registry and `PluginRepo` base co
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_pluginRepoRegistry` | `PluginRepoRegistry` | The aragon plugin registry address. |
+| `_pluginRepoRegistry` | [`PluginRepoRegistry`](./PluginRepoRegistry.md) | The aragon plugin registry address. |
 
 ## Functions
 
@@ -53,6 +53,10 @@ Creates a plugin repository proxy pointing to the `pluginRepoBase` implementatio
 | --- | --- | --- |
 | `_subdomain` | `string` | The plugin repository subdomain. |
 | `_initialOwner` | `address` | The plugin maintainer address. |
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`PluginRepo`](./PluginRepo.md) |  |
 
 ### createPluginRepoWithFirstVersion
 
@@ -80,6 +84,10 @@ Creates and registers a `PluginRepo` with an ENS subdomain and publishes an init
 | `_releaseMetadata` | `bytes` | The release metadata URI. |
 | `_buildMetadata` | `bytes` | The build metadata URI. |
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `pluginRepo` | [`PluginRepo`](./PluginRepo.md) |  |
+
 ### pluginRepoBase
 
 ```solidity
@@ -99,6 +107,10 @@ function pluginRepoRegistry() external view returns (PluginRepoRegistry)
 Selector: `0x0b36f03c`
 
 The Aragon plugin registry contract.
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`PluginRepoRegistry`](./PluginRepoRegistry.md) |  |
 
 ### protocolVersion
 

@@ -34,7 +34,7 @@ Constructs the plugin setup processor by setting the associated plugin repo regi
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_repoRegistry` | `PluginRepoRegistry` | The plugin repo registry contract. |
+| `_repoRegistry` | [`PluginRepoRegistry`](./PluginRepoRegistry.md) | The plugin repo registry contract. |
 
 ## Functions
 
@@ -54,7 +54,7 @@ Applies the permissions of a prepared installation to a DAO.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the installing DAO. |
-| `_params` | `PluginSetupProcessor.ApplyInstallationParams` | The struct containing the parameters for the `applyInstallation` function. |
+| `_params` | [`PluginSetupProcessor.ApplyInstallationParams`](#applyinstallationparams) | The struct containing the parameters for the `applyInstallation` function. |
 
 ### applyUninstallation
 
@@ -74,7 +74,7 @@ Applies the permissions of a prepared uninstallation to a DAO.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the uninstalling DAO. |
-| `_params` | `PluginSetupProcessor.ApplyUninstallationParams` | The struct containing the parameters for the `applyUninstallation` function. |
+| `_params` | [`PluginSetupProcessor.ApplyUninstallationParams`](#applyuninstallationparams) | The struct containing the parameters for the `applyUninstallation` function. |
 
 ### applyUpdate
 
@@ -89,7 +89,7 @@ Applies the permissions of a prepared update of an UUPS upgradeable proxy contra
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the updating DAO. |
-| `_params` | `PluginSetupProcessor.ApplyUpdateParams` | The struct containing the parameters for the `applyUpdate` function. |
+| `_params` | [`PluginSetupProcessor.ApplyUpdateParams`](#applyupdateparams) | The struct containing the parameters for the `applyUpdate` function. |
 
 ### prepareInstallation
 
@@ -107,7 +107,7 @@ Prepares the installation of a plugin.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the installing DAO. |
-| `_params` | `PluginSetupProcessor.PrepareInstallationParams` | The struct containing the parameters for the `prepareInstallation` function. |
+| `_params` | [`PluginSetupProcessor.PrepareInstallationParams`](#prepareinstallationparams) | The struct containing the parameters for the `prepareInstallation` function. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
@@ -132,7 +132,7 @@ Prepares the uninstallation of a plugin.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the uninstalling DAO. |
-| `_params` | `PluginSetupProcessor.PrepareUninstallationParams` | The struct containing the parameters for the `prepareUninstallation` function. |
+| `_params` | [`PluginSetupProcessor.PrepareUninstallationParams`](#prepareuninstallationparams) | The struct containing the parameters for the `prepareUninstallation` function. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
@@ -156,7 +156,7 @@ Prepares the update of an UUPS upgradeable plugin.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `address` | The address of the DAO For which preparation of update happens. |
-| `_params` | `PluginSetupProcessor.PrepareUpdateParams` | The struct containing the parameters for the `prepareUpdate` function. |
+| `_params` | [`PluginSetupProcessor.PrepareUpdateParams`](#prepareupdateparams) | The struct containing the parameters for the `prepareUpdate` function. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
@@ -188,6 +188,10 @@ function repoRegistry() external view returns (PluginRepoRegistry)
 Selector: `0x483d209e`
 
 The plugin repo registry listing the `PluginRepo` contracts versioning the `PluginSetup` contracts.
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`PluginRepoRegistry`](./PluginRepoRegistry.md) |  |
 
 ### states
 
@@ -267,7 +271,7 @@ Emitted with a prepared plugin installation to store data relevant for the appli
 | `sender` | `address` | The sender that prepared the plugin installation. |
 | `dao` | `address` | The address of the DAO to which the plugin belongs. |
 | `preparedSetupId` | `bytes32` | The prepared setup ID obtained from the supplied data. |
-| `pluginSetupRepo` | `PluginRepo` | The repository storing the `PluginSetup` contracts of all versions of a plugin. |
+| `pluginSetupRepo` | [`PluginRepo`](./PluginRepo.md) | The repository storing the `PluginSetup` contracts of all versions of a plugin. |
 | `versionTag` | `PluginRepo.Tag` | The version tag of the plugin setup of the prepared installation. |
 | `data` | `bytes` | The bytes-encoded data containing the input parameters for the preparation as specified in the corresponding ABI on the version's metadata. |
 | `plugin` | `address` | The address of the plugin contract. |
@@ -312,7 +316,7 @@ Emitted with a prepared plugin uninstallation to store data relevant for the app
 | `sender` | `address` | The sender that prepared the plugin uninstallation. |
 | `dao` | `address` | The address of the DAO to which the plugin belongs. |
 | `preparedSetupId` | `bytes32` | The prepared setup ID. |
-| `pluginSetupRepo` | `PluginRepo` | The repository storing the `PluginSetup` contracts of all versions of a plugin. |
+| `pluginSetupRepo` | [`PluginRepo`](./PluginRepo.md) | The repository storing the `PluginSetup` contracts of all versions of a plugin. |
 | `versionTag` | `PluginRepo.Tag` | The version tag of the plugin to used for install preparation. |
 | `setupPayload` | `IPluginSetup.SetupPayload` | The payload containing the plugin and helper contract addresses deployed in a preparation step as well as optional data to be consumed by the plugin setup. |
 | `permissions` | `PermissionLib.MultiTargetPermission[]` | The list of multi-targeted permission operations to be applied to the installing DAO. |
@@ -359,7 +363,7 @@ Emitted with a prepared plugin update to store data relevant for the application
 | `sender` | `address` | The sender that prepared the plugin update. |
 | `dao` | `address` | The address of the DAO to which the plugin belongs. |
 | `preparedSetupId` | `bytes32` | The prepared setup ID. |
-| `pluginSetupRepo` | `PluginRepo` | The repository storing the `PluginSetup` contracts of all versions of a plugin. |
+| `pluginSetupRepo` | [`PluginRepo`](./PluginRepo.md) | The repository storing the `PluginSetup` contracts of all versions of a plugin. |
 | `versionTag` | `PluginRepo.Tag` | The version tag of the plugin setup of the prepared update. |
 | `setupPayload` | `IPluginSetup.SetupPayload` | The payload containing the plugin and helper contract addresses deployed in a preparation step as well as optional data to be consumed by the plugin setup. |
 | `preparedSetupData` | `IPluginSetup.PreparedSetupData` | The deployed plugin's relevant data which consists of helpers and permissions. |
@@ -536,6 +540,13 @@ struct ApplyInstallationParams {
 }
 ```
 
+| Field | Type | Description |
+| --- | --- | --- |
+| `pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) |  |
+| `plugin` | `address` |  |
+| `permissions` | `PermissionLib.MultiTargetPermission[]` |  |
+| `helpersHash` | `bytes32` |  |
+
 ### ApplyUninstallationParams
 
 ```solidity
@@ -545,6 +556,12 @@ struct ApplyUninstallationParams {
     PermissionLib.MultiTargetPermission[] permissions;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `plugin` | `address` |  |
+| `pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) |  |
+| `permissions` | `PermissionLib.MultiTargetPermission[]` |  |
 
 ### ApplyUpdateParams
 
@@ -557,6 +574,14 @@ struct ApplyUpdateParams {
     bytes32 helpersHash;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `plugin` | `address` |  |
+| `pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) |  |
+| `initData` | `bytes` |  |
+| `permissions` | `PermissionLib.MultiTargetPermission[]` |  |
+| `helpersHash` | `bytes32` |  |
 
 ### PluginState
 
@@ -577,6 +602,11 @@ struct PrepareInstallationParams {
 }
 ```
 
+| Field | Type | Description |
+| --- | --- | --- |
+| `pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) |  |
+| `data` | `bytes` |  |
+
 ### PrepareUninstallationParams
 
 ```solidity
@@ -585,6 +615,11 @@ struct PrepareUninstallationParams {
     IPluginSetup.SetupPayload setupPayload;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) |  |
+| `setupPayload` | `IPluginSetup.SetupPayload` |  |
 
 ### PrepareUpdateParams
 
@@ -596,3 +631,10 @@ struct PrepareUpdateParams {
     IPluginSetup.SetupPayload setupPayload;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `currentVersionTag` | `PluginRepo.Tag` |  |
+| `newVersionTag` | `PluginRepo.Tag` |  |
+| `pluginSetupRepo` | [`PluginRepo`](./PluginRepo.md) |  |
+| `setupPayload` | `IPluginSetup.SetupPayload` |  |

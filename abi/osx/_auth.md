@@ -26,7 +26,7 @@ A free function checking if a caller is granted permissions on a target contract
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_dao` | `IDAO` |  |
+| `_dao` | [`IDAO`](./IDAO.md) |  |
 | `_where` | `address` | The address of the target contract for which `who` receives permission. |
 | `_who` | `address` | The address (EOA or contract) owning the permission. |
 | `_permissionId` | `bytes32` | The permission identifier. |

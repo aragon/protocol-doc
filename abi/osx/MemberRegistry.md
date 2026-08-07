@@ -49,6 +49,10 @@ Selector: `0x4162169f`
 
 Returns the DAO contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IDAO`](./IDAO.md) |  |
+
 ### ens
 
 ```solidity
@@ -86,7 +90,7 @@ Initializes the registry.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_managementDao` | `IDAO` | The DAO management permissions. |
+| `_managementDao` | [`IDAO`](./IDAO.md) | The DAO management permissions. |
 | `_ens` | `ENS` | The ENS registry contract. |
 | `_domain` | `string` | The parent domain this registry manages (e.g., `"members.dao.eth"`). |
 | `_resolver` | `address` | The resolver address. Must support per-node `approve()`. |
@@ -144,7 +148,7 @@ Move your subdomain and carry over resolver records atomically. Only moves the c
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `newSubdomain` | `string` | The new subdomain label to claim. |
-| `records` | `IMemberRegistry.Records` | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) keeps the default (msg.sender). Empty contenthash is skipped. |
+| `records` | [`IMemberRegistry.Records`](#records) | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) keeps the default (msg.sender). Empty contenthash is skipped. |
 
 ### move(string)
 
@@ -224,7 +228,7 @@ Register as a member with initial resolver records set atomically. Permissionles
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `subdomain` | `string` | The subdomain label to claim (e.g., "alice"). |
-| `records` | `IMemberRegistry.Records` | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) defaults to msg.sender. Empty contenthash is skipped. |
+| `records` | [`IMemberRegistry.Records`](#records) | Resolver records to set on the new subnode (text, addr, contenthash). addr=address(0) defaults to msg.sender. Empty contenthash is skipped. |
 
 ### register(string)
 
@@ -492,7 +496,9 @@ The ID of the permission required to call `_authorizeUpgrade`.
 
 ## Structs
 
-### Records _(from IMemberRegistry)_
+### Records
+
+_Inherited from `IMemberRegistry`._
 
 ```solidity
 struct Records {
@@ -502,7 +508,15 @@ struct Records {
 }
 ```
 
-### TextRecord _(from IMemberRegistry)_
+| Field | Type | Description |
+| --- | --- | --- |
+| `textRecords` | [`IMemberRegistry.TextRecord[]`](#textrecord) |  |
+| `addr` | `address` |  |
+| `contenthash` | `bytes` |  |
+
+### TextRecord
+
+_Inherited from `IMemberRegistry`._
 
 ```solidity
 struct TextRecord {

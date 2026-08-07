@@ -243,6 +243,10 @@ Selector: `0xc98425ee`
 
 Returns the currently set target contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ### getMetadata
 
 ```solidity
@@ -273,10 +277,10 @@ Returns all information for a proposal by its ID.
 | --- | --- | --- |
 | `executed` | `bool` | Whether the proposal is executed or not. |
 | `approvals` | `uint16` | The number of approvals casted. |
-| `parameters` | `Multisig.ProposalParameters` | The parameters of the proposal. |
+| `parameters` | [`Multisig.ProposalParameters`](#proposalparameters) | The parameters of the proposal. |
 | `actions` | `Action[]` | The actions to be executed to the `target` contract address. |
 | `allowFailureMap` | `uint256` | A bitmap allowing the proposal to succeed, even if individual actions might revert. If the bit at index `i` is 1, the proposal succeeds even if the `i`th action reverts. A failure map value of 0 requires every action to not revert. |
-| `targetConfig` | `IPlugin.TargetConfig` | Execution configuration, applied to the proposal when it was created. Added in build 3. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | Execution configuration, applied to the proposal when it was created. Added in build 3. |
 
 ### getTargetConfig
 
@@ -287,6 +291,10 @@ function getTargetConfig() external view returns (IPlugin.TargetConfig)
 Selector: `0xdd63c06f`
 
 A convenient function to get current target config only if its target is not address(0), otherwise dao().
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
 
 ### hasApproved
 
@@ -362,8 +370,8 @@ Initializes Release 1, Build 3.
 | --- | --- | --- |
 | `_dao` | `IDAO` | The IDAO interface of the associated DAO. |
 | `_members` | `address[]` | The addresses of the initial members to be added. |
-| `_multisigSettings` | `Multisig.MultisigSettings` | The multisig settings. |
-| `_targetConfig` | `IPlugin.TargetConfig` | Configuration for the execution target, specifying the target address and operation type(either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface of `osx-commons-contracts` package, added in build 3. |
+| `_multisigSettings` | [`Multisig.MultisigSettings`](#multisigsettings) | The multisig settings. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | Configuration for the execution target, specifying the target address and operation type(either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface of `osx-commons-contracts` package, added in build 3. |
 | `_pluginMetadata` | `bytes` | The plugin specific information encoded in bytes. This can also be an ipfs cid encoded in bytes. |
 
 ### initializeFrom
@@ -468,6 +476,10 @@ Selector: `0x41de6830`
 
 Returns the plugin's type
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.PluginType`](#plugintype) |  |
+
 ### proposalCount
 
 ```solidity
@@ -558,7 +570,7 @@ Selector: `0xbb225da2`
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_targetConfig` | `IPlugin.TargetConfig` | The target Config containing the address and operation type. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target Config containing the address and operation type. |
 
 ### supportsInterface
 
@@ -588,7 +600,7 @@ Updates the plugin settings.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_multisigSettings` | `Multisig.MultisigSettings` | The new settings. |
+| `_multisigSettings` | [`Multisig.MultisigSettings`](#multisigsettings) | The new settings. |
 
 ### upgradeTo
 
@@ -765,6 +777,10 @@ event TargetSet(IPlugin.TargetConfig newTargetConfig)
 
 Emitted each time the TargetConfig is set.
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newTargetConfig` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ### Upgraded
 
 ```solidity
@@ -876,7 +892,7 @@ Thrown when target is of type 'IDAO', but operation is `delegateCall`.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `targetConfig` | `IPlugin.TargetConfig` | The target config to update it to. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target config to update it to. |
 
 ### MinApprovalsOutOfBounds
 
@@ -965,7 +981,9 @@ Value: `0xf281525e53675515a6ba7cc7bea8a81e649b3608423ee2d73be1752cea887889`
 
 The ID of the permission required to call the `execute` function.
 
-### SET_METADATA_PERMISSION_ID _(from MetadataExtensionUpgradeable)_
+### SET_METADATA_PERMISSION_ID
+
+_Inherited from `MetadataExtensionUpgradeable`._
 
 ```solidity
 bytes32 public constant SET_METADATA_PERMISSION_ID = keccak256("SET_METADATA_PERMISSION");
@@ -975,7 +993,9 @@ Value: `0x4707e94b25cfce1a7c363508fbb838c35864388ad77284b248282b9746982b9b`
 
 The ID of the permission required to call the `setMetadata` function.
 
-### SET_TARGET_CONFIG_PERMISSION_ID _(from PluginUUPSUpgradeable)_
+### SET_TARGET_CONFIG_PERMISSION_ID
+
+_Inherited from `PluginUUPSUpgradeable`._
 
 ```solidity
 bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
@@ -998,7 +1018,9 @@ Value: `0xb1750e46d35a0069c8465b8643e7838d2149a842a2db8ee233d9835590040cad`
 The ID of the permission required to call the
 `addAddresses`, `removeAddresses` and `updateMultisigSettings` functions.
 
-### UPGRADE_PLUGIN_PERMISSION_ID _(from PluginUUPSUpgradeable)_
+### UPGRADE_PLUGIN_PERMISSION_ID
+
+_Inherited from `PluginUUPSUpgradeable`._
 
 ```solidity
 bytes32 public constant UPGRADE_PLUGIN_PERMISSION_ID = keccak256("UPGRADE_PLUGIN_PERMISSION");
@@ -1010,7 +1032,9 @@ The ID of the permission required to call the `_authorizeUpgrade` function.
 
 ## Enums
 
-### Operation _(from IPlugin)_
+### Operation
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum Operation {
@@ -1026,7 +1050,9 @@ Specifies the type of operation to perform.
 | `Call` | `0` |
 | `DelegateCall` | `1` |
 
-### PluginType _(from IPlugin)_
+### PluginType
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum PluginType {
@@ -1046,7 +1072,9 @@ Types of plugin implementations available within OSx.
 
 ## Structs
 
-### MetadataExtensionStorage _(from MetadataExtensionUpgradeable)_
+### MetadataExtensionStorage
+
+_Inherited from `MetadataExtensionUpgradeable`._
 
 ```solidity
 struct MetadataExtensionStorage {
@@ -1090,11 +1118,11 @@ A container for proposal-related information.
 | --- | --- | --- |
 | `executed` | `bool` | Whether the proposal is executed or not. |
 | `approvals` | `uint16` | The number of approvals casted. |
-| `parameters` | `Multisig.ProposalParameters` | The proposal-specific approve settings at the time of the proposal creation. |
+| `parameters` | [`Multisig.ProposalParameters`](#proposalparameters) | The proposal-specific approve settings at the time of the proposal creation. |
 | `approvers` | `mapping(address => bool)` | The approves casted by the approvers. |
 | `actions` | `Action[]` | The actions to be executed when the proposal passes. |
 | `allowFailureMap` | `uint256` | A bitmap allowing the proposal to succeed, even if individual actions might revert. If the bit at index `i` is 1, the proposal succeeds even if the `i`th action reverts. A failure map value of 0 requires every action to not revert. |
-| `targetConfig` | `IPlugin.TargetConfig` | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 3. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 3. |
 
 ### ProposalParameters
 
@@ -1116,7 +1144,9 @@ A container for the proposal parameters.
 | `startDate` | `uint64` | The timestamp when the proposal starts. |
 | `endDate` | `uint64` | The timestamp when the proposal expires. |
 
-### TargetConfig _(from IPlugin)_
+### TargetConfig
+
+_Inherited from `IPlugin`._
 
 ```solidity
 struct TargetConfig {
@@ -1134,4 +1164,4 @@ Configuration for the target contract that the plugin will interact with, includ
 | Field | Type | Description |
 | --- | --- | --- |
 | `target` | `address` | The address of the target contract, typically the associated DAO but configurable to a custom executor. |
-| `operation` | `IPlugin.Operation` | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |
+| `operation` | [`IPlugin.Operation`](#operation) | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |

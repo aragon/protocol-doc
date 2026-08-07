@@ -35,7 +35,7 @@ Initializes the contract.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_dao` | `IDAO` | The associated DAO. |
-| `_targetConfig` | `IPlugin.TargetConfig` | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 2. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | Configuration for the execution target, specifying the target address and operation type (either `Call` or `DelegateCall`). Defined by `TargetConfig` in the `IPlugin` interface, part of the `osx-commons-contracts` package, added in build 2. |
 
 ## Functions
 
@@ -151,6 +151,10 @@ Selector: `0xc98425ee`
 
 Returns the currently set target contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ### getTargetConfig
 
 ```solidity
@@ -160,6 +164,10 @@ function getTargetConfig() external view returns (IPlugin.TargetConfig)
 Selector: `0xdd63c06f`
 
 A convenient function to get current target config only if its target is not address(0), otherwise dao().
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
 
 ### hasSucceeded
 
@@ -207,6 +215,10 @@ Selector: `0x41de6830`
 
 Returns the plugin's type
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.PluginType`](#plugintype) |  |
+
 ### proposalCount
 
 ```solidity
@@ -252,7 +264,7 @@ Selector: `0xbb225da2`
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_targetConfig` | `IPlugin.TargetConfig` | The target Config containing the address and operation type. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target Config containing the address and operation type. |
 
 ### supportsInterface
 
@@ -352,6 +364,10 @@ event TargetSet(IPlugin.TargetConfig newTargetConfig)
 
 Emitted each time the TargetConfig is set.
 
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newTargetConfig` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ## Errors
 
 ### DaoUnauthorized
@@ -401,7 +417,7 @@ Thrown when target is of type 'IDAO', but operation is `delegateCall`.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `targetConfig` | `IPlugin.TargetConfig` | The target config to update it to. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target config to update it to. |
 
 ## Constants
 
@@ -418,7 +434,9 @@ Value: `0xf281525e53675515a6ba7cc7bea8a81e649b3608423ee2d73be1752cea887889`
 
 The ID of the permission required to call the `executeProposal` function.
 
-### SET_TARGET_CONFIG_PERMISSION_ID _(from Plugin)_
+### SET_TARGET_CONFIG_PERMISSION_ID
+
+_Inherited from `Plugin`._
 
 ```solidity
 bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
@@ -431,7 +449,9 @@ The ID of the permission required to call the `setTargetConfig` function.
 
 ## Enums
 
-### Operation _(from IPlugin)_
+### Operation
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum Operation {
@@ -447,7 +467,9 @@ Specifies the type of operation to perform.
 | `Call` | `0` |
 | `DelegateCall` | `1` |
 
-### PluginType _(from IPlugin)_
+### PluginType
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum PluginType {
@@ -467,7 +489,9 @@ Types of plugin implementations available within OSx.
 
 ## Structs
 
-### TargetConfig _(from IPlugin)_
+### TargetConfig
+
+_Inherited from `IPlugin`._
 
 ```solidity
 struct TargetConfig {
@@ -485,4 +509,4 @@ Configuration for the target contract that the plugin will interact with, includ
 | Field | Type | Description |
 | --- | --- | --- |
 | `target` | `address` | The address of the target contract, typically the associated DAO but configurable to a custom executor. |
-| `operation` | `IPlugin.Operation` | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |
+| `operation` | [`IPlugin.Operation`](#operation) | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |

@@ -262,19 +262,53 @@ function docBlock(notice?: string, details?: string): string[] {
   return out;
 }
 
+/**
+ * Turns a rendered type into a Markdown cell, linked to the declaration when there is one.
+ *
+ * A signature lives inside a code fence and Markdown cannot link inside one, so the parameter
+ * table is the only place a type can carry a link at all.
+ */
+type TypeLinker = { cell: (t: string) => string; resolves: (t: string) => boolean };
+
+const PLAIN: TypeLinker = { cell: (t) => `\`${t}\``, resolves: () => false };
+
+/** `IMajorityVoting.VoteOption[2][]` → `VoteOption`. Empty when there is nothing to link. */
+function typeName(t: string): string {
+  if (/[(<>=]/.test(t)) return ""; // a mapping or function type: no single declaration to point at
+  return t.replace(/\[[^\]]*\]/g, "").trim().split(".").pop() ?? "";
+}
+
+/** Links to `#anchor` for a type defined on this very page, else to its own page. */
+function linker(local: Set<string>, declared: Set<string>): TypeLinker {
+  const target = (t: string) => {
+    const n = typeName(t);
+    return local.has(n) ? `#${n.toLowerCase()}` : declared.has(n) ? `{{T:${n}}}` : "";
+  };
+  return {
+    resolves: (t) => target(t) !== "",
+    cell: (t) => {
+      const to = target(t);
+      return to ? `[\`${t}\`](${to})` : `\`${t}\``;
+    },
+  };
+}
+
 function paramTable(
   label: string,
   params: { name: string; type: string }[],
   docs: Record<string, string> | undefined,
+  link: TypeLinker = PLAIN,
 ): string[] {
   if (!params.length) return [];
   const descOf = (p: { name: string }, i: number) => docs?.[p.name] ?? docs?.[`_${i}`] ?? docs?.[String(i)] ?? "";
-  if (!params.some((p, i) => descOf(p, i))) return []; // nothing documented: the signature already says it
+  // Worth a table if there is prose to add, or a type worth linking. Otherwise the signature
+  // above already says everything the table would.
+  if (!params.some((p, i) => descOf(p, i)) && !params.some((p) => link.resolves(p.type))) return [];
   return [
     "",
     `| ${label} | Type | Description |`,
     "| --- | --- | --- |",
-    ...params.map((p, i) => `| \`${p.name || `[${i}]`}\` | \`${p.type}\` | ${cell(descOf(p, i))} |`),
+    ...params.map((p, i) => `| \`${p.name || `[${i}]`}\` | ${link.cell(p.type)} | ${cell(descOf(p, i))} |`),
   ];
 }
 
@@ -288,7 +322,7 @@ const customTags = (o: object | undefined): string[] =>
 
 /** One ABI member: signature, selector, NatSpec, param/return tables.
  *  `overloaded` widens the heading to the full signature so the anchors stay unique. */
-function renderMember(e: AbiEntry, doc: DocEntry, selector?: string, overloaded = false): string[] {
+function renderMember(e: AbiEntry, doc: DocEntry, selector?: string, overloaded = false, link: TypeLinker = PLAIN): string[] {
   const title = overloaded ? canonicalSig(e) : e.name ?? e.type;
   const out = [`### ${title}`, "", ...fence(signature(e))];
   if (selector) out.push("", `Selector: \`0x${selector}\``);
@@ -298,6 +332,7 @@ function renderMember(e: AbiEntry, doc: DocEntry, selector?: string, overloaded 
       "Parameter",
       (e.inputs ?? []).map((p) => ({ name: p.name, type: displayType(p) })),
       doc.params,
+      link,
     ),
   );
   out.push(
@@ -305,6 +340,7 @@ function renderMember(e: AbiEntry, doc: DocEntry, selector?: string, overloaded 
       "Returns",
       (e.outputs ?? []).map((p) => ({ name: p.name, type: displayType(p) })),
       doc.returns,
+      link,
     ),
   );
   return out;
@@ -337,6 +373,7 @@ function contractPage(
   path: string,
   bi: BuildInfo,
   byId: Map<number, { node: AstNode; path: string }>,
+  declared: Set<string>,
 ): Omit<Page, "file" | "render"> & { deps: string[] } {
   const artifact = bi.output.contracts[path]?.[node.name];
   const abi: AbiEntry[] = artifact?.abi ?? [];
@@ -385,6 +422,10 @@ function contractPage(
   }
   const constantNames = new Set(constants.map((c) => c.name));
 
+  // Types defined on this very page link to their anchor; anything else that has a page of
+  // its own links there.
+  const link = linker(new Set([...enums, ...structs].map((d) => d.n.name)), declared);
+
   const body: string[] = [];
   const selfDoc = mergeDoc(parseNatspec(rawDoc(bi.input.sources[path]?.content, node.documentation)), dev, user);
   if (dev.title && dev.title !== node.name) body.push("", `**${cell(dev.title)}**`);
@@ -419,6 +460,7 @@ function contractPage(
           mergeDoc(raw, flat, one(own(user[docsFrom], key))),
           selector,
           (count.get(e.name ?? "") ?? 0) > 1,
+          link,
         ),
       );
     }
@@ -438,7 +480,9 @@ function contractPage(
     for (const c of constants.sort((a, b) => a.name.localeCompare(b.name))) {
       const content = bi.input.sources[c.__path]?.content ?? "";
       const ns = parseNatspec(rawDoc(content, c.documentation));
-      body.push("", `### ${c.name}${c.__from ? ` _(from ${c.__from})_` : ""}`, "", ...fence(sliceSrc(content, c.src) + ";"));
+      body.push("", `### ${c.name}`, "");
+      if (c.__from) body.push(`_Inherited from \`${c.__from}\`._`, "");
+      body.push(...fence(sliceSrc(content, c.src) + ";"));
       // The permission-ID idiom: the hash is the value you actually pass to `grant`/`isGranted`,
       // and it is the one thing the declaration does not tell you. Resolved later, via `cast keccak`.
       const lit = c.value ? sliceSrc(content, c.value.src).match(/^keccak256\(\s*"([^"\\]*)"\s*\)$/) : null;
@@ -446,8 +490,8 @@ function contractPage(
       body.push(...docBlock(ns.notice, ns.details), ...customTags(ns));
     }
   }
-  body.push(...memberDefs("Enums", enums, bi, "enum"));
-  body.push(...memberDefs("Structs", structs, bi, "struct"));
+  body.push(...memberDefs("Enums", enums, bi, "enum", link));
+  body.push(...memberDefs("Structs", structs, bi, "struct", link));
 
   return {
     name: node.name,
@@ -465,17 +509,22 @@ function memberDefs(
   defs: MemberDef[],
   bi: BuildInfo,
   what: "enum" | "struct",
+  link: TypeLinker = PLAIN,
 ): string[] {
   if (!defs.length) return [];
   const out = ["", `## ${heading}`];
   for (const { n, from, path } of defs.sort((a, b) => a.n.name.localeCompare(b.n.name))) {
-    out.push("", `### ${n.name}${from ? ` _(from ${from})_` : ""}`, "", ...defBlock(n, bi, what, path));
+    // The heading stays the bare name so its anchor is always `#<name>`: predictable to link
+    // to, and stable if the type later moves between base contracts.
+    out.push("", `### ${n.name}`, "");
+    if (from) out.push(`_Inherited from \`${from}\`._`, "");
+    out.push(...defBlock(n, bi, what, path, link));
   }
   return out;
 }
 
 /** The declaration itself plus a member table, for an enum or a struct. */
-function defBlock(n: AstNode, bi: BuildInfo, what: "enum" | "struct", path: string): string[] {
+function defBlock(n: AstNode, bi: BuildInfo, what: "enum" | "struct", path: string, link: TypeLinker = PLAIN): string[] {
   const ns = parseNatspec(rawDoc(bi.input.sources[path]?.content, n.documentation));
   const members: { name: string; type: string }[] = what === "enum"
     ? (n.members ?? []).map((m: AstNode) => ({ name: m.name, type: "" }))
@@ -497,14 +546,14 @@ function defBlock(n: AstNode, bi: BuildInfo, what: "enum" | "struct", path: stri
         `| \`${m.name}\` | \`${i}\` |${documented ? ` ${cell(ns.params?.[m.name])} |` : ""}`
       ),
     );
-  } else if (documented) {
+  } else if (documented || members.some((m) => link.resolves(m.type))) {
     // The declaration already carries every field's name and type, so this earns its place
-    // only when there is prose to add.
+    // only when there is prose to add, or a field type worth linking.
     out.push(
       "",
       "| Field | Type | Description |",
       "| --- | --- | --- |",
-      ...members.map((m) => `| \`${m.name}\` | \`${m.type}\` | ${cell(ns.params?.[m.name])} |`),
+      ...members.map((m) => `| \`${m.name}\` | ${link.cell(m.type)} | ${cell(ns.params?.[m.name])} |`),
     );
   }
   return out;
@@ -514,18 +563,25 @@ const displayTypeString = (n: AstNode) =>
   (n.typeDescriptions?.typeString ?? "").replace(/\b(contract|struct|enum) /g, "").replace(/ (memory|calldata|storage)\b/g, "");
 
 /** A declaration at file scope (outside any contract) — its own page, per the base's convention. */
-function topLevelPage(n: AstNode, path: string, bi: BuildInfo): (Omit<Page, "file" | "render"> & { deps: string[] }) | null {
+function topLevelPage(
+  n: AstNode,
+  path: string,
+  bi: BuildInfo,
+  declared: Set<string>,
+): (Omit<Page, "file" | "render"> & { deps: string[] }) | null {
   const content = bi.input.sources[path]?.content ?? "";
   const ns = parseNatspec(rawDoc(content, n.documentation));
+  // A standalone page has no types of its own, so every link points at a sibling page.
+  const link = linker(new Set(), declared);
   let kind: Page["kind"], body: string[];
   switch (n.nodeType) {
     case "EnumDefinition":
       kind = "enum";
-      body = defBlock(n, bi, "enum", path);
+      body = defBlock(n, bi, "enum", path, link);
       break;
     case "StructDefinition":
       kind = "struct";
-      body = defBlock(n, bi, "struct", path);
+      body = defBlock(n, bi, "struct", path, link);
       break;
     case "ErrorDefinition":
       kind = "error";
@@ -537,6 +593,7 @@ function topLevelPage(n: AstNode, path: string, bi: BuildInfo): (Omit<Page, "fil
           "Parameter",
           (n.parameters?.parameters ?? []).map((p: AstNode) => ({ name: p.name, type: displayTypeString(p) })),
           ns.params,
+          link,
         ),
       ];
       break;
@@ -559,11 +616,13 @@ function topLevelPage(n: AstNode, path: string, bi: BuildInfo): (Omit<Page, "fil
           "Parameter",
           (n.parameters?.parameters ?? []).map((p: AstNode) => ({ name: p.name, type: displayTypeString(p) })),
           ns.params,
+          link,
         ),
         ...paramTable(
           "Returns",
           (n.returnParameters?.parameters ?? []).map((p: AstNode) => ({ name: p.name, type: displayTypeString(p) })),
           ns.returns,
+          link,
         ),
       ];
       break;
@@ -633,6 +692,15 @@ async function describeRepo(root: string, files: string[]): Promise<Repo> {
   };
 }
 
+/**
+ * Trees `forge build` compiles by default but that we never document.
+ *
+ * This is the single biggest cost in a run: osx carries 94 test files against 53 sources, and
+ * on token-voting skipping them takes a forced build from 181 files / 32s to 107 files / 4.5s.
+ * The names cover both Foundry conventions (`script` and `scripts` are both in use here).
+ */
+const SKIP_TREES = ["test/**", "tests/**", "test-upgrade/**", "script/**", "scripts/**"];
+
 async function solFiles(path: string): Promise<string[]> {
   const st = await Deno.stat(path);
   if (st.isFile) return path.endsWith(".sol") ? [path] : [];
@@ -658,7 +726,15 @@ async function loadBuildInfo(repo: Repo): Promise<BuildInfo> {
   const dir = await Deno.makeTempDir({ prefix: "abi-docs-" });
   try {
     console.error(`  compiling ${repo.name}…`);
-    await run("forge", ["build", "--root", ".", ...repo.buildArgs, "--build-info", "--build-info-path", dir], repo.buildRoot);
+    // Only trees nothing was requested from, so documenting a test helper still works.
+    const skip = SKIP_TREES
+      .filter((t) => !repo.files.some((f) => relative(repo.buildRoot, f).startsWith(`${t.split("/")[0]}/`)))
+      .flatMap((t) => ["--skip", t]);
+    await run(
+      "forge",
+      ["build", "--root", ".", ...repo.buildArgs, ...skip, "--build-info", "--build-info-path", dir],
+      repo.buildRoot,
+    );
     const merged: BuildInfo = { input: { sources: {} }, output: { sources: {}, contracts: {} } };
     const names = [...Deno.readDirSync(dir)].map((e) => e.name).filter((n) => n.endsWith(".json")).sort();
     for (const n of names) {
@@ -677,17 +753,27 @@ function pagesFor(repo: Repo, bi: BuildInfo): Page[] {
   const byId = indexContracts(bi);
   const raw: (Omit<Page, "file" | "render"> & { deps: string[] })[] = [];
 
-  for (const abs of repo.files.sort()) {
+  const asts = repo.files.sort().flatMap((abs) => {
     const rel = relative(repo.buildRoot, abs);
     const ast = bi.output.sources[rel]?.ast;
     if (!ast) {
       console.error(`  ! ${rel}: not in the build output (unreachable from the compilation targets?)`);
-      continue;
+      return [];
     }
+    return [{ rel, ast }];
+  });
+
+  // Every name that will get a page, known before any body is rendered so a type reference
+  // can be linked as it is written.
+  const declared = new Set<string>(
+    asts.flatMap(({ ast }) => (ast.nodes ?? []).map((n: AstNode) => n.name).filter(Boolean)),
+  );
+
+  for (const { rel, ast } of asts) {
     for (const n of ast.nodes ?? []) {
-      if (n.nodeType === "ContractDefinition") raw.push(contractPage(n, rel, bi, byId));
+      if (n.nodeType === "ContractDefinition") raw.push(contractPage(n, rel, bi, byId, declared));
       else {
-        const p = topLevelPage(n, rel, bi);
+        const p = topLevelPage(n, rel, bi, declared);
         if (p) raw.push(p);
       }
     }
@@ -724,10 +810,13 @@ function pagesFor(repo: Repo, bi: BuildInfo): Page[] {
           "",
           `**${p.kind[0].toUpperCase() + p.kind.slice(1)}** · ${src}`,
         ];
-        const body = p.body.join("\n").replace(
-          /\{\{LINK:(\w+)\}\}/g,
-          (_, n) => (linkable.has(n) ? `[\`${n}\`](./${n}.md)` : `\`${n}\``),
-        );
+        const body = p.body
+          .join("\n")
+          .replace(/\{\{LINK:(\w+)\}\}/g, (_, n) => (linkable.has(n) ? `[\`${n}\`](./${n}.md)` : `\`${n}\``))
+          // A type link, resolved now that collisions are known: a renamed page is not
+          // `./<Name>.md`, so it degrades to plain code rather than a broken link.
+          .replace(/\]\(\{\{T:(\w+)\}\}\)/g, (_, n) => (linkable.has(n) ? `](./${n}.md)` : "]()"))
+          .replace(/\[`([^`]*)`\]\(\)/g, (_, t) => `\`${t}\``);
         return `${[...head, body].join("\n").replace(/\n{3,}/g, "\n\n").trimEnd()}\n`;
       },
     };

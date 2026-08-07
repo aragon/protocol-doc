@@ -8,11 +8,13 @@ default:
     @just --list --unsorted
 
 # Generate the ABI reference for the given Solidity paths (files or directories)
+[group('abi')]
 abi *paths:
     @deno run --allow-read --allow-write --allow-run --allow-env scripts/abi-docs.ts {{ paths }}
 
 # (multisig-plugin and admin-plugin are not Foundry; see `abi-legacy`)
 # Regenerate the ABI reference for every Foundry repository
+[group('abi')]
 abi-all:
     @just abi \
         {{ repos }}/osx/src \
@@ -23,6 +25,7 @@ abi-all:
 
 # Generate the ABI reference for the two Hardhat repos (installs their deps first)
 # Temporary: both are being migrated to Foundry, then they fold into `abi-all`.
+[group('abi')]
 abi-legacy:
     # `|| true`: a couple of test-only devDependencies are npm aliases that 404. The two
     # runtime deps the contracts actually import install fine, which is all forge needs.
@@ -33,9 +36,11 @@ abi-legacy:
         {{ repos }}/admin-plugin/packages/contracts/src
 
 # Cross-link the ABI reference with the wiki (re-run after `abi-all`, which overwrites it)
+[group('wiki')]
 abi-link:
     @deno run --allow-read --allow-write --allow-run --allow-env scripts/abi-crosslink.ts
 
 # Verify the bundle: links, anchors, required frontmatter
+[group('wiki')]
 check:
     @wiki check

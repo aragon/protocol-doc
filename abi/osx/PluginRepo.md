@@ -114,6 +114,10 @@ Returns the latest version for a given plugin setup.
 | --- | --- | --- |
 | `_pluginSetup` | `address` | The plugin setup address |
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`PluginRepo.Version`](#version) |  |
+
 ### getLatestVersion(uint8)
 
 ```solidity
@@ -128,6 +132,10 @@ Returns the latest version for a given release number.
 | --- | --- | --- |
 | `_release` | `uint8` | The release number. |
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`PluginRepo.Version`](#version) |  |
+
 ### getVersion((uint8,uint16))
 
 ```solidity
@@ -140,7 +148,11 @@ Returns the version associated with a tag.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_tag` | `PluginRepo.Tag` | The version tag. |
+| `_tag` | [`PluginRepo.Tag`](#tag) | The version tag. |
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`PluginRepo.Version`](#version) |  |
 
 ### getVersion(bytes32)
 
@@ -155,6 +167,10 @@ Returns the version for a tag hash.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_tagHash` | `bytes32` | The tag hash. |
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`PluginRepo.Version`](#version) |  |
 
 ### grant
 
@@ -198,7 +214,7 @@ Grants permission to an address to call methods in a target contract guarded by 
 | `_where` | `address` | The address of the target contract for which `_who` receives permission. |
 | `_who` | `address` | The address (EOA or contract) receiving the permission. |
 | `_permissionId` | `bytes32` | The permission identifier. |
-| `_condition` | `IPermissionCondition` | The `PermissionCondition` that will be asked for authorization on calls connected to the specified permission identifier. |
+| `_condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The `PermissionCondition` that will be asked for authorization on calls connected to the specified permission identifier. |
 
 ### initialize
 
@@ -506,7 +522,7 @@ Thrown if a condition contract does not support the `IPermissionCondition` inter
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `condition` | `IPermissionCondition` | The address that is not a contract. |
+| `condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The address that is not a contract. |
 
 ### ConditionNotAContract
 
@@ -518,7 +534,7 @@ Thrown if a condition address is not a contract.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `condition` | `IPermissionCondition` | The address that is not a contract. |
+| `condition` | [`IPermissionCondition`](./IPermissionCondition.md) | The address that is not a contract. |
 
 ### EmptyReleaseMetadata
 
@@ -659,7 +675,9 @@ Value: `0xa0885006fe6672eeafd1deca6c67bcdc6dd79cfe2b157a98539ddf73cd8c04ea`
 
 The ID of the permission required to call the `createVersion` function.
 
-### ROOT_PERMISSION_ID _(from PermissionManager)_
+### ROOT_PERMISSION_ID
+
+_Inherited from `PermissionManager`._
 
 ```solidity
 bytes32 public constant ROOT_PERMISSION_ID = keccak256("ROOT_PERMISSION");
@@ -699,3 +717,9 @@ struct Version {
     bytes buildMetadata;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tag` | [`PluginRepo.Tag`](#tag) |  |
+| `pluginSetup` | `address` |  |
+| `buildMetadata` | `bytes` |  |

@@ -32,8 +32,8 @@ The constructor setting the registry and plugin setup processor and creating the
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_registry` | `DAORegistry` | The DAO registry to register the DAO by its name. |
-| `_pluginSetupProcessor` | `PluginSetupProcessor` | The address of PluginSetupProcessor. |
+| `_registry` | [`DAORegistry`](./DAORegistry.md) | The DAO registry to register the DAO by its name. |
+| `_pluginSetupProcessor` | [`PluginSetupProcessor`](./PluginSetupProcessor.md) | The address of PluginSetupProcessor. |
 
 ## Functions
 
@@ -54,13 +54,13 @@ Creates a new DAO, registers it in the DAO registry, and optionally installs plu
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_daoSettings` | `DAOFactory.DAOSettings` | The settings to configure during DAO initialization. |
-| `_pluginSettings` | `DAOFactory.PluginSettings[]` | An array containing plugin references and settings. If provided, each plugin is installed after the DAO creation. |
+| `_daoSettings` | [`DAOFactory.DAOSettings`](#daosettings) | The settings to configure during DAO initialization. |
+| `_pluginSettings` | [`DAOFactory.PluginSettings[]`](#pluginsettings) | An array containing plugin references and settings. If provided, each plugin is installed after the DAO creation. |
 
 | Returns | Type | Description |
 | --- | --- | --- |
-| `createdDao` | `DAO` | The address of the newly created DAO instance. |
-| `installedPlugins` | `DAOFactory.InstalledPlugin[]` | An array of `InstalledPlugin` structs, each containing the plugin address and associated helper contracts and permissions, if plugins were installed; otherwise, an empty array. |
+| `createdDao` | [`DAO`](./DAO.md) | The address of the newly created DAO instance. |
+| `installedPlugins` | [`DAOFactory.InstalledPlugin[]`](#installedplugin) | An array of `InstalledPlugin` structs, each containing the plugin address and associated helper contracts and permissions, if plugins were installed; otherwise, an empty array. |
 
 ### protocolVersion
 
@@ -160,3 +160,8 @@ struct PluginSettings {
     bytes data;
 }
 ```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) |  |
+| `data` | `bytes` |  |

@@ -44,6 +44,10 @@ Selector: `0x4162169f`
 
 Returns the DAO contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IDAO`](./IDAO.md) |  |
+
 ### ens
 
 ```solidity
@@ -70,7 +74,7 @@ Initializes the component by
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_managingDao` | `IDAO` | The interface of the DAO managing the components permissions. |
+| `_managingDao` | [`IDAO`](./IDAO.md) | The interface of the DAO managing the components permissions. |
 | `_ens` | `ENS` | The interface of the ENS registry to be used. |
 | `_node` | `bytes32` | The ENS parent domain node under which the subdomains are to be registered. |
 

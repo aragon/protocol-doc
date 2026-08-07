@@ -25,5 +25,5 @@ Returns an identifier for applied installations.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_pluginSetupRef` | `PluginSetupRef` | The reference of the plugin setup containing plugin setup repo and version tag. |
+| `_pluginSetupRef` | [`PluginSetupRef`](./PluginSetupRef.md) | The reference of the plugin setup containing plugin setup repo and version tag. |
 | `_helpersHash` | `bytes32` | The hash of the helper contract addresses. |

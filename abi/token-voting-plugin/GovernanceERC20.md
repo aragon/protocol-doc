@@ -36,7 +36,7 @@ Calls the initialize function.
 | `_dao` | `IDAO` | The managing DAO. |
 | `_name` | `string` | The name of the [ERC-20](https://eips.ethereum.org/EIPS/eip-20) governance token. |
 | `_symbol` | `string` | The symbol of the [ERC-20](https://eips.ethereum.org/EIPS/eip-20) governance token. |
-| `_mintSettings` | `GovernanceERC20.MintSettings` | The token mint settings struct containing the `receivers`, the `amounts` and `ensureDelegationOnMint`. |
+| `_mintSettings` | [`GovernanceERC20.MintSettings`](#mintsettings) | The token mint settings struct containing the `receivers`, the `amounts` and `ensureDelegationOnMint`. |
 
 ## Functions
 
@@ -89,6 +89,10 @@ function checkpoints(
 Selector: `0xf1127ed8`
 
 > **Dev:** Get the `pos`-th checkpoint for `account`.
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`ERC20VotesUpgradeable.Checkpoint`](#checkpoint) |  |
 
 ### clock
 
@@ -328,7 +332,7 @@ Initializes the contract and mints tokens to a list of receivers.
 | `_dao` | `IDAO` | The managing DAO. |
 | `_name` | `string` | The name of the [ERC-20](https://eips.ethereum.org/EIPS/eip-20) governance token. |
 | `_symbol` | `string` | The symbol of the [ERC-20](https://eips.ethereum.org/EIPS/eip-20) governance token. |
-| `_mintSettings` | `GovernanceERC20.MintSettings` | The token mint settings struct containing the `receivers`, the `amounts` and `ensureDelegationOnMint`. |
+| `_mintSettings` | [`GovernanceERC20.MintSettings`](#mintsettings) | The token mint settings struct containing the `receivers`, the `amounts` and `ensureDelegationOnMint`. |
 
 ### mint
 
@@ -590,7 +594,9 @@ The permission identifier to mint new tokens
 
 ## Structs
 
-### Checkpoint _(from ERC20VotesUpgradeable)_
+### Checkpoint
+
+_Inherited from `ERC20VotesUpgradeable`._
 
 ```solidity
 struct Checkpoint {

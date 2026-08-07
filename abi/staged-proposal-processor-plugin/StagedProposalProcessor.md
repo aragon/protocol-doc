@@ -254,6 +254,10 @@ Retrieves the result type submitted by a body for a specific proposal and stage.
 | `_stageId` | `uint16` | The stage index. |
 | `_body` | `address` | The address of the sub-body. |
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`StagedProposalProcessor.ResultType`](#resulttype) |  |
+
 ### getCreateProposalParams
 
 ```solidity
@@ -295,6 +299,10 @@ Selector: `0xc98425ee`
 
 Returns the currently set target contract.
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
+
 ### getMetadata
 
 ```solidity
@@ -320,6 +328,10 @@ Retrieves all information associated with a proposal by its ID.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_proposalId` | `uint256` | The ID of the proposal. |
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`StagedProposalProcessor.Proposal`](#proposal) |  |
 
 ### getProposalTally
 
@@ -358,6 +370,10 @@ Retrieves the stages stored on the `_index` in the `stages` configuration.
 | --- | --- | --- |
 | `_index` | `uint256` | The index from which to get the stages configuration. |
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`StagedProposalProcessor.Stage[]`](#stage) |  |
+
 ### getTargetConfig
 
 ```solidity
@@ -367,6 +383,10 @@ function getTargetConfig() external view returns (IPlugin.TargetConfig)
 Selector: `0xdd63c06f`
 
 A convenient function to get current target config only if its target is not address(0), otherwise dao().
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.TargetConfig`](#targetconfig) |  |
 
 ### getTrustedForwarder
 
@@ -458,9 +478,9 @@ Initializes the component.
 | --- | --- | --- |
 | `_dao` | `IDAO` | The IDAO interface of the associated DAO. |
 | `_trustedForwarder` | `address` | The trusted forwarder responsible for extracting the original sender. |
-| `_stages` | `StagedProposalProcessor.Stage[]` | The stages configuration. |
+| `_stages` | [`StagedProposalProcessor.Stage[]`](#stage) | The stages configuration. |
 | `_pluginMetadata` | `bytes` | The utf8 bytes of a content addressing cid that stores plugin's information. |
-| `_targetConfig` | `IPlugin.TargetConfig` | The target to which this contract will pass actions with an operation type. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target to which this contract will pass actions with an operation type. |
 
 ### isTrustedForwarder
 
@@ -485,6 +505,10 @@ function pluginType() external pure returns (IPlugin.PluginType)
 Selector: `0x41de6830`
 
 Returns the plugin's type
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`IPlugin.PluginType`](#plugintype) |  |
 
 ### proposalCount
 
@@ -558,7 +582,7 @@ Reports and records the result for a proposal at a specific stage.
 | --- | --- | --- |
 | `_proposalId` | `uint256` | The ID of the proposal. |
 | `_stageId` | `uint16` | The index of the stage, being reported on. Must not exceed the current stage of the proposal. |
-| `_resultType` | `StagedProposalProcessor.ResultType` | The result type being reported (`Approval` or `Veto`). |
+| `_resultType` | [`StagedProposalProcessor.ResultType`](#resulttype) | The result type being reported (`Approval` or `Veto`). |
 | `_tryAdvance` | `bool` | Whether to attempt advancing the proposal to the next stage if conditions are met. |
 
 ### setMetadata
@@ -588,7 +612,7 @@ Selector: `0xbb225da2`
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_targetConfig` | `IPlugin.TargetConfig` | The target Config containing the address and operation type. |
+| `_targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target Config containing the address and operation type. |
 
 ### setTrustedForwarder
 
@@ -622,6 +646,10 @@ Current state of a proposal.
 | --- | --- | --- |
 | `_proposalId` | `uint256` | The proposal id. |
 
+| Returns | Type | Description |
+| --- | --- | --- |
+| `[0]` | [`StagedProposalProcessor.ProposalState`](#proposalstate) |  |
+
 ### supportsInterface
 
 ```solidity
@@ -651,7 +679,7 @@ Allows to update stage configuration.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `_stages` | `StagedProposalProcessor.Stage[]` | The new stage configuration as an array of `Stage` structs. |
+| `_stages` | [`StagedProposalProcessor.Stage[]`](#stage) | The new stage configuration as an array of `Stage` structs. |
 
 ### upgradeTo
 
@@ -844,7 +872,7 @@ Emitted when the stage configuration is updated for a proposal process.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `stages` | `StagedProposalProcessor.Stage[]` | The array of `Stage` structs representing the updated stage configuration. |
+| `stages` | [`StagedProposalProcessor.Stage[]`](#stage) | The array of `Stage` structs representing the updated stage configuration. |
 
 ### SubProposalCreated
 
@@ -893,6 +921,10 @@ event TargetSet(IPlugin.TargetConfig newTargetConfig)
 ```
 
 Emitted each time the TargetConfig is set.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newTargetConfig` | [`IPlugin.TargetConfig`](#targetconfig) |  |
 
 ### TrustedForwarderUpdated
 
@@ -1002,7 +1034,7 @@ Thrown when target is of type 'IDAO', but operation is `delegateCall`.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `targetConfig` | `IPlugin.TargetConfig` | The target config to update it to. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target config to update it to. |
 
 ### NonexistentProposal
 
@@ -1146,7 +1178,9 @@ Thrown if the proposal's state doesn't match the allowed state.
 
 _Public, so each is also readable through a generated getter._
 
-### SET_METADATA_PERMISSION_ID _(from MetadataExtensionUpgradeable)_
+### SET_METADATA_PERMISSION_ID
+
+_Inherited from `MetadataExtensionUpgradeable`._
 
 ```solidity
 bytes32 public constant SET_METADATA_PERMISSION_ID = keccak256("SET_METADATA_PERMISSION");
@@ -1156,7 +1190,9 @@ Value: `0x4707e94b25cfce1a7c363508fbb838c35864388ad77284b248282b9746982b9b`
 
 The ID of the permission required to call the `setMetadata` function.
 
-### SET_TARGET_CONFIG_PERMISSION_ID _(from PluginUUPSUpgradeable)_
+### SET_TARGET_CONFIG_PERMISSION_ID
+
+_Inherited from `PluginUUPSUpgradeable`._
 
 ```solidity
 bytes32 public constant SET_TARGET_CONFIG_PERMISSION_ID =
@@ -1167,7 +1203,9 @@ Value: `0x568cc693d84eb1901f8bcecba154cbdef23ca3cf67efc0a0b698528a06c660f7`
 
 The ID of the permission required to call the `setTargetConfig` function.
 
-### UPGRADE_PLUGIN_PERMISSION_ID _(from PluginUUPSUpgradeable)_
+### UPGRADE_PLUGIN_PERMISSION_ID
+
+_Inherited from `PluginUUPSUpgradeable`._
 
 ```solidity
 bytes32 public constant UPGRADE_PLUGIN_PERMISSION_ID = keccak256("UPGRADE_PLUGIN_PERMISSION");
@@ -1179,7 +1217,9 @@ The ID of the permission required to call the `_authorizeUpgrade` function.
 
 ## Enums
 
-### Operation _(from IPlugin)_
+### Operation
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum Operation {
@@ -1195,7 +1235,9 @@ Specifies the type of operation to perform.
 | `Call` | `0` |
 | `DelegateCall` | `1` |
 
-### PluginType _(from IPlugin)_
+### PluginType
+
+_Inherited from `IPlugin`._
 
 ```solidity
 enum PluginType {
@@ -1273,9 +1315,11 @@ A container for Body-related information.
 | `addr` | `address` | The address responsible for reporting results. For automatic bodies, it is also where the SPP creates proposals. |
 | `isManual` | `bool` | Whether SPP should create a proposal on a body. If true, it will not create. |
 | `tryAdvance` | `bool` | Whether to try to automatically advance the stage when a body reports results. |
-| `resultType` | `StagedProposalProcessor.ResultType` | The type(`Approval` or `Veto`) this body is registered with. |
+| `resultType` | [`StagedProposalProcessor.ResultType`](#resulttype) | The type(`Approval` or `Veto`) this body is registered with. |
 
-### MetadataExtensionStorage _(from MetadataExtensionUpgradeable)_
+### MetadataExtensionStorage
+
+_Inherited from `MetadataExtensionUpgradeable`._
 
 ```solidity
 struct MetadataExtensionStorage {
@@ -1311,7 +1355,7 @@ A container for proposal-related information.
 | `canceled` | `bool` | Whether the proposal is canceled or not. |
 | `creator` | `address` | The creator of the proposal. |
 | `actions` | `Action[]` | The actions to be executed when the proposal passes. |
-| `targetConfig` | `IPlugin.TargetConfig` | The target to which this contract will pass actions with an operation type. |
+| `targetConfig` | [`IPlugin.TargetConfig`](#targetconfig) | The target to which this contract will pass actions with an operation type. |
 
 ### Stage
 
@@ -1332,7 +1376,7 @@ A container for stage-related information.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bodies` | `StagedProposalProcessor.Body[]` | The bodies that are responsible for advancing the stage. |
+| `bodies` | [`StagedProposalProcessor.Body[]`](#body) | The bodies that are responsible for advancing the stage. |
 | `maxAdvance` | `uint64` | The maximum duration after which stage can not be advanced. |
 | `minAdvance` | `uint64` | The minimum duration until when stage can not be advanced. |
 | `voteDuration` | `uint64` | The time to give vetoing bodies to make decisions in optimistic stage. Note that this also is used as an endDate time for bodies, see `_createBodyProposals`. |
@@ -1341,7 +1385,9 @@ A container for stage-related information.
 | `cancelable` | `bool` | If the proposal can be cancelled in the stage. |
 | `editable` | `bool` | If the proposal can be edited in the stage. |
 
-### TargetConfig _(from IPlugin)_
+### TargetConfig
+
+_Inherited from `IPlugin`._
 
 ```solidity
 struct TargetConfig {
@@ -1359,4 +1405,4 @@ Configuration for the target contract that the plugin will interact with, includ
 | Field | Type | Description |
 | --- | --- | --- |
 | `target` | `address` | The address of the target contract, typically the associated DAO but configurable to a custom executor. |
-| `operation` | `IPlugin.Operation` | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |
+| `operation` | [`IPlugin.Operation`](#operation) | The type of operation (`Call` or `DelegateCall`) to execute on the target, as defined by `Operation`. |
