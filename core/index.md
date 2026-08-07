@@ -4,6 +4,8 @@ The heart of Aragon **OSx**: the [DAO](./dao.md) contract and the authorization 
 
 This is the smallest, most fundamental layer, what a DAO *is* and how it decides who may do what. Read it first; everything else builds on it.
 
+**Exact signatures:** the generated [`osx` ABI reference](../abi/osx/index.md) has every public function, event, error and constant of these contracts, with its NatSpec.
+
 - [The DAO contract](./dao.md) — one contract that *is* the organization: treasury, executor, permission database, signer.
 - [The permission system](./permissions.md) — the `(where, who, permissionId)` model that gates every privileged action. **The keystone concept.**
 - [Actions and execution](./execution.md) — how a DAO acts on the world: the `Action` batch, `execute`, and partial-failure handling.

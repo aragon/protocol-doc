@@ -2,7 +2,7 @@
 type: concept
 title: SelectorCondition
 tags: [permissions]
-source: condition-library/src/SelectorCondition.sol
+source: conditions/src/SelectorCondition.sol
 ---
 
 # SelectorCondition

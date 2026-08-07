@@ -1,0 +1,19 @@
+---
+type: reference
+title: getSelector
+kind: function
+source: conditions/src/lib/common.sol
+summary: "Extracts the selector given the calldata."
+---
+
+# getSelector
+
+**Function** · [`src/lib/common.sol`](https://github.com/aragon/conditions/blob/33918b06b95233dd8890bef6cc60da6227fa5af1/src/lib/common.sol)
+
+**Explained in:** [Condition Library](../../helpers/condition-library.md)
+
+```solidity
+function getSelector(bytes memory _data) pure returns (bytes4 selector)
+```
+
+Extracts the selector given the calldata. If no calldata is passed, it returns zero

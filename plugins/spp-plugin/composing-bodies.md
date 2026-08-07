@@ -2,7 +2,7 @@
 type: concept
 title: Composing SPP bodies
 tags: [governance]
-source: spp/src/StagedProposalProcessor.sol
+source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
 ---
 
 # Composing SPP bodies

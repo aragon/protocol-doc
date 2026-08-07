@@ -2,7 +2,7 @@
 type: concept
 title: SPP lifecycle & state machine
 tags: [governance, security]
-source: spp/src/StagedProposalProcessor.sol
+source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
 ---
 
 # SPP lifecycle & state machine

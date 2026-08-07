@@ -6,6 +6,8 @@ The [core](../core/index.md) DAO is deliberately minimal and [common](../common/
 
 New to plugins? Read the model, then how you build one, then the publish/install machinery.
 
+**Exact signatures:** the generated [`osx` ABI reference](../abi/osx/index.md) has every public function, event, error and constant of these contracts, with its NatSpec.
+
 ## What a plugin is, and building one
 
 - [The plugin model](./plugins.md) — what a plugin *is* and how it acts on a DAO. **Start here.**
