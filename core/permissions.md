@@ -119,5 +119,6 @@ function doPrivileged() external auth(DO_PRIVILEGED_PERMISSION_ID) { ... }
 ## See also
 
 - [Permission conditions](../common/permission-conditions.md) — dynamic, on-chain authorization logic.
+- [OSx compared](../osx-compared.md) — this model against OpenZeppelin, Safe + Zodiac and Hats.
 - [Authorizing against a DAO](../common/auth.md) — how plugins use this system.
 - [The DAO contract](./dao.md) — the primary `PermissionManager` instance.
