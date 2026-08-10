@@ -81,7 +81,7 @@ OSx takes the opposite trade to the other three. It is a framework rather than a
 | **Addressed by** | role → function, per contract | route → target + selector + params | wearer → hat | `(where, who, permissionId)` + calldata |
 | **Who may change it** | role admin / `ADMIN_ROLE` | Safe owners | the admin *hat* | whoever holds `ROOT` (tipically the DAO) |
 | **Evaluated at call time** | nothing beyond stored membership (`AccessManager` adds delays) | the *call*, on paths through a Guard or Modifier | the *wearer*, via eligibility and toggle | both, via any [condition](./common/permission-conditions.md) contract |
-| **Survives the target contract** | no, dies with it | partly; the Safe outlives its modules | yes, hats are external | yes, the DB is the DAO |
+| **Survives the target contract** | `AccessControl` no, dies with it; `AccessManager` yes, lives in the manager | partly; the Safe outlives its modules | yes, hats are external | yes, the DB is the DAO |
 | **Readable by third parties** | `hasRole`, per contract | `isOwner`, module list | `isWearerOfHat`, designed for it | `hasPermission`, `view` and public |
 
 ### Where the authorization state lives
@@ -120,7 +120,7 @@ OSx conditions fail closed, so a revert counts as "denied" rather than surfacing
 
 ### Whether the rule outlives the contract
 
-An `AccessControl` list dies with its contract, and migrating means re-granting everything. A Safe outlives its modules, so swapping a module keeps owners and assets intact. Hats are external to every consumer, so a role survives any contract that reads it.
+An `AccessControl` list dies with its contract, and migrating means re-granting everything. `AccessManager` is the exception: its rules live in a separate manager contract, external to each target, so the permission DB survives any single target (it dies only with the manager itself). A Safe outlives its modules, so swapping a module keeps owners and assets intact. Hats are external to every consumer, so a role survives any contract that reads it.
 
 OSx is built around this principle too. Because permissions live in the DAO and plugins are installed against it, capabilities can be [added, updated and removed](./framework/plugin-setup-processor.md) across a DAO's lifetime without redeploying the organization.
 
