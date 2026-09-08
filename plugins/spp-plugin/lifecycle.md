@@ -50,7 +50,7 @@ reportProposalResult(uint256 proposalId, uint16 stageId, ResultType resultType, 
 
 - **Anyone may call it**, but it's safe: SPP only ever *reads* the recorded verdict for addresses actually registered as bodies in that stage. A report from a non-body is simply never counted (it just wastes the caller's gas, worth a UI guard, not a contract one).
 - **A report overwrites.** There's no "first report is final", a body can flip its own verdict (approval ↔ veto) any time before the proposal actually advances past the stage.
-- **`tryAdvance: true`** attempts to advance the proposal in the same transaction, but **only if** the caller holds the right permission and the state is already advanceable, and it **never reverts** if it can't. That silent best-effort is deliberate: a body's callback often rides along with other actions in the body's own proposal, and those must not be rolled back just because SPP wasn't ready to advance.
+- **`tryAdvance: true`** also advances when the proposal is advanceable and the caller has `ADVANCE_PERMISSION_ID`, or `EXECUTE_PROPOSAL_PERMISSION_ID` on the last stage. Missing permission or unsuitable state skips the attempt, so the body's report and other actions in its transaction can still succeed when SPP is not ready. If advancement actually runs, an execution failure can still revert the transaction.
 
 ## Advancing and executing
 

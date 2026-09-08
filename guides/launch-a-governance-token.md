@@ -26,6 +26,8 @@ The setup duck-types the token (it *probes* for `IVotes`, it doesn't trust a fla
 
 > **The delegation trap.** With any `IVotes` token, a holder has **zero** voting power until their balance is *delegated* (even to themselves), see [voting power](../plugins/token-voting-plugin/voting-power.md#delegation). When you mint a new token, set `ensureDelegationOnMint: true` so recipients can vote without a separate delegation step. Forget it and your token holders will hold tokens and still be unable to vote.
 
+The token records historical voting power because reading current balances would let a holder vote, transfer their tokens, and vote again from another address. Every proposal instead uses the checkpoint just before it was created. Minting or delegating afterward cannot add power to that proposal, even if voting is scheduled to start later. With automatic delegation disabled, recipients must delegate before that checkpoint themselves.
+
 ## Step 1, the skeleton
 
 ```solidity
@@ -131,7 +133,7 @@ The rest of the install data is the [voting configuration](../plugins/majority-v
 }
 ```
 
-Because that `data` came from the setup's own `encodeInstallationParameters`, its layout is guaranteed to match what the same setup's `prepareInstallation` `abi.decode`s, the two can't drift. Hand-pack the bytes yourself instead and that safety net is gone: a wrong field order or type makes `prepareInstallation` revert on `abi.decode`. Either way the ABI is dictated by the plugin's [setup](../framework/plugin-setup.md), published in its build metadata.
+The encoder's arguments match this build's [setup ABI](/abi/token-voting-plugin/TokenVotingSetup.md#encodeinstallationparameters), keeping the field order and types aligned with what `prepareInstallation` decodes. If you encode the bytes manually, follow the selected build's setup and metadata: an incorrect order or type can make installation revert or decode unintended values. Check those definitions when adapting to another version.
 
 ## What you just saw
 

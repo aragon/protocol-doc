@@ -88,7 +88,13 @@ function test_multisigProposal() public {
 
 ## Token Voting: decide by weight
 
-A [token vote](../plugins/token-voting-plugin.md) weighs each vote by the voter's power at the proposal's [snapshot](../plugins/token-voting-plugin/voting-power.md#the-snapshot). A common trap is that **power is delegated, not merely held.** Tokens are *not* delegated by default, so a holder has **zero** voting power until they [delegate](../plugins/token-voting-plugin/voting-power.md#delegation), to themselves or someone else, and that delegation must be in place *before* the proposal is created to count. (The [`launch` guide](./launch-a-governance-token.md) minted with `ensureDelegationOnMint: true` to auto-self-delegate on mint; a plain transfer or a reused token gives no such thing.) Votes are a `VoteOption` (`None`, `Abstain`, `Yes`, `No`):
+A [token vote](/plugins/token-voting-plugin.md) uses delegated voting power at a fixed [snapshot](/plugins/token-voting-plugin/voting-power.md#the-snapshot). The snapshot is taken just before proposal creation: the previous block for block-based tokens, or the previous second for timestamp-based tokens. Scheduling voting to start later does not move that snapshot.
+
+**Snapshots prevent double voting with the same tokens.** Suppose Alice has 100 self-delegated tokens at the snapshot and Bob has none. Alice votes, then transfers those 100 tokens to Bob. If the plugin used current balances, Bob could vote with the same tokens again. Instead, it reads their historical power: Alice has 100 and Bob has zero for this proposal. Delegating that power to another address after the snapshot cannot duplicate it either. Token Voting does not lock the tokens; the snapshot fixes which accounts can use their voting power on this proposal.
+
+Holding tokens alone is not sufficient. Holders [delegate](/plugins/token-voting-plugin/voting-power.md#delegation) to themselves to vote directly, or to another address to vote on their behalf. An undelegated balance gives its holder no voting power. Complete delegation and allow the token's clock to advance before creating the proposal. The [launch guide](/guides/launch-a-governance-token.md) enables self-delegation on mint; [imported and wrapped tokens](/guides/import-existing-tokens.md#3-prepare-holders-to-vote) have their own delegation behavior. The example below assumes Alice and Bob both have power at the snapshot.
+
+Votes use `VoteOption` (`Abstain`, `Yes`, or `No`); `None` lets a creator submit without an initial vote:
 
 ```solidity
 function test_tokenVote() public {

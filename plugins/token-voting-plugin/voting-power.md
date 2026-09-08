@@ -15,12 +15,11 @@ The plugin itself holds no balances or vote bookkeeping. It reads power from an 
 
 When a proposal is created it fixes a **snapshot** at the timepoint *just before* creation (`block.number - 1`, or `block.timestamp - 1` for timestamp-based tokens). Every vote on that proposal is then weighed by `getPastVotes(voter, snapshot)`, the voter's power *at that fixed point*, no matter when they actually vote.
 
-Two things make this the right design:
+The snapshot prevents **double voting with the same tokens**. Suppose Alice has 100 self-delegated tokens and Bob has none at the snapshot. Alice votes with 100 power, then transfers the tokens to Bob. Even if Bob self-delegates them, his power for this proposal is still zero: `getPastVotes` reads the earlier checkpoint. Transferring tokens or moving their delegation cannot make the same power count at a second address.
 
-- **It defeats double voting.** Without historical snapshots, a holder could vote, transfer the tokens to a fresh address, and vote again with the same tokens. Because power is read at a frozen past point, moving tokens after the snapshot changes nothing.
-- **Using the *prior* block blocks same-block manipulation.** If the snapshot were the current block, someone could watch a proposal enter the mempool and, in the same block, acquire or delegate tokens to inflate their weight for it. The prior block is already finalized before the proposal transaction is mined, so it can't be gamed.
+Using a past timepoint also prevents transactions in the proposal's creation block from changing its electorate. Acquiring or delegating tokens in response to a pending proposal is too late if both transactions enter the same block. Prepare holders **before creation**, even if the proposal's voting start is scheduled for later; waiting for that start does not refresh its snapshot.
 
-A proposal whose snapshot total is zero reverts (`NoVotingPower`), a governance token that nobody can vote with is almost certainly a misconfiguration.
+A proposal with zero effective total supply at its snapshot reverts with `NoVotingPower`; zero delegated power at an individual account instead makes that account unable to vote.
 
 ## Delegation
 
@@ -30,13 +29,17 @@ How each token type handles this differs, and it's the practical reason the toke
 
 ## Whose supply counts: excluded accounts
 
-The [participation and approval thresholds](../majority-voting.md#the-three-thresholds) are measured against *total voting power*. Some balances aren't really part of the electorate, a treasury, a vesting contract, the DAO's own holdings, and counting them would make quorum artificially hard to reach. The plugin lets an install list **excluded accounts** whose balances are subtracted from the total:
+The [participation and approval thresholds](/plugins/majority-voting.md#the-three-thresholds) are measured against effective total voting power. The plugin subtracts the historical delegated power of accounts excluded at installation:
 
 ```
 totalVotingPower(snapshot) = getPastTotalSupply(snapshot) − Σ getPastVotes(excluded, snapshot)
 ```
 
-The exclusion list is set once at install and deliberately not changeable afterward: because each proposal freezes its participation/approval requirements against the total at *its* snapshot, quietly changing the excluded set later would make in-flight proposals' quorum math inconsistent.
+Non-circulating holdings, such as a treasury, vesting contract, or the DAO's own tokens, can make quorum harder to reach if their supply counts but they do not participate. The installation can name accounts whose delegated power should be subtracted, for example a treasury that self-delegates those holdings. This subtracts **historical delegated power**, not `balanceOf`: listing an undelegated treasury does not remove its token balance from the denominator.
+
+The exclusion list cannot be changed after installation. The [worst-case support check](/plugins/voting-modes.md#early-execution) reads the effective snapshot supply again; changing the excluded set could change that check for an existing proposal while its participation and approval amounts remain frozen. Choose the list before installing.
+
+Exclusion adjusts the denominator; it does not prevent the listed accounts from voting. Account for their delegation and voting behavior when choosing the list.
 
 ## Block-based vs timestamp-based tokens
 

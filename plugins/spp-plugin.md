@@ -59,7 +59,7 @@ Creating a proposal is permission-gated (`CREATE_PROPOSAL_PERMISSION_ID`), and m
 
 Two things stand out, and both are intentional:
 
-- **Advancing and executing are open to anyone by default.** Once the [state machine](./spp-plugin/lifecycle.md) already says a proposal is advanceable, letting any address push it forward is a permissionless "flush", the real gate is the body results, not who calls. Only proposal *creation* is condition-gated by default.
+- **Advancing and executing are open to anyone by default.** Once the [state machine](./spp-plugin/lifecycle.md) already says a proposal is advanceable, letting any address push it forward is a permissionless "flush", the real gate is the body results, not who calls. Only proposal *creation* is condition-gated by default. The DAO can restrict who advances or executes by [replacing those public permission grants](/guides/manage-permissions.md).
 - **`cancel` and `edit` are *not* granted to anyone by install.** Their permissions (`CANCEL_PERMISSION_ID` / `EDIT_PERMISSION_ID`) exist and each stage has `cancelable`/`editable` flags, but a DAO must explicitly grant the permissions before cancel/edit can be used at all. Don't assume install wired them.
 
 The **trusted forwarder** (for [ERC-2771 meta-transactions](../core/dao.md)) is deliberately installed as `address(0)`, i.e. off: a forwarder can spoof the caller's identity, so allowing an installer to set one would be exploitable. Only the DAO can enable one later (`SET_TRUSTED_FORWARDER_PERMISSION_ID`), after vetting it.

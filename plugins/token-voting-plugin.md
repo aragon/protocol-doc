@@ -28,7 +28,7 @@ The problem any token vote must solve is **double voting**: hold tokens, vote, t
 
 **Execute.** Once the proposal has passed (all [thresholds](./majority-voting.md#the-three-thresholds) met, and the timing allowed by the mode), anyone with `EXECUTE_PROPOSAL_PERMISSION_ID` calls `execute`. The plugin hands the approved actions to the DAO (via [`execute`](../core/execution.md), which is why it holds `EXECUTE_PERMISSION_ID` on the DAO) and marks the proposal executed. A passed proposal stays executable until someone runs it, there's no expiry.
 
-Voting settings (`supportThreshold`, `minParticipation`, `minDuration`, `minProposerVotingPower`, the voting mode, and `minApproval`) are changed through `updateVotingSettings` / `updateMinApprovals`, gated by `UPDATE_VOTING_SETTINGS_PERMISSION_ID` (held by the DAO, so tuning governance is itself a governance decision). Changes only affect proposals created *after* them; each proposal keeps the settings frozen at its creation.
+The DAO changes the voting mode, `supportThreshold`, `minParticipation`, `minDuration`, and `minProposerVotingPower` through `updateVotingSettings`, and `minApproval` through `updateMinApprovals`. Both methods require `UPDATE_VOTING_SETTINGS_PERMISSION_ID`, so changing governance rules is itself a governance decision. Changes apply to new proposals; existing proposals retain their recorded rules.
 
 ## Permissions it sets up
 
