@@ -8,7 +8,7 @@ source: osx/README.md
 
 *An executive, no-code introduction to what OSx means for an organization. Follow the links when you want the technical detail.*
 
-No organization stays the same. It starts small and informal, grows, adds functions, changes how it makes decisions, spins up new activities and retires old ones. The one constant is change. Most on-chain organizations aren't built for that: their rules are hard-coded into a contract, and changing anything of substance means deploying a *new* contract and migrating everything to it, the treasury, the token, the integrations, the history, the address other people rely on. Evolving the organization means rebuilding it.
+No organization stays the same. It starts small and informal, grows, adds functions, changes how it makes decisions, spins up new activities and retires old ones. The one constant is change. Most onchain organizations aren't built for that: their rules are hard-coded into a contract, and changing anything of substance means deploying a *new* contract and migrating everything to it, the treasury, the token, the integrations, the history, the address other people rely on. Evolving the organization means rebuilding it.
 
 **Aragon OSx is built the other way around.** It treats a DAO as a small, permanent core, one contract that holds the assets, carries out decisions, and owns the rulebook for who is allowed to do what, and lets everything *around* that core be added, replaced, and upgraded over time. The organization evolves in place, keeping the same treasury, address, and identity while gaining new capabilities and rules as it needs them.
 

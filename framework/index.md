@@ -13,7 +13,7 @@ New to plugins? Read the model, then how you build one, then the publish/install
 - [The plugin model](./plugins.md) — what a plugin *is* and how it acts on a DAO. **Start here.**
 - [Choosing a plugin base](./plugin-types.md) — Plugin vs Cloneable vs UUPS, and how to decide.
 - [Plugin setup](./plugin-setup.md) — the per-version contract that deploys a plugin and declares its permissions.
-- [Plugin metadata](./plugin-metadata.md) — the release/build JSON a version points to (incl. the install-params schema), and on-chain instance metadata.
+- [Plugin metadata](./plugin-metadata.md) — the release/build JSON a version points to (incl. the install-params schema), and onchain instance metadata.
 
 ## Publishing and installing
 

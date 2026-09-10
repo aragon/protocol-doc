@@ -101,7 +101,9 @@ function sliceSrc(content: string, src: string): string {
 }
 
 /** De-indent NatSpec prose. solc keeps the comment's leading whitespace on every line. */
-const prose = (s?: string) => (s ?? "").split("\n").map((l) => l.trim().replace(/ {2,}/g, " ")).join("\n").trim();
+const prose = (s?: string) => (s ?? "")
+  .replace(/\bon-chain\b/gi, (word) => word.replace("-", ""))
+  .split("\n").map((l) => l.trim().replace(/ {2,}/g, " ")).join("\n").trim();
 /** Same, flattened for a table cell (pipes would break the row). */
 const cell = (s?: string) => prose(s).replace(/\s+/g, " ").replace(/\|/g, "\\|");
 /** First sentence, for index blurbs. */

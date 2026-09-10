@@ -10,7 +10,7 @@ This is the smallest, most fundamental layer, what a DAO *is* and how it decides
 - [The permission system](./permissions.md) — the `(where, who, permissionId)` model that gates every privileged action. **The keystone concept.**
 - [Actions and execution](./execution.md) — how a DAO acts on the world: the `Action` batch, `execute`, and partial-failure handling.
 - [DAO signature validation (EIP-1271)](./signature-validation.md) — how a DAO "signs", by delegating to its permissions.
-- [DAO metadata](./dao-metadata.md) — the name/description/avatar/links JSON and the EIP-4824 `daoURI`, and why the app-facing blob isn't stored on-chain.
+- [DAO metadata](./dao-metadata.md) — the name/description/avatar/links JSON and the EIP-4824 `daoURI`, and why the app-facing blob isn't stored onchain.
 
 ## The other two layers
 

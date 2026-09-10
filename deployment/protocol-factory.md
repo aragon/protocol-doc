@@ -45,7 +45,7 @@ So a real bring-up is multi-contract *and* multi-transaction. The frozen record 
 
 As it builds, the factory holds a temporary `ROOT` + `EXECUTE` handle on the Management DAO, wires every permission across the registries, registrars, repos, and the DAO's own multisig install, and then **revokes both as the final step**. When the deployment concludes the factory has no power over anything it created; the Management DAO's multisig is the sole authority. The deployed bytecode is verified against OSx's audited source, so the running protocol provably matches reviewed code.
 
-This temporary-power-then-revoke discipline (and the deploy-once, atomic, on-chain-and-verifiable shape) isn't unique to this factory, it's the general Aragon factory pattern; the [DAO Launchpad](./dao-launchpad.md)'s one-shot factory applies the same at the scale of a single DAO.
+This temporary-power-then-revoke discipline (and the deploy-once, atomic, onchain-and-verifiable shape) isn't unique to this factory, it's the general Aragon factory pattern; the [DAO Launchpad](./dao-launchpad.md)'s one-shot factory applies the same at the scale of a single DAO.
 
 **Version parity across chains.** When a core plugin's canonical version is a build > 1, the factory publishes placeholder versions for the earlier builds before the real one, so a plugin's `(release, build)` means the *same* thing on every chain.
 

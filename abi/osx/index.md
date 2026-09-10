@@ -20,7 +20,7 @@ Generated from [`osx`](https://github.com/aragon/core) at commit [`f7c7508f`](ht
 - [`MetadataExtension`](./MetadataExtension.md) — An abstract, non upgradeable contract for managing and retrieving metadata associated with a plugin.
 - [`MetadataExtensionUpgradeable`](./MetadataExtensionUpgradeable.md) — An abstract, upgradeable contract for managing and retrieving metadata associated with a plugin.
 - [`PermissionCondition`](./PermissionCondition.md) — An abstract contract for non-upgradeable contracts instantiated via the `new` keyword to inherit from to support customary permissions depending on arbitrary…
-- [`PermissionConditionUpgradeable`](./PermissionConditionUpgradeable.md) — An abstract contract for upgradeable or cloneable contracts to inherit from and to support customary permissions depending on arbitrary on-chain state.
+- [`PermissionConditionUpgradeable`](./PermissionConditionUpgradeable.md) — An abstract contract for upgradeable or cloneable contracts to inherit from and to support customary permissions depending on arbitrary onchain state.
 - [`PermissionManager`](./PermissionManager.md) — The abstract permission manager used in a DAO, its associated plugins, and other framework-related components.
 - [`PlaceholderSetup`](./PlaceholderSetup.md) — A placeholder setup contract for outdated plugin builds.
 - [`Plugin`](./Plugin.md) — An abstract, non-upgradeable contract to inherit from when creating a plugin being deployed via the `new` keyword.

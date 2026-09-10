@@ -10,13 +10,13 @@ source: multisig-plugin/packages/contracts/src/build-metadata.json, multisig-plu
 A plugin carries metadata at two levels, for two different audiences, by two different mechanisms:
 
 - **Version metadata** (off-chain JSON) describes a *published version* in a [PluginRepo](./plugin-repo.md): what the plugin is, and, crucially, *how to install it*. Consumed by UIs and install scripts.
-- **Instance metadata** (on-chain, via `MetadataExtension`) is a *specific installed plugin's* own metadata. Consumed by whoever reads that instance.
+- **Instance metadata** (onchain, via `MetadataExtension`) is a *specific installed plugin's* own metadata. Consumed by whoever reads that instance.
 
 Keeping them straight matters because they live in different places and only one is a JSON file you author.
 
 ## Version metadata: the JSON a repo version points to
 
-When a version is published with [`createVersion`](./plugin-repo.md), the on-chain repo stores a **pointer** to two JSON files, an `ipfs://<CID>` URI each, **not** the JSON itself; the documents live off-chain (IPFS) and only their content-addressed URI is on-chain.
+When a version is published with [`createVersion`](./plugin-repo.md), the onchain repo stores a **pointer** to two JSON files, an `ipfs://<CID>` URI each, **not** the JSON itself; the documents live off-chain (IPFS) and only their content-addressed URI is onchain.
 
 **`release-metadata.json`** — per *release*, human/UI facing:
 
@@ -49,13 +49,13 @@ When a version is published with [`createVersion`](./plugin-repo.md), the on-cha
 ```
 
 - `change` — this build's changelog.
-- `pluginSetup.prepareInstallation.inputs` — the ABI schema, **with a `description` per field**, of exactly the `_data` the setup's [`prepareInstallation`](./plugin-setup.md) decodes. This is the **contract between an off-chain encoder and the setup**: the install `_data` is ABI-encoded and *not* self-describing on-chain, so this schema is how a UI or script knows what to encode (and how a reviewer reads what an install will configure). `prepareUpdate` inputs are keyed by the *source build* you're updating from; `prepareUninstallation` likewise.
+- `pluginSetup.prepareInstallation.inputs` — the ABI schema, **with a `description` per field**, of exactly the `_data` the setup's [`prepareInstallation`](./plugin-setup.md) decodes. This is the **contract between an off-chain encoder and the setup**: the install `_data` is ABI-encoded and *not* self-describing onchain, so this schema is how a UI or script knows what to encode (and how a reviewer reads what an install will configure). `prepareUpdate` inputs are keyed by the *source build* you're updating from; `prepareUninstallation` likewise.
 
-This is why the [plugin setup](./plugin-setup.md) page says "decode `_data` yourself, its shape is documented in build metadata, not enforced on-chain." **Build metadata is that documentation.** If it drifts from what your setup actually decodes, tools build a wrong payload and the install misconfigures silently, so treat the schema as part of the contract, not a description written after the fact.
+This is why the [plugin setup](./plugin-setup.md) page says "decode `_data` yourself, its shape is documented in build metadata, not enforced onchain." **Build metadata is that documentation.** If it drifts from what your setup actually decodes, tools build a wrong payload and the install misconfigures silently, so treat the schema as part of the contract, not a description written after the fact.
 
 ## Instance metadata: `MetadataExtension`
 
-Separate from the version JSON, each *deployed* plugin carries its **own** metadata for the UI to show, describing *this installation* (this particular multisig's name/notes), not the plugin line. A plugin gets it by mixing in `MetadataExtension`: `setMetadata(bytes)` (gated by `SET_METADATA_PERMISSION_ID`), `getMetadata()`, and a `MetadataSet` event. Unlike the [DAO's metadata](../core/dao-metadata.md) (event-only), `MetadataExtension` **stores** the bytes, so `getMetadata()` returns the current value on-chain.
+Separate from the version JSON, each *deployed* plugin carries its **own** metadata for the UI to show, describing *this installation* (this particular multisig's name/notes), not the plugin line. A plugin gets it by mixing in `MetadataExtension`: `setMetadata(bytes)` (gated by `SET_METADATA_PERMISSION_ID`), `getMetadata()`, and a `MetadataSet` event. Unlike the [DAO's metadata](../core/dao-metadata.md) (event-only), `MetadataExtension` **stores** the bytes, so `getMetadata()` returns the current value onchain.
 
 **Where it comes from:** it's the plugin's **`metadata` install parameter**, the `bytes` field you'll see as the last input in the `build-metadata` above (`"The metadata that contains the information about the plugin"`). The setup passes it into the plugin's `initialize`, which stores it via `_setMetadata(...)` (the [Multisig](../plugins/multisig-plugin.md) plugin does exactly this). Like every metadata value in OSx it's an **`ipfs://<CID>` pointer**, not inline, resolving to freeform, UI-facing JSON. There's **no enforced schema** (it's whatever your UI reads); conventionally something like:
 
