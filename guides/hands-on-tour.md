@@ -6,7 +6,7 @@ source: osx/src/framework/dao/DAOFactory.sol, osx/src/core/dao/DAO.sol
 
 # A hands-on tour of OSx
 
-The fastest way to *feel* how OSx works: in one Foundry test you'll deploy a real [DAO](../core/dao.md), fund it, make it perform an on-chain action, and then watch the [permission system](../core/permissions.md) reject the same action from the wrong caller.
+The fastest way to *feel* how OSx works: in one Foundry test you'll deploy a real [DAO](../core/dao.md), fund it, make it perform an onchain action, and then watch the [permission system](../core/permissions.md) reject the same action from the wrong caller.
 
 By the end you'll have seen the three things a DAO *is*, a treasury, an [executor](../core/execution.md), and its own permission database, in motion, and you'll know exactly what the later guides build on.
 

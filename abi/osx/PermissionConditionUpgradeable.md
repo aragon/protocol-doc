@@ -3,7 +3,7 @@ type: reference
 title: PermissionConditionUpgradeable
 kind: abstract contract
 source: osx/src/common/permission/condition/PermissionConditionUpgradeable.sol
-summary: "An abstract contract for upgradeable or cloneable contracts to inherit from and to support customary permissions depending on arbitrary on-chain state."
+summary: "An abstract contract for upgradeable or cloneable contracts to inherit from and to support customary permissions depending on arbitrary onchain state."
 ---
 
 # PermissionConditionUpgradeable
@@ -16,7 +16,7 @@ summary: "An abstract contract for upgradeable or cloneable contracts to inherit
 
 **Inherits:** `ERC165Upgradeable`, [`IPermissionCondition`](./IPermissionCondition.md), [`ProtocolVersion`](./ProtocolVersion.md)
 
-An abstract contract for upgradeable or cloneable contracts to inherit from and to support customary permissions depending on arbitrary on-chain state.
+An abstract contract for upgradeable or cloneable contracts to inherit from and to support customary permissions depending on arbitrary onchain state.
 
 **security-contact:** sirt@aragon.org
 

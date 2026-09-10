@@ -107,7 +107,7 @@ After it applies, the plugin's applied-setup id is cleared, so the same plugin *
 ## What you just saw
 
 - Update is prepare → apply like install, but **release-locked**: same release, strictly higher build (`InvalidUpdateVersion` otherwise). Its apply does the UUPS upgrade, which needs the PSP to hold `UPGRADE_PLUGIN_PERMISSION` on the plugin, **`ROOT` alone doesn't authorize the upgrade**.
-- A **metadata-only** update changes nothing on-chain, so it skips the ROOT window and needs only `APPLY_UPDATE`.
+- A **metadata-only** update changes nothing onchain, so it skips the ROOT window and needs only `APPLY_UPDATE`.
 - **Uninstall** is the same window with the setup's *revoke* list; a cross-release migration is uninstall + reinstall (a **fresh instance** with a new address, not the old one upgraded).
 
 ## Next

@@ -22,11 +22,11 @@ If you know the [Token Voting Plugin](./token-voting-plugin.md), the contrast is
 
 ## Approving, not voting
 
-The deepest difference from [token voting](./majority-voting.md) is what a participant can *express*. A token vote carries three distinct signals: `Yes`, `No` (active opposition), and `Abstain` (present, but taking no side). Multisig collapses all of that to a single bit, **you have approved, or you have not.** There is no on-chain "no" and no "abstain".
+The deepest difference from [token voting](./majority-voting.md) is what a participant can *express*. A token vote carries three distinct signals: `Yes`, `No` (active opposition), and `Abstain` (present, but taking no side). Multisig collapses all of that to a single bit, **you have approved, or you have not.** There is no onchain "no" and no "abstain".
 
 That's a real semantic trade, not just a simpler UI:
 
-- **Non-approval is ambiguous.** A member who hasn't approved might oppose the proposal, might not have seen it yet, or might simply be away, the contract cannot tell these apart. Only *consent* is recorded on-chain; dissent, indecision, and absence all look identical.
+- **Non-approval is ambiguous.** A member who hasn't approved might oppose the proposal, might not have seen it yet, or might simply be away, the contract cannot tell these apart. Only *consent* is recorded onchain; dissent, indecision, and absence all look identical.
 - **Opposition is passive.** You don't defeat a proposal by voting against it; you defeat it by withholding approval until it [expires](#the-proposal-lifecycle). There is no countervailing vote to cast and no quorum-of-turnout to measure.
 - **The threshold is absolute, not relative.** Passing needs `minApprovals` yes-signals, full stop, there's no ratio of yes-to-no (there are no no's) and no participation floor. This is why the whole model reduces to one counter.
 
@@ -34,11 +34,11 @@ Crucially, the member list doesn't *dictate* this rule, the two are orthogonal. 
 
 Under the hood it's a [`PluginUUPSUpgradeable`](../framework/plugin-types.md) plugin reusing the shared [proposal](../common/proposal.md) lifecycle and [Addresslist membership](../common/membership.md). The one page of real depth, member management and the two-speed eligibility model, is [Membership & eligibility](./multisig-plugin/membership.md).
 
-## Why on-chain approvals
+## Why onchain approvals
 
-A traditional multisig (Safe and its kin) collects **off-chain signatures** and submits them together once the threshold is met; a relayer or UI aggregates them. This plugin works the other way round: **each approval is its own on-chain transaction.** That's a deliberate design choice with real consequences:
+A traditional multisig (Safe and its kin) collects **off-chain signatures** and submits them together once the threshold is met; a relayer or UI aggregates them. This plugin works the other way round: **each approval is its own onchain transaction.** That's a deliberate design choice with real consequences:
 
-- **The approval trail *is* on-chain history.** Every approval is a public transaction and an `Approved` event, not a bundle assembled somewhere off-chain, so who approved what, and when, is transparent and indexable by default.
+- **The approval trail *is* onchain history.** Every approval is a public transaction and an `Approved` event, not a bundle assembled somewhere off-chain, so who approved what, and when, is transparent and indexable by default.
 - **No signing infrastructure to run or trust.** There's no signature-relaying service; members act on the DAO directly.
 - **It composes with the rest of OSx.** Approvals and execution flow through the same [permission system](../core/permissions.md) and [conditions](../common/permission-conditions.md) as every other plugin, so the multisig isn't a separate signing scheme bolted on, it's a first-class DAO governor (it can hold [`EXECUTE_PERMISSION_ID`](../core/execution.md), be gated by conditions, and so on).
 

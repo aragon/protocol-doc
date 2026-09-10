@@ -9,7 +9,7 @@ source: admin-plugin/packages/contracts/src/Admin.sol, admin-plugin/packages/con
 
 The Admin Plugin gives **one address** the power to make the DAO execute any actions **immediately, with no vote and no waiting**: no proposals to gather support, no members to count, no window, just "the admin says do this, and the DAO does it, now." That makes it the **exception** to how a DAO is meant to run, a tool for *getting one off the ground*, not for governing it.
 
-Use it when a DAO is, deliberately, under a single trusted controller: a solo founder, a migration script, or a [Multisig](./multisig-plugin.md)/Safe acting as that one address. The common case is **bootstrapping**, run a DAO under Admin while it's being set up, then install real governance and remove Admin (which the admin can do itself, see [migrating away](#migrating-away)). If you only need the DAO to *come up* correctly configured, prefer the [DAO Launchpad](../deployment/dao-launchpad.md)'s one-shot factory, which stands the whole thing up atomically and leaves a verifiable on-chain record; reach for Admin when you genuinely want to *operate* under a single controller for a while, not just to deploy.
+Use it when a DAO is, deliberately, under a single trusted controller: a solo founder, a migration script, or a [Multisig](./multisig-plugin.md)/Safe acting as that one address. The common case is **bootstrapping**, run a DAO under Admin while it's being set up, then install real governance and remove Admin (which the admin can do itself, see [migrating away](#migrating-away)). If you only need the DAO to *come up* correctly configured, prefer the [DAO Launchpad](../deployment/dao-launchpad.md)'s one-shot factory, which stands the whole thing up atomically and leaves a verifiable onchain record; reach for Admin when you genuinely want to *operate* under a single controller for a while, not just to deploy.
 
 ## Why a plugin, not just a permission?
 
@@ -63,7 +63,7 @@ No conditions, no helper contracts, every grant is a direct 1:1 relationship (co
 
 Because the admin can make the DAO execute *any* action, and a DAO holds [`ROOT`](../core/permissions.md) over itself, the admin can hand power over without any special function: submit an action batch that installs a real governance plugin (grant it its permissions) and then removes Admin. That's a typical end state for a bootstrapped DAO: Admin gets you running, then steps aside.
 
-> **Uninstalling Admin leaves one dangling grant.** `prepareUninstallation` revokes the two DAO-side grants (`EXECUTE_PERMISSION_ID` and `SET_TARGET_CONFIG_PERMISSION_ID`) but **not** the admin's `EXECUTE_PROPOSAL_PERMISSION_ID` (the setup can't reliably enumerate every address it was granted to). It's inert, without `EXECUTE_PERMISSION_ID` the orphaned plugin can no longer reach the DAO, but it's leftover on-chain state worth knowing about when auditing permissions after an Admin removal.
+> **Uninstalling Admin leaves one dangling grant.** `prepareUninstallation` revokes the two DAO-side grants (`EXECUTE_PERMISSION_ID` and `SET_TARGET_CONFIG_PERMISSION_ID`) but **not** the admin's `EXECUTE_PROPOSAL_PERMISSION_ID` (the setup can't reliably enumerate every address it was granted to). It's inert, without `EXECUTE_PERMISSION_ID` the orphaned plugin can no longer reach the DAO, but it's leftover onchain state worth knowing about when auditing permissions after an Admin removal.
 
 ## Keep in mind
 

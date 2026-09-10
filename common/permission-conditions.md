@@ -7,7 +7,7 @@ source: osx/src/common/permission/condition/IPermissionCondition.sol, osx/src/co
 
 # Permission conditions
 
-A plain grant is a static yes. A **condition** turns a permission into a *dynamic* yes: the [permission system](../core/permissions.md) consults an on-chain contract at call time to decide whether to allow the action, and that contract can look at the caller, the target, the permission, and the exact call arguments.
+A plain grant is a static yes. A **condition** turns a permission into a *dynamic* yes: the [permission system](../core/permissions.md) consults an onchain contract at call time to decide whether to allow the action, and that contract can look at the caller, the target, the permission, and the exact call arguments.
 
 Use a condition whenever "who may do this" isn't a fixed address list: spending caps, time windows, per-argument restrictions ("may call this function but only with argument X"), allow-listed targets, or [signature validation](../core/signature-validation.md).
 

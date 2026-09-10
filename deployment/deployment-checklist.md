@@ -9,7 +9,7 @@ source: protocol-factory/README.md
 
 A production deployment, standing up [the protocol](./protocol-factory.md) on a chain, or running any high-stakes [launch](./dao-launchpad.md), is done as a deliberate **ceremony**, not an ad-hoc `just deploy`. The fullest, canonical version of the checklist lives in the [Protocol Factory](./protocol-factory.md)'s README; other repos adapt it with their own specifics. The steps look like bureaucracy, but each one buys a concrete **guarantee**, and that's the point: a deployment is effectively irreversible, so "did we do this right?" has to become a set of things that are *verified*, not hoped.
 
-The on-chain half of this, the factory that deploys everything atomically and then [freezes into a read-only record](./protocol-factory.md#deploy-once-then-read-only-forever), is what makes these guarantees checkable after the fact. The checklist is the off-chain half that makes sure the right thing goes in.
+The onchain half of this, the factory that deploys everything atomically and then [freezes into a read-only record](./protocol-factory.md#deploy-once-then-read-only-forever), is what makes these guarantees checkable after the fact. The checklist is the off-chain half that makes sure the right thing goes in.
 
 ## The ceremony, step by step
 
@@ -36,7 +36,7 @@ A recommended run, in order, using the [just-foundry](../tooling/just-foundry.md
 **Verify & attest**
 - [ ] Contracts are verified on the target network's block explorer.
 - [ ] The `logs/deployment-<network>-<date>.log`, the console output, and the `artifacts/addresses-<network>-<timestamp>.json` manifest **all agree**; every member confirms the addresses.
-- [ ] Diff the verified on-chain sources against the **exact commit you deployed** (and the audit it corresponds to) with [EVM Mirror](../tooling/evm-mirror.md).
+- [ ] Diff the verified onchain sources against the **exact commit you deployed** (and the audit it corresponds to) with [EVM Mirror](../tooling/evm-mirror.md).
 
 **Close out**
 - [ ] `just refund`, return leftover deployer funds to the address that funded the wallet.
@@ -57,6 +57,6 @@ A recommended run, in order, using the [just-foundry](../tooling/just-foundry.md
 
 ## See also
 
-- [Protocol Factory](./protocol-factory.md) — what a protocol deployment stands up, and the immutable on-chain record the ceremony produces.
+- [Protocol Factory](./protocol-factory.md) — what a protocol deployment stands up, and the immutable onchain record the ceremony produces.
 - [DAO Launchpad](./dao-launchpad.md) — DAO-scale launches that follow the same discipline.
 - [Deployment overview](./index.md).

@@ -7,7 +7,7 @@ source: osx/src/framework/dao/DAORegistry.sol, osx/src/framework/plugin/repo/Plu
 
 # Registries and ENS names
 
-For the ecosystem to enumerate and trust DAOs and plugins, there has to be a canonical on-chain list of each. Two registries provide exactly that, and give every entry a human-readable ENS name:
+For the ecosystem to enumerate and trust DAOs and plugins, there has to be a canonical onchain list of each. Two registries provide exactly that, and give every entry a human-readable ENS name:
 
 - **[DAO Registry](./dao-registry.md)** (`DAORegistry`) — the canonical list of every DAO the framework creates. The [DAOFactory](./dao-factory.md) registers each one (optionally as `<name>.dao.eth`); it's the "is this a genuine framework DAO?" index.
 - **[PluginRepo Registry](./plugin-repo-registry.md)** (`PluginRepoRegistry`) — the canonical list of every published [plugin repo](./plugin-repo.md). The [PSP](./plugin-setup-processor.md) will only install from a repo registered here, so **registration is the trust boundary.**

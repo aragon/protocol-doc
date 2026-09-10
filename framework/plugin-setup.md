@@ -44,7 +44,7 @@ struct SetupPayload {
 }
 ```
 
-- **`prepareInstallation`** deploys the plugin (via `new`, clone, or UUPS proxy, matching the [plugin type](./plugin-types.md)) and returns the [permissions](../core/permissions.md#batch-changes-permissionlib) the DAO must grant. `_data` is your plugin's install parameters, ABI-encoded; its shape is documented in the version's [build metadata](./plugin-metadata.md) (not enforced on-chain), so decode it yourself.
+- **`prepareInstallation`** deploys the plugin (via `new`, clone, or UUPS proxy, matching the [plugin type](./plugin-types.md)) and returns the [permissions](../core/permissions.md#batch-changes-permissionlib) the DAO must grant. `_data` is your plugin's install parameters, ABI-encoded; its shape is documented in the version's [build metadata](./plugin-metadata.md) (not enforced onchain), so decode it yourself.
 - **`prepareUninstallation`** returns the permissions to *revoke*.
 - **`prepareUpdate`** (upgradeable plugins only) returns the `initData` the PSP will use when upgrading the proxy, e.g. a call to a re-initializer that migrates from `_fromBuild`.
 
@@ -89,7 +89,7 @@ Fresh installs run `initialize`; in-place updates run a re-initializer (`initial
 
 ## Keep in mind
 
-- **Decode `_data` yourself, correctly.** The install parameters' shape is documented in the version's build metadata, not enforced on-chain. Decode exactly what your plugin expects; a mismatch silently misconfigures the install. The pattern to copy: expose public `encodeInstallationParams` / `decodeInstallationParams` helpers on your setup (as the [Token Voting Plugin](../plugins/token-voting-plugin.md) setup does) so off-chain callers and the setup agree on the encoding in one place.
+- **Decode `_data` yourself, correctly.** The install parameters' shape is documented in the version's build metadata, not enforced onchain. Decode exactly what your plugin expects; a mismatch silently misconfigures the install. The pattern to copy: expose public `encodeInstallationParams` / `decodeInstallationParams` helpers on your setup (as the [Token Voting Plugin](../plugins/token-voting-plugin.md) setup does) so off-chain callers and the setup agree on the encoding in one place.
 - **Helper order is significant.** Return helpers in a stable order and supply `currentHelpers` in that same order on update/uninstall, the [PSP hashes them as an ordered array](./plugin-setup-processor.md#setup-ids-what-keeps-apply-honest).
 
 ## See also
