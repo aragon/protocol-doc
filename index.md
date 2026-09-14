@@ -40,6 +40,8 @@ Browse by area:
 - **[Deployment](./deployment/index.md)** — deploying the protocol and DAOs: the protocol factory and the DAO launchpad.
 - **[Tooling](./tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template and the `just`/Foundry task runner.
 
+**Coming from another system?** [OSx compared](./osx-compared.md) puts the permission model side by side with OpenZeppelin, Safe + Zodiac and Hats: where each keeps its authorization state, what that buys, what it costs, and how to express each one's patterns in OSx.
+
 **Looking up an exact signature?** The [ABI reference](./abi/index.md) is the generated lookup layer: every public function, event, error, enum and constant of every contract, with its NatSpec, straight from the source. Read the area pages to understand a thing; go there to check its precise surface.
 
 **The code:** every component's GitHub repository is listed in [Source repositories](./repositories.md).
