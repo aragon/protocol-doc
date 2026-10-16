@@ -7,7 +7,7 @@ source: osx/src/framework/plugin/setup/PluginSetupProcessor.sol, osx/src/framewo
 
 # The PluginSetupProcessor (PSP)
 
-The PSP is the engine that installs, updates, and uninstalls plugins on a DAO. It is the **only** contract that changes a DAO's permissions on behalf of a [plugin setup](./plugin-setup.md), which makes it the most security-critical piece of the framework: to do its job it must be *temporarily* granted `ROOT_PERMISSION_ID` on the DAO. Understanding the PSP is understanding how OSx keeps that power safe.
+The PSP installs, updates, and uninstalls plugins on a DAO. It is the **only** contract that changes a DAO's permissions on behalf of a [plugin setup](./plugin-setup.md). To do that, it must be *temporarily* granted `ROOT_PERMISSION_ID` on the DAO. Controlling how the PSP receives and uses that permission is critical to the framework's security.
 
 ## Why prepare and apply are separate
 
@@ -18,7 +18,7 @@ Every lifecycle operation is **two steps**:
 
 Why split them? Because the party who *computes* an installation (permissionless, could be anyone, could be malicious) must not be the party who *authorizes* it. Splitting lets a DAO's governance review the **exact** permission set a preparation would apply, and approve it through a proposal, before any state changes. The preparer can grant themselves nothing; only a DAO-authorized `apply` mutates anything. A [hashing scheme](#setup-ids-what-keeps-apply-honest) binds what gets applied to what was prepared, so nothing can be swapped in between.
 
-This is the core safety property: preparation is **permissionless**, application is **governed**.
+This is the core safety property: preparation is **permissionless**, and application is **governed**.
 
 ## The apply permissions
 
@@ -42,27 +42,31 @@ revoke PSP ROOT on DAO
 
 ### Installing onto a live DAO
 
-Creating a DAO isn't the only time you install a plugin, more often you add one to a DAO that's already running. The mechanism is the same grant→apply→revoke, but there's no factory to orchestrate it, so **governance does.** The install becomes a [proposal](../common/proposal.md) whose [actions](../core/execution.md) are exactly:
+Creating a DAO isn't the only time you install a plugin. More often, you add one to a DAO that's already running. The mechanism is the same grant→apply→revoke, but there's no factory to coordinate it, so **governance does.** The install becomes a [proposal](../common/proposal.md) whose [actions](../core/execution.md) are exactly:
 
 1. grant the PSP `ROOT` on the DAO,
 2. call `PSP.applyInstallation(...)` (against a preparation someone already made permissionlessly),
 3. revoke the PSP's `ROOT`.
 
-When that proposal passes and the DAO [executes](../core/execution.md) it, the plugin is installed, its permissions wired, and the temporary ROOT gone, all in the one transaction the DAO's own governance authorized. The mental model for every "add a plugin" integration is **a proposal that wraps the ROOT window around an apply.** Updates and uninstalls work the same way, with the matching `APPLY_*` permission and `apply…` call.
+When that proposal passes and the DAO [executes](../core/execution.md) it, the plugin is installed, its permission changes applied, and the temporary ROOT revoked, all in the one transaction the DAO's own governance authorized. For every "add a plugin" integration, **the proposal grants ROOT before the apply and revokes it afterward.** Updates and uninstalls work the same way, with the matching `APPLY_*` permission and `apply…` call.
 
 ## Setup IDs: what keeps apply honest
 
-The PSP tracks per-plugin state keyed by `pluginInstallationId = keccak256(dao, plugin)`. Two hashes do the load-bearing work:
+The PSP tracks per-plugin state keyed by `pluginInstallationId = keccak256(dao, plugin)`. It uses two hashes:
 
 - **prepared setup id** — fingerprints a *preparation*: the version, the exact permissions, the helpers, the extra data, **and** the operation type (`Installation` / `Update` / `Uninstallation`). Mixing the type in means an install preparation can't be replayed as an update. At `apply`, the PSP recomputes this from the arguments you pass and requires a match, so you must apply *exactly* what was prepared.
 - **applied setup id** — fingerprints the *live state*: version + helpers (no permissions). It's what `prepareUpdate`/`prepareUninstallation` recompute from the payload you supply, which is how the PSP verifies you actually know the plugin's true current version and helper set (`InvalidAppliedSetupId` otherwise).
 
-> **The block-number invariant.** A preparation is applicable only if it was prepared *after* the last applied action for that plugin. Every `apply…` stamps the plugin's state with the current block, which **invalidates all other pending preparations** for that plugin. So if two competing installations are prepared, applying one automatically makes the other un-appliable (`SetupNotApplicable`). This prevents stale or racing preparations from landing after the fact.
+> **The block-number invariant.** A preparation is applicable only if it was prepared *after* the last applied action for that plugin. Every `apply…` records the current block in the plugin's state, which **invalidates all other pending preparations** for that plugin. So if two competing installations are prepared, applying one automatically prevents the other from being applied (`SetupNotApplicable`). This prevents stale or competing preparations from being applied later.
 
 ## The three lifecycles
 
 - **Install** — `prepareInstallation` deploys + records; `applyInstallation` grants the permissions. Fails if the plugin is already installed.
-- **Update** (UUPS plugins only) — `prepareUpdate` is **release-locked**: the release number must stay the same and the build must strictly increase (`InvalidUpdateVersion` otherwise). `applyUpdate` performs the actual UUPS proxy upgrade (using the `initData` from prepare) and applies any permission diff. There's a **metadata-only update** fast path (often called "UI-only" because only the off-chain [metadata](./plugin-metadata.md), display text, docs, the params schema, changed while the on-chain setup/implementation is identical): the proxy isn't upgraded and nothing is redeployed, the version pointer just moves. Because it changes no permissions, `applyUpdate` skips the DAO's `applyMultiTargetPermissions` call entirely (and skips the proxy upgrade, since the implementation is unchanged), so a metadata-only update needs only `APPLY_UPDATE_PERMISSION_ID` on the PSP, **not** the [temporary-ROOT window](#the-temporary-root-window) a real update requires. It is the one lifecycle step that touches neither permissions nor code, which makes it cheap to authorize.
+- **Update** (UUPS plugins only) — `prepareUpdate` is **release-locked**: the release number must stay the same and the build must strictly increase (`InvalidUpdateVersion` otherwise). `applyUpdate` performs the actual UUPS proxy upgrade (using the `initData` from prepare) and applies any permission diff.
+
+  There's a **metadata-only update** fast path, often called "UI-only": only the off-chain [metadata](./plugin-metadata.md), such as display text, docs, or the params schema, has changed. The onchain setup/implementation is identical. The proxy isn't upgraded and nothing is redeployed; only the version pointer changes.
+
+  Because it changes no permissions, `applyUpdate` skips the DAO's `applyMultiTargetPermissions` call entirely. It also skips the proxy upgrade, since the implementation is unchanged. A metadata-only update therefore needs only `APPLY_UPDATE_PERMISSION_ID` on the PSP, **not** the [temporary-ROOT window](#the-temporary-root-window) an update that changes permissions or code requires. It is the one lifecycle step that touches neither permissions nor code, which makes it cheap to authorize.
 - **Uninstall** — `prepareUninstallation` returns the permissions to revoke; `applyUninstallation` revokes them and clears the plugin's applied-setup id (so it could later be reinstalled).
 
 Because updates can't cross releases, **migrating across a release is an uninstall + reinstall**, by design: a new release signals an incompatible change (see [PluginRepo](./plugin-repo.md#release-vs-build)).
@@ -77,5 +81,5 @@ Because updates can't cross releases, **migrating across a release is an uninsta
 
 - [Plugin setup](./plugin-setup.md) — the setups the PSP runs.
 - [The permission system](../core/permissions.md) — `applyMultiTargetPermissions` and ROOT.
-- [DAOFactory](./dao-factory.md) — the reference implementation of the temporary-ROOT dance.
+- [DAOFactory](./dao-factory.md) — the reference implementation of the temporary-ROOT sequence.
 - [PluginRepo](./plugin-repo.md) — where the PSP looks up which setup to run.
