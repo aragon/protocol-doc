@@ -7,15 +7,15 @@ source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol, staged
 
 # Staged Proposal Processor (SPP)
 
-The Staged Proposal Processor is **meta-governance**: it decides nothing on its own. Instead it orchestrates *other* governance plugins into a multi-step pipeline. A proposal walks an ordered list of **stages**; at each stage a committee of already-existing plugins (or plain addresses) weighs in, and SPP just tallies whether enough of them said yes (or too many said no) within a time window before letting the proposal move to the next stage, and finally executing it.
+The Staged Proposal Processor is **meta-governance**: it decides nothing on its own. It coordinates *other* governance plugins across an ordered list of **stages**. At each stage a committee of existing plugins (or plain addresses) weighs in. SPP tallies whether enough of them said yes (or too many said no) within a time window before letting the proposal move to the next stage, and finally executing it.
 
-**A proposal is a token that walks through an ordered list of stages; at each stage, a committee of existing plugins votes on whether to let it through.**
+**At each stage, a committee of existing plugins votes on whether the proposal may advance.**
 
 ## Why it exists
 
 Real organizations rarely govern with a single rule. They want things like *"a security council multisig pre-approves, then token holders vote, then execution happens automatically."* Rather than build a new monolithic voting contract for every such flow, SPP lets you **compose the plugins you already have**, e.g. [Multisig](./multisig-plugin.md) → [Token Voting](./token-voting-plugin.md) → [Admin](./admin-plugin.md), into exactly that pipeline, writing no new governance logic. SPP is the glue; each stage delegates the real decision to a **body**.
 
-Because a body is just an address, SPP spans the full spectrum from fully automated on-chain plugins to *"a human signs a Safe transaction."* That automatic-vs-manual split is the plugin's central design fork, see [composing bodies](./spp-plugin/composing-bodies.md).
+Because a body is an address, SPP supports both fully automated onchain plugins and *"a human signs a Safe transaction."* How a body reports its decision determines whether it is automatic or manual; see [composing bodies](./spp-plugin/composing-bodies.md).
 
 ## The pieces
 
@@ -23,10 +23,10 @@ Because a body is just an address, SPP spans the full spectrum from fully automa
 - A **[body](./spp-plugin/stages-and-bodies.md#bodies)** is a plugin or address that renders a verdict for a stage, either an **approval** or a **veto**.
 - A proposal moves through the stages according to a **[state machine](./spp-plugin/lifecycle.md)**: it becomes *advanceable* once a stage's thresholds are met inside its window, and executes when it clears the last stage.
 
-This folder covers each in turn:
+For configuration and integration details:
 
 - [Stages & bodies](./spp-plugin/stages-and-bodies.md) — the data model: how a stage and its bodies are configured, and the three stage shapes (approval, optimistic, timelock).
-- [Lifecycle & state machine](./spp-plugin/lifecycle.md) — how a proposal advances: the states, how bodies' results are tallied, and executing. **The gotchas live here.**
+- [Lifecycle & state machine](./spp-plugin/lifecycle.md) — how a proposal advances: the states, how bodies' results are tallied, and execution rules.
 - [Composing bodies](./spp-plugin/composing-bodies.md) — the integration contract for making a plugin usable as an SPP body (and which plugins already are).
 
 It's a [`PluginUUPSUpgradeable`](../framework/plugin-types.md) plugin reusing the shared [proposal](../common/proposal.md) lifecycle. Notably, **SPP both implements and consumes [`IProposal`](../common/proposal.md)**, which is what lets an SPP instance itself be a body of another SPP (nested pipelines).
@@ -39,7 +39,7 @@ Creating a proposal is permission-gated (`CREATE_PROPOSAL_PERMISSION_ID`), and m
 - **Composable.** Because it's a rule tree, "who may propose" can defer to other conditions and combine them with boolean logic, restrict creation to the members of an existing plugin, or to any of several. Eligibility is whatever the DAO configures, not a rule fixed inside SPP.
 - **Governed.** Rules change via `updateRules` (gated by `UPDATE_RULES_PERMISSION_ID`, held by the DAO), so who may propose is itself a governance decision.
 
-> There's a guard-rail here: when you compose a rule that defers to another condition, `SPPRuleCondition` test-calls that condition with empty `data` and rejects it if it reverts. SPP can't predict what `data` a nested condition will need for a live `createProposal`, so only **data-independent** conditions compose safely; this check stops a DAO from wiring in a condition that would silently brick proposal creation for everyone.
+> When you compose a rule that defers to another condition, `SPPRuleCondition` test-calls that condition with empty `data` and rejects it if it reverts. SPP can't predict what `data` a nested condition will need for a live `createProposal`, so only **data-independent** conditions compose safely. This check prevents a DAO from configuring a condition that would silently prevent everyone from creating proposals.
 
 ## Installation & permissions
 
@@ -59,12 +59,12 @@ Creating a proposal is permission-gated (`CREATE_PROPOSAL_PERMISSION_ID`), and m
 
 Two things stand out, and both are intentional:
 
-- **Advancing and executing are open to anyone by default.** Once the [state machine](./spp-plugin/lifecycle.md) already says a proposal is advanceable, letting any address push it forward is a permissionless "flush", the real gate is the body results, not who calls. Only proposal *creation* is condition-gated by default. The DAO can restrict who advances or executes by [replacing those public permission grants](/guides/manage-permissions.md).
+- **Advancing and executing are open to anyone by default.** Once the [state machine](./spp-plugin/lifecycle.md) says a proposal is advanceable, any address can move it forward. The body results determine whether it may advance, not who calls. Only proposal *creation* is condition-gated by default. The DAO can restrict who advances or executes by [replacing those public permission grants](/guides/manage-permissions.md).
 - **`cancel` and `edit` are *not* granted to anyone by install.** Their permissions (`CANCEL_PERMISSION_ID` / `EDIT_PERMISSION_ID`) exist and each stage has `cancelable`/`editable` flags, but a DAO must explicitly grant the permissions before cancel/edit can be used at all. Don't assume install wired them.
 
 The **trusted forwarder** (for [ERC-2771 meta-transactions](../core/dao.md)) is deliberately installed as `address(0)`, i.e. off: a forwarder can spoof the caller's identity, so allowing an installer to set one would be exploitable. Only the DAO can enable one later (`SET_TRUSTED_FORWARDER_PERMISSION_ID`), after vetting it.
 
-> SPP defines its *own* `EXECUTE_PROPOSAL_PERMISSION_ID` rather than reusing the DAO's `EXECUTE_PERMISSION_ID`, precisely so it can be granted to `ANY_ADDR`: the core [permission system](../core/permissions.md) refuses to wildcard-grant `EXECUTE_PERMISSION_ID`, and SPP wants permissionless execution once consensus is reached. A neat example of working *with* that safety rule rather than around it.
+> SPP defines its *own* `EXECUTE_PROPOSAL_PERMISSION_ID` rather than reusing the DAO's `EXECUTE_PERMISSION_ID`, so it can be granted to `ANY_ADDR`: the core [permission system](../core/permissions.md) refuses to wildcard-grant `EXECUTE_PERMISSION_ID`. This allows permissionless execution once consensus is reached while respecting that safety rule.
 
 ## Keep in mind
 

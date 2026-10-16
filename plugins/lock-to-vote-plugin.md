@@ -11,10 +11,10 @@ Lock to Vote is token-weighted governance, like the [Token Voting Plugin](./toke
 
 ## Lock vs. snapshot: the core idea
 
-Both plugins solve the same problem, stop someone voting twice with the same tokens, but by opposite means:
+Both plugins prevent someone voting twice with the same tokens, but use different mechanisms:
 
 - **[Token Voting](./token-voting-plugin.md)** defeats double-voting with **time**: it reads your balance at a [past snapshot](./token-voting-plugin/voting-power.md#the-snapshot), so moving tokens afterward changes nothing. Tokens stay liquid.
-- **Lock to Vote** defeats it with **custody**: your tokens sit locked in the LockManager, so you *physically can't* move them to another address to vote again. There is no snapshot anywhere.
+- **Lock to Vote** defeats it with **custody**: your tokens stay locked in the LockManager, so you can't move them to another address to vote again. There is no snapshot anywhere.
 
 That single substitution drives every difference:
 
@@ -24,13 +24,13 @@ That single substitution drives every difference:
 
 ## Why lock at all, and when to reach for it
 
-The deeper motivation is about *when* you're forced to hold your tokens. [Token Voting](./token-voting-plugin.md) only counts tokens you hold **in your own wallet at the proposal's snapshot**, a past moment you can't predict. To stay able to vote on whatever comes up, you'd have to keep tokens sitting **idle in your wallet indefinitely**: the instant you stake, lend, or LP them they're no longer "yours at snapshot time" and your voting power vanishes. You can't foresee which proposal you'll care about, so snapshot voting quietly taxes you into holding idle capital just in case.
+The choice affects *when* you need to hold your tokens. [Token Voting](./token-voting-plugin.md) only counts tokens you hold **in your own wallet at the proposal's snapshot**, a past moment you can't predict. To remain able to vote on any proposal, you'd have to keep tokens **idle in your wallet indefinitely**: once you stake, lend, or LP them, they're no longer "yours at snapshot time" and your voting power is lost. You can't foresee which proposal you'll care about, so remaining ready to vote means keeping that capital available.
 
-Lock to Vote removes that bind. Because power is minted from an explicit lock rather than a passive snapshot, you can keep your tokens **productively deployed elsewhere** (staked, in a vault, earning yield) and lock them **reactively**, only when a proposal you actually care about appears, vote, then unlock and put them back to work. Voting power is summoned on demand instead of demanding perpetual idle custody.
+Lock to Vote lets you lock in response to a proposal. Because power comes from an explicit lock rather than a passive snapshot, you can keep your tokens **productively deployed elsewhere** (staked, in a vault, earning yield), lock them when a proposal you care about appears, vote, then unlock and use them elsewhere again. You can acquire voting power when needed instead of keeping tokens idle continuously.
 
-So it's less "give up capital efficiency" and more a *different bargain*: you don't freeze capital continuously on the off chance you'll want to vote, you freeze specific tokens only while you're actually voting with them.
+The trade-off is committing specific tokens while you vote, rather than keeping capital idle continuously in case you need it.
 
-The plugin is tuned for exactly that shape, **exceptional intervention, not routine governance**: emergency stops or last-line vetoes, where holders lock specifically to weigh in on one proposal, then unlock and go back to earning. The mechanics push toward the same pattern, because thresholds read `totalSupply` live right up to `execute` (see [below](#the-voting-model-and-how-it-differs)) the safe operating rule is *veto quickly, then commit quickly*, and that lines up naturally with reactive one-off engagement. Reach for Lock to Vote when holders' tokens are normally deployed elsewhere and participation is exceptional; for steady day-to-day governance where a stable quorum bar matters, [Token Voting](./token-voting-plugin.md) fits better, and for the wrong use case the real "mitigation" is not using this plugin at all.
+The plugin is designed for **exceptional intervention, not routine governance**: emergency stops or last-line vetoes, where holders lock to weigh in on one proposal, then unlock and return to earning. Its mechanics also favor this pattern. Thresholds read `totalSupply` live right up to `execute` (see [below](#the-voting-model-and-how-it-differs)), so the safe operating rule is *veto quickly, then commit quickly*. Choose Lock to Vote when holders' tokens are normally deployed elsewhere and participation is exceptional. For steady day-to-day governance where a stable quorum threshold matters, [Token Voting](./token-voting-plugin.md) fits better; avoid Lock to Vote when its model doesn't fit the use case.
 
 ## The lifecycle
 
@@ -48,7 +48,7 @@ Lock to Vote uses the same [majority-voting engine](./majority-voting.md) as Tok
 
 > The participation/approval bar is measured against the token's **current** total supply (read live, not frozen at creation), so with a mintable or burnable token the quorum bar can move **while a proposal is open *and* after it closes, right up to the moment someone triggers `execute`**. Both directions bite: a mint after voting ends can push a passing proposal back under quorum, and a burn can push a failing one over. And the denominator is the *whole supply*, not the locked portion, so a `minParticipation` set against 100% of supply can be near-unreachable when only a small fraction of holders ever lock. Size participation/approval thresholds against realistic lock participation, not total supply.
 
-Two rules follow from that, and they are design-intent for this plugin, not "mitigations" bolted onto a broken model: **never treat `minParticipation` failing as "no-quorum, therefore rejected"**, always cast an explicit `No` to reject a malicious proposal, because supply can be reduced to make quorum reachable even after voting ends; and **execute passing proposals as soon as the end date passes**, any delay is a window for supply changes to flip the outcome. Both fit the plugin's incentive shape (holders want their tokens back to redeploy them, beneficiaries of a passed proposal want the decision locked in), which is precisely why it's a fit for exceptional/veto use rather than routine governance where a stable quorum bar is expected.
+Two operating rules follow from this design. **Never treat `minParticipation` failing as "no-quorum, therefore rejected"**: always cast an explicit `No` to reject a malicious proposal, because supply can be reduced to make quorum reachable even after voting ends. **Execute passing proposals as soon as the end date passes**: any delay gives supply changes time to flip the outcome. These rules fit the participants' incentives: holders want their tokens back to redeploy them, and beneficiaries of a passed proposal want the decision finalized. That is why the plugin fits exceptional/veto use rather than routine governance where a stable quorum threshold is expected.
 
 ## Getting your tokens back: two unlock regimes
 
@@ -90,6 +90,6 @@ Note `LOCK_MANAGER_PERMISSION_ID` is granted to a **contract** (the vault), not 
 
 ## See also
 
-- [The LockManager](./lock-to-vote-plugin/lock-manager.md) — the vault, and the all-important unlock rules.
+- [The LockManager](./lock-to-vote-plugin/lock-manager.md) — the vault and its unlock rules.
 - [Token Voting Plugin](./token-voting-plugin.md) — the snapshot-based counterpart; the contrast is the fastest way to understand both.
 - [Majority voting](./majority-voting.md) and [Voting modes](./voting-modes.md) — the shared voting model (mind the two deltas above).

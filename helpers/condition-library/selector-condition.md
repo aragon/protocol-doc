@@ -15,7 +15,7 @@ A single permission often gates several `auth`-protected functions on a contract
 
 ## What it checks
 
-Its [`isGranted`](../../common/permission-conditions.md) is essentially one lookup:
+Its [`isGranted`](../../common/permission-conditions.md) checks one mapping entry:
 
 ```solidity
 return allowedSelectors[getSelector(_data)];
@@ -39,7 +39,7 @@ The allow-list is **global** (a plain `mapping(bytes4 => bool)`, no per-target d
 
 ## Keep in mind
 
-- **Redundant updates revert.** `allowSelector` on an already-allowed selector reverts `AlreadyAllowed` (and the mirror for disallow). This differs from [ExecuteSelectorCondition](./execute-selector-condition.md), whose updates are idempotent, mind it when scripting list changes.
+- **Redundant updates revert.** `allowSelector` on an already-allowed selector reverts `AlreadyAllowed` (and the mirror for disallow). This differs from [ExecuteSelectorCondition](./execute-selector-condition.md), whose updates are idempotent. Account for this when scripting list changes.
 - **A selector is not its arguments.** This allow-lists *which function*, not *with what arguments*; for argument-level rules use a bespoke [condition](../../common/permission-conditions.md) or [RuledCondition](../../common/ruled-condition.md).
 
 ## See also

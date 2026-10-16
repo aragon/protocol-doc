@@ -8,6 +8,6 @@ Protocol **helpers**: contracts that support the core and plugins without being 
 
 ## Where to start
 
-The condition library only makes sense once you understand [permissions and conditions](../common/permission-conditions.md); read that first.
+Start with [permissions and conditions](../common/permission-conditions.md) before reading about the condition library.
 
-_This area is defined by exclusion (helpers are neither core nor plugin), so it risks becoming a grab-bag. If a third unrelated helper lands, split it into its own area rather than accreting here._
+_Helpers are neither core nor plugin, so unrelated contracts can accumulate in this area. If a third unrelated helper is added, give it its own area._

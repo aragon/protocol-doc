@@ -7,7 +7,7 @@ source: token-voting-plugin/src/TokenVoting.sol, token-voting-plugin/src/conditi
 
 # Voting power (Token Voting Plugin)
 
-[Token Voting Plugin](../token-voting-plugin.md) draws every voter's weight from a token, but *how* it reads that weight is the part with real subtlety, and the part a DAO has to get right. This page is the how: the snapshot, delegation, whose supply counts, which clock the token uses, and who is allowed to propose.
+[Token Voting Plugin](../token-voting-plugin.md) draws every voter's weight from a token. Snapshots and delegation determine that weight. The token's clock determines the snapshot timepoint, and excluded accounts affect the total supply used for thresholds. Voting power also determines who is allowed to propose.
 
 The plugin itself holds no balances or vote bookkeeping. It reads power from an `IVotes` token (OpenZeppelin's `ERC20Votes` and equivalents) through three functions: `getVotes` (current power), `getPastVotes` (power at a past point), and `getPastTotalSupply` (total at a past point). Everything below follows from those.
 
@@ -23,9 +23,9 @@ A proposal with zero effective total supply at its snapshot reverts with `NoVoti
 
 ## Delegation
 
-With `IVotes`, **holding tokens grants zero voting power until the balance is delegated** (even to yourself), which trips up most token-voting DAOs. `getVotes` reflects *delegated* power, not raw balance. A holder who never delegates has tokens but no vote.
+With `IVotes`, **holding tokens grants zero voting power until the balance is delegated** (even to yourself). `getVotes` reflects *delegated* power, not raw balance. A holder who never delegates has tokens but no vote.
 
-How each token type handles this differs, and it's the practical reason the token choice matters, see [Governance tokens → delegation](./governance-tokens.md#delegation). In short: a freshly minted `GovernanceERC20` may leave holders undelegated (unless minting auto-delegates), while the wrapped token auto-delegates on receipt.
+How each token type handles this differs, which matters when choosing a token; see [Governance tokens → delegation](./governance-tokens.md#delegation). A freshly minted `GovernanceERC20` may leave holders undelegated (unless minting auto-delegates), while the wrapped token auto-delegates on receipt.
 
 ## Whose supply counts: excluded accounts
 

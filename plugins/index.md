@@ -1,6 +1,6 @@
 # Plugins
 
-The **plugins**: ready-made functionality a DAO installs. They are **governance** plugins, they make decisions (propose → vote → execute). Each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so they share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Read one closely and the rest read faster.
+The **plugins** provide ready-made functionality a DAO installs. These are **governance** plugins: they make decisions (propose → vote → execute). Each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so they share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Understanding those shared parts helps when moving between plugins.
 
 **Exact signatures:** the generated ABI reference, one per plugin repo, has every public function, event, error and constant with its NatSpec: [token voting](../abi/token-voting-plugin/index.md), [multisig](../abi/multisig-plugin/index.md), [admin](../abi/admin-plugin/index.md), [SPP](../abi/staged-proposal-processor-plugin/index.md), [lock to vote](../abi/lock-to-vote-plugin/index.md).
 
@@ -19,7 +19,7 @@ Token-weighted "one token, one vote" governance:
 
 ## Multisig Plugin
 
-Approval by a fixed member set, a proposal passes once `minApprovals` members approve:
+Approval by a fixed member set: a proposal passes once `minApprovals` members approve:
 
 - [Multisig Plugin](./multisig-plugin.md) — the approval model, proposal lifecycle, and permissions. **Start here.**
 - [Membership & eligibility](./multisig-plugin/membership.md) — managing members, the `minApprovals` invariant, and the two-speed eligibility model.
@@ -34,7 +34,7 @@ Direct execution by a single trusted address, no vote, no window, for bootstrapp
 
 Meta-governance: orchestrate other plugins into a multi-stage pipeline (e.g. multisig → token vote → admin):
 
-- [Staged Proposal Processor (SPP)](./spp-plugin.md) — the model, the composition pitch, the rule condition, and setup. **Start here.**
+- [Staged Proposal Processor (SPP)](./spp-plugin.md) — the model, why to compose plugins, the rule condition, and setup. **Start here.**
 - [Stages & bodies](./spp-plugin/stages-and-bodies.md) — the data model, and the approval / optimistic / timelock stage shapes.
 - [Lifecycle & state machine](./spp-plugin/lifecycle.md) — how a proposal advances, the push/pull tally, cancel/edit.
 - [Composing bodies](./spp-plugin/composing-bodies.md) — making a plugin (or an external Safe) usable as a stage body.
@@ -44,7 +44,7 @@ Meta-governance: orchestrate other plugins into a multi-stage pipeline (e.g. mul
 Token-weighted voting where power comes from tokens you *lock* into escrow (custody), not from a balance snapshot:
 
 - [Lock to Vote Plugin](./lock-to-vote-plugin.md) — lock-vs-snapshot, the voting model, and permissions. **Start here.**
-- [The LockManager](./lock-to-vote-plugin/lock-manager.md) — the vault, and the all-important unlock rules.
+- [The LockManager](./lock-to-vote-plugin/lock-manager.md) — the vault and its unlock rules.
 
 ## Where to start
 

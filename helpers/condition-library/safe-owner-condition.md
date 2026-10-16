@@ -33,13 +33,13 @@ return ok && res.length == 32 && abi.decode(res, (bool));
 | Constructor | `(IOwnerManager _safe)` — the Safe to read ownership from; validated at deploy by a shape-check that it answers `isOwner` (else `InvalidSafe`) |
 | Mutable? | No. `safe` is set once, no setter, no admin permission. To target a different Safe, deploy a new condition. |
 
-It intentionally has **no management permission**, there's nothing to configure after deployment; the "list" lives on the Safe.
+It has **no management permission** because there's nothing to configure after deployment; the "list" lives on the Safe.
 
 ## Keep in mind
 
 - **The Safe governs this permission.** Whoever can change the Safe's owners can change who holds the DAO permission, with immediate effect and no DAO vote. That's the feature, but be deliberate: you're delegating that authority to the Safe.
 - **Immutably bound to one Safe.** Re-targeting means a fresh deployment and re-grant.
-- **The shape-check is not an identity proof.** Deploy-time validation only confirms the target answers `isOwner(address)` with 32 bytes; *any* contract with that signature passes. Binding to a non-Safe that merely looks like one isn't caught, point it at a genuine Safe.
+- **The shape-check is not an identity proof.** Deploy-time validation only confirms the target answers `isOwner(address)` with 32 bytes; *any* contract with that signature passes. It won't detect a non-Safe contract that answers this call, so point it at a genuine Safe.
 
 ## See also
 
