@@ -15,6 +15,7 @@ Guides are written in the order below; each links the concepts it uses rather th
 
 - [Deploy your first DAO](./deploy-a-dao.md) — a bare DAO (you hold `EXECUTE`), then the same flow with a governance plugin installed in one transaction.
 - [Launch a governance token with your DAO](./launch-a-governance-token.md) — deploy with Token Voting and the three token paths (mint new, reuse an `IVotes` token, or wrap a plain ERC-20), with the delegation and clock caveats made concrete.
+- [Import an existing token](/guides/import-existing-tokens.md) — choose direct reuse or wrapping, install Token Voting, and prepare holders to vote.
 - [Create, vote, and execute a proposal](./create-vote-execute.md) — the shared proposal lifecycle, then the multisig and token-voting specifics.
 - [Manage permissions through governance](./manage-permissions.md) — grant/revoke as a proposal, attach a condition, rotate one safely in a single batch, and write a small custom condition.
 - [Install a plugin into a live DAO](./install-a-plugin.md) — the prepare → (temporary ROOT to the PSP) → apply → revoke flow, as a governed proposal.
