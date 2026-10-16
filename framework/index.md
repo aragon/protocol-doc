@@ -1,8 +1,8 @@
 # Framework
 
-The **plugin framework**: everything about *being* a plugin, what a plugin is, how you build one, and how it's published, installed, updated, and uninstalled on a DAO, safely and repeatably. Source: [`osx`](https://github.com/aragon/osx) `src/framework`, plus the plugin base contracts in [common](../common/index.md) (osx `src/common`).
+The **plugin framework** defines what a plugin is, how you build one, and how it's published, installed, updated, and uninstalled on a DAO safely and repeatably. Source: [`osx`](https://github.com/aragon/osx) `src/framework`, plus the plugin base contracts in [common](../common/index.md) (osx `src/common`).
 
-The [core](../core/index.md) DAO is deliberately minimal and [common](../common/index.md) is cross-cutting primitives; the framework is what turns "a contract can operate a DAO" into "a specific plugin version is installed on this DAO with exactly the right permissions, and nobody was left with unchecked control." A plugin isn't part of the core, it's a contract that *uses this framework* to operate a DAO.
+The [core](../core/index.md) DAO is deliberately minimal, and [common](../common/index.md) provides cross-cutting primitives. The framework installs a specific plugin version on a DAO with exactly the required permissions, without leaving anyone with unchecked control. A plugin isn't part of the core; it's a contract that *uses this framework* to operate a DAO.
 
 New to plugins? Read the model, then how you build one, then the publish/install machinery.
 
@@ -13,13 +13,13 @@ New to plugins? Read the model, then how you build one, then the publish/install
 - [The plugin model](./plugins.md) — what a plugin *is* and how it acts on a DAO. **Start here.**
 - [Choosing a plugin base](./plugin-types.md) — Plugin vs Cloneable vs UUPS, and how to decide.
 - [Plugin setup](./plugin-setup.md) — the per-version contract that deploys a plugin and declares its permissions.
-- [Plugin metadata](./plugin-metadata.md) — the release/build JSON a version points to (incl. the install-params schema), and on-chain instance metadata.
+- [Plugin metadata](./plugin-metadata.md) — the release/build JSON a version points to (incl. the install-params schema), and onchain instance metadata.
 
 ## Publishing and installing
 
 - [PluginRepo](./plugin-repo.md) — per-plugin versioning (`release.build`) and publishing.
 - [The PluginSetupProcessor (PSP)](./plugin-setup-processor.md) — the two-step prepare→apply install/update/uninstall engine.
-- [DAOFactory](./dao-factory.md) — one-transaction DAO creation and its permission choreography.
+- [DAOFactory](./dao-factory.md) — one-transaction DAO creation and its sequence of permission changes.
 - [Registries and ENS names](./registries.md) — how the canonical registries and ENS naming work (overview), covering the [DAO Registry](./dao-registry.md) and [PluginRepo Registry](./plugin-repo-registry.md).
 - [Member registry](./member-registry.md) — permissionless member-identity ENS names.
 

@@ -45,14 +45,14 @@ dao.grantWithCondition(dao, someCaller, VALIDATE_SIGNATURE_PERMISSION_ID, valida
 dao.grantWithCondition(dao, ANY_ADDR, VALIDATE_SIGNATURE_PERMISSION_ID, validator);
 ```
 
-`VALIDATE_SIGNATURE_PERMISSION_ID` is one of the few permissions the DAO deliberately **allows** to be granted to `ANY_ADDR` (exactly so a generic signature validator can serve every caller). A "signature validator plugin" is just a [condition](../common/permission-conditions.md) wired in this way.
+`VALIDATE_SIGNATURE_PERMISSION_ID` is one of the few permissions the DAO deliberately **allows** to be granted to `ANY_ADDR`, so a generic signature validator can serve every caller. A "signature validator plugin" is a [condition](../common/permission-conditions.md) configured in this way.
 
 > Legacy note: older OSx exposed `setSignatureValidator`. It was removed in v1.4.0 (the function now reverts, kept only to preserve the interface id); this permission-based approach replaces it.
 
 ## Keep in mind
 
 - **`who` is the asker, not the signer.** Grant `VALIDATE_SIGNATURE_PERMISSION_ID` to the contract that *calls* `isValidSignature` (the Safe, the exchange), not to whoever produced a signature.
-- **Validation is fail-closed and silent.** With no matching grant (or a condition that reverts) the DAO just returns "invalid"; a mis-wired validator rejects everything with no error to explain why.
+- **Validation is fail-closed and silent.** With no matching grant (or a condition that reverts) the DAO returns "invalid"; an incorrectly configured validator rejects everything with no error to explain why.
 
 ## See also
 

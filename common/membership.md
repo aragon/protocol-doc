@@ -11,9 +11,9 @@ Most governance [plugins](../framework/plugins.md) need a notion of "who counts"
 
 ## `IMembership`: the discovery interface
 
-Any plugin that defines membership should implement `IMembership`, a tiny interface, `isMember(address)` plus `MembersAdded` / `MembersRemoved` events. Its real value is **discoverability**: UIs and indexers can query and track membership uniformly across every plugin.
+Any plugin that defines membership should implement `IMembership`, a small interface consisting of `isMember(address)` plus `MembersAdded` / `MembersRemoved` events. It provides **discoverability**: UIs and indexers can query and track membership uniformly across every plugin.
 
-It also allows *delegated* membership via `MembershipContractAnnounced`: a plugin can point at a **different** contract as the authority on membership (e.g. an external token) instead of maintaining a list itself. That's how a token-voting plugin says "membership = holders of this token", the token is the membership source, and the event tells indexers where to look.
+It also allows *delegated* membership via `MembershipContractAnnounced`: a plugin can point at a **different** contract as the authority on membership (e.g. an external token) instead of maintaining a list itself. That's how a token-voting plugin says "membership = holders of this token". The token is the membership source, and the event tells indexers where to look.
 
 ## `Addresslist`: a snapshot-safe member list
 

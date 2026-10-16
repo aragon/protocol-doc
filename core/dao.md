@@ -7,23 +7,23 @@ source: osx/src/core/dao/DAO.sol, osx/src/core/dao/IEIP4824.sol, osx/src/core/ut
 
 # The DAO contract
 
-A DAO in Aragon OSx is **a single smart contract**, one `DAO` contract that *is* the organization, rather than a collection of contracts or an off-chain entity with an on-chain treasury. Everything a DAO can do reduces to functionality this contract exposes or delegates.
+A DAO in Aragon OSx is **a single smart contract**, one `DAO` contract that *is* the organization, rather than a collection of contracts or an off-chain entity with an onchain treasury. Everything a DAO can do reduces to functionality this contract exposes or delegates.
 
-That one contract wears several hats at once:
+That contract serves several roles:
 
 - **The treasury.** It holds the organization's assets (native coin and tokens) and receives deposits.
-- **The executor.** It performs arbitrary on-chain actions on behalf of the organization, see [Actions and execution](./execution.md). This is how a passed proposal actually *does* something.
+- **The executor.** It performs arbitrary onchain actions on behalf of the organization; see [Actions and execution](./execution.md). This is how a passed proposal takes effect.
 - **Its own permission database.** `DAO` inherits [`PermissionManager`](./permissions.md), so the rules for who may do what live in the DAO contract's own storage. A DAO is self-authorizing.
 - **A signer.** It can validate signatures on the organization's behalf via [EIP-1271](./signature-validation.md).
 - **A discoverable, upgradeable identity.** It implements [EIP-4824](https://eips.ethereum.org/EIPS/eip-4824) (`daoURI`) for off-chain metadata, and is deployed behind a [UUPS proxy](../common/proxies.md) so it can be upgraded.
 
-That first cluster, hold assets, execute anything, own the rules for who may do what, is what a DAO is for: a durable on-chain **organization**. Upgradeability (the proxy) matters too, but it's how the organization endures, not what it's *for*; if proxies are new to you, read [Proxy deployment](../common/proxies.md) first, then come back.
+Holding assets, executing arbitrary actions, and owning the rules for who may do what make the DAO a durable onchain **organization**. Upgradeability through the proxy helps that organization endure. If proxies are new to you, read [Proxy deployment](../common/proxies.md) first, then come back.
 
-Everything else, governance, membership, asset management, is added by [plugins](../framework/plugins.md). The DAO itself stays deliberately lean: it holds funds, executes actions, and answers "is this allowed?".
+Everything else, including governance, membership, and asset management, is added by [plugins](../framework/plugins.md). The DAO itself stays deliberately small: it holds funds, executes actions, and answers "is this allowed?".
 
 ## Why one contract holds everything
 
-**The DAO is also its own `PermissionManager`**, which is what makes OSx cohere. Because of that, one authorization model governs the DAO's own admin functions, its plugins' functions, and even framework contracts. A plugin doesn't keep its own access-control list; it asks the DAO "does this caller have permission?" (see [Authorizing against a DAO](../common/auth.md)). There is exactly one source of truth for authority per organization, and it is the DAO.
+**The DAO is also its own `PermissionManager`**, so one authorization model governs the DAO's own admin functions, its plugins' functions, and even framework contracts. A plugin doesn't keep its own access-control list; it asks the DAO "does this caller have permission?" (see [Authorizing against a DAO](../common/auth.md)). There is exactly one source of truth for authority per organization, and it is the DAO.
 
 ## Deployment and bootstrapping ROOT
 
@@ -40,9 +40,9 @@ function initialize(
 ) external;
 ```
 
-`initialize` grants `ROOT_PERMISSION_ID` to `_initialOwner`. **ROOT is god-mode** (see [Permissions](./permissions.md)): whoever holds it can grant or revoke any permission. A freshly initialized DAO therefore has its initial owner in total control, which is fine as a *bootstrap* step and dangerous as an *end state*.
+`initialize` grants `ROOT_PERMISSION_ID` to `_initialOwner`. **ROOT controls the permission table** (see [Permissions](./permissions.md)): whoever holds it can grant or revoke any permission. A freshly initialized DAO therefore has its initial owner in total control. That control allows the owner to bootstrap the DAO, but leaving it in place is dangerous.
 
-The intended lifecycle looks like: the initial owner sets the DAO up, transfers ROOT **to the DAO itself** (so the organization self-governs), and revokes its own ROOT. In practice you never do this by hand, the [DAOFactory](../framework/dao-factory.md) performs the whole dance atomically in one transaction. **A DAO where an EOA still holds ROOT is a DAO that EOA fully controls.**
+In the intended lifecycle, the initial owner sets the DAO up, transfers ROOT **to the DAO itself** (so the organization self-governs), and revokes its own ROOT. In practice you never do this by hand: the [DAOFactory](../framework/dao-factory.md) performs the sequence atomically in one transaction. **A DAO where an EOA still holds ROOT is a DAO that EOA fully controls.**
 
 > Granting ROOT to the DAO over itself is what lets a DAO manage its own permissions through governance: a proposal can execute `grant`/`revoke` actions on the DAO.
 
@@ -54,7 +54,7 @@ Once bootstrapped, ROOT on a DAO can rest in one of three end states, and the ch
 - **A parent DAO.** A DAO can grant ROOT to *another* DAO and revoke its own, making itself **subordinate**: the parent now controls its permission setup. This is the building block for sub-DAOs and hierarchical organizations.
 - **Nobody, on purpose.** ROOT is an ordinary permission and `revoke` has no floor, so a DAO can revoke ROOT from *every* holder, itself included. With no ROOT anywhere, `grant`, `revoke`, `grantWithCondition`, and the `apply*` batch functions become **permanently uncallable** (all are `auth(ROOT_PERMISSION_ID)`, and [`isGranted`](./permissions.md) gives ROOT no bypass). The permission table is **frozen forever**: no new plugins, no updates or uninstalls, no rewiring, ever.
 
-That last option is deliberate: revoking ROOT entirely is how you make a permission setup **immutable**. It freezes the *structure*, not activity, the DAO can still `execute` actions and its installed plugins keep working (those are gated by `EXECUTE` and their own permissions, not ROOT); it just can never change who may do what again. It is also irreversible: with no ROOT, nothing can ever grant ROOT back.
+That last option is deliberate: revoking ROOT entirely is how you make a permission setup **immutable**. It freezes the *structure*, not activity: the DAO can still `execute` actions and its installed plugins keep working (those are gated by `EXECUTE` and their own permissions, not ROOT). The DAO can never change who may do what again. It is also irreversible: with no ROOT, nothing can ever grant ROOT back.
 
 ## Permissions the DAO defines
 
@@ -84,7 +84,7 @@ To receive ERC-721 / ERC-1155 tokens a contract must answer callbacks like `onER
 
 ## Metadata and discovery
 
-`setMetadata` takes an opaque `bytes` blob (conventionally an IPFS CID) and only *emits* it as the `MetadataSet` event, it is not stored on-chain, so reading a DAO's current metadata means indexing that event. `daoURI()` implements EIP-4824 for standardized off-chain DAO discovery. See [DAO metadata](./dao-metadata.md) for the JSON shape and the `daoURI`-vs-blob distinction.
+`setMetadata` takes an opaque `bytes` blob (conventionally an IPFS CID) and only *emits* it as the `MetadataSet` event. It is not stored onchain, so reading a DAO's current metadata means indexing that event. `daoURI()` implements EIP-4824 for standardized off-chain DAO discovery. See [DAO metadata](./dao-metadata.md) for the JSON shape and the `daoURI`-vs-blob distinction.
 
 ## Upgrades across versions
 
@@ -92,8 +92,8 @@ To receive ERC-721 / ERC-1155 tokens a contract must answer callbacks like `onER
 
 ## Keep in mind
 
-- **ROOT left with an EOA is total control of the DAO.** After any setup, confirm ROOT sits with the DAO itself, not the deployer, that's the line between a self-governing DAO and one somebody privately owns.
-- **Metadata is event-only.** Read a DAO's current metadata by indexing the `MetadataSet` event; it isn't stored on-chain.
+- **ROOT left with an EOA is total control of the DAO.** After any setup, confirm ROOT sits with the DAO itself, not the deployer. Otherwise, the deployer retains private control over an organization meant to govern itself.
+- **Metadata is event-only.** Read a DAO's current metadata by indexing the `MetadataSet` event; it isn't stored onchain.
 
 ## See also
 

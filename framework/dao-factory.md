@@ -7,7 +7,7 @@ source: osx/src/framework/dao/DAOFactory.sol
 
 # DAOFactory (creating a DAO)
 
-`DAOFactory.createDao` is the front door to the protocol: in **one transaction** it deploys a [DAO](../core/dao.md), registers it, installs an initial set of [plugins](./plugins.md), and leaves the DAO safely self-governing with no external party in control. It is the canonical, and safest, way to create a DAO, and a worked example of the [permission](../core/permissions.md) choreography the whole framework depends on.
+`DAOFactory.createDao` deploys a [DAO](../core/dao.md), registers it, installs an initial set of [plugins](./plugins.md), and leaves the DAO safely self-governing with no external party in control, all in **one transaction**. It is the canonical way to create a DAO safely, and a worked example of the [permission](../core/permissions.md) sequence the whole framework depends on.
 
 ## What you pass
 
@@ -23,7 +23,7 @@ Each `PluginSettings` names a plugin version (a [repo](./plugin-repo.md) + versi
 
 ## The permission choreography (why order matters)
 
-This is the [temporary-ROOT dance](./plugin-setup-processor.md#the-temporary-root-window) made concrete. When creating a DAO with plugins:
+The factory follows this [temporary-ROOT sequence](./plugin-setup-processor.md#the-temporary-root-window) when creating a DAO with plugins:
 
 1. **Deploy the DAO proxy**, with the factory as initial owner, so the factory transiently holds `ROOT` on the new DAO.
 2. **Register** the DAO in the [DAORegistry](./dao-registry.md) (assigning its ENS subdomain).
@@ -31,9 +31,9 @@ This is the [temporary-ROOT dance](./plugin-setup-processor.md#the-temporary-roo
 4. **Grant the DAO ROOT and its admin permissions over itself** (`UPGRADE_DAO`, `SET_METADATA`, …), so the organization self-governs.
 5. **Revoke the factory's own initial ROOT, last.** After this the factory has zero control.
 
-Because it's one transaction, if any step reverts the whole thing rolls back, **atomicity is the safety net** that guarantees no half-configured DAO with dangling ROOT is ever left behind.
+Because it's one transaction, if any step reverts, the whole transaction rolls back. This atomicity guarantees that no partially configured DAO with an unintended ROOT grant is left behind.
 
-> **With plugins vs without.** If you pass plugins, the caller is *not* granted `EXECUTE_PERMISSION_ID`, governance comes from the installed plugin(s). If you pass **no** plugins, the factory instead grants `EXECUTE` to `msg.sender`, otherwise the DAO would be uncontrollable. So a bare DAO is directly caller-operated until you install governance.
+> **With plugins vs without.** If you pass plugins, the caller is *not* granted `EXECUTE_PERMISSION_ID`; governance comes from the installed plugin(s). If you pass **no** plugins, the factory instead grants `EXECUTE` to `msg.sender`; otherwise the DAO would be uncontrollable. So a bare DAO is directly caller-operated until you install governance.
 
 ## The takeaway
 

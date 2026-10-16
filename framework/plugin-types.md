@@ -7,7 +7,7 @@ source: osx/src/common/plugin/Plugin.sol, osx/src/common/plugin/PluginCloneable.
 
 # Choosing a plugin base
 
-Every plugin extends one of three base contracts. They give you the same developer-facing surface, a `dao()` reference, the [`auth`](../common/auth.md) modifier, ERC-165, and the [execution helpers](./plugins.md#how-a-plugin-makes-the-dao-act), so your plugin logic reads the same regardless. What differs is **how the plugin is deployed and whether it can be upgraded**, and that choice has real consequences for gas, trust, and how updates work. Pick deliberately; it's baked into the plugin (`pluginType()`) and determines which [setup base](./plugin-setup.md) you pair with.
+Every plugin extends one of three base contracts. They give you the same developer-facing interface: a `dao()` reference, the [`auth`](../common/auth.md) modifier, ERC-165, and the [execution helpers](./plugins.md#how-a-plugin-makes-the-dao-act), so your plugin logic reads the same regardless. What differs is **how the plugin is deployed and whether it can be upgraded**. That choice affects gas, trust, and how updates work. Pick deliberately; the choice is fixed in the plugin (`pluginType()`) and determines which [setup base](./plugin-setup.md) you pair with.
 
 ## The three options
 
@@ -23,13 +23,13 @@ Every plugin extends one of three base contracts. They give you the same develop
 
 ## How to choose
 
-**`PluginUUPSUpgradeable`** — the default for most real plugins. It's a UUPS proxy, so you can ship bug fixes and compatible features to already-installed instances via the [update flow](./plugin-setup-processor.md) without redeploying and reinstalling. The cost: proxy call overhead, and an upgrade authority. Whoever holds `UPGRADE_PLUGIN_PERMISSION_ID` (normally the DAO itself, acting through the PSP) can replace the plugin's entire logic, a trust assumption your users are accepting.
+**`PluginUUPSUpgradeable`** — the default for most plugins. It's a UUPS proxy, so you can ship bug fixes and compatible features to already-installed instances via the [update flow](./plugin-setup-processor.md) without redeploying and reinstalling. The cost: proxy call overhead, and an upgrade authority. Whoever holds `UPGRADE_PLUGIN_PERMISSION_ID` (normally the DAO itself, acting through the PSP) can replace the plugin's entire logic. Your users must trust that authority.
 
-**`PluginCloneable`** — cheapest to deploy, an [EIP-1167 minimal proxy](../common/proxies.md) pointing at a shared logic contract. Best when a plugin is installed many times and you *don't* want per-instance upgradeability. Existing clones can never change logic; to "upgrade" you publish a new version and users install a fresh instance. Great for simple, high-volume, trust-minimized plugins.
+**`PluginCloneable`** — cheapest to deploy, an [EIP-1167 minimal proxy](../common/proxies.md) pointing at a shared logic contract. Best when a plugin is installed many times and you *don't* want per-instance upgradeability. Existing clones can never change logic; to "upgrade" you publish a new version and users install a fresh instance. This suits simple plugins with many installations that minimize trust in an upgrade authority.
 
-**`Plugin`** — non-upgradeable, deployed with `new` as full bytecode per install. Highest deploy gas, no proxy indirection at call time. Choose it when immutability is a *feature*, a governance-critical plugin whose code should be provably unchangeable is more trustworthy when it literally cannot be upgraded.
+**`Plugin`** — non-upgradeable, deployed with `new` as full bytecode per install. Highest deploy gas, no proxy indirection at call time. Choose it when immutability is a *feature*: for a governance-critical plugin whose code should be provably unchangeable, preventing upgrades removes the need to trust an upgrade authority.
 
-As a rule of thumb, **UUPS unless you have a specific reason to want immutability (`Plugin`) or ultra-cheap disposable instances (`Cloneable`).**
+As a rule of thumb, **use UUPS unless you have a specific reason to want immutability (`Plugin`) or very low deployment costs for replaceable instances (`Cloneable`).**
 
 ## Initialization
 
@@ -49,7 +49,7 @@ function initialize(IDAO _dao, /* your params */) external initializer {
 }
 ```
 
-Both proxy bases need this `initialize` (a proxy/clone runs no constructor of its own). What differs is *when the deploy invokes it*: a UUPS proxy initializes during construction, a clone, having no constructor, is initialized by a separate call right after cloning, both atomic within the deploy transaction ([proxy deployment](../common/proxies.md#keep-in-mind)).
+Both proxy bases need this `initialize` (a proxy/clone runs no constructor of its own). What differs is *when the deploy invokes it*: a UUPS proxy initializes during construction; a clone, having no constructor, is initialized by a separate call right after cloning. Both happen atomically within the deploy transaction ([proxy deployment](../common/proxies.md#keep-in-mind)).
 
 `Plugin` (non-upgradeable) instead takes the DAO in its constructor. See [authorizing against a DAO](../common/auth.md) for what the DAO reference is used for.
 
