@@ -5,7 +5,7 @@ title: Source repositories
 
 # Source repositories
 
-Every part of the protocol is open source. This maps each component to its **canonical GitHub repository**, where to read the code, file issues, or vendor it as a dependency. Most follow the `aragon/<the-obvious-name>` pattern.
+Every part of the protocol is open source. The table lists each component's **canonical GitHub repository**, where you can read the code, file issues, or vendor it as a dependency. Most follow the `aragon/<the-obvious-name>` pattern.
 
 The **Snapshot** column pins the exact commit each component's docs were generated from, the baseline to diff against when refreshing (see [Keeping the docs in sync](#keeping-the-docs-in-sync)).
 

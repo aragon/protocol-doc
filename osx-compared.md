@@ -6,7 +6,7 @@ tags: [permissions, security, governance]
 
 # OSx compared
 
-Every access-control system on EVM answers the same question: may this caller do this thing? Where they differ is more basic. Each one keeps that answer in a different place, attached to a different thing, and almost everything else follows from that choice.
+Every access-control system on EVM answers the same question: may this caller perform this action? Each system stores its authorization rules in a different place and associates them with a different object. That choice determines much of its behavior.
 
 This page compares OSx with the three systems it most often sits beside, or inside:
 
@@ -20,15 +20,15 @@ For the OSx model itself, read [the permission system](./core/permissions.md) fi
 
 ### OpenZeppelin: authorization lives in the function
 
-Start with the simplest thing that works. `Ownable` stores a single `address owner`, and the `onlyOwner` modifier checks the caller against it. One admin, one check, nothing to configure.
+`Ownable` stores a single `address owner`, and the `onlyOwner` modifier checks the caller against it. It provides one admin and one check, with no further rules to configure.
 
-`AccessControl` replaces that single owner with named roles. A role is just a `bytes32` constant, conventionally `keccak256("MINTER_ROLE")`, and `onlyRole(MINTER_ROLE)` gates the function. Accounts are added and removed with `grantRole` and `revokeRole`. Every role has an admin role allowed to do that granting, and unless you say otherwise it is `DEFAULT_ADMIN_ROLE`, which is `bytes32(0)`.
+`AccessControl` replaces that single owner with named roles. A role is a `bytes32` constant, conventionally `keccak256("MINTER_ROLE")`, and `onlyRole(MINTER_ROLE)` gates the function. Accounts are added and removed with `grantRole` and `revokeRole`. Every role has an admin role allowed to do that granting, and unless you say otherwise it is `DEFAULT_ADMIN_ROLE`, which is `bytes32(0)`.
 
 Both share one property: the rules are compiled into the contract they protect. Deploy a new version of that contract and you start from an empty table, re-granting everything by hand. There is also nowhere to ask "what can this organization do", because the answer is scattered across however many contracts you deployed.
 
 [`AccessManager`](https://docs.openzeppelin.com/contracts/5.x/access-control), added in Contracts 5.x, breaks that pattern on purpose. The rules move out into one manager contract. A protected contract marks its functions `restricted` and asks the manager, through `canCall`, whether the caller is allowed.
 
-The manager is richer than a role list. Roles are `uint64` numbers rather than hashes. `setTargetFunctionRole(target, selectors, roleId)` says which role may call which functions on which contract. `grantRole(roleId, account, executionDelay)` can give a member a delay, so their calls have to be scheduled and then executed rather than sent directly. And `setTargetClosed` is a break-glass that shuts a contract off entirely.
+The manager supports more than role membership. Roles are `uint64` numbers rather than hashes. `setTargetFunctionRole(target, selectors, roleId)` says which role may call which functions on which contract. `grantRole(roleId, account, executionDelay)` can give a member a delay, so their calls have to be scheduled and then executed rather than sent directly. `setTargetClosed` shuts a contract off entirely in an emergency.
 
 OpenZeppelin Contracts is a library, not a full product. You inherit from it, and the organization that results is whatever your team designs, deploys and maintains. Nothing is running that you can point at, you own the release lifecycle, and the answer to "who administers this" is only ever the one you built.
 
@@ -38,7 +38,7 @@ A plain Safe has one rule: *m* of *n* owners sign a transaction and `execTransac
 
 [Zodiac](https://www.zodiac.eco/) is a set of conventions for extending that. Its word for the account being extended is the **Avatar**, which in practice means the Safe.
 
-A **Module** is a contract you enable on the Safe. Once enabled it can make the Safe act unilaterally by calling `execTransactionFromModule`. What surprises many is that it needs no owner signatures to operate. Being enabled *is* the authorization. This is why Safe's own documentation warns that a malicious module can take over the account.
+A **Module** is a contract you enable on the Safe. Once enabled it can make the Safe act unilaterally by calling `execTransactionFromModule`. It needs no owner signatures to operate: being enabled *is* the authorization. This is why Safe's own documentation warns that a malicious module can take over the account.
 
 A **Guard** is the counterweight. It runs a check before a transaction (`checkTransaction`) and another after it (`checkAfterExecution`), and it can block execution.
 
@@ -56,7 +56,7 @@ Hierarchy is built into the identifier. A hat ID is a 32-byte bitmap that encode
 
 Two pluggable modules decide whether a hat currently counts. An **eligibility** module decides who may wear it and whether they are in good standing. A **toggle** module decides whether the hat is active at all. Both are consulted inside `balanceOf`, which means revocation takes effect immediately rather than waiting for someone to send a transaction.
 
-Gating on a hat is therefore just a balance check: `balanceOf(who, hatId) == 1`, or the friendlier `isWearerOfHat`. Note that Hats does *not* execute things. It does answer "who holds this role" but leaves enforcement to whatever reads the answer, most often a Safe through Hats Signer Gate.
+Gating on a hat uses a balance check: `balanceOf(who, hatId) == 1`, or the named helper `isWearerOfHat`. Hats does *not* execute actions. It answers "who holds this role" but leaves enforcement to whatever reads the answer, most often a Safe through Hats Signer Gate.
 
 So Hats is a primitive rather than a complete system. There is no treasury, no execution, no proposals: you pair it with something that acts. That narrowness is on purpose, and it is why Hats composes with everything else on this page, OSx included.
 
@@ -70,7 +70,7 @@ Any grant can carry a [condition](./common/permission-conditions.md): a contract
 
 What makes the rest governable is the `ROOT_PERMISSION_ID`. The permission to make the DAO grant and revoke permissions is itself an ordinary permission in the same table. So the power to change the rules is handed out the same way as every other power. In a healthy DAO it is held by the DAO itself.
 
-OSx takes the opposite trade to the other three. It is a framework rather than a library or a primitive: the permission database, execution and a versioned install system arrive as one thing from one team. The tradeoff is that you take on the whole model to use any of it. [Where other options fit better](#where-other-options-fit-better) is honest about the rest.
+OSx makes a different trade-off from the other three. It is a framework rather than a library or a primitive: the permission database, execution and a versioned install system come together from one team. The trade-off is that you take on the whole model to use any of it. See [Where other options fit better](#where-other-options-fit-better) for its limitations.
 
 ## Axis by axis
 
@@ -98,7 +98,7 @@ OSx addresses `(where, who, permissionId)`, where `permissionId` names a capabil
 
 ### Who may change the rules
 
-`AccessControl` has role admins, defaulting to `DEFAULT_ADMIN_ROLE`, which in practice is often a single EOA. A Safe's module and guard list is changed by the owners, so owner quorum is the root of all authority and any Zodiac scoping ultimately rests on it. Hats is interesting in the sense that a hat's admin is another hat, so authority over authority is expressed in the same primitive as authority itself, and delegation is inherent in the ID.
+`AccessControl` has role admins, defaulting to `DEFAULT_ADMIN_ROLE`, which in practice is often a single EOA. A Safe's module and guard list is changed by the owners, so owner quorum is the root of all authority and any Zodiac scoping ultimately rests on it. A hat's admin is another hat, so Hats expresses authority to manage roles through the same primitive as the roles themselves, and delegation is inherent in the ID.
 
 OSx follows a similar approach. `ROOT_PERMISSION_ID` is an ordinary permission in the ordinary table, so the power to grant is granted like everything else. With a few particularities: ROOT is not a runtime bypass: `isGranted` never consults it, so a ROOT holder still cannot `execute` without holding `EXECUTE_PERMISSION_ID`. What they can do is grant it to themselves first. And in a healthy DAO, ROOT is held by the DAO itself, so every permission change has to go through a proposal. Neither Safe owners nor a `DEFAULT_ADMIN_ROLE` holder has that property by construction.
 
@@ -110,7 +110,7 @@ Where systems do evaluate something, it tends to be one of two things: **who** (
 
 `AccessControl` evaluates neither. `hasRole` is a mapping lookup, so the answer moves only when `grantRole` or `revokeRole` are used. Membership is mutable, but dynamic checks are not possible. If entitlement should depend on a token balance, a deadline or a slashing event, something off-chain has to notice and send the revocation. `AccessManager` adds time (delays, scheduling, closing a target) but still no logic about the caller or the call.
 
-**Hats is dynamic about who, not about what.** Every read of `balanceOf` consults the hat's eligibility and toggle modules, so an eligibility contract can strip a wearer the instant some on-chain fact changes, with nobody sending a revocation transaction. That is genuinely dynamic, but Hats never sees the call: it is not in the execution path, it holds no calldata, and it has no idea which function you are about to invoke. It answers "does this account still hold the role", nothing more.
+**Hats is dynamic about who, not about what.** Every read of `balanceOf` consults the hat's eligibility and toggle modules, so an eligibility contract can strip a wearer the instant some onchain fact changes, with nobody sending a revocation transaction. Hats never sees the call: it is not in the execution path, holds no calldata, and does not know which function you are about to invoke. It answers "does this account still hold the role", nothing more.
 
 **Zodiac is dynamic about what, not about who.** Guards and the Roles Modifier inspect the outbound call, down to individual parameters. Role membership itself is a plain list. And the check only happens on calls that actually route through the module or modifier; anything reaching the Safe another way never meets it.
 
@@ -150,7 +150,7 @@ OSx's `hasPermission` is `view` and callable by anyone, which makes a DAO's perm
 | `setTargetFunctionRole(target, sel, role)` | `grant(where, who, permissionId)`, named by capability rather than selector |
 | execution delay / `schedule` | a [condition](./common/permission-conditions.md) reading `block.timestamp`, or a governance plugin that owns timing |
 
-What has to shift in your head is this: a role is not held by an account globally, it is a fact about a `(where, who)` pair. The closest thing to `onlyRole` is `auth`, which looks identical at the call site but resolves in a contract the plugin doesn't own.
+In OSx, a role is not held by an account globally; it applies to a `(where, who)` pair. The closest equivalent to `onlyRole` is `auth`, which looks identical at the call site but resolves in a contract the plugin doesn't own.
 
 ### Coming from Safe + Zodiac
 
@@ -185,11 +185,9 @@ Both models make authority a first-class object with pluggable validity logic. T
 
 ## Where other options fit better
 
-There's no one size fits all when it comes to organizations, and a similar principle applies to Aragon OSx in many areas.
-
 - **OSx is a framework, not a mixin.** `Ownable` is one line of inheritance. OSx asks you to deploy a DAO, install a plugin, and grant permissions. To protect a simple contract with one admin the overhead may not be worth it. Consider using `Ownable`.
 - **Conditions are code.** A `RuledCondition` rule array is data, but a custom policy is a contract to be written. Guards and eligibility modules cost about the same. Hats and Zodiac ship more ready-made ones today.
-- **The ecosystem has gravity.** Safe is home to many assets and tooling as of now. Bridging in with `SafeOwnerCondition` is often more sensible than migrating right away.
+- **Existing Safe assets and tooling.** Safe is home to many assets and tooling as of now. Bridging in with `SafeOwnerCondition` is often more sensible than migrating right away.
 - **Rules about call arguments take more setting up.** Say you want "this role may call `transfer` on USDC, but only to the treasury, and only under 10,000". Zodiac's Roles Modifier takes that as configuration: you scope the target, the selector and each parameter, and you are done. In OSx, the same rule needs a ready-made [condition](./common/permission-conditions.md) either from the [condition library](./helpers/condition-library.md), or from `RuledCondition`. Otherwise it is a small contract that needs to be written.
 
 ## Keep in mind
@@ -198,7 +196,7 @@ There's no one size fits all when it comes to organizations, and a similar princ
 - **A Safe module bypasses the owners; an OSx plugin bypasses nothing.** A plugin is authorized by a revocable permission, checked on every call.
 - **ROOT is the permission of permissions, not a skeleton key.** It lets the holder rewrite the rules first. In a healthy DAO it only belongs to the DAO.
 - **These systems compose more often than they compete.** Bridging an existing Safe or hat into an OSx permission through a condition usually beats migrating membership.
-- **Pick the smallest thing that fits.** One contract with one admin wants `Ownable`. A group holding assets with no on-chain policy wants a Safe. Organizations that need to outlive any single contract and be governed by evolving policies want OSx.
+- **Pick the smallest thing that fits.** One contract with one admin wants `Ownable`. A group holding assets with no onchain policy wants a Safe. Organizations that need to outlive any single contract and be governed by evolving policies want OSx.
 
 ## See also
 

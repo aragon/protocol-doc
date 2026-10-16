@@ -6,7 +6,7 @@ bundle root; `just` on its own lists the recipes.
 ## `abi-docs.ts` — the ABI reference
 
 Generates [`abi/<repo>/<Element>.md`](../abi/index.md): one page per top-level Solidity
-declaration, carrying its public surface and every scrap of NatSpec attached to it.
+declaration, carrying its public surface and all attached NatSpec.
 
 ```sh
 just abi ../token-voting-plugin/src            # a directory, recursively
@@ -39,7 +39,7 @@ is rendered with its **computed value**, because that hash is what you actually 
 show that value rather than their getter's selector, which is technically real but useless
 next to the literal.
 
-Three of those choices are load-bearing:
+Three choices determine how the reference preserves source information:
 
 - **Members come from the ABI, not the AST.** The ABI *is* the public surface by definition,
   and it already includes everything inherited from base contracts. Enums, structs and
@@ -100,14 +100,14 @@ table and the `abi-legacy` recipe can be deleted and they join `abi-all`.
 just abi-link           # re-run after `abi-all`, which overwrites the ABI pages
 ```
 
-Bundle-specific glue, kept separate on purpose: `abi-docs.ts` is a standalone
-Solidity-to-Markdown tool with no knowledge of this wiki, and this pass only reads what is
-already on disk. The bridge is the `source:` frontmatter both layers already carry, so the
-mapping is exact and needs no heuristics.
+This pass is specific to the bundle. It stays separate from `abi-docs.ts`, a standalone
+Solidity-to-Markdown tool with no knowledge of this wiki, and only reads what is already
+on disk. It matches the `source:` frontmatter both layers already carry, so the mapping
+is exact and needs no heuristics.
 
 - **ABI → KB is written.** Each ABI page gets an `**Explained in:**` line under its title.
-  Safe to automate, since those files are generated anyway, and it stops a signature page
-  being a dead end. Idempotent: the line is replaced, never duplicated.
+  Safe to automate, since those files are generated anyway, and it links a signature page
+  back to its explanation. Idempotent: the line is replaced, never duplicated.
 - **KB → ABI is not.** Each area's `index.md` carries that link by hand; anything finer
   belongs in the sentence that earns it, so the prose stays hand-owned.
 
