@@ -6,7 +6,7 @@ source: osx/src/framework/plugin/setup/PluginSetupProcessor.sol, osx/src/framewo
 
 # Install a plugin into a live DAO
 
-[Deploy your first DAO](./deploy-a-dao.md) installed a plugin *at creation*, the factory did the whole permission dance for you. More often you add a plugin to a DAO that's **already running**, and there's no factory to orchestrate it, so **governance does**. This guide runs the [PluginSetupProcessor (PSP)](../framework/plugin-setup-processor.md) flow by hand: **prepare** (permissionless) then **apply** (a governed proposal that wraps a temporary-ROOT window around one PSP call).
+Install a plugin into a DAO that's **already running** through the [PluginSetupProcessor (PSP)](../framework/plugin-setup-processor.md): **prepare** permissionlessly, then **apply** through a governed proposal that grants temporary ROOT for one PSP call. In [Deploy your first DAO](./deploy-a-dao.md), the factory handled permissions *at creation*. Adding plugins later is more common, and **governance** coordinates the permission changes in place of the factory.
 
 The split is the safety property: whoever *computes* an installation isn't who *authorizes* it. Prepare touches nothing; apply is what the DAO approves. See [why prepare and apply are separate](../framework/plugin-setup-processor.md#why-prepare-and-apply-are-separate).
 
@@ -76,11 +76,11 @@ function test_installMultisig() public {
 }
 ```
 
-A `…Prepared` event is **not** an installation, a griefer can prepare all day and change nothing. See [preparing is cheap and permissionless](../framework/plugin-setup-processor.md#keep-in-mind).
+A `…Prepared` event is **not** an installation. A griefer can prepare repeatedly and change nothing. See [preparing is cheap and permissionless](../framework/plugin-setup-processor.md#keep-in-mind).
 
 ## Step 3, apply (governed, inside a temporary-ROOT window)
 
-Applying actually grants the permissions, so the PSP needs `ROOT` on the DAO for the duration, and no longer. The proposal is just **three actions**: open the window, apply, close it. You must apply *exactly* what was prepared (the same `plugin`, `permissions`, and a hash of the `helpers`), a [setup-id check](../framework/plugin-setup-processor.md#setup-ids-what-keeps-apply-honest) enforces it.
+Applying grants the permissions, so the PSP needs `ROOT` on the DAO for the duration, and no longer. The proposal has **three actions**: grant ROOT, apply, revoke ROOT. You must apply *exactly* what was prepared: the same `plugin`, `permissions`, and a hash of the `helpers`. A [setup-id check](../framework/plugin-setup-processor.md#setup-ids-what-keeps-apply-honest) enforces this match.
 
 ```solidity
     bytes32 ROOT = dao.ROOT_PERMISSION_ID();
@@ -110,7 +110,7 @@ Applying actually grants the permissions, so the PSP needs `ROOT` on the DAO for
 }
 ```
 
-Note what's **not** here: the DAO needs no `APPLY_INSTALLATION_PERMISSION`. `applyInstallation` runs *as the DAO* (`msg.sender == dao`), which the PSP's `canApply` check accepts directly, so that permission is only for a caller *other than* the DAO. That's exactly why the [DAOFactory grants it to itself](../framework/dao-factory.md#the-permission-choreography-why-order-matters): the factory, not the DAO, calls the PSP, so it needs the extra grant that a self-executing proposal doesn't. Otherwise this is the same temporary-ROOT window, and it's atomic: if any step reverts, the whole install rolls back and the PSP never keeps ROOT.
+The DAO needs no `APPLY_INSTALLATION_PERMISSION`. `applyInstallation` runs *as the DAO* (`msg.sender == dao`), which the PSP's `canApply` check accepts directly. That permission is required only for a caller *other than* the DAO. The [DAOFactory grants it to itself](../framework/dao-factory.md#the-permission-choreography-why-order-matters) because the factory calls the PSP, so it needs an extra grant that a self-executing proposal doesn't. The temporary-ROOT window is otherwise the same and remains atomic: if any step reverts, the whole install rolls back and the PSP never keeps ROOT.
 
 ## What you just saw
 
@@ -120,5 +120,5 @@ Note what's **not** here: the DAO needs no `APPLY_INSTALLATION_PERMISSION`. `app
 
 ## Next
 
-- [Update a plugin](./update-a-plugin.md), the same prepare/apply rhythm for moving an installed plugin to a new version.
+- [Update a plugin](./update-a-plugin.md), the same prepare/apply sequence for moving an installed plugin to a new version.
 - [Build a plugin](./build-a-plugin.md), write the `PluginSetup` whose prepared permissions this flow applies.

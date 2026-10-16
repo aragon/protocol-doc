@@ -6,19 +6,19 @@ source: osx-plugin-template-foundry/README.md
 
 # Plugin Template (Foundry)
 
-A GitHub template repository that scaffolds a new OSx plugin, the intended starting point when you set out to [write your own plugin](../framework/index.md). Create a repo from it and you have a tested, publishable, deployable plugin project in minutes, instead of assembling the OSx boilerplate by hand.
+A GitHub template repository that scaffolds a new OSx plugin, the intended starting point when you set out to [write your own plugin](../framework/index.md). Create a repo from it to start with a tested plugin project ready for publishing and deployment, without assembling the OSx boilerplate by hand.
 
 ## Why start from it
 
-Writing a plugin correctly is more than one contract. You need the right [plugin base type](../framework/plugin-types.md) for your upgradeability choice, a [PluginSetup](../framework/plugin-setup.md) that grants *exactly* the right permissions on install and revokes them on uninstall, tests that exercise it against a real DAO, and scripts to publish and deploy it. Getting any of that subtly wrong is where plugin bugs live. The template ships a correct, batteries-included version of all of it, so your effort goes into your plugin's actual logic.
+Writing a plugin requires more than one contract. You need the right [plugin base type](../framework/plugin-types.md) for your upgradeability choice, a [PluginSetup](../framework/plugin-setup.md) that grants *exactly* the right permissions on install and revokes them on uninstall, tests that exercise it against a real DAO, and scripts to publish and deploy it. Errors in any of these can cause plugin bugs. The template supplies working versions of each, so you can concentrate on your plugin's logic.
 
 ## What it gives you
 
-- **Contract starters** for the [plugin base types](../framework/plugin-types.md) (the non-upgradeable, cloneable, and UUPS-upgradeable variants), so you begin from the right base rather than choosing blind.
+- **Contract starters** for the [plugin base types](../framework/plugin-types.md) (the non-upgradeable, cloneable, and UUPS-upgradeable variants), so you can start from the base that matches your requirements.
 - **[PluginSetup](../framework/plugin-setup.md) scaffolding** wired to those contracts, the prepare-install / prepare-uninstall logic that the [PluginSetupProcessor](../framework/plugin-setup-processor.md) drives.
 - **Deploy scripts and factories**, including the [one-shot factory](../deployment/dao-launchpad.md#correct-from-genesis) pattern for standing up a custom DAO with your plugin, and scripts for publishing to a [PluginRepo](../framework/plugin-repo.md).
 - **A testing environment** for unit tests, fork tests against a live network, and use-case scenarios.
-- **Multi-explorer verification** and a self-documenting **`just`** task runner (via [just-foundry](./just-foundry.md)) covering the whole build/test/deploy workflow, `just init` sets the project up out of the box.
+- **Multi-explorer verification** and a self-documenting **`just`** task runner (via [just-foundry](./just-foundry.md)) covering the whole build/test/deploy workflow. Run `just init` to set up the project.
 
 ## Which starter path to take
 
@@ -31,19 +31,19 @@ The template ships **examples of every variant** so each pattern is there to lea
 - **Publish the plugin** to a [PluginRepo](../framework/plugin-repo.md) (`DeploySimple`), the main path, what makes your plugin installable by any DAO.
 - **Deploy a DAO with your plugin(s) installed** (`DeployDaoWithPlugins`, trusted) or **via a one-shot factory** (`DeployViaFactory`, trustless), included so you can stand up a DAO *to exercise your plugin*: a demo, an end-to-end test, or a simple one-off.
 
-If your goal is actually **launching a DAO** rather than building a plugin, reach for the [DAO Launchpad](../deployment/dao-launchpad.md) instead, it's the workbench for assembling a custom DAO from heterogeneous components (and it can install the plugin you published here). As a rule of thumb, **build/publish a plugin → this template; launch a DAO → the Launchpad.**
+If your goal is **launching a DAO** rather than building a plugin, use the [DAO Launchpad](../deployment/dao-launchpad.md). It assembles a custom DAO from different components, including plugins published with this template. As a rule of thumb, **build/publish a plugin → this template; launch a DAO → the Launchpad.**
 
 For tests, two builders stand up a DAO with your plugin installed: a **SimpleBuilder** (local) and a **ForkBuilder** (against a real deployed protocol, using the configured factory addresses).
 
 ## Where it sits
 
-The template is the plugin *author's* entry point. What you build here becomes a versioned entry in a [PluginRepo](../framework/plugin-repo.md); from there any DAO installs it through the [PSP](../framework/plugin-setup-processor.md). So this is the front door to the plugin lifecycle the [framework](../framework/index.md) pages describe from the protocol side.
+The template is the plugin *author's* starting point. What you build here becomes a versioned entry in a [PluginRepo](../framework/plugin-repo.md); from there any DAO installs it through the [PSP](../framework/plugin-setup-processor.md). The [framework](../framework/index.md) manages this plugin lifecycle.
 
 ## Keep in mind
 
 - **It's a scaffold, replace the sample contracts.** The starters exist to be swapped for your plugin; keep the setup/test/deploy structure, change the logic.
 - **Choose the base type deliberately.** Your upgradeability and gas trade-offs are set by which [plugin base type](../framework/plugin-types.md) you start from; the template offers all of them for that reason.
-- **Template vs [DAO Launchpad](../deployment/dao-launchpad.md).** Building a (core or custom) *plugin* starts here; *launching a DAO* is the Launchpad. The template's DAO-deploy scripts exist to exercise your plugin, they aren't the home for a real DAO launch, which is why the two only *look* like they overlap.
+- **Template vs [DAO Launchpad](../deployment/dao-launchpad.md).** Building a (core or custom) *plugin* starts here; use the Launchpad for *launching a DAO*. Although the template includes DAO-deploy scripts, their purpose is to exercise your plugin.
 
 ## See also
 

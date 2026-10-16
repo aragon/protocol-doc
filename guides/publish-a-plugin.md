@@ -6,7 +6,9 @@ source: osx/src/framework/plugin/repo/PluginRepoFactory.sol, osx/src/framework/p
 
 # Publish a plugin to a PluginRepo
 
-You [built a plugin and its setup](./build-a-plugin.md). The canonical way to make it installable is to **publish** it to a [PluginRepo](../framework/plugin-repo.md): the versioned install / update / uninstall lifecycle the [PSP](../framework/plugin-setup-processor.md) drives all keys off a published version, applying the setup's permissions atomically. (A DAO *can* always wire a plugin in by hand instead, deploy it and grant the permissions directly through governance, but publishing is what buys you versioning, the setup guardrails, and a clean uninstall, so it's the idiomatic, recommended path and almost certainly what you want.) A PluginRepo is a versioned registry for **one** plugin: every entry is a `PluginSetup` address plus its [metadata](../framework/plugin-metadata.md), tagged with a `(release, build)`, and that tag is exactly what [Deploy your first DAO](./deploy-a-dao.md) and [Install a plugin](./install-a-plugin.md) reference. This guide creates the repo with a first version, then cuts later versions.
+After [building a plugin and its setup](./build-a-plugin.md), **publish** it to a [PluginRepo](../framework/plugin-repo.md). This lets the [PSP](../framework/plugin-setup-processor.md) install, update, and uninstall a published version, applying the setup's permissions atomically. A DAO can instead deploy a plugin and grant its permissions directly through governance. Publishing is the recommended path because it provides versioning, setup checks, and a defined uninstall procedure.
+
+A PluginRepo is a versioned registry for **one** plugin: every entry is a `PluginSetup` address plus its [metadata](../framework/plugin-metadata.md), tagged with a `(release, build)`. That tag is what [Deploy your first DAO](./deploy-a-dao.md) and [Install a plugin](./install-a-plugin.md) reference. You'll create the repo with a first version, then publish later versions.
 
 ## What you need
 
@@ -17,7 +19,7 @@ The one-time [Setup](./setup.md), plus:
 
 ## Step 1, create the repo and its first version
 
-`PluginRepoFactory.createPluginRepoWithFirstVersion` does it all in one call: deploys the repo, registers its ENS **subdomain** in the [PluginRepoRegistry](../framework/plugin-repo-registry.md), publishes version **(release 1, build 1)**, i.e. `1.1`, and grants your `maintainer` the repo permissions, including the `MAINTAINER_PERMISSION` that gates future publishing (plus repo-upgrade and root rights over the repo).
+`PluginRepoFactory.createPluginRepoWithFirstVersion` deploys the repo, registers its ENS **subdomain** in the [PluginRepoRegistry](../framework/plugin-repo-registry.md), and publishes version **(release 1, build 1)**, i.e. `1.1`, in one call. It also grants your `maintainer` the repo permissions: `MAINTAINER_PERMISSION` for future publishing, plus repo-upgrade and root rights over the repo.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -50,7 +52,7 @@ contract PublishPlugin is Test {
 }
 ```
 
-The subdomain must be unique and lowercase (the [registry charset](../framework/registries.md)); if it's taken, the call reverts. The factory also verifies your `pluginSetup` really implements the setup interface, a non-setup address is rejected.
+The subdomain must be unique and lowercase (the [registry charset](../framework/registries.md)); if it's taken, the call reverts. The factory also verifies that your `pluginSetup` implements the setup interface and rejects a non-setup address.
 
 ## Step 2, publish later versions
 

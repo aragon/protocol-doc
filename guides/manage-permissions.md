@@ -6,13 +6,13 @@ source: osx/src/core/permission/PermissionManager.sol, osx/src/common/permission
 
 # Manage permissions through governance
 
-A DAO owns its own [permission database](../core/permissions.md), so changing who may do what is itself an action the DAO performs on itself. Because a healthy DAO [holds `ROOT` over itself](../core/dao.md#deployment-and-bootstrapping-root), a passed proposal whose action calls `dao.grant(...)` succeeds, the action runs *as the DAO*, and the DAO is its own permission admin. This guide grants a permission, gates one with a [condition](../common/permission-conditions.md) you write, and rotates a condition safely.
+A DAO owns its own [permission database](../core/permissions.md), so changing who may do what is itself an action the DAO performs on itself. A DAO that [holds `ROOT` over itself](../core/dao.md#deployment-and-bootstrapping-root) can call `dao.grant(...)` through a passed proposal: the action runs *as the DAO*, which is its own permission admin. Here you'll grant a permission, gate one with a [condition](../common/permission-conditions.md) you write, and rotate that condition safely.
 
 `grant`, `revoke`, and `grantWithCondition` are all `auth(ROOT_PERMISSION_ID)`, so they only work when called by (or as) the ROOT holder, which is the DAO itself.
 
 ## Step 1, the skeleton
 
-To keep the focus on permissions, this test uses a **bare DAO** where you hold `EXECUTE` (as in [the hands-on tour](./hands-on-tour.md)), so you can `dao.execute` the permission-change actions directly and see the effect. On a governed DAO these exact actions go inside a [proposal](./create-vote-execute.md) instead, either way they run as the DAO.
+This test uses a **bare DAO** where you hold `EXECUTE` (as in [the hands-on tour](./hands-on-tour.md)), so you can `dao.execute` the permission-change actions directly and see the effect. On a governed DAO, these exact actions go inside a [proposal](./create-vote-execute.md). Either way, they run as the DAO.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -85,11 +85,11 @@ contract OnlyBeforeDeadline is PermissionCondition {
 }
 ```
 
-There are two things to hold onto: a condition [fails closed](../common/permission-conditions.md) (revert or garbage return counts as "denied"), and the `data` argument is the *full calldata* of the gated call, so a richer condition can decode and check the arguments. For boolean combinations of standard checks (time, block, sub-conditions) you often don't need bespoke code, [`RuledCondition`](../common/ruled-condition.md) expresses them as data, and the [condition library](../helpers/condition-library.md) ships ready-made ones.
+A condition [fails closed](../common/permission-conditions.md): a revert or invalid return counts as "denied". Its `data` argument is the *full calldata* of the gated call, so a condition can decode and check the arguments. For boolean combinations of standard checks (time, block, sub-conditions), [`RuledCondition`](../common/ruled-condition.md) expresses them as data, often avoiding bespoke code. The [condition library](../helpers/condition-library.md) also supplies ready-made conditions.
 
 ## Step 4, gate a permission, then rotate the condition safely
 
-Attach the condition with `grantWithCondition`. Changing it later is the subtle part: a plain `grant` over an already-*conditional* permission is a [silent no-op](../core/permissions.md) (it will **not** strip the condition), and conditions are immutable once set, so you must `revoke` then re-grant. Do both in **one batch**, otherwise the permission is denied in the gap between the two transactions:
+Attach the condition with `grantWithCondition`. A plain `grant` over an already-*conditional* permission is a [silent no-op](../core/permissions.md): it will **not** strip the condition. Conditions are immutable once set, so changing one requires `revoke` followed by re-grant. Do both in **one batch**; otherwise, the permission is denied between the two transactions:
 
 ```solidity
 function test_conditionAndRotate() public {
@@ -118,15 +118,15 @@ function test_conditionAndRotate() public {
 }
 ```
 
-Batching the `revoke` and re-`grant` into one atomic [execute](../core/execution.md) is what keeps the permission from flickering off mid-flight. On a governed DAO it's the same principle: put both in the *same* proposal.
+Batching the `revoke` and re-`grant` into one atomic [execute](../core/execution.md) prevents a period between transactions when the permission is denied. On a governed DAO, put both in the *same* proposal.
 
 ## What you just saw
 
-- Changing authority is an ordinary DAO action, gated by `ROOT`, which the DAO holds over itself, so governance re-wires the DAO's own rules.
+- Changing authority is an ordinary DAO action, gated by `ROOT`, which the DAO holds over itself. Governance can therefore change the DAO's own rules.
 - A [condition](../common/permission-conditions.md) is a small contract you attach at grant time; it fails closed and can inspect the call's arguments.
-- Rotate a condition with `revoke` + `grantWithCondition` in **one batch**, a plain re-grant can't strip a condition, and two transactions leave a deny-gap.
+- Rotate a condition with `revoke` + `grantWithCondition` in **one batch**. A plain re-grant can't strip a condition, and two transactions leave a period when the permission is denied.
 
 ## Next
 
-- [Install a plugin into a live DAO](./install-a-plugin.md), the permission choreography behind adding governance after launch.
+- [Install a plugin into a live DAO](./install-a-plugin.md), the permission changes required to add governance after launch.
 - [Build a plugin](./build-a-plugin.md), whose `PluginSetup` returns exactly these grant/revoke operations for the installer to apply.

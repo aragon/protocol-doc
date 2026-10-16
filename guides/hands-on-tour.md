@@ -6,9 +6,9 @@ source: osx/src/framework/dao/DAOFactory.sol, osx/src/core/dao/DAO.sol
 
 # A hands-on tour of OSx
 
-The fastest way to *feel* how OSx works: in one Foundry test you'll deploy a real [DAO](../core/dao.md), fund it, make it perform an on-chain action, and then watch the [permission system](../core/permissions.md) reject the same action from the wrong caller.
+In one Foundry test, you'll deploy a [DAO](../core/dao.md), fund it, make it perform an onchain action, and see the [permission system](../core/permissions.md) reject the same action from the wrong caller.
 
-By the end you'll have seen the three things a DAO *is*, a treasury, an [executor](../core/execution.md), and its own permission database, in motion, and you'll know exactly what the later guides build on.
+The test demonstrates the DAO's three roles: a treasury, an [executor](../core/execution.md), and its own permission database. The later guides build on these operations.
 
 ## What you need
 
@@ -50,7 +50,7 @@ contract OsxInOneSitting is Test {
 }
 ```
 
-You now hold the most consequential permission in the protocol. That is fine for a demo and dangerous as an end state, in a real DAO, governance (a plugin) holds `EXECUTE`, not a person. See [how ROOT is bootstrapped safely](../core/dao.md#deployment-and-bootstrapping-root).
+You now hold `EXECUTE`, the protocol's most consequential permission. Keeping it on a person is suitable for this demo but dangerous as a permanent arrangement; a DAO's governance plugin should hold it. See [how ROOT is bootstrapped safely](../core/dao.md#deployment-and-bootstrapping-root).
 
 ## Step 2, fund it, then make it act
 
@@ -77,7 +77,7 @@ function test_fundAndSpend() public {
 }
 ```
 
-There are two things to notice. Funding is **permissionless**, anyone can pay a DAO, but assets leave *only* through [`execute`](../core/execution.md), which is permission-gated. The transfer runs **as the DAO**, at Bob's address `msg.sender` is the DAO and the ether is the DAO's, because `execute` uses `call`, not `delegatecall` (the same reason a DAO can call *itself* to change its own permissions, see [why it's a `call`](../core/execution.md#the-execute-function)).
+Funding is **permissionless**: anyone can pay a DAO, but assets leave *only* through [`execute`](../core/execution.md), which is permission-gated. The transfer runs **as the DAO**. At Bob's address, `msg.sender` is the DAO and the ether is the DAO's because `execute` uses `call`, not `delegatecall`. This is also why a DAO can call *itself* to change its own permissions; see [why it's a `call`](../core/execution.md#the-execute-function).
 
 ## Step 3, watch the permission gate
 
@@ -94,7 +94,7 @@ function test_strangerCannotExecute() public {
 }
 ```
 
-That revert *is* OSx's access control. Every privileged call in the protocol, on the DAO and on every plugin, resolves through this one check: is `(where, who, permissionId)` granted? See [how a decision is made](../core/permissions.md#how-a-decision-is-made).
+The revert enforces OSx's access control. Every privileged call in the protocol, on the DAO and on every plugin, checks whether `(where, who, permissionId)` is granted. See [how a decision is made](../core/permissions.md#how-a-decision-is-made).
 
 ## What you just saw
 
@@ -104,5 +104,5 @@ That revert *is* OSx's access control. Every privileged call in the protocol, on
 
 ## Next
 
-- [Deploy your first DAO](./deploy-a-dao.md), do this properly: hand `EXECUTE` to a governance **plugin** in the same transaction, so the organization, not you, is in control.
-- [Manage permissions through governance](./manage-permissions.md), grant, revoke, and condition permissions the right way.
+- [Deploy your first DAO](./deploy-a-dao.md) — hand `EXECUTE` to a governance **plugin** in the same transaction, so the organization's governance controls execution.
+- [Manage permissions through governance](./manage-permissions.md) — grant, revoke, and condition permissions through proposals.

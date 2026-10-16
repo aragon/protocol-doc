@@ -6,39 +6,39 @@ source: dao-launchpad/README.md, dao-launchpad/template/README.md
 
 # DAO Launchpad
 
-The DAO Launchpad is the **deployment workbench** for launching real DAOs on top of an already-deployed [OSx protocol](./index.md): a home for opinionated deployment projects, each of which stands up one DAO (with its plugins, and any custom contracts a specific launch needs) through a single, auditable on-chain factory.
+The DAO Launchpad is the **deployment workbench** for launching DAOs on top of an already-deployed [OSx protocol](./index.md). It contains deployment projects with a prescribed structure; each deploys one DAO, its plugins, and any custom contracts the launch needs through a single, auditable onchain factory.
 
 ## Where it fits
 
-Three deployment jobs are easy to conflate; the Launchpad is only the third:
+The Launchpad handles the third of these related deployment jobs:
 
-- **Publishing a plugin** (authoring one, cutting a [PluginRepo](../framework/plugin-repo.md) version) makes a plugin *available* to any DAO. Upstream of a launch.
+- **Publishing a plugin** (authoring one and creating a [PluginRepo](../framework/plugin-repo.md) version) makes a plugin *available* to any DAO before a launch.
 - **Deploying OSx itself** onto a chain is the [Protocol Factory](./protocol-factory.md)'s job; it stands up the framework a launch then targets.
-- **Standing up one custom DAO** that *assembles* those pieces, standard plugins, your own customized plugins, standard [conditions](../helpers/condition-library.md) and custom ones, plus any bespoke contracts, into a single organization. That's the Launchpad.
+- **Standing up one custom DAO** that combines standard plugins, your own customized plugins, standard [conditions](../helpers/condition-library.md) and custom ones, plus any bespoke contracts, into a single organization. This is the Launchpad's role.
 
-Its reason to exist is that last case: the pieces come from **heterogeneous repos**, and assembling them into one correctly-permissioned DAO has to be **atomic, deterministic, and verifiable** (the *how* is the rest of this page).
+Those components come from **different repos**. Assembling them into one DAO with the correct permissions must be **atomic, deterministic, and verifiable**.
 
 ## The problem it solves
 
-Standing up a governed DAO is not one step, it's a sequence: create the [DAO](../core/dao.md), [install each plugin](../framework/plugin-setup-processor.md), set every [permission](../core/permissions.md), then hand control to whoever should own it. Run that as a string of separate transactions and two bad things happen: every intermediate state is a **half-configured DAO** someone could exploit, and the deployer **transiently holds power** over funds and governance. The launchpad exists to make that whole sequence a single, reviewable, all-or-nothing event.
+Deploying a governed DAO takes several steps: create the [DAO](../core/dao.md), [install each plugin](../framework/plugin-setup-processor.md), set every [permission](../core/permissions.md), then hand control to whoever should own it. Separate transactions leave a **partially configured DAO** between steps that someone could exploit, while the deployer **temporarily holds power** over funds and governance. The launchpad makes the whole sequence a single, reviewable, all-or-nothing event.
 
 ## Correct from genesis
 
-Its answer, and the best practice it encodes, is the **one-shot on-chain factory**: all the deployment logic lives in one Solidity contract whose `deployOnce()` does everything atomically, create the DAO, wire every piece, hand governance to its permanent owner, and finally **revoke its own bootstrap power**. Because it's one transaction, the DAO either emerges fully-formed and correctly-permissioned or is never deployed at all; there is no window in which it exists but is misconfigured or still under the deployer's control. Two properties follow for free:
+All deployment logic lives in a **one-shot onchain factory**, a Solidity contract whose `deployOnce()` performs the whole sequence atomically: create the DAO, configure each component, hand governance to its permanent owner, and finally **revoke its own bootstrap power**. Because it's one transaction, the DAO is either deployed with its full configuration and correct permissions or is never deployed at all. There is no window in which it exists but is misconfigured or still under the deployer's control. This also gives the deployment two properties:
 
-- **Verifiable** — what was deployed is auditable from the factory's verified on-chain source, not from trusting a local script.
+- **Verifiable** — what was deployed is auditable from the factory's verified onchain source, without trusting a local script.
 - **Idempotent** — a second `deployOnce()` reverts, so a launch can't be run twice by accident.
 
 ## One workbench, many projects
 
-The launchpad is a **monorepo**: one workbench hosting many self-contained deployment projects, one per launch. They share a single set of dependencies and one inherited task runner (from [just-foundry](../tooling/just-foundry.md)), so a new launch starts batteries-included instead of re-bootstrapping Foundry, remappings, network configs, and secrets every time. Each project then owns only what's specific to *its* launch: the factory, the custom contracts, the parameters.
+The launchpad is a **monorepo** hosting self-contained deployment projects, one per launch. They share a single set of dependencies and one task runner (from [just-foundry](../tooling/just-foundry.md)), so each launch reuses the Foundry setup, remappings, network configs, and secrets handling. Each project owns what's specific to *its* launch: the factory, the custom contracts, and the parameters.
 
-A **template** is the starting point, a minimal working DAO that proves the wiring end to end, but it's only a scaffold: the substance lives in the real projects you build from it, each replacing the template with its own factory, custom contracts, and parameters.
+A **template** provides a minimal working DAO that demonstrates the configuration end to end. Use it as a scaffold, replacing its factory, custom contracts, and parameters with those for your launch.
 
 ## Keep in mind
 
-- **The value is the atomic factory, not the scripts.** The scripts just deploy the factory and pull the trigger; the correctness guarantees all come from doing the setup on-chain in one call.
-- **The template is a scaffold, not the product.** You start from it and replace it with your launch's own contracts.
+- **The factory makes deployment atomic.** The scripts deploy and invoke it; the correctness guarantees come from completing setup onchain in one call.
+- **Replace the template with your launch's own contracts.** It is a scaffold for building your deployment.
 
 ## See also
 
