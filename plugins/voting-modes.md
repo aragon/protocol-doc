@@ -7,9 +7,9 @@ source: token-voting-plugin/src/base/MajorityVotingBase.sol
 
 # Voting modes
 
-A [majority-voting](./majority-voting.md) proposal always passes by the same [thresholds](./majority-voting.md#the-three-thresholds), but the **voting mode** decides two things around them: *when* a passed proposal may execute, and *whether* a voter can change their mind. It's a per-plugin setting (frozen into each proposal at creation), and it's a real governance-design choice, so pick deliberately.
+A [majority-voting](./majority-voting.md) proposal always passes by the same [thresholds](./majority-voting.md#the-three-thresholds), but the **voting mode** decides *when* a passed proposal may execute and *whether* a voter can change their mind. It's a per-plugin setting, frozen into each proposal at creation. Choose it according to the timing and voting behavior your governance needs.
 
-> This page describes the modes for **snapshot-based** voting power ([Token Voting](./token-voting-plugin.md)), where a voter's weight is fixed once cast. A plugin whose power is *live* rather than snapshotted, notably [Lock to Vote](./lock-to-vote-plugin.md), refines these (its Standard mode lets weight grow, and it has no Early Execution); its page owns those deltas.
+> These modes apply to **snapshot-based** voting power ([Token Voting](./token-voting-plugin.md)), where a voter's weight is fixed once cast. A plugin whose power is *live* rather than snapshotted, notably [Lock to Vote](./lock-to-vote-plugin.md), adapts them: its Standard mode lets weight grow, and it has no Early Execution. See that plugin for its voting rules.
 
 ## The three modes
 
@@ -19,14 +19,14 @@ Votes are final once cast, and execution waits for the full voting window: a pro
 
 ### Early Execution
 
-The proposal can execute *before* the end date, the moment its outcome is mathematically settled, so an obviously-passing proposal doesn't have to wait out the clock. "Mathematically settled" is computed by a **worst-case** test: assume every not-yet-cast vote turned out to be `No`, and check whether support would *still* clear the threshold:
+The proposal can execute *before* the end date, the moment its outcome is mathematically settled. "Mathematically settled" is computed by a **worst-case** test: assume every not-yet-cast vote turned out to be `No`, and check whether support would *still* clear the threshold:
 
 ```
 worstCaseNo = totalVotingPower(snapshot) - yes - abstain
 passes early  iff  (RATIO_BASE - supportThreshold) * yes  >  supportThreshold * worstCaseNo
 ```
 
-If yes-power is already so far ahead that even "everyone else votes no" can't overturn it, the result is final and it can execute now. Votes are final in this mode (see why below). Choose it when speed matters and you're comfortable with an algorithmically-guaranteed-safe fast path.
+If yes-power is already so far ahead that even "everyone else votes no" can't overturn it, the result is final and it can execute now. Votes are final in this mode (see why below). Choose it when speed matters and you're comfortable allowing execution as soon as this test guarantees the result.
 
 ### Vote Replacement
 

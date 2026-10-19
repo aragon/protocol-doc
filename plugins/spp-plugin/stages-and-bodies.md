@@ -7,7 +7,7 @@ source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
 
 # SPP stages & bodies
 
-An [SPP](../spp-plugin.md) pipeline is entirely defined by its list of **stages**, and each stage by its list of **bodies**. Get these two structures and you understand what SPP can express.
+An [SPP](../spp-plugin.md) pipeline is entirely defined by its list of **stages**, and each stage by its list of **bodies**. These two structures determine the governance process SPP can express.
 
 ## A stage
 
@@ -38,12 +38,12 @@ If a stage has veto bodies, reaching `vetoThreshold` **blocks the proposal outri
 
 ### `voteDuration`: the field that does two jobs
 
-`voteDuration` is the subtle one:
+`voteDuration` controls two timings:
 
 1. It sets the voting length of the sub-proposals SPP creates on [automatic bodies](#bodies) (their `endDate = start + voteDuration`).
 2. **Only if the stage has veto bodies (`vetoThreshold > 0`)**, it *also* becomes a floor on advancing: the proposal can't become advanceable until `voteDuration` has elapsed, guaranteeing vetoers a window to react even if approvals arrive instantly. This is what makes an [optimistic stage](#the-three-stage-shapes) safe.
 
-> **Note:** when a stage has vetoes, the *effective* earliest-advance time is `max(minAdvance, voteDuration)`. It's easy to tune `minAdvance` expecting it to be the floor and be surprised advancement waits for `voteDuration` instead. For a veto stage, set `voteDuration` to the veto window you actually want.
+> **Note:** when a stage has vetoes, the *effective* earliest-advance time is `max(minAdvance, voteDuration)`. Setting `minAdvance` alone does not determine the floor: advancement still waits for `voteDuration` if it is longer. For a veto stage, set `voteDuration` to the veto window you want.
 
 ## Bodies
 
@@ -59,7 +59,7 @@ struct Body {
 ```
 
 - **Automatic body** (`isManual = false`): when the proposal enters the stage, SPP creates a sub-proposal on `addr` automatically. This requires the body to support [`IProposal`](../../common/proposal.md) (checked via ERC-165). The details of writing such a body are in [composing bodies](./composing-bodies.md).
-- **Manual body** (`isManual = true`): SPP creates nothing; some external process (a Safe transaction, a Governor, a person) must call `reportProposalResult` itself. Any address qualifies, no interface required, the escape hatch for bodies that can't integrate.
+- **Manual body** (`isManual = true`): SPP creates nothing; some external process (a Safe transaction, a Governor, a person) must call `reportProposalResult` itself. Any address qualifies, with no interface required, so bodies without the proposal interface can still participate.
 
 A body's `resultType` is set at configuration. For an **automatic** body it's binding, the auto-generated callback reports exactly that type, so the body counts as the approval or veto it was registered as. For a **manual** body it's only the *expected* type; what actually counts is whatever type the reporter passes to `reportProposalResult` (a manual body registered as Approval that reports a Veto counts as a veto). Either way, the same address can be an approval body in one stage and a veto body in another, and approval and veto bodies can be **mixed in one stage**, e.g. "token holders approve, but a security council can veto", in a single step.
 
@@ -75,7 +75,7 @@ Per stage you also choose whether it's **cancelable** and/or **editable** (a sta
 
 ## Rules don't move under an in-flight proposal
 
-Each proposal records the **configuration generation** it was created under (`stageConfigIndex`), and follows that generation for its whole life. When a DAO calls `updateStages` to evolve its governance, in-flight proposals keep the stages they started with, only new proposals use the new configuration. (Past generations stay readable via `getStages(index)`.) The same snapshot applies to the [execution target](../../framework/plugins.md#how-a-plugin-makes-the-dao-act), frozen at creation. Rules never shift beneath a proposal that's already moving.
+Each proposal records the **configuration generation** it was created under (`stageConfigIndex`), and follows that generation for its whole life. When a DAO calls `updateStages` to change its governance, in-flight proposals keep the stages they started with; only new proposals use the new configuration. (Past generations stay readable via `getStages(index)`.) The same snapshot applies to the [execution target](../../framework/plugins.md#how-a-plugin-makes-the-dao-act), frozen at creation. An existing proposal's rules stay fixed.
 
 ## Keep in mind
 

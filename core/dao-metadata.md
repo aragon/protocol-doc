@@ -7,7 +7,7 @@ source: osx/src/core/dao/DAO.sol, osx/src/core/dao/IEIP4824.sol, protocol-factor
 
 # DAO metadata
 
-A DAO's human-facing identity, its name, description, logo, and links, is **not** stored as on-chain fields. The [DAO contract](./dao.md) keeps two thin pointers to off-chain JSON instead, one Aragon-app-facing and one an interoperability standard. Knowing which is which (and that one isn't even stored) saves you from looking for a getter that doesn't exist.
+A DAO's name, description, logo, and links are **not** stored as onchain fields. The [DAO contract](./dao.md) uses two pointers to off-chain JSON: one for the Aragon app and one for an interoperability standard. Only one pointer is stored in contract storage; the other must be read from events.
 
 ## Surface 1: the Aragon metadata blob (event-only)
 
@@ -31,7 +31,7 @@ That `ipfs://…` resolves to a JSON object in this shape (a real example, the M
 - `avatar` — a URL (often IPFS) to the DAO's logo.
 - `links` — an array of `{ name, url }` for the DAO's sites/socials.
 
-Nothing on-chain validates this shape; the contract treats the CID as opaque. It's a convention that Aragon's app and ecosystem tools read.
+Nothing onchain validates this shape; the contract treats the CID as opaque. It's a convention that Aragon's app and ecosystem tools read.
 
 ## Surface 2: the EIP-4824 `daoURI` (stored, standardized)
 
@@ -54,12 +54,12 @@ Pin it with `just ipfs-pin <file>` (it uploads and returns the `ipfs://<CID>` UR
 
 ## Keep in mind
 
-- **The Aragon blob is event-only, the `daoURI` is stored.** Read the former by indexing `MetadataSet`; read the latter with `daoURI()`. Don't look for a metadata getter, it isn't there.
+- **The Aragon blob is event-only, the `daoURI` is stored.** Read the former by indexing `MetadataSet`; read the latter with `daoURI()`. There is no metadata getter.
 - **Both point off-chain (usually IPFS).** The chain stores a CID/URI, not the content, so availability depends on the JSON staying pinned.
-- **No on-chain schema check.** The DAO never parses the JSON; a malformed blob just renders badly in tooling, it won't revert anything.
+- **No onchain schema check.** The DAO never parses the JSON; a malformed blob renders badly in tooling but won't revert anything.
 - **No formal schema file, just a convention.** The blob's shape is the de-facto standard shown above; the canonical live example is the Management DAO's `management-dao-metadata.json`. The `daoURI` document, by contrast, follows the published [EIP-4824](https://eips.ethereum.org/EIPS/eip-4824) schema.
 
 ## See also
 
 - [The DAO contract](./dao.md) — where `setMetadata` / `daoURI` live and how they're permissioned.
-- [Plugin metadata](../framework/plugin-metadata.md) — the plugin-side counterpart (version JSON + on-chain instance metadata), which *does* store instance metadata.
+- [Plugin metadata](../framework/plugin-metadata.md) — the plugin-side counterpart (version JSON + onchain instance metadata), which *does* store instance metadata.

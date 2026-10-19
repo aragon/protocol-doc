@@ -1,15 +1,15 @@
 # Common
 
-The **shared cross-cutting primitives** of Aragon OSx. These were once a separate `osx-commons` library; they now live **within osx itself**, at `src/common` in the [`osx`](https://github.com/aragon/osx) repo, there is no separate osx-commons package to install. (In Solidity you import them directly from osx, `@aragon/osx/common/…`.) They are the reusable pieces the [core](../core/index.md), the [framework](../framework/index.md), and every [plugin](../plugins/index.md) draw on: authorization, governance primitives, and low-level utilities.
+The **shared cross-cutting primitives** of Aragon OSx. These were once a separate `osx-commons` library; they now live **within osx itself**, at `src/common` in the [`osx`](https://github.com/aragon/osx) repo. There is no separate osx-commons package to install. In Solidity you import them directly from osx, `@aragon/osx/common/…`. They are the reusable pieces the [core](../core/index.md), the [framework](../framework/index.md), and every [plugin](../plugins/index.md) draw on: authorization, governance primitives, and low-level utilities.
 
-_What it means to *be* a plugin, the base contracts, the setup, and the plugin model, lives in the [framework](../framework/index.md), since a plugin is defined by using the framework to operate a DAO. This area is the primitives it reuses._
+_The base contracts, setup, and plugin model are covered in the [framework](../framework/index.md): a plugin uses that framework to operate a DAO. This area covers the primitives it reuses._
 
 **Exact signatures:** the generated [`osx` ABI reference](../abi/osx/index.md) has every public function, event, error and constant of these contracts, with its NatSpec.
 
 ## Authorization building blocks
 
 - [Authorizing against a DAO](./auth.md) — `DaoAuthorizable` and the `auth` modifier: how any contract defers access control to a DAO.
-- [Permission conditions](./permission-conditions.md) — dynamic, on-chain authorization logic (`IPermissionCondition`).
+- [Permission conditions](./permission-conditions.md) — dynamic, onchain authorization logic (`IPermissionCondition`).
 - [RuledCondition](./ruled-condition.md) — a declarative rule engine for composing conditions.
 
 ## Governance primitives

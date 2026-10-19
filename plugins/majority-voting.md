@@ -7,13 +7,13 @@ source: token-voting-plugin/src/base/MajorityVotingBase.sol, token-voting-plugin
 
 # Majority voting
 
-Majority voting is a reusable decision engine for governance plugins (`MajorityVotingBase`): the rules that turn a set of Yes/No/Abstain votes into a pass or fail. It deliberately separates *how do we decide* (here) from *where does voting power come from* (the concrete plugin supplies that, e.g. the [Token Voting Plugin](./token-voting-plugin.md) weights votes by token balance). Any voting plugin can build on it.
+Majority voting provides reusable decision rules for governance plugins (`MajorityVotingBase`): the rules that turn a set of Yes/No/Abstain votes into a pass or fail. It separates *how votes are decided* from *where voting power comes from*. The concrete plugin supplies the power source; for example, the [Token Voting Plugin](./token-voting-plugin.md) weights votes by token balance. Any voting plugin can build on it.
 
 A proposal succeeds only if **three independent criteria all hold**, plus it ran for a minimum time. They're independent on purpose, each guards against a different failure of a naive "most votes win" rule.
 
 ## The three thresholds
 
-Every voter casts `Yes`, `No`, or `Abstain`, weighted by their **voting power**, what confers it is the plugin's business (a token balance, locked tokens, a member list; the [Token Voting Plugin sources it from IVotes balances](./token-voting-plugin/voting-power.md)). All thresholds are expressed with the [`RATIO_BASE` convention](../common/ratio.md) (`1_000_000` = 100%) and are **frozen into the proposal at creation**, later changes to the DAO's voting settings never affect proposals already open.
+Every voter casts `Yes`, `No`, or `Abstain`, weighted by their **voting power**. The plugin determines what provides that power (a token balance, locked tokens, a member list; the [Token Voting Plugin sources it from IVotes balances](./token-voting-plugin/voting-power.md)). All thresholds are expressed with the [`RATIO_BASE` convention](../common/ratio.md) (`1_000_000` = 100%) and are **frozen into the proposal at creation**. Later changes to the DAO's voting settings never affect proposals already open.
 
 ### Support — do most of the *decided* voters agree?
 
@@ -21,7 +21,7 @@ Every voter casts `Yes`, `No`, or `Abstain`, weighted by their **voting power**,
 support = yes / (yes + no)      must be  >  supportThreshold
 ```
 
-**Abstain is deliberately excluded** from support. Support asks "of those who took a side, did enough say yes?" Abstaining means "I'm present but express no direction", counting it as opposition would let mass abstention block proposals nobody actually voted against. On-chain the check is done cross-multiplied to avoid division: `(RATIO_BASE - supportThreshold) * yes > supportThreshold * no`. The comparison is strict (`>`), so at a 50% threshold you need *at least one more* yes than no, and the threshold is capped just below 100% (a threshold of exactly 100% could never be met).
+**Abstain is deliberately excluded** from support. Support asks "of those who took a side, did enough say yes?" Abstaining means "I'm present but express no direction", counting it as opposition would let mass abstention block proposals nobody actually voted against. Onchain the check is done cross-multiplied to avoid division: `(RATIO_BASE - supportThreshold) * yes > supportThreshold * no`. The comparison is strict (`>`), so at a 50% threshold you need *at least one more* yes than no, and the threshold is capped just below 100% (a threshold of exactly 100% could never be met).
 
 ### Participation — did enough of the electorate show up?
 

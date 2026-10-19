@@ -6,11 +6,13 @@ source: osx/src/framework/plugin/setup/PluginSetupProcessor.sol, osx/src/framewo
 
 # Update a plugin
 
-Moving an installed plugin to a newer version runs the **same prepare → governed apply** rhythm as [installing one](./install-a-plugin.md), with three things specific to updates: it is **release-locked**, there's a **metadata-only fast path** that skips the ROOT window entirely, and **uninstalling** is the mirror image. This guide assumes you already installed a plugin (see [Install a plugin](./install-a-plugin.md)); `plugin`, `dao`, and the original `currentHelpers` (from that install's `preparedSetupData.helpers`) are known, and the test holds `EXECUTE` on a bare DAO so it can `dao.execute` the apply batch directly.
+Move an installed plugin to a newer version through the **same prepare → governed apply** sequence as [installation](./install-a-plugin.md). Updates are **release-locked**, with a **metadata-only fast path** that skips the ROOT window entirely. Uninstalling uses the corresponding sequence to revoke permissions.
+
+Start with an installed plugin (see [Install a plugin](./install-a-plugin.md)) and its `plugin`, `dao`, and original `currentHelpers` from `preparedSetupData.helpers`. The test holds `EXECUTE` on a bare DAO so it can `dao.execute` the apply batch directly.
 
 ## Step 1, prepare the update (release-locked)
 
-`prepareUpdate` is permissionless like `prepareInstallation`, but it enforces the [versioning rule](../framework/plugin-repo.md#release-vs-build): the **release must stay the same and the build must strictly increase**, or it reverts `InvalidUpdateVersion`. (Crossing a release is an incompatible change: the existing instance can't morph into another release, so you **install a fresh instance** of it, a new contract with its own address and empty state, and uninstall the old one. That's an [uninstall + reinstall](../framework/plugin-setup-processor.md#the-three-lifecycles), not an in-place update.)
+`prepareUpdate` is permissionless like `prepareInstallation`, but it enforces the [versioning rule](../framework/plugin-repo.md#release-vs-build): the **release must stay the same and the build must strictly increase**, or it reverts `InvalidUpdateVersion`. Crossing a release is an incompatible change that an existing instance cannot adopt through an update. You must **install a fresh instance**, a new contract with its own address and empty state, and uninstall the old one. That is an [uninstall + reinstall](../framework/plugin-setup-processor.md#the-three-lifecycles), not an in-place update.
 
 ```solidity
 function test_update() public {
@@ -38,7 +40,7 @@ function test_update() public {
 
 ## Step 2, apply the update (governed, temporary-ROOT window)
 
-Like the [install apply window](./install-a-plugin.md#step-3-apply-governed-inside-a-temporary-root-window), but with one crucial difference: `applyUpdate` performs the **UUPS proxy upgrade** (using `initData` from prepare), and that upgrade is authorized by `UPGRADE_PLUGIN_PERMISSION` on the *plugin*, which **`ROOT` does not confer** ([`isGranted`](../core/permissions.md) has no ROOT bypass). So for an implementation-changing update the PSP needs **two** temporary grants: `ROOT` on the DAO (for the permission diff) and `UPGRADE_PLUGIN_PERMISSION` on the plugin (for the upgrade). As with install, no `APPLY_UPDATE_PERMISSION` is needed, the DAO calls the PSP itself:
+Use the [install apply window](./install-a-plugin.md#step-3-apply-governed-inside-a-temporary-root-window) with an additional grant. `applyUpdate` performs the **UUPS proxy upgrade** using `initData` from prepare. That upgrade requires `UPGRADE_PLUGIN_PERMISSION` on the *plugin*, which **`ROOT` does not confer** ([`isGranted`](../core/permissions.md) has no ROOT bypass). For an implementation-changing update, the PSP therefore needs **two** temporary grants: `ROOT` on the DAO for the permission diff and `UPGRADE_PLUGIN_PERMISSION` on the plugin for the upgrade. As with install, no `APPLY_UPDATE_PERMISSION` is needed because the DAO calls the PSP itself:
 
 ```solidity
     bytes32 ROOT = dao.ROOT_PERMISSION_ID();
@@ -64,7 +66,7 @@ Like the [install apply window](./install-a-plugin.md#step-3-apply-governed-insi
 }
 ```
 
-That `UPGRADE_PLUGIN_PERMISSION` grant is exactly what separates update from install: `applyInstallation` only *deploys*, it never upgrades a proxy, so it needs `ROOT` alone. (Some plugin setups instead grant the PSP a *standing* upgrade permission at install; then the window drops back to ROOT-only. Granting it per-update, as here, works regardless.)
+The `UPGRADE_PLUGIN_PERMISSION` grant distinguishes update from install: `applyInstallation` only *deploys*, it never upgrades a proxy, so it needs `ROOT` alone. Some plugin setups grant the PSP a *standing* upgrade permission at install; then only ROOT needs a temporary grant. Granting upgrade permission per-update, as here, works in either case.
 
 ## The metadata-only shortcut
 
@@ -72,7 +74,7 @@ If a new build changes **only** the off-chain [metadata](../framework/plugin-met
 
 ## Uninstalling: the mirror
 
-Uninstalling is the same shape, `prepareUninstallation` returns the permissions to **revoke** (not grant), and `applyUninstallation` runs in the same governed window (with `APPLY_UNINSTALLATION_PERMISSION_ID`):
+Uninstalling follows the same sequence. `prepareUninstallation` returns the permissions to **revoke** (not grant), and `applyUninstallation` runs in the same governed window (with `APPLY_UNINSTALLATION_PERMISSION_ID`):
 
 ```solidity
 function test_uninstall() public {
@@ -107,7 +109,7 @@ After it applies, the plugin's applied-setup id is cleared, so the same plugin *
 ## What you just saw
 
 - Update is prepare → apply like install, but **release-locked**: same release, strictly higher build (`InvalidUpdateVersion` otherwise). Its apply does the UUPS upgrade, which needs the PSP to hold `UPGRADE_PLUGIN_PERMISSION` on the plugin, **`ROOT` alone doesn't authorize the upgrade**.
-- A **metadata-only** update changes nothing on-chain, so it skips the ROOT window and needs only `APPLY_UPDATE`.
+- A **metadata-only** update changes nothing onchain, so it skips the ROOT window and needs only `APPLY_UPDATE`.
 - **Uninstall** is the same window with the setup's *revoke* list; a cross-release migration is uninstall + reinstall (a **fresh instance** with a new address, not the old one upgraded).
 
 ## Next

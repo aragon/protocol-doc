@@ -6,7 +6,7 @@ source: osx/src/core/dao/DAO.sol, osx/src/common/executors/IExecutor.sol, multis
 
 # Create, vote, and execute a proposal
 
-You've [deployed a DAO with a plugin](./deploy-a-dao.md). Now make it *do* something. A DAO acts whenever something holding [`EXECUTE_PERMISSION_ID`](./deploy-a-dao.md) calls its [`execute`](../core/execution.md#the-execute-function). Most often, and by best practice, that caller is a governance plugin enacting a [**proposal**](../common/proposal.md): a bundle of [actions](../core/execution.md) put up for a decision and, if it passes, run on the DAO. (It's not the *only* way, the [Admin plugin](../plugins/admin-plugin.md) executes with no vote, but a proposal is what you'll use most, and it's this guide's subject.) Every governance plugin shares the **same lifecycle**, they differ only in how the decision is made:
+After [deploying a DAO with a plugin](./deploy-a-dao.md), create, approve, and execute a proposal to make the DAO act. A DAO runs actions when a caller holding [`EXECUTE_PERMISSION_ID`](./deploy-a-dao.md) calls its [`execute`](../core/execution.md#the-execute-function). The usual and recommended caller is a governance plugin enacting a [**proposal**](../common/proposal.md): a bundle of [actions](../core/execution.md) put up for a decision and, if it passes, run on the DAO. The [Admin plugin](../plugins/admin-plugin.md) can execute without a vote; the examples below use multisig approval and token voting. Governance plugins share the **same lifecycle**, differing in how the decision is made:
 
 ```
 createProposal(...) -> id      // package the actions
@@ -16,7 +16,7 @@ execute(id)                    // once it passes, run the actions on the DAO
 
 `execute` on the plugin is what finally calls [`dao.execute`](../core/execution.md), and it works because the plugin holds [`EXECUTE_PERMISSION_ID` on the DAO](./deploy-a-dao.md) (granted at install). Both plugins below also grant `EXECUTE_PROPOSAL_PERMISSION_ID` to **anyone**, so once a proposal passes, *any* address can trigger execution. Whether it's *passed* ([`hasSucceeded`](../common/proposal.md)) is separate from whether it's *executable now* (`canExecute`, which also weighs timing).
 
-Both examples assume the plugin is already installed (from [Deploy your first DAO](./deploy-a-dao.md) / [Launch a governance token](./launch-a-governance-token.md)). The demo action just has the DAO update its own metadata, swap in whatever the DAO is allowed to do.
+Both examples assume the plugin is already installed (from [Deploy your first DAO](./deploy-a-dao.md) / [Launch a governance token](./launch-a-governance-token.md)). The demo action has the DAO update its own metadata. You can replace it with any action the DAO is allowed to perform.
 
 ## The skeleton
 
@@ -53,7 +53,7 @@ contract Proposals is Test {
 
 ## Multisig: approve to a threshold
 
-A [multisig](../plugins/multisig-plugin.md) proposal passes when `minApprovals` members approve. With the 2-of-3 from the deploy guide, one member creates-and-approves, a second approves with `_tryExecution` to run it in the same call:
+A [multisig](../plugins/multisig-plugin.md) proposal passes when `minApprovals` members approve. With the 2-of-3 from the deploy guide, one member creates and approves the proposal. A second approves with `_tryExecution` to run it in that same call:
 
 ```solidity
 function test_multisigProposal() public {
@@ -84,7 +84,7 @@ function test_multisigProposal() public {
 }
 ```
 
-`approve(id, false)` then a separate `execute(id)` is the two-step equivalent; `_tryExecution` just fuses the last approval with execution. Only *listed* members may approve, [membership & eligibility](../plugins/multisig-plugin/membership.md) covers who counts and when.
+`approve(id, false)` followed by a separate `execute(id)` is the two-step equivalent; `_tryExecution` combines the last approval with execution. Only *listed* members may approve; see [membership & eligibility](../plugins/multisig-plugin/membership.md) for who counts and when.
 
 ## Token Voting: decide by weight
 
@@ -129,13 +129,13 @@ function test_tokenVote() public {
 }
 ```
 
-In **Standard** mode the vote runs the full duration even once the outcome is decided; **Early Execution** mode lets a passed proposal execute immediately (that's what `_tryEarlyExecution` / `vote(id, Yes, true)` is for), see [voting modes](../plugins/voting-modes.md). Whether a proposal passed depends on the support and participation [thresholds](../plugins/majority-voting.md).
+In **Standard** mode, the vote runs the full duration even once the outcome is decided. **Early Execution** mode lets a passed proposal execute immediately through `_tryEarlyExecution` / `vote(id, Yes, true)`; see [voting modes](../plugins/voting-modes.md). Whether a proposal passed depends on the support and participation [thresholds](../plugins/majority-voting.md).
 
 ## What you just saw
 
 - One lifecycle, **create → decide → execute**; only the "decide" step changes between plugins.
 - `execute` runs the proposal's actions *as the DAO*, because the plugin holds `EXECUTE` on the DAO; anyone can trigger it once the proposal passes.
-- "Passed" ([`hasSucceeded`](../common/proposal.md)) and "executable now" (`canExecute`) are different questions, timing lives in the latter.
+- "Passed" ([`hasSucceeded`](../common/proposal.md)) and "executable now" (`canExecute`) are different questions; `canExecute` also checks timing.
 
 ## Next
 

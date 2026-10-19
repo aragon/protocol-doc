@@ -7,7 +7,7 @@ source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
 
 # Composing SPP bodies
 
-In [SPP](../spp-plugin.md), a stage's decision-makers, its **bodies**, are *other* contracts: existing governance plugins, a Safe, even an EOA. This page is the integration contract: how a body plugs in, and how to make your own plugin usable as one.
+In [SPP](../spp-plugin.md), a stage's decision-makers, its **bodies**, are *other* contracts: existing governance plugins, a Safe, even an EOA. A body integrates by reporting its decision to SPP or exposing a proposal interface SPP can read.
 
 **Acting in a body decides the parent, not the actions.** When someone votes or approves inside a body, they're voting on whether to *advance or veto the SPP proposal at that stage*, not on the proposal's underlying actions directly. The body is a gate; SPP owns the actions and the final execution.
 
@@ -16,7 +16,7 @@ In [SPP](../spp-plugin.md), a stage's decision-makers, its **bodies**, are *othe
 Every body is one of two kinds ([configured per stage](./stages-and-bodies.md#bodies)). The split comes down to **how SPP learns the body's verdict**, which depends on whether the body speaks OSx's proposal interface:
 
 - **Automatic** (`isManual = false`): the body is an OSx-native plugin that reports success through [`IProposal`](../../common/proposal.md). So SPP can create a sub-proposal on it when the stage begins (its single action is a callback to `reportProposalResult` pre-filled with the body's verdict), *and* SPP can [poll the body's `hasSucceeded`](./lifecycle.md#how-a-stages-results-are-tallied-push-and-pull) directly, no custom wiring either way. Requires ERC-165 `IProposal` support and that SPP holds `CREATE_PROPOSAL_PERMISSION` on the body.
-- **Manual** (`isManual = true`): the body is something that *doesn't* implement OSx's proposal interface, a Safe, a vault, an external Governor, an EOA, so there's no `hasSucceeded` for SPP to poll and no sub-proposal to create. Instead the external system **pushes** its verdict in: it calls `reportProposalResult` to *notify* SPP that it has approved or vetoed. Manual mode is the **interoperability** escape hatch that lets any external address take part in a stage without adopting a single Aragon interface. The trade-off is that someone has to drive that reporting; it isn't automated for you.
+- **Manual** (`isManual = true`): the body is something that *doesn't* implement OSx's proposal interface, a Safe, a vault, an external Governor, an EOA, so there's no `hasSucceeded` for SPP to poll and no sub-proposal to create. Instead the external system **pushes** its verdict in: it calls `reportProposalResult` to *notify* SPP that it has approved or vetoed. Manual mode lets any external address take part in a stage without adopting an Aragon interface. Someone must arrange that reporting; it isn't automated for you.
 
 ## Making your plugin an automatic body
 
@@ -46,11 +46,13 @@ abi.encodeCall(
 
 ## Which plugins can be bodies
 
-Any address can be a *manual* body. For *automatic* bodies, the standard OSx governance plugins already qualify (they inherit the proposal base): [Multisig](../multisig-plugin.md), [Token Voting](../token-voting-plugin.md), and [Admin](../admin-plugin.md). A Safe or an external Governor is the typical manual body. This is what makes the canonical pitch real: *multisig approves → token holders vote → admin executes*, each an existing plugin, stitched into a pipeline by SPP.
+Any address can be a *manual* body. For *automatic* bodies, the standard OSx governance plugins already qualify (they inherit the proposal base): [Multisig](../multisig-plugin.md), [Token Voting](../token-voting-plugin.md), and [Admin](../admin-plugin.md). A Safe or an external Governor is the typical manual body. SPP can therefore combine existing plugins into a sequence such as *multisig approves → token holders vote → admin executes*.
 
 ## SPP inside SPP
 
-Because SPP implements [`IProposal`](../../common/proposal.md), **an SPP instance can be a body of another SPP**, nesting pipelines (a whole sub-pipeline standing in as one stage's decision). It plugs in like any automatic body, with two things to remember: the inner SPP needs its own stages, bodies, and permissions configured, and its verdict reaches the outer SPP only when the inner pipeline is actually **executed** (execution fires the report callback, and since executing is permissionless anyone can trigger it once it's ready). Note the inner SPP's own `hasSucceeded` is strictly monotonic only *after* it executes, a last-stage-advanceable inner proposal that hits `maxAdvance` expires back to un-succeeded, so nesting leans on the inner pipeline being executed, not merely polled.
+Because SPP implements [`IProposal`](../../common/proposal.md), **an SPP instance can be a body of another SPP**, nesting pipelines (a whole sub-pipeline supplies one stage's decision). It integrates like any automatic body, with two requirements: the inner SPP needs its own stages, bodies, and permissions configured, and its verdict reaches the outer SPP only when the inner pipeline is **executed** (execution fires the report callback, and since executing is permissionless anyone can trigger it once it's ready).
+
+The inner SPP's own `hasSucceeded` is strictly monotonic only *after* it executes. A last-stage-advanceable inner proposal that hits `maxAdvance` expires and no longer counts as succeeded, so nesting depends on the inner pipeline being executed, not merely polled.
 
 ## Keep in mind
 

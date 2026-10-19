@@ -6,7 +6,7 @@ source: osx-plugin-template-foundry/src/MyUpgradeablePlugin.sol, osx-plugin-temp
 
 # Build a plugin
 
-A plugin is **two artifacts**: the **plugin contract** (your logic, gated by [permissions](../core/permissions.md)) and its **[`PluginSetup`](../framework/plugin-setup.md)** (the recipe that deploys the plugin and declares exactly which permissions to grant on install and revoke on uninstall). The setup is what the [PSP applies](./install-a-plugin.md) in the temporary-ROOT window; get it right and your plugin installs, updates, and uninstalls cleanly everywhere.
+Build a plugin as **two artifacts**: the **plugin contract**, containing your logic gated by [permissions](../core/permissions.md), and its **[`PluginSetup`](../framework/plugin-setup.md)**, which deploys the plugin and declares exactly which permissions to grant on install and revoke on uninstall. The [PSP applies](./install-a-plugin.md) the setup in the temporary-ROOT window. A correct setup lets the framework install, update, and uninstall your plugin consistently.
 
 Start from the [Foundry plugin template](../tooling/plugin-template.md) (the [Setup](./setup.md) scaffold): it gives you starter contracts for all three [base types](../framework/plugin-types.md) (`MyStaticPlugin`, `MyCloneablePlugin`, `MyUpgradeablePlugin`), a `MyPluginSetup`, tests, and deploy scripts. This guide uses the **UUPS-upgradeable** variant. (Imports below are the template's.)
 
@@ -48,7 +48,7 @@ contract MyUpgradeablePlugin is PluginUUPSUpgradeable {
 }
 ```
 
-There are three things to note. `auth(MANAGER_PERMISSION_ID)` doesn't check a local list, it asks the DAO "does the caller hold this on *this plugin*" (the [plugin is the `where`](../common/auth.md)). A plugin makes the DAO act by building [actions](../core/execution.md) and calling `dao.execute`, which only works if the plugin holds `EXECUTE_PERMISSION_ID` on the DAO, and *that* grant comes from the setup below. The `__gap` preserves storage layout across [upgrades](../framework/plugin-types.md).
+`auth(MANAGER_PERMISSION_ID)` asks the DAO whether the caller holds this permission on *this plugin*, rather than checking a local list (the [plugin is the `where`](../common/auth.md)). A plugin makes the DAO act by building [actions](../core/execution.md) and calling `dao.execute`. This requires the plugin to hold `EXECUTE_PERMISSION_ID` on the DAO, granted by the setup below. The `__gap` preserves storage layout across [upgrades](../framework/plugin-types.md).
 
 ## Step 2, the PluginSetup
 
@@ -120,11 +120,11 @@ contract MyPluginSetup is PluginSetup {
 }
 ```
 
-The install `data` layout (`(address manager, uint256 initialNumber)` here) is your plugin's public contract with installers, publish it in the build [metadata](../framework/plugin-metadata.md), and expose a typed `encodeInstallationParameters` / `decodeInstallationParameters` pair on your setup so callers never hand-pack bytes ([shown below](#typed-install-data)). Two rules the [permission system](../core/permissions.md) enforces on this array: a **conditional** grant must use `Operation.GrantWithCondition` (a plain `Grant` carrying a non-zero condition reverts), and uninstall should return the *mirror* of what install granted, so nothing is stranded.
+The install `data` layout (`(address manager, uint256 initialNumber)` here) is your plugin's public contract with installers. Publish it in the build [metadata](../framework/plugin-metadata.md), and expose a typed `encodeInstallationParameters` / `decodeInstallationParameters` pair on your setup so callers don't have to assemble bytes by hand ([shown below](#typed-install-data)). The [permission system](../core/permissions.md) enforces two rules on this array: a **conditional** grant must use `Operation.GrantWithCondition` (a plain `Grant` carrying a non-zero condition reverts), and uninstall should revoke what install granted so no permissions remain.
 
 ## Typed install data
 
-The install `data` is positional `abi.encode`d bytes, and hand-packing them is where installers slip: a wrong field order or type makes `prepareInstallation` revert on `abi.decode` (or, worse, silently misconfigure). Publish the ABI *as code*, a matched pair of `pure` helpers on your setup, and route `prepareInstallation` through the decoder so the encode and decode sides can't drift. This is what the [Token Voting setup](../plugins/token-voting-plugin.md) ships, and it's the norm worth copying:
+The install `data` is positional `abi.encode`d bytes. A wrong field order or type makes `prepareInstallation` revert on `abi.decode` or silently misconfigure the plugin. Publish the ABI *as code*: a matched pair of `pure` helpers on your setup. Route `prepareInstallation` through the decoder to keep it consistent with the encoder. The [Token Voting setup](../plugins/token-voting-plugin.md) provides this pair:
 
 ```solidity
 // Add to MyPluginSetup:
@@ -147,14 +147,14 @@ Then `prepareInstallation` decodes through the pair instead of a raw `abi.decode
 (address manager, uint256 initialNumber) = decodeInstallationParameters(_data);
 ```
 
-Now the layout lives in exactly one place. Installers build their `data` with `setup.encodeInstallationParameters(manager, n)` rather than hand-rolling `abi.encode`, which is precisely what [Launch a governance token](./launch-a-governance-token.md) does against the Token Voting setup. Keep the pair in lockstep with the build [metadata](../framework/plugin-metadata.md) ABI: they describe the same thing, so a change to one is a change to both.
+The setup now defines the layout. Installers build their `data` with `setup.encodeInstallationParameters(manager, n)` rather than assembling `abi.encode` arguments themselves, as [Launch a governance token](./launch-a-governance-token.md) does against the Token Voting setup. Keep both helpers consistent with the build [metadata](../framework/plugin-metadata.md) ABI: they describe the same layout and must change together.
 
 ## What you just saw
 
-- A plugin is your **logic + a setup recipe**; the recipe, not the plugin, wires permissions.
+- A plugin is your **logic + a setup**; the setup, not the plugin contract, configures permissions.
 - `auth` defers to the DAO (the plugin is the `where`); to make the DAO act, the setup grants the plugin `EXECUTE` on the DAO.
 - `prepareUninstallation` mirrors `prepareInstallation`'s grants as revokes. For an **updatable** plugin, extend [`PluginUpgradeableSetup`](../framework/plugin-setup.md) and add `prepareUpdate` (see [Update a plugin](./update-a-plugin.md)).
-- **Publish typed install params.** Add an `encodeInstallationParameters`/`decodeInstallationParameters` pair to your setup so installers never hand-pack `data`, the pattern the Token Voting setup and the [launch guide](./launch-a-governance-token.md) use.
+- **Publish typed install params.** Add an `encodeInstallationParameters`/`decodeInstallationParameters` pair to your setup so installers don't have to assemble `data` by hand. The Token Voting setup and the [launch guide](./launch-a-governance-token.md) use this pattern.
 
 ## Next
 

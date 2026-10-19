@@ -7,7 +7,7 @@ source: osx/src/common/executors/IExecutor.sol, osx/src/core/dao/DAO.sol, osx/sr
 
 # Actions and execution
 
-Everything a DAO *does* on-chain, send funds, call another contract, change its own permissions, it does by executing **actions**. An action is one external call:
+A DAO sends funds, calls other contracts, and changes its own permissions by executing **actions**. Everything it does onchain uses these actions. An action is one external call:
 
 ```solidity
 struct Action {
@@ -36,13 +36,13 @@ On the [DAO](./dao.md) this is gated by `EXECUTE_PERMISSION_ID` and is `nonReent
 Key facts:
 
 - **It's a `call`, not a `delegatecall`.** Actions run *as the DAO*: `msg.sender` at the target is the DAO's address, and value comes from the DAO's balance. This is why a DAO can call *itself* (e.g. an action targeting the DAO's own `grant`) to self-govern.
-- **`_callId`** is caller-defined and only echoed in the `Executed` event, governance plugins typically set it to the proposal id for traceability. The DAO does not interpret it.
+- **`_callId`** is caller-defined and only echoed in the `Executed` event. Governance plugins typically set it to the proposal id for traceability. The DAO does not interpret it.
 - **`MAX_ACTIONS = 256`** per call (bounded by the 256-bit failure bitmap); more reverts `TooManyActions`.
 - **`execute` is `nonReentrant`, but self-governance still works.** An action may freely call back into the DAO's *other* functions, and that is exactly how a DAO governs itself: an action targeting the DAO's own `grant`/`revoke` runs as the DAO, which holds ROOT over itself, and succeeds. What an action may *not* do is re-enter `execute`. The guard is a `_reentrancyStatus` flag on the function itself, not tied to the caller or their permissions, so *even a plugin holding `EXECUTE_PERMISSION_ID`* re-enters the same guarded function and reverts `ReentrantCall`. Genuinely nested execution therefore has to run on a *different* executor: target another DAO, or `delegatecall` the standalone [`Executor`](#the-standalone-executor), which keeps its guard in a separate storage slot. The guard scopes to `execute` alone, so permission changes and metadata updates mid-batch are unaffected.
 
 ## Failsafe actions
 
-By default, if any action reverts the whole batch reverts. Sometimes you want an action to be **failsafe**: permitted to fail without sinking the rest of the proposal. The `_allowFailureMap` parameter, the **failsafe action map**, is a bitmap where **bit `i` set marks action `i` as failsafe**:
+By default, if any action reverts the whole batch reverts. Sometimes you want an action to be **failsafe**: permitted to fail without reverting the rest of the proposal. The `_allowFailureMap` parameter, the **failsafe action map**, is a bitmap where **bit `i` set marks action `i` as failsafe**:
 
 - A failsafe action that reverts is recorded (its bit is set in the returned `failureMap`) and execution continues.
 - A *non-failsafe* action that reverts throws `ActionFailed(i)` and rolls back the whole batch.
@@ -62,11 +62,11 @@ uint256 allowFailureMap = 1 << 1; // set bit 1
 
 `Action` and the `execute` signature are defined in `IExecutor`, and there is a second implementation: `Executor`, a **permissionless, standalone** executor.
 
-- It runs the *same* action-loop (same `MAX_ACTIONS`, same failsafe semantics, same gas guard) but has **no permission check**, anyone can call it.
+- It runs the *same* action-loop (same `MAX_ACTIONS`, same failsafe semantics, same gas guard) but has **no permission check**: anyone can call it.
 - It is meant to be used via **`delegatecall`** from another contract, lending its execute-loop logic while running in the caller's context. To stay `delegatecall`-safe it stores its reentrancy guard in a fixed namespaced storage slot (via assembly) rather than a normal state variable, so it never collides with the caller's storage layout.
 - OSx deploys **one shared instance** of it per network, known as the **`GlobalExecutor`** (that's its deploy name and the protocol-factory `globalExecutor` field; deployment artifacts key the address as `executor`). A plugin whose [`TargetConfig`](../framework/plugins.md#how-a-plugin-makes-the-dao-act) uses `DelegateCall` borrows *that* instance's loop, so it never ships its own, and the contract itself is just called `Executor` in the source.
 
-`DAO.execute` (permissioned, called directly) and `Executor` (permissionless, delegatecalled) share the `IExecutor` interface but are different tools, don't confuse them. Plugins can target either, see [how plugins execute](../framework/plugins.md#how-a-plugin-makes-the-dao-act).
+`DAO.execute` (permissioned, called directly) and `Executor` (permissionless, delegatecalled) share the `IExecutor` interface but differ in how they are called and authorized. Plugins can target either; see [how plugins execute](../framework/plugins.md#how-a-plugin-makes-the-dao-act).
 
 ## Keep in mind
 

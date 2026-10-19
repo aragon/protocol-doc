@@ -7,7 +7,7 @@ source: osx/src/core/permission/PermissionManager.sol, osx/src/common/permission
 
 # The permission system
 
-Every privileged action in Aragon OSx, a DAO admin function, a plugin function, even framework contracts like [PluginRepo](../framework/plugin-repo.md), is gated by **one** mechanism: the `PermissionManager`. Learn this model and the whole protocol's access control follows.
+Every privileged action in Aragon OSx is gated by **one** mechanism: the `PermissionManager`. This includes DAO admin functions, plugin functions, and functions on framework contracts like [PluginRepo](../framework/plugin-repo.md). The same access-control model applies throughout the protocol.
 
 A permission is a triple, optionally guarded by a [condition](../common/permission-conditions.md):
 
@@ -30,7 +30,7 @@ function isGranted(address _where, address _who, bytes32 _permissionId, bytes _d
     public view returns (bool);
 ```
 
-`isGranted` *is* the resolver. The DAO's [`IDAO`](../common/auth.md) interface re-exposes the identical query as **`hasPermission`**, a one-line forwarder to it, so external callers and every plugin's [`auth`](../common/auth.md) check call `hasPermission` while the engine underneath is this `isGranted`, same arguments, same answer. (Don't confuse either with a **condition's** `isGranted`: that's a different method sharing the signature, the *hook* this resolver calls when a grant is [conditional](../common/permission-conditions.md), not the resolver itself.)
+`isGranted` *is* the resolver. The DAO's [`IDAO`](../common/auth.md) interface re-exposes the identical query as **`hasPermission`**, a one-line forwarder to it. External callers and every plugin's [`auth`](../common/auth.md) check call `hasPermission`, which calls `isGranted` with the same arguments and returns the same answer. A **condition's** `isGranted` is a different method sharing the signature: it is the *hook* this resolver calls when a grant is [conditional](../common/permission-conditions.md), not the resolver itself.
 
 Internally each grant is stored under a hash of `(where, who, permissionId)` mapping to one of three things:
 
@@ -48,7 +48,7 @@ Internally each grant is stored under a hash of `(where, who, permissionId)` map
 
 If none is set, the answer is `false`.
 
-> **The tiers do not merge, and this trips people up.** If the *specific* slot is set but its condition returns `false`, `isGranted` returns `false` immediately, it does **not** fall through to a broader tier that might have allowed it. Whichever tier is set first (specific → any-caller → any-target) decides the outcome outright. A wildcard grant and a specific grant coexist as separate entries; they do not override or combine.
+> **The tiers do not merge.** If the *specific* slot is set but its condition returns `false`, `isGranted` returns `false` immediately. It does **not** fall through to a broader tier that might have allowed it. Whichever tier is set first (specific → any-caller → any-target) decides the outcome outright. A wildcard grant and a specific grant coexist as separate entries; they do not override or combine.
 
 ## The wildcard: `ANY_ADDR`
 
@@ -63,7 +63,7 @@ If none is set, the answer is `false`.
 
 `ROOT_PERMISSION_ID` gates `grant`, `grantWithCondition`, `revoke`, and the batch apply functions. Holding ROOT on a `where` means you can grant or revoke every permission on that contract.
 
-**ROOT is not a runtime bypass**, and this catches people. It does *not* make you pass *other* permission checks: `isGranted` never consults ROOT, so a ROOT holder who lacks `EXECUTE` still cannot call `execute` directly. What ROOT lets you do is **grant yourself** (or anyone) that permission first, then use it. It's god-mode over the permission *table*, not a skeleton key at call time, the same reason a plugin upgrade needs `UPGRADE_PLUGIN_PERMISSION` explicitly rather than riding on ROOT. (A condition attached to your ROOT grant constrains that granting power itself; it never enters the `EXECUTE` check, which ignores ROOT regardless.)
+**ROOT is not a runtime bypass.** It does *not* make you pass *other* permission checks: `isGranted` never consults ROOT, so a ROOT holder who lacks `EXECUTE` still cannot call `execute` directly. What ROOT lets you do is **grant yourself** (or anyone) that permission first, then use it. ROOT controls the permission *table*. For the same reason, a plugin upgrade needs `UPGRADE_PLUGIN_PERMISSION` explicitly; holding ROOT alone does not authorize the upgrade. A condition attached to your ROOT grant constrains that granting power itself; it never enters the `EXECUTE` check, which ignores ROOT regardless.
 
 In a healthy DAO, **ROOT is held by the DAO itself**, so permission changes happen only through governance (a proposal that executes a `grant`/`revoke`). See the [DAO](./dao.md#deployment-and-bootstrapping-root) bootstrapping note for how ROOT gets there safely.
 
@@ -79,8 +79,8 @@ revoke(where, who, permissionId);
 
 A few semantics:
 
-- **Idempotent, and that cuts both ways.** Granting an already-granted permission is a silent no-op (no revert, no new event); same for revoking an unset one. In particular, a plain `grant` over a permission that is currently *conditional* is **also** a no-op: it does **not** strip the condition down to unconditional-allow. Trying to "remove a condition" by re-granting plainly leaves the old condition fully in force, silently. To drop or change a condition you must `revoke` first, then re-grant (see the rotation note below).
-- **Conditions are immutable once set.** `grantWithCondition` on a permission already granted with a *different* condition **reverts** (`PermissionAlreadyGrantedForDifferentCondition`). To change a condition you must `revoke` first, then re-grant. This stops a second ROOT holder from silently swapping the condition out. **Consequence:** that `revoke` drops the entry to *unset*, so, unless a broader [wildcard tier](#the-wildcard-any_addr) still covers that caller, the permission is **denied in the gap between the two calls**. Rotate a condition by putting the `revoke` and the re-`grantWithCondition` in the *same* [action batch](./execution.md) (one proposal), never two transactions, or you flicker the permission off mid-flight.
+- **Grants and revocations are idempotent.** Granting an already-granted permission is a silent no-op (no revert, no new event); same for revoking an unset one. In particular, a plain `grant` over a permission that is currently *conditional* is **also** a no-op: it does **not** strip the condition down to unconditional-allow. Trying to "remove a condition" by re-granting plainly leaves the old condition fully in force, silently. To drop or change a condition you must `revoke` first, then re-grant (see the rotation note below).
+- **Conditions are immutable once set.** `grantWithCondition` on a permission already granted with a *different* condition **reverts** (`PermissionAlreadyGrantedForDifferentCondition`). To change a condition you must `revoke` first, then re-grant. This stops a second ROOT holder from silently swapping the condition out. That `revoke` drops the entry to *unset*, so, unless a broader [wildcard tier](#the-wildcard-any_addr) still covers that caller, the permission is **denied in the gap between the two calls**. Rotate a condition by putting the `revoke` and the re-`grantWithCondition` in the *same* [action batch](./execution.md) (one proposal), never two transactions, to avoid that interruption.
 
 ### Batch changes: `PermissionLib`
 
@@ -113,12 +113,12 @@ function doPrivileged() external auth(DO_PRIVILEGED_PERMISSION_ID) { ... }
 - **The three tiers don't merge.** A specific grant guarded by a condition that returns false is denied outright, it does *not* fall through to a broader wildcard grant that would have said yes. Turn this around and it's a *tool*: a specific grant **carves one caller out** of a wildcard. Grant `(where, ANY_ADDR, perm)` so everyone may act, then add `(where, alice, perm)` with a restrictive condition, and alice alone is held to the stricter rule while everyone else rides the wildcard (or the reverse, a permissive carve-out under a conditioned wildcard).
 - **Conditions fail closed.** A condition that reverts or misbehaves counts as "denied", never as an error.
 - **ROOT with an EOA is total control.** Whoever holds ROOT can rewrite every permission; in a healthy DAO that is the DAO itself.
-- **Grants are idempotent and silent.** Re-granting an existing permission emits no new event, don't rely on `Granted` firing.
+- **Grants are idempotent and silent.** Re-granting an existing permission emits no new event; don't rely on `Granted` firing.
 - **The permission DB is a public authorization service, not just an internal ACL.** `isGranted` / `hasPermission` are `view` and callable by anyone, so *other* contracts can gate themselves on a DAO's permissions without the DAO's involvement, which is exactly how [EIP-1271 signature validation](./signature-validation.md) and every plugin's [`auth`](../common/auth.md) already work. A permission is a queryable fact the whole chain can build on, which is why "who may do what on this DAO" is reusable far beyond the DAO's own functions.
 
 ## See also
 
-- [Permission conditions](../common/permission-conditions.md) — dynamic, on-chain authorization logic.
+- [Permission conditions](../common/permission-conditions.md) — dynamic, onchain authorization logic.
 - [OSx compared](../osx-compared.md) — this model against OpenZeppelin, Safe + Zodiac and Hats.
 - [Authorizing against a DAO](../common/auth.md) — how plugins use this system.
 - [The DAO contract](./dao.md) — the primary `PermissionManager` instance.
