@@ -13,6 +13,10 @@ The concepts are the source of truth; guides are paths through them. **Git-manag
 
 Developers who want to **build on and integrate with** the protocol in Solidity: authoring plugins, deploying DAOs, wiring permissions and conditions, integrating the helpers. Write for someone competent in Solidity but new to Aragon. Every relevant use case earns an actionable, copy-adaptable Solidity example. Don't just transcribe interfaces, signatures, and NatSpec: explain what a thing *is*, *why* it exists, and *how* you use it.
 
+## Voice
+
+Write **onchain** as one word, without a hyphen, in all documentation.
+
 ## Structure
 
 One product, one graph. Pages live in **area folders** (grouped by architectural role, not by `type`), plus the linear **`guides/`** layer. Each area folder has its own `index.md` (its map). The root carries only the front-door `index.md`, the `backlog/`, `raw/`, `log.md`, and the odd general-purpose page (a glossary).

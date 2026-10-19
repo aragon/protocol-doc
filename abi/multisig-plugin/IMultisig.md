@@ -3,7 +3,7 @@ type: reference
 title: IMultisig
 kind: interface
 source: multisig-plugin/packages/contracts/src/IMultisig.sol
-summary: "An interface for an on-chain multisig governance plugin in which a proposal passes if X out of Y approvals are met."
+summary: "An interface for an onchain multisig governance plugin in which a proposal passes if X out of Y approvals are met."
 ---
 
 # IMultisig
@@ -14,7 +14,7 @@ summary: "An interface for an on-chain multisig governance plugin in which a pro
 
 **Author:** Aragon X - 2022-2024
 
-An interface for an on-chain multisig governance plugin in which a proposal passes
+An interface for an onchain multisig governance plugin in which a proposal passes
 if X out of Y approvals are met.
 
 **security-contact:** sirt@aragon.org

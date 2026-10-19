@@ -51,7 +51,7 @@ When a version is published with [`createVersion`](./plugin-repo.md), the onchai
 - `change` — this build's changelog.
 - `pluginSetup.prepareInstallation.inputs` — the ABI schema, **with a `description` per field**, of exactly the `_data` the setup's [`prepareInstallation`](./plugin-setup.md) decodes. This is the **contract between an off-chain encoder and the setup**: the install `_data` is ABI-encoded and *not* self-describing onchain, so this schema is how a UI or script knows what to encode (and how a reviewer reads what an install will configure). `prepareUpdate` inputs are keyed by the *source build* you're updating from; `prepareUninstallation` likewise.
 
-This is why the [plugin setup](./plugin-setup.md) page says "decode `_data` yourself, its shape is documented in build metadata, not enforced on-chain." **Build metadata is that documentation.** If it drifts from what your setup actually decodes, tools build a wrong payload and the install misconfigures silently, so treat the schema as part of the contract, not a description written after the fact.
+This is why the [plugin setup](./plugin-setup.md) page says "decode `_data` yourself, its shape is documented in build metadata, not enforced onchain." **Build metadata is that documentation.** If it drifts from what your setup actually decodes, tools build a wrong payload and the install misconfigures silently, so treat the schema as part of the contract, not a description written after the fact.
 
 ## Instance metadata: `MetadataExtension`
 

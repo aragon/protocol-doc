@@ -16,7 +16,7 @@ summary: "An abstract contract for non-upgradeable contracts instantiated via th
 
 **Inherits:** `ERC165`, [`IPermissionCondition`](./IPermissionCondition.md), [`ProtocolVersion`](./ProtocolVersion.md)
 
-An abstract contract for non-upgradeable contracts instantiated via the `new` keyword to inherit from to support customary permissions depending on arbitrary on-chain state.
+An abstract contract for non-upgradeable contracts instantiated via the `new` keyword to inherit from to support customary permissions depending on arbitrary onchain state.
 
 **security-contact:** sirt@aragon.org
 
