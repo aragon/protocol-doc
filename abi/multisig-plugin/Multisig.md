@@ -3,7 +3,7 @@ type: reference
 title: Multisig
 kind: contract
 source: multisig-plugin/packages/contracts/src/Multisig.sol
-summary: "The on-chain multisig governance plugin in which a proposal passes if X out of Y approvals are met."
+summary: "The onchain multisig governance plugin in which a proposal passes if X out of Y approvals are met."
 ---
 
 # Multisig
@@ -16,7 +16,7 @@ summary: "The on-chain multisig governance plugin in which a proposal passes if 
 
 **Inherits:** [`IMultisig`](./IMultisig.md), `IMembership`, `MetadataExtensionUpgradeable`, `PluginUUPSUpgradeable`, `ProposalUpgradeable`, `Addresslist`
 
-The on-chain multisig governance plugin in which a proposal passes if X out of Y approvals are met.
+The onchain multisig governance plugin in which a proposal passes if X out of Y approvals are met.
 
 > **Dev:** v1.3 (Release 1, Build 3). For each upgrade, if the reinitialization step is required,
 > increment the version numbers in the modifier for both the initialize and initializeFrom functions.

@@ -9,7 +9,7 @@ _What it means to *be* a plugin, the base contracts, the setup, and the plugin m
 ## Authorization building blocks
 
 - [Authorizing against a DAO](./auth.md) — `DaoAuthorizable` and the `auth` modifier: how any contract defers access control to a DAO.
-- [Permission conditions](./permission-conditions.md) — dynamic, on-chain authorization logic (`IPermissionCondition`).
+- [Permission conditions](./permission-conditions.md) — dynamic, onchain authorization logic (`IPermissionCondition`).
 - [RuledCondition](./ruled-condition.md) — a declarative rule engine for composing conditions.
 
 ## Governance primitives

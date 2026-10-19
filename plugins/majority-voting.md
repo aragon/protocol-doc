@@ -21,7 +21,7 @@ Every voter casts `Yes`, `No`, or `Abstain`, weighted by their **voting power**,
 support = yes / (yes + no)      must be  >  supportThreshold
 ```
 
-**Abstain is deliberately excluded** from support. Support asks "of those who took a side, did enough say yes?" Abstaining means "I'm present but express no direction", counting it as opposition would let mass abstention block proposals nobody actually voted against. On-chain the check is done cross-multiplied to avoid division: `(RATIO_BASE - supportThreshold) * yes > supportThreshold * no`. The comparison is strict (`>`), so at a 50% threshold you need *at least one more* yes than no, and the threshold is capped just below 100% (a threshold of exactly 100% could never be met).
+**Abstain is deliberately excluded** from support. Support asks "of those who took a side, did enough say yes?" Abstaining means "I'm present but express no direction", counting it as opposition would let mass abstention block proposals nobody actually voted against. Onchain the check is done cross-multiplied to avoid division: `(RATIO_BASE - supportThreshold) * yes > supportThreshold * no`. The comparison is strict (`>`), so at a 50% threshold you need *at least one more* yes than no, and the threshold is capped just below 100% (a threshold of exactly 100% could never be met).
 
 ### Participation — did enough of the electorate show up?
 

@@ -36,7 +36,7 @@ string public constant PLACEHOLDER_BUILD_METADATA =
 ```
 
 Aragon's canonical empty-schema placeholder build metadata, used when filling skipped builds
-on a fresh-network deploy so on-chain build numbers stay aligned across networks.
+on a fresh-network deploy so onchain build numbers stay aligned across networks.
 
 > **Dev:** Content-addressed; the file at `lib/osx/.../placeholder/placeholder-build-metadata.json` always pins to this CID.
 

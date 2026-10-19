@@ -7,7 +7,7 @@ source: osx/src/framework/plugin/repo/PluginRepo.sol, osx/src/framework/plugin/r
 
 # PluginRepo (versioning & publishing)
 
-A `PluginRepo` is the on-chain home of **one plugin across all its versions**. Every version a plugin author ships is an immutable entry here, mapping a version tag to the [plugin setup](./plugin-setup.md) that installs it plus its metadata. When a DAO installs "MyPlugin v1.3", the [PSP](./plugin-setup-processor.md) resolves that request against MyPlugin's repo. A specific version is named by a **`PluginSetupRef`**, the pair `(pluginSetupRepo, version Tag)`, and that ref is exactly what the [PSP](./plugin-setup-processor.md) and [DAOFactory](./dao-factory.md) take to know which setup to run.
+A `PluginRepo` is the onchain home of **one plugin across all its versions**. Every version a plugin author ships is an immutable entry here, mapping a version tag to the [plugin setup](./plugin-setup.md) that installs it plus its metadata. When a DAO installs "MyPlugin v1.3", the [PSP](./plugin-setup-processor.md) resolves that request against MyPlugin's repo. A specific version is named by a **`PluginSetupRef`**, the pair `(pluginSetupRepo, version Tag)`, and that ref is exactly what the [PSP](./plugin-setup-processor.md) and [DAOFactory](./dao-factory.md) take to know which setup to run.
 
 A repo is itself a UUPS proxy, and, notably, **it is its own [`PermissionManager`](../core/permissions.md)**: maintainers govern the repo through the same permission model DAOs use, independent of any DAO.
 

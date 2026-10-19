@@ -7,13 +7,13 @@ source: osx/src/framework/dao/DAORegistry.sol, osx/src/framework/utils/Interface
 
 # DAO Registry
 
-The `DAORegistry` is the canonical on-chain list of every DAO the framework has created, the answer to "is this address a genuine OSx DAO, and what is it called?"
+The `DAORegistry` is the canonical onchain list of every DAO the framework has created, the answer to "is this address a genuine OSx DAO, and what is it called?"
 
 ## What it holds and enables
 
 The [DAOFactory](./dao-factory.md) calls `register(dao, creator, subdomain)` as it creates a DAO, which:
 
-- records the DAO so `entries(dao)` reads true, the on-chain membership check other contracts and tools rely on,
+- records the DAO so `entries(dao)` reads true, the onchain membership check other contracts and tools rely on,
 - emits a `DAORegistered(dao, creator, subdomain)` event, the signal explorers and indexers use to discover and list DAOs, and
 - optionally assigns the DAO a `<name>.dao.eth` ENS subdomain.
 

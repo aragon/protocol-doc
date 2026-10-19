@@ -11,7 +11,7 @@ The developer knowledge base for the EVM protocol behind Aragon: the **OSx** cor
 **Aragon OSx is a framework for building DAOs as smart contracts.** No two organizations are the same, and even a single organization is not the same over time, its needs change. So OSx makes a DAO a *lean, lasting core*, one contract that holds assets, executes arbitrary actions, and owns its own permission database, and lets you **iterate** the organization by adding and removing capability around that core. Two ideas do the heavy lifting:
 
 - **Plugins** add functionality to a DAO (governance, asset management, membership, anything). A DAO installs the plugins it needs and can add, update, or remove them over its lifetime, so the organization evolves without ever being redeployed.
-- **A permission system** governs who is allowed to do what, on which contract. It is the single authorization layer the DAO and its plugins share, and it can defer decisions to on-chain **conditions**.
+- **A permission system** governs who is allowed to do what, on which contract. It is the single authorization layer the DAO and its plugins share, and it can defer decisions to onchain **conditions**.
 
 The point is to make that iteration both **flexible and safe**: a plugin never arrives loose, it comes with a **setup** that encapsulates exactly what to deploy and which permissions to grant or revoke, applied as one reviewable, all-or-nothing step. Around this sit a versioned **plugin registry** and an installation **framework** that make plugins safe to publish, install, and upgrade, plus **factories** that deploy the whole stack and a **launchpad** that drives real DAO creation.
 

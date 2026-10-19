@@ -7,7 +7,7 @@ source: osx/src/common/executors/IExecutor.sol, osx/src/core/dao/DAO.sol, osx/sr
 
 # Actions and execution
 
-Everything a DAO *does* on-chain, send funds, call another contract, change its own permissions, it does by executing **actions**. An action is one external call:
+Everything a DAO *does* onchain, send funds, call another contract, change its own permissions, it does by executing **actions**. An action is one external call:
 
 ```solidity
 struct Action {

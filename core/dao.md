@@ -7,17 +7,17 @@ source: osx/src/core/dao/DAO.sol, osx/src/core/dao/IEIP4824.sol, osx/src/core/ut
 
 # The DAO contract
 
-A DAO in Aragon OSx is **a single smart contract**, one `DAO` contract that *is* the organization, rather than a collection of contracts or an off-chain entity with an on-chain treasury. Everything a DAO can do reduces to functionality this contract exposes or delegates.
+A DAO in Aragon OSx is **a single smart contract**, one `DAO` contract that *is* the organization, rather than a collection of contracts or an off-chain entity with an onchain treasury. Everything a DAO can do reduces to functionality this contract exposes or delegates.
 
 That one contract wears several hats at once:
 
 - **The treasury.** It holds the organization's assets (native coin and tokens) and receives deposits.
-- **The executor.** It performs arbitrary on-chain actions on behalf of the organization, see [Actions and execution](./execution.md). This is how a passed proposal actually *does* something.
+- **The executor.** It performs arbitrary onchain actions on behalf of the organization, see [Actions and execution](./execution.md). This is how a passed proposal actually *does* something.
 - **Its own permission database.** `DAO` inherits [`PermissionManager`](./permissions.md), so the rules for who may do what live in the DAO contract's own storage. A DAO is self-authorizing.
 - **A signer.** It can validate signatures on the organization's behalf via [EIP-1271](./signature-validation.md).
 - **A discoverable, upgradeable identity.** It implements [EIP-4824](https://eips.ethereum.org/EIPS/eip-4824) (`daoURI`) for off-chain metadata, and is deployed behind a [UUPS proxy](../common/proxies.md) so it can be upgraded.
 
-That first cluster, hold assets, execute anything, own the rules for who may do what, is what a DAO is for: a durable on-chain **organization**. Upgradeability (the proxy) matters too, but it's how the organization endures, not what it's *for*; if proxies are new to you, read [Proxy deployment](../common/proxies.md) first, then come back.
+That first cluster, hold assets, execute anything, own the rules for who may do what, is what a DAO is for: a durable onchain **organization**. Upgradeability (the proxy) matters too, but it's how the organization endures, not what it's *for*; if proxies are new to you, read [Proxy deployment](../common/proxies.md) first, then come back.
 
 Everything else, governance, membership, asset management, is added by [plugins](../framework/plugins.md). The DAO itself stays deliberately lean: it holds funds, executes actions, and answers "is this allowed?".
 
@@ -84,7 +84,7 @@ To receive ERC-721 / ERC-1155 tokens a contract must answer callbacks like `onER
 
 ## Metadata and discovery
 
-`setMetadata` takes an opaque `bytes` blob (conventionally an IPFS CID) and only *emits* it as the `MetadataSet` event, it is not stored on-chain, so reading a DAO's current metadata means indexing that event. `daoURI()` implements EIP-4824 for standardized off-chain DAO discovery. See [DAO metadata](./dao-metadata.md) for the JSON shape and the `daoURI`-vs-blob distinction.
+`setMetadata` takes an opaque `bytes` blob (conventionally an IPFS CID) and only *emits* it as the `MetadataSet` event, it is not stored onchain, so reading a DAO's current metadata means indexing that event. `daoURI()` implements EIP-4824 for standardized off-chain DAO discovery. See [DAO metadata](./dao-metadata.md) for the JSON shape and the `daoURI`-vs-blob distinction.
 
 ## Upgrades across versions
 
@@ -93,7 +93,7 @@ To receive ERC-721 / ERC-1155 tokens a contract must answer callbacks like `onER
 ## Keep in mind
 
 - **ROOT left with an EOA is total control of the DAO.** After any setup, confirm ROOT sits with the DAO itself, not the deployer, that's the line between a self-governing DAO and one somebody privately owns.
-- **Metadata is event-only.** Read a DAO's current metadata by indexing the `MetadataSet` event; it isn't stored on-chain.
+- **Metadata is event-only.** Read a DAO's current metadata by indexing the `MetadataSet` event; it isn't stored onchain.
 
 ## See also
 

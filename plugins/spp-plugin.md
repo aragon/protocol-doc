@@ -15,7 +15,7 @@ The Staged Proposal Processor is **meta-governance**: it decides nothing on its 
 
 Real organizations rarely govern with a single rule. They want things like *"a security council multisig pre-approves, then token holders vote, then execution happens automatically."* Rather than build a new monolithic voting contract for every such flow, SPP lets you **compose the plugins you already have**, e.g. [Multisig](./multisig-plugin.md) → [Token Voting](./token-voting-plugin.md) → [Admin](./admin-plugin.md), into exactly that pipeline, writing no new governance logic. SPP is the glue; each stage delegates the real decision to a **body**.
 
-Because a body is just an address, SPP spans the full spectrum from fully automated on-chain plugins to *"a human signs a Safe transaction."* That automatic-vs-manual split is the plugin's central design fork, see [composing bodies](./spp-plugin/composing-bodies.md).
+Because a body is just an address, SPP spans the full spectrum from fully automated onchain plugins to *"a human signs a Safe transaction."* That automatic-vs-manual split is the plugin's central design fork, see [composing bodies](./spp-plugin/composing-bodies.md).
 
 ## The pieces
 

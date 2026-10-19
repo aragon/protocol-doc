@@ -20,7 +20,7 @@ Contracts across the protocol (every plugin, every plugin setup, the DAO, regist
 function protocolVersion() external view returns (uint8[3] memory); // e.g. [1, 4, 0]
 ```
 
-This makes the protocol version discoverable on-chain for tooling and compatibility checks. `ProtocolVersion` is intentionally **stateless** (`pure`, zero storage): the source even warns not to add storage variables to it, so it can be safely mixed into any inheritance chain, upgradeable or not, without disturbing storage layout or needing its own `__gap`.
+This makes the protocol version discoverable onchain for tooling and compatibility checks. `ProtocolVersion` is intentionally **stateless** (`pure`, zero storage): the source even warns not to add storage variables to it, so it can be safely mixed into any inheritance chain, upgradeable or not, without disturbing storage layout or needing its own `__gap`.
 
 `VersionComparisonLib` provides the obvious lexicographic comparisons (`eq`, `lt`, `gte`, …) over the `uint8[3]` triple for code that gates on protocol version.
 

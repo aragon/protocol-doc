@@ -7,7 +7,7 @@ source: osx/src/framework/plugin/repo/PluginRepoRegistry.sol, osx/src/framework/
 
 # PluginRepo Registry
 
-The `PluginRepoRegistry` is the canonical on-chain list of every published [plugin repo](./plugin-repo.md), and it's **load-bearing at install time**: the [PSP](./plugin-setup-processor.md) checks `entries(repo)` before it will install from a repo, so **a plugin is only installable if its repo is registered here.** Registration is the protocol's trust boundary for plugins.
+The `PluginRepoRegistry` is the canonical onchain list of every published [plugin repo](./plugin-repo.md), and it's **load-bearing at install time**: the [PSP](./plugin-setup-processor.md) checks `entries(repo)` before it will install from a repo, so **a plugin is only installable if its repo is registered here.** Registration is the protocol's trust boundary for plugins.
 
 ## What it holds and enables
 

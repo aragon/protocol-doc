@@ -6,7 +6,7 @@ source: dao-launchpad/README.md, dao-launchpad/template/README.md
 
 # DAO Launchpad
 
-The DAO Launchpad is the **deployment workbench** for launching real DAOs on top of an already-deployed [OSx protocol](./index.md): a home for opinionated deployment projects, each of which stands up one DAO (with its plugins, and any custom contracts a specific launch needs) through a single, auditable on-chain factory.
+The DAO Launchpad is the **deployment workbench** for launching real DAOs on top of an already-deployed [OSx protocol](./index.md): a home for opinionated deployment projects, each of which stands up one DAO (with its plugins, and any custom contracts a specific launch needs) through a single, auditable onchain factory.
 
 ## Where it fits
 
@@ -24,9 +24,9 @@ Standing up a governed DAO is not one step, it's a sequence: create the [DAO](..
 
 ## Correct from genesis
 
-Its answer, and the best practice it encodes, is the **one-shot on-chain factory**: all the deployment logic lives in one Solidity contract whose `deployOnce()` does everything atomically, create the DAO, wire every piece, hand governance to its permanent owner, and finally **revoke its own bootstrap power**. Because it's one transaction, the DAO either emerges fully-formed and correctly-permissioned or is never deployed at all; there is no window in which it exists but is misconfigured or still under the deployer's control. Two properties follow for free:
+Its answer, and the best practice it encodes, is the **one-shot onchain factory**: all the deployment logic lives in one Solidity contract whose `deployOnce()` does everything atomically, create the DAO, wire every piece, hand governance to its permanent owner, and finally **revoke its own bootstrap power**. Because it's one transaction, the DAO either emerges fully-formed and correctly-permissioned or is never deployed at all; there is no window in which it exists but is misconfigured or still under the deployer's control. Two properties follow for free:
 
-- **Verifiable** — what was deployed is auditable from the factory's verified on-chain source, not from trusting a local script.
+- **Verifiable** — what was deployed is auditable from the factory's verified onchain source, not from trusting a local script.
 - **Idempotent** — a second `deployOnce()` reverts, so a launch can't be run twice by accident.
 
 ## One workbench, many projects
@@ -37,7 +37,7 @@ A **template** is the starting point, a minimal working DAO that proves the wiri
 
 ## Keep in mind
 
-- **The value is the atomic factory, not the scripts.** The scripts just deploy the factory and pull the trigger; the correctness guarantees all come from doing the setup on-chain in one call.
+- **The value is the atomic factory, not the scripts.** The scripts just deploy the factory and pull the trigger; the correctness guarantees all come from doing the setup onchain in one call.
 - **The template is a scaffold, not the product.** You start from it and replace it with your launch's own contracts.
 
 ## See also

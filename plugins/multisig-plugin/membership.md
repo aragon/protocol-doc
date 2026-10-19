@@ -22,7 +22,7 @@ One invariant holds at all times: **`1 ≤ minApprovals ≤ member count`.** A m
 
 Because `minApprovals` is an **absolute** count, not a percentage, changing the roster shifts the *effective* bar: adding members keeps the same number of approvals needed (a smaller share of the group, so relatively easier to pass), while removing members makes each remaining approval weigh more (relatively harder). That's why only *removal* is threshold-constrained, adding can never breach an absolute floor.
 
-> **Shrinking the multisig takes two actions, in order.** Each function checks against the *current* on-chain state, not against other actions queued in the same proposal. So to remove members *and* lower the threshold below where it is now, the proposal's actions must be: **(1) `updateMultisigSettings` to lower `minApprovals` first, then (2) `removeAddresses`.** The reverse order reverts, because the removal is validated against the old, higher threshold. This bites people scripting membership rotations.
+> **Shrinking the multisig takes two actions, in order.** Each function checks against the *current* onchain state, not against other actions queued in the same proposal. So to remove members *and* lower the threshold below where it is now, the proposal's actions must be: **(1) `updateMultisigSettings` to lower `minApprovals` first, then (2) `removeAddresses`.** The reverse order reverts, because the removal is validated against the old, higher threshold. This bites people scripting membership rotations.
 
 ## Two-speed eligibility
 
