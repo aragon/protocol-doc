@@ -7,7 +7,7 @@ source: osx/src/framework/dao/DAORegistry.sol, osx/src/framework/utils/Interface
 
 # DAO Registry
 
-The `DAORegistry` is the canonical onchain list of every DAO the framework has created, the answer to "is this address a genuine OSx DAO, and what is it called?"
+The `DAORegistry` is the canonical onchain list of every DAO the framework has created. It answers "is this address a genuine OSx DAO, and what is it called?"
 
 ## What it holds and enables
 
@@ -17,12 +17,12 @@ The [DAOFactory](./dao-factory.md) calls `register(dao, creator, subdomain)` as 
 - emits a `DAORegistered(dao, creator, subdomain)` event, the signal explorers and indexers use to discover and list DAOs, and
 - optionally assigns the DAO a `<name>.dao.eth` ENS subdomain.
 
-Registration is **permissioned** (`REGISTER_DAO_PERMISSION_ID`), and that permission is held only by the DAOFactory, so nothing can slip an arbitrary contract into the canonical list by self-registering. It's one of the two component registries built on the shared [`InterfaceBasedRegistry`](./registries.md#one-shared-pattern-interfacebasedregistry) pattern: it admits only `IDAO` contracts, and none twice.
+Registration is **permissioned** (`REGISTER_DAO_PERMISSION_ID`), and that permission is held only by the DAOFactory, so arbitrary contracts cannot self-register in the canonical list. It's one of the two component registries built on the shared [`InterfaceBasedRegistry`](./registries.md#one-shared-pattern-interfacebasedregistry) pattern: it admits only `IDAO` contracts, and none twice.
 
 ## Keep in mind
 
 - **The DAO's ENS name is optional.** `register` skips the ENS step when the subdomain is empty; the DAO is still registered. See the [subdomain rules](./registries.md#ens-subdomains).
-- **Only the factory writes here.** There is no self-registration path, being in the registry means the official DAOFactory created the DAO.
+- **Only the factory writes here.** There is no self-registration path; being in the registry means the official DAOFactory created the DAO.
 
 ## See also
 

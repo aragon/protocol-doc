@@ -6,9 +6,9 @@ source: osx-plugin-template-foundry/README.md
 
 # Setup
 
-Every guide here is Foundry code you run from **your own plugin project**. Set that up once and any guide's snippets drop straight in, each guide then only calls out what's specific to it.
+Set up **your own plugin project** to run the guides' Foundry code. This shared setup provides the starting point; each guide adds the configuration it needs.
 
-**Prerequisites:** [Foundry](https://getfoundry.sh) (`curl -L https://foundry.paradigm.sh | bash`, then `foundryup`) and [`just`](https://github.com/casey/just) (`brew install just`, `cargo install just`, or your system package manager). Everything below runs through `just`, the template's task runner: between network config, per-chain addresses, remappings, and verification there are too many moving parts to drive by hand, so a task runner isn't optional here.
+**Prerequisites:** [Foundry](https://getfoundry.sh) (`curl -L https://foundry.paradigm.sh | bash`, then `foundryup`) and [`just`](https://github.com/casey/just) (`brew install just`, `cargo install just`, or your system package manager). Everything below requires `just`, the template's task runner. It coordinates network config, per-chain addresses, remappings, and verification so you don't have to manage those steps by hand.
 
 ## 1. Start from the template
 
@@ -44,7 +44,7 @@ Guides that touch only OSx core (the [DAO](../core/dao.md), [permissions](../cor
 
 ## 3. Point at a deployed protocol
 
-The guides run as **fork tests** against a chain where OSx is already deployed, so they read the protocol's addresses from the environment. You don't hunt these down: [just-foundry](../tooling/just-foundry.md) (which the template already runs on) ships them for every supported network. Select a network and it exports them:
+The guides run as **fork tests** against a chain where OSx is already deployed, so they read the protocol's addresses from the environment. The template uses [just-foundry](../tooling/just-foundry.md), which supplies these addresses for every supported network. Select a network to export them:
 
 ```sh
 just switch sepolia   # or mainnet, base, arbitrum, … (see lib/just-foundry/networks/)
@@ -60,7 +60,7 @@ That defines `RPC_URL`, `CHAIN_ID`, and the OSx addresses the guides read by nam
 | `PLUGIN_REPO_FACTORY_ADDRESS` | [publish a plugin](./publish-a-plugin.md) |
 | `MULTISIG_PLUGIN_REPO_ADDRESS`, `TOKEN_VOTING_PLUGIN_REPO_ADDRESS`, … | installing that plugin |
 
-These come from the network config (ultimately OSx's own `addresses.json`); override `RPC_URL` with a private endpoint via `.env` or `vars` if you like, see [just-foundry](../tooling/just-foundry.md).
+These come from the network config (ultimately OSx's own `addresses.json`). To use a private endpoint, override `RPC_URL` via `.env` or `vars`; see [just-foundry](../tooling/just-foundry.md).
 
 Put the guide's test under `test/fork-tests/` and run it through just-foundry, which loads the network env before Foundry sees it:
 
@@ -69,6 +69,6 @@ just test-fork                          # run the fork tests in test/fork-tests/
 just test-fork --match-contract MyGuide # narrow to one
 ```
 
-A couple of guides build on a DAO you deployed in an earlier guide and name *its* address (e.g. `DAO`); those are your own values, set them alongside the above.
+A couple of guides build on a DAO you deployed in an earlier guide and name *its* address (e.g. `DAO`). Set those addresses alongside the values above.
 
-That's the whole setup. Every guide below assumes it.
+Your project is now configured for the guides' fork tests.

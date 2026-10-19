@@ -7,19 +7,19 @@ source: osx/src/common/plugin/IPlugin.sol, osx/src/common/plugin/Plugin.sol
 
 # The plugin model
 
-The [DAO](../core/dao.md) is deliberately minimal: treasury, executor, permission database. **Everything else is a plugin.** Voting, multisig approval, membership, token management, spending policies, all of it is functionality installed onto a DAO rather than baked into it. OSx keeps the core tiny and immutable in spirit, and makes capability modular, versioned, and upgradeable.
+The [DAO](../core/dao.md) is deliberately minimal: treasury, executor, permission database. **Everything else is a plugin.** Voting, multisig approval, membership, token management, and spending policies are all functionality installed onto a DAO rather than built into it. OSx keeps the core small and stable in purpose, and makes its capabilities modular, versioned, and upgradeable.
 
-A plugin is a smart contract associated with one DAO. It gates its own functions by [authorizing them against that DAO](../common/auth.md) (which resolves through the [permission system](../core/permissions.md)), and it acts on the world by having the DAO [execute](../core/execution.md) actions on its behalf. A governance plugin, for instance, is just a contract that (a) decides when a proposal has passed and (b) holds `EXECUTE_PERMISSION_ID` on the DAO so it can enact the result.
+A plugin is a smart contract associated with one DAO. It gates its own functions by [authorizing them against that DAO](../common/auth.md) (which resolves through the [permission system](../core/permissions.md)), and it acts on the world by having the DAO [execute](../core/execution.md) actions on its behalf. A governance plugin, for instance, is a contract that (a) decides when a proposal has passed and (b) holds `EXECUTE_PERMISSION_ID` on the DAO so it can enact the result.
 
 ## Why a whole framework, not just "deploy a contract"
 
-You could deploy a plugin contract and grant it permissions by hand. The framework exists because doing that *safely, cleanly and repeatably*, across many DAOs, many plugin authors, and many versions over time, is the hard part. It answers three questions the protocol can't leave to trust:
+You could deploy a plugin contract and grant it permissions by hand. The framework is designed to make that process safe, consistent, and repeatable across many DAOs, plugin authors, and versions over time. It answers three questions that would otherwise depend on trust:
 
 - **How is a plugin published and versioned?** → the [PluginRepo](./plugin-repo.md): one per plugin, storing every version as an immutable `release.build` tag pointing at a setup contract.
 - **How does a DAO install a specific version, wiring exactly the right permissions, without handing anyone unchecked control?** → the [plugin setup](./plugin-setup.md) contract (which declares what to deploy and which permissions to grant) plus the [PluginSetupProcessor](./plugin-setup-processor.md) (which applies it under a two-step, governance-reviewable flow).
 - **How does the ecosystem discover and trust DAOs and plugin repos?** → the [registries](./registries.md) and their ENS names.
 
-The rest of this section is those pieces. If you're building a plugin, the reading order is: this page → [choosing a base](./plugin-types.md) → [plugin setup](./plugin-setup.md) → [PluginRepo](./plugin-repo.md) → [PSP](./plugin-setup-processor.md). If you're just installing plugins onto a DAO, [PSP](./plugin-setup-processor.md) and [DAOFactory](./dao-factory.md) are the pages you want.
+These pieces are covered below. If you're building a plugin, the reading order is: this page → [choosing a base](./plugin-types.md) → [plugin setup](./plugin-setup.md) → [PluginRepo](./plugin-repo.md) → [PSP](./plugin-setup-processor.md). If you're installing plugins onto a DAO, [PSP](./plugin-setup-processor.md) and [DAOFactory](./dao-factory.md) are the pages you want.
 
 ## What every plugin shares
 
@@ -45,15 +45,15 @@ struct TargetConfig { address target; Operation operation; }
 - **`Call`** (the normal case) forwards to `target.execute(callId, actions, allowFailureMap)`, the DAO's [execute](../core/execution.md). Actions run as the DAO.
 - **`DelegateCall`** runs the executor's loop in the plugin's *own* context, so the actions run **as the plugin** (`msg.sender` is the plugin and value comes from the plugin's balance), not as the DAO. This is the advanced path: instead of shipping its own executor, the plugin borrows the shared [`GlobalExecutor`](../core/execution.md#the-standalone-executor)'s loop. It's also how a plugin performs [nested execution](../core/execution.md#the-execute-function) in its own context, which re-entering `DAO.execute` would otherwise reject with `ReentrantCall`.
 
-**The `target` defaults to its own DAO.** A `target` of `address(0)` is a sentinel: `getTargetConfig()` resolves it at read time to `TargetConfig(dao(), Call)`, so a plugin that configures nothing acts through its DAO with a plain `call`. This is why install data commonly passes `target: address(0)`, you get the sensible default without naming the DAO's address (which you may not know yet at install time).
+**The `target` defaults to its own DAO.** A `target` of `address(0)` is a sentinel: `getTargetConfig()` resolves it at read time to `TargetConfig(dao(), Call)`, so a plugin that configures nothing acts through its DAO with a plain `call`. This is why install data commonly passes `target: address(0)`: it selects the default without naming the DAO's address (which you may not know yet at install time).
 
 Older OSx hard-wired plugins to always execute on their `dao()`. `TargetConfig` generalizes that so a plugin can target a different [executor](../core/execution.md#the-standalone-executor), for instance to run [nested execution](../core/execution.md#the-execute-function) that `DAO.execute`'s reentrancy guard would otherwise block. Because redirecting where a plugin's actions land is consequential, setting it is gated by `SET_TARGET_CONFIG_PERMISSION_ID`.
 
-> **Safety guard:** you cannot set a `TargetConfig` that both points at a contract implementing `IDAO` **and** uses `DelegateCall`, delegatecalling *into* a DAO would run DAO code in the plugin's storage and brick it. The base contract rejects that combination (`InvalidTargetConfig`).
+> **Safety guard:** you cannot set a `TargetConfig` that both points at a contract implementing `IDAO` **and** uses `DelegateCall`. Delegatecalling *into* a DAO would run DAO code in the plugin's storage and leave the plugin unusable. The base contract rejects that combination (`InvalidTargetConfig`).
 
 ## Keep in mind
 
-- **Never `DelegateCall` into a DAO.** A `TargetConfig` pointing at an `IDAO` with `DelegateCall` is rejected (`InvalidTargetConfig`), it would run DAO code in the plugin's storage and brick it.
+- **Never `DelegateCall` into a DAO.** A `TargetConfig` pointing at an `IDAO` with `DelegateCall` is rejected (`InvalidTargetConfig`): it would run DAO code in the plugin's storage and leave the plugin unusable.
 - **A plugin can only act once granted `EXECUTE_PERMISSION_ID` on its DAO.** A governance plugin that can't enact its results is almost always missing that grant.
 
 ## See also

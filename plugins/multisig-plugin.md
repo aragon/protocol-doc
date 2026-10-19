@@ -7,7 +7,7 @@ source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/pac
 
 # Multisig Plugin
 
-The Multisig Plugin is the simplest governance [plugin](../framework/plugins.md): a fixed list of members, and a proposal executes once enough of them have **approved** it. No tokens, no weights, no percentages, just "N of the M members said yes."
+The Multisig Plugin is a governance [plugin](../framework/plugins.md) with a fixed list of members. A proposal executes once enough of them have **approved** it. It uses no tokens, weights, or percentages: "N of the M members said yes."
 
 If you know the [Token Voting Plugin](./token-voting-plugin.md), the contrast is the quickest way in:
 
@@ -24,15 +24,17 @@ If you know the [Token Voting Plugin](./token-voting-plugin.md), the contrast is
 
 The deepest difference from [token voting](./majority-voting.md) is what a participant can *express*. A token vote carries three distinct signals: `Yes`, `No` (active opposition), and `Abstain` (present, but taking no side). Multisig collapses all of that to a single bit, **you have approved, or you have not.** There is no onchain "no" and no "abstain".
 
-That's a real semantic trade, not just a simpler UI:
+This changes what the approval record can tell you:
 
-- **Non-approval is ambiguous.** A member who hasn't approved might oppose the proposal, might not have seen it yet, or might simply be away, the contract cannot tell these apart. Only *consent* is recorded onchain; dissent, indecision, and absence all look identical.
+- **Non-approval is ambiguous.** A member who hasn't approved might oppose the proposal, might not have seen it yet, or might be away. The contract cannot tell these apart. Only *consent* is recorded onchain; dissent, indecision, and absence all look identical.
 - **Opposition is passive.** You don't defeat a proposal by voting against it; you defeat it by withholding approval until it [expires](#the-proposal-lifecycle). There is no countervailing vote to cast and no quorum-of-turnout to measure.
-- **The threshold is absolute, not relative.** Passing needs `minApprovals` yes-signals, full stop, there's no ratio of yes-to-no (there are no no's) and no participation floor. This is why the whole model reduces to one counter.
+- **The threshold is absolute, not relative.** Passing needs `minApprovals` yes-signals. There's no ratio of yes-to-no (there are no no's) and no participation floor. This is why the whole model reduces to one counter.
 
-Crucially, the member list doesn't *dictate* this rule, the two are orthogonal. The same [Addresslist](../common/membership.md) can instead drive full [majority voting](./majority-voting.md), with members casting `Yes`/`No`/`Abstain`, which is exactly what the earlier Addresslist Voting plugin did (now deprecated). Multisig deliberately takes the leaner path: count approvals to a threshold, nothing more. So the real choice isn't "members vs tokens", it's *what a participant may express*. If you need members to actively reject or formally abstain, you want a majority-voting model; multisig is right when a fixed group just needs "enough of us said go."
+The member list doesn't *dictate* this rule; membership and the voting rule are separate choices. The same [Addresslist](../common/membership.md) can instead drive full [majority voting](./majority-voting.md), with members casting `Yes`/`No`/`Abstain`, which is what the earlier Addresslist Voting plugin did (now deprecated). Multisig counts approvals to a threshold. The choice therefore goes beyond "members vs tokens" to *what a participant may express*. If you need members to actively reject or formally abstain, use a majority-voting model; multisig fits when a fixed group needs "enough of us said go."
 
-Under the hood it's a [`PluginUUPSUpgradeable`](../framework/plugin-types.md) plugin reusing the shared [proposal](../common/proposal.md) lifecycle and [Addresslist membership](../common/membership.md). The one page of real depth, member management and the two-speed eligibility model, is [Membership & eligibility](./multisig-plugin/membership.md).
+It is a [`PluginUUPSUpgradeable`](../framework/plugin-types.md) plugin reusing the shared [proposal](../common/proposal.md) lifecycle and [Addresslist membership](../common/membership.md). For member management and the two-speed eligibility model, see [Membership & eligibility](./multisig-plugin/membership.md).
+
+<a id="why-on-chain-approvals"></a>
 
 ## Why onchain approvals
 
@@ -40,7 +42,7 @@ A traditional multisig (Safe and its kin) collects **off-chain signatures** and 
 
 - **The approval trail *is* onchain history.** Every approval is a public transaction and an `Approved` event, not a bundle assembled somewhere off-chain, so who approved what, and when, is transparent and indexable by default.
 - **No signing infrastructure to run or trust.** There's no signature-relaying service; members act on the DAO directly.
-- **It composes with the rest of OSx.** Approvals and execution flow through the same [permission system](../core/permissions.md) and [conditions](../common/permission-conditions.md) as every other plugin, so the multisig isn't a separate signing scheme bolted on, it's a first-class DAO governor (it can hold [`EXECUTE_PERMISSION_ID`](../core/execution.md), be gated by conditions, and so on).
+- **It composes with the rest of OSx.** Approvals and execution use the same [permission system](../core/permissions.md) and [conditions](../common/permission-conditions.md) as every other plugin. The multisig governs the DAO through these mechanisms (it can hold [`EXECUTE_PERMISSION_ID`](../core/execution.md), be gated by conditions, and so on) without a separate signing scheme.
 
 The trade-off is gas: N approvals are N transactions. For DAO governance that's usually the right call; for high-frequency signing it's a cost to weigh.
 
@@ -53,7 +55,7 @@ struct MultisigSettings {
 }
 ```
 
-Changed via `updateMultisigSettings` (gated by `UPDATE_MULTISIG_SETTINGS_PERMISSION_ID`, held by the DAO). Like every setting in OSx governance, `minApprovals` is **frozen into each proposal at creation**, changing it later never moves the bar on an open proposal. `minApprovals` is always kept within `[1, member count]`, see the [invariant](./multisig-plugin/membership.md#minapprovals-and-the-member-count).
+Changed via `updateMultisigSettings` (gated by `UPDATE_MULTISIG_SETTINGS_PERMISSION_ID`, held by the DAO). Like every setting in OSx governance, `minApprovals` is **frozen into each proposal at creation**. Changing it later never changes the threshold on an open proposal. `minApprovals` is always kept within `[1, member count]`; see the [invariant](./multisig-plugin/membership.md#minapprovals-and-the-member-count).
 
 ## The proposal lifecycle
 

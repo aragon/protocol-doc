@@ -33,16 +33,16 @@ This works, but it adds real friction: holders must actively wrap (lock) their t
 
 ## Delegation
 
-[Voting power is delegated, not merely held](./voting-power.md#delegation), the rule that catches every token-voting DAO out. The two tokens differ in **when** that first delegation happens, and whether it's automatic:
+[Voting power is delegated, not merely held](./voting-power.md#delegation). The two tokens differ in **when** that first delegation happens, and whether it's automatic:
 
-- **`GovernanceERC20`** delegates **only on mint**, never on a plain transfer, and only when its `ensureDelegationOnMint` option is set (it then self-delegates a recipient who has no delegate yet). Leave the option off and freshly-minted holders have balance but no power until they manually `delegate()`, the classic onboarding foot-gun.
+- **`GovernanceERC20`** delegates **only on mint**, never on a plain transfer, and only when its `ensureDelegationOnMint` option is set (it then self-delegates a recipient who has no delegate yet). Leave the option off and freshly-minted holders have balance but no power until they manually `delegate()`. Include that step when onboarding holders.
 - **`GovernanceWrappedERC20`** delegates **on receive**: it auto-self-delegates whenever a receiver has no delegate yet (no flag to disable it, and it won't override an existing delegation), so wrapping grants power without a separate step (it compensates for the friction of wrapping).
 
 > The zkSync variant of the setup (`TokenVotingSetupZkSync`) differs only in *how* it deploys these token contracts (fresh deployment instead of minimal-proxy clones, for zkEVM compatibility); the governance behavior is identical.
 
 ## Keep in mind
 
-- **Delegate, or holders have no power.** Unless `ensureDelegationOnMint` is on (or you use the wrapper), a token holder must delegate before they can vote, expect to guide users through it.
+- **Delegate, or holders have no power.** Unless `ensureDelegationOnMint` is on (or you use the wrapper), a token holder must delegate before they can vote. Expect to guide users through it.
 - **Wrapping means locking.** Voting with `GovernanceWrappedERC20` requires depositing the underlying token; that friction depresses turnout. Don't wrap a token you could instead issue natively.
 
 ## See also

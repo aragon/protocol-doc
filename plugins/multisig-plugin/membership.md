@@ -7,7 +7,7 @@ source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/pac
 
 # Multisig membership & eligibility
 
-The [Multisig Plugin](../multisig-plugin.md)'s member list is just the shared [Addresslist](../../common/membership.md), a checkpointed set of addresses, reused directly (the plugin adds no membership storage of its own). `isMember` is a one-liner over `isListed`. Two rules layered on top need care: the **`minApprovals` invariant** and the **two-speed eligibility** model, both easy to trip on.
+The [Multisig Plugin](../multisig-plugin.md)'s member list reuses the shared [Addresslist](../../common/membership.md), a checkpointed set of addresses (the plugin adds no membership storage of its own). `isMember` calls `isListed`. Two additional rules govern its use: the **`minApprovals` invariant** and the **two-speed eligibility** model.
 
 ## Managing members
 
@@ -20,18 +20,18 @@ One invariant holds at all times: **`1 ≤ minApprovals ≤ member count`.** A m
 - `updateMultisigSettings` rejects a `minApprovals` below 1 or above the current member count.
 - `removeAddresses` rejects a removal that would drop the member count below the current `minApprovals`.
 
-Because `minApprovals` is an **absolute** count, not a percentage, changing the roster shifts the *effective* bar: adding members keeps the same number of approvals needed (a smaller share of the group, so relatively easier to pass), while removing members makes each remaining approval weigh more (relatively harder). That's why only *removal* is threshold-constrained, adding can never breach an absolute floor.
+Because `minApprovals` is an **absolute** count, not a percentage, changing the member list changes the share of members needed to pass a proposal. Adding members keeps the same number of approvals needed (a smaller share of the group, so relatively easier to pass), while removing members makes each remaining approval weigh more (relatively harder). That's why only *removal* is threshold-constrained: adding can never breach an absolute floor.
 
-> **Shrinking the multisig takes two actions, in order.** Each function checks against the *current* onchain state, not against other actions queued in the same proposal. So to remove members *and* lower the threshold below where it is now, the proposal's actions must be: **(1) `updateMultisigSettings` to lower `minApprovals` first, then (2) `removeAddresses`.** The reverse order reverts, because the removal is validated against the old, higher threshold. This bites people scripting membership rotations.
+> **Shrinking the multisig takes two actions, in order.** Each function checks against the *current* onchain state, not against other actions queued in the same proposal. So to remove members *and* lower the threshold below where it is now, the proposal's actions must be: **(1) `updateMultisigSettings` to lower `minApprovals` first, then (2) `removeAddresses`.** The reverse order reverts, because the removal is validated against the old, higher threshold. Preserve this order when scripting membership rotations.
 
 ## Two-speed eligibility
 
-This is the subtle part, and the one thing to really absorb: **who may *create* a proposal and who may *approve* one are judged at different times.**
+**Who may *create* a proposal and who may *approve* one are judged at different times.**
 
-- **Approving is snapshot-based.** A proposal fixes a snapshot at the block *before* creation, and approval eligibility is checked against membership *at that snapshot* (`isListedAtBlock`), never against current membership. The frozen electorate cuts both ways, and the surprising direction is the one that matters: **a member removed *after* a proposal was created can still approve that already-open proposal**, they were listed at its snapshot, and removal never re-checks. Ejecting a compromised or departed signer does *not* stop them pushing through proposals that were already open when you removed them; only proposals created *after* the removal exclude them. (Symmetrically, a member added after creation cannot approve that proposal.) The snapshot is the *prior* block, not the current one, so nobody can flip membership in the same block they create a proposal to rig who's eligible.
+- **Approving is snapshot-based.** A proposal fixes a snapshot at the block *before* creation, and approval eligibility is checked against membership *at that snapshot* (`isListedAtBlock`), never against current membership. **A member removed *after* a proposal was created can still approve that already-open proposal**, they were listed at its snapshot, and removal never re-checks. Ejecting a compromised or departed signer does *not* stop them pushing through proposals that were already open when you removed them; only proposals created *after* the removal exclude them. (Symmetrically, a member added after creation cannot approve that proposal.) The snapshot is the *prior* block, not the current one, so nobody can flip membership in the same block they create a proposal to rig who's eligible.
 - **Creating is live.** Whether you may open a proposal is checked against *current* membership at call time (see below).
 
-The reason for the split: approvals must be counted against a stable electorate for the whole life of a proposal, but "may I even start one" is naturally a here-and-now question. Two different questions, two different mechanisms.
+The reason for the split: approvals must be counted against a stable electorate for the whole life of a proposal, but "may I even start one" is naturally a here-and-now question.
 
 ### Who can create vs. who can approve
 
@@ -39,7 +39,7 @@ Creation eligibility is enforced by a small [permission condition](../../common/
 
 Because the condition reads `onlyListed` live, it doubles as a useful switch:
 
-> **`onlyListed = false` decouples proposing from passing.** Turn it off and *anyone* can create a proposal, while approving and passing it stays restricted to the member list. That's a genuinely useful mode (let the public surface proposals, let members decide), just don't mistake open proposal creation for open governance: the approvals are still members-only.
+> **`onlyListed = false` decouples proposing from passing.** Turn it off and *anyone* can create a proposal, while approving and passing it stays restricted to the member list. This lets the public submit proposals for members to decide. Open proposal creation does not mean open governance: the approvals are still members-only.
 
 ## Keep in mind
 

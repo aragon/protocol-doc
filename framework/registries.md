@@ -7,7 +7,7 @@ source: osx/src/framework/dao/DAORegistry.sol, osx/src/framework/plugin/repo/Plu
 
 # Registries and ENS names
 
-For the ecosystem to enumerate and trust DAOs and plugins, there has to be a canonical onchain list of each. Two registries provide exactly that, and give every entry a human-readable ENS name:
+For the ecosystem to enumerate and trust DAOs and plugins, there has to be a canonical onchain list of each. Two registries provide those lists and give every entry a human-readable ENS name:
 
 - **[DAO Registry](./dao-registry.md)** (`DAORegistry`) — the canonical list of every DAO the framework creates. The [DAOFactory](./dao-factory.md) registers each one (optionally as `<name>.dao.eth`); it's the "is this a genuine framework DAO?" index.
 - **[PluginRepo Registry](./plugin-repo-registry.md)** (`PluginRepoRegistry`) — the canonical list of every published [plugin repo](./plugin-repo.md). The [PSP](./plugin-setup-processor.md) will only install from a repo registered here, so **registration is the trust boundary.**
@@ -22,11 +22,11 @@ The base is a UUPS proxy governed by a **[Management DAO](../deployment/protocol
 
 Each registration can claim a subdomain under a protocol-owned ENS parent (e.g. `myorg.dao.eth`, `myplugin.plugin.dao.eth`). The `ENSSubdomainRegistrar` mints these:
 
-- It **keeps ownership of every subnode itself** and only sets the resolver's address record to point at the DAO or repo. So names can't be transferred away from the protocol, they always resolve to the registered contract.
+- It **keeps ownership of every subnode itself** and only sets the resolver's address record to point at the DAO or repo. Names can't be transferred away from the protocol; they always resolve to the registered contract.
 - Subdomain characters are validated (`a-z`, `0-9`, `-`) by `RegistryUtils.isSubdomainValid`.
 - It requires off-chain setup: the registrar must be made owner/operator of the ENS parent node before it can mint children.
 
-Whether a name is **required** depends on the registry and the release, so this bites in practice:
+Whether a name is **required** depends on the registry and the release:
 
 - **DAOs, always optional.** `DAORegistry` registers the DAO whether or not you pass a subdomain; an empty one just skips the ENS step.
 - **Plugin repos, version-dependent.** Through **v1.3.0** a subdomain was **required**, an empty one reverts `EmptyPluginRepoSubdomain`. **v1.4.0 relaxed it to optional.** So on older deployments a name is mandatory; treat providing one as the norm regardless. (`PluginRepoFactory` still carries a stale `@dev` comment claiming empty reverts, a leftover from the v1.3.0 rule.)
@@ -34,12 +34,12 @@ Whether a name is **required** depends on the registry and the release, so this 
 
 ## A third registry, deliberately separate
 
-A [`MemberRegistry`](./member-registry.md) also mints ENS names (Aragon's binds to `aragon.eth`, so `alice.aragon.eth`), so it's tempting to file all three together. It's kept apart on purpose, because it isn't the same *kind* of thing:
+A [`MemberRegistry`](./member-registry.md) also mints ENS names (Aragon's binds to `aragon.eth`, so `alice.aragon.eth`). It serves a different purpose from the two component registries:
 
-- The **DAO and plugin registries** register **protocol components** (contracts), share the `InterfaceBasedRegistry` base, and are **permissioned**, only the official factories may add entries, which is exactly what makes them a trust boundary.
+- The **DAO and plugin registries** register **protocol components** (contracts), share the `InterfaceBasedRegistry` base, and are **permissioned**. Only the official factories may add entries, which makes them a trust boundary.
 - The **member registry** gives **members an optional, free ENS handle** (a fallback for those who don't want to buy one), is **permissionless** (anyone self-registers), and is built on a different base entirely (no `InterfaceBasedRegistry`). It shares only the ENS subnode-custody pattern.
 
-So the grouping is two near-identical component registries plus one identity registry that merely rhymes with them, which is why this page covers the first two and the [member registry](./member-registry.md) stands alone.
+The two component registries share nearly the same design. For the separate identity registry, see [member registry](./member-registry.md).
 
 ## See also
 

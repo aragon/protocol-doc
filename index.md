@@ -8,27 +8,27 @@ The developer knowledge base for the EVM protocol behind Aragon: the **OSx** cor
 
 ## What the protocol is
 
-**Aragon OSx is a framework for building DAOs as smart contracts.** No two organizations are the same, and even a single organization is not the same over time, its needs change. So OSx makes a DAO a *lean, lasting core*, one contract that holds assets, executes arbitrary actions, and owns its own permission database, and lets you **iterate** the organization by adding and removing capability around that core. Two ideas do the heavy lifting:
+**Aragon OSx is a framework for building DAOs as smart contracts.** Organizations have different needs, and those needs change over time. OSx keeps the DAO's core small: one contract holds assets, executes arbitrary actions, and owns its own permission database. You can add and remove capabilities around that core as the organization evolves. This relies on two parts:
 
 - **Plugins** add functionality to a DAO (governance, asset management, membership, anything). A DAO installs the plugins it needs and can add, update, or remove them over its lifetime, so the organization evolves without ever being redeployed.
 - **A permission system** governs who is allowed to do what, on which contract. It is the single authorization layer the DAO and its plugins share, and it can defer decisions to onchain **conditions**.
 
-The point is to make that iteration both **flexible and safe**: a plugin never arrives loose, it comes with a **setup** that encapsulates exactly what to deploy and which permissions to grant or revoke, applied as one reviewable, all-or-nothing step. Around this sit a versioned **plugin registry** and an installation **framework** that make plugins safe to publish, install, and upgrade, plus **factories** that deploy the whole stack and a **launchpad** that drives real DAO creation.
+Each plugin comes with a **setup** that specifies exactly what to deploy and which permissions to grant or revoke. These changes are reviewable and applied as one all-or-nothing step, so the organization can change its capabilities safely. A versioned **plugin registry** and an installation **framework** support safe publishing, installation, and upgrades. **Factories** deploy the whole stack, and a **launchpad** handles DAO creation.
 
 ## Start here
 
-**New to OSx?** The [guides](./guides/index.md) are the way in, hands-on, Foundry-based, followed start to finish:
+**New to OSx?** Start with the [guides](./guides/index.md): hands-on, Foundry-based walkthroughs to follow from start to finish.
 
 - [Why OSx](./guides/why-osx.md) — the short "what this is and why," no code.
 - [A hands-on tour of OSx](./guides/hands-on-tour.md) — deploy a DAO and make it act, in one short test.
 - Then the path that fits you: [deploy a DAO](./guides/deploy-a-dao.md) → [launch a governance token](./guides/launch-a-governance-token.md) → [create, vote, execute](./guides/create-vote-execute.md), or, to author your own plugin, [build a plugin](./guides/build-a-plugin.md) → [publish it](./guides/publish-a-plugin.md). Full list and reading order in [guides](./guides/index.md).
 
-**Prefer the reference?** Two concepts underpin everything, read them first:
+**Prefer the reference?** Read these two concepts first; everything else builds on them:
 
 1. [The DAO contract](./core/dao.md) — what a DAO actually *is*.
 2. [The permission system](./core/permissions.md) — how OSx decides who may do what.
 
-From there follow a path through the graph, [actions & execution](./core/execution.md) → [the plugin model](./framework/plugins.md) → the [governance plugins](./plugins/index.md), or for authoring, [base types](./framework/plugin-types.md) → [plugin setup](./framework/plugin-setup.md) → [PluginRepo](./framework/plugin-repo.md) → [the PluginSetupProcessor](./framework/plugin-setup-processor.md), or just browse by area below.
+From there, follow [actions & execution](./core/execution.md) → [the plugin model](./framework/plugins.md) → the [governance plugins](./plugins/index.md). For plugin authoring, follow [base types](./framework/plugin-types.md) → [plugin setup](./framework/plugin-setup.md) → [PluginRepo](./framework/plugin-repo.md) → [the PluginSetupProcessor](./framework/plugin-setup-processor.md). You can also browse by area below.
 
 Browse by area:
 
@@ -42,10 +42,10 @@ Browse by area:
 
 **Coming from another system?** [OSx compared](./osx-compared.md) puts the permission model side by side with OpenZeppelin, Safe + Zodiac and Hats: where each keeps its authorization state, what that buys, what it costs, and how to express each one's patterns in OSx.
 
-**Looking up an exact signature?** The [ABI reference](./abi/index.md) is the generated lookup layer: every public function, event, error, enum and constant of every contract, with its NatSpec, straight from the source. Read the area pages to understand a thing; go there to check its precise surface.
+**Looking up an exact signature?** The [ABI reference](./abi/index.md) is the generated lookup layer: every public function, event, error, enum and constant of every contract, with its NatSpec, straight from the source. Read the area pages to understand a component; use the ABI reference to check its exact interface.
 
 **The code:** every component's GitHub repository is listed in [Source repositories](./repositories.md).
 
 ---
 
-_Operated with the `wiki` CLI: [AGENTS.md](./AGENTS.md) is how to drive it, [WORKFLOW.md](./WORKFLOW.md) is this base's conventions. Both are for **maintaining** the base, not for learning the protocol, a reader can skip them._
+_Operated with the `wiki` CLI: [AGENTS.md](./AGENTS.md) explains how to use it, and [WORKFLOW.md](./WORKFLOW.md) describes this base's conventions. Both are for **maintaining** the base. You can skip them if you're here to learn the protocol._

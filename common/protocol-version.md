@@ -7,7 +7,7 @@ source: osx/src/common/utils/versioning/ProtocolVersion.sol, osx/src/common/util
 
 # Protocol version
 
-There are **two different "versions"** in OSx, and conflating them causes confusion:
+OSx tracks **two different versions**:
 
 - **Protocol version** — which version of the OSx *protocol* a contract was built against (e.g. `[1, 4, 0]`). Reported by `protocolVersion()`, defined here.
 - **Plugin release/build** — which version of a *specific plugin* an install is, tracked by [PluginRepo](../framework/plugin-repo.md) as `release.build`. Unrelated to the protocol version.
@@ -20,9 +20,9 @@ Contracts across the protocol (every plugin, every plugin setup, the DAO, regist
 function protocolVersion() external view returns (uint8[3] memory); // e.g. [1, 4, 0]
 ```
 
-This makes the protocol version discoverable onchain for tooling and compatibility checks. `ProtocolVersion` is intentionally **stateless** (`pure`, zero storage): the source even warns not to add storage variables to it, so it can be safely mixed into any inheritance chain, upgradeable or not, without disturbing storage layout or needing its own `__gap`.
+This makes the protocol version discoverable onchain for tooling and compatibility checks. `ProtocolVersion` is intentionally **stateless** (`pure`, zero storage): the source warns not to add storage variables to it, so it can be safely mixed into any inheritance chain, upgradeable or not, without disturbing storage layout or needing its own `__gap`.
 
-`VersionComparisonLib` provides the obvious lexicographic comparisons (`eq`, `lt`, `gte`, …) over the `uint8[3]` triple for code that gates on protocol version.
+`VersionComparisonLib` provides lexicographic comparisons (`eq`, `lt`, `gte`, …) over the `uint8[3]` triple for code that gates on protocol version.
 
 ## Why versioning discipline matters
 

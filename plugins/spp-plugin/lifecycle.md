@@ -7,7 +7,7 @@ source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
 
 # SPP lifecycle & state machine
 
-This is the heart of the [SPP](../spp-plugin.md): how a proposal moves from creation, through each [stage](./stages-and-bodies.md), to execution, and every rule that governs when it may (or may not) advance.
+An [SPP](../spp-plugin.md) proposal moves from creation through each [stage](./stages-and-bodies.md) to execution. Its state determines whether it may advance, based on the stage's timing and body results.
 
 ## The states
 
@@ -27,9 +27,9 @@ The `state(proposalId)` function decides this, in order (each check short-circui
 4. veto stage and `voteDuration` not yet elapsed → **Active** (the [veto-window floor](./stages-and-bodies.md#voteduration-the-field-that-does-two-jobs)).
 5. thresholds met → **Advanceable**; otherwise → **Active**.
 
-"Thresholds met" applies the [hard-veto rule](./stages-and-bodies.md#vetoes-always-win): enough vetoes → not met, full stop; else enough approvals → met.
+"Thresholds met" applies the [hard-veto rule](./stages-and-bodies.md#vetoes-always-win): enough vetoes → not met; otherwise, enough approvals → met.
 
-From `state`, the rest follows: `canProposalAdvance` is "state is Advanceable"; `canExecute` is "Advanceable *and* on the last stage"; and `hasSucceeded` (the [`IProposal`](../../common/proposal.md) signal other plugins poll) is "on the last stage and Advanceable **or** already Executed", note it stays true after execution, which matters for [nesting SPP as a body](./composing-bodies.md).
+From `state`, the rest follows: `canProposalAdvance` is "state is Advanceable"; `canExecute` is "Advanceable *and* on the last stage"; and `hasSucceeded` (the [`IProposal`](../../common/proposal.md) signal other plugins poll) is "on the last stage and Advanceable **or** already Executed". It stays true after execution, which matters for [nesting SPP as a body](./composing-bodies.md).
 
 ## How a stage's results are tallied: push and pull
 
@@ -50,13 +50,13 @@ reportProposalResult(uint256 proposalId, uint16 stageId, ResultType resultType, 
 
 - **Anyone may call it**, but it's safe: SPP only ever *reads* the recorded verdict for addresses actually registered as bodies in that stage. A report from a non-body is simply never counted (it just wastes the caller's gas, worth a UI guard, not a contract one).
 - **A report overwrites.** There's no "first report is final", a body can flip its own verdict (approval ↔ veto) any time before the proposal actually advances past the stage.
-- **`tryAdvance: true`** attempts to advance the proposal in the same transaction, but **only if** the caller holds the right permission and the state is already advanceable, and it **never reverts** if it can't. That silent best-effort is deliberate: a body's callback often rides along with other actions in the body's own proposal, and those must not be rolled back just because SPP wasn't ready to advance.
+- **`tryAdvance: true`** also advances when the proposal is advanceable and the caller has `ADVANCE_PERMISSION_ID`, or `EXECUTE_PROPOSAL_PERMISSION_ID` on the last stage. Missing permission or unsuitable state skips the attempt, so the body's report and other actions in its transaction can still succeed when SPP is not ready. If advancement actually runs, an execution failure can still revert the transaction.
 
 ## Advancing and executing
 
-`advanceProposal` moves an advanceable proposal to the next stage (creating that stage's sub-proposals) or, on the last stage, executes it, **advancing past the last stage *is* executing**, there's no separate "finished" step. Advancing needs `ADVANCE_PERMISSION_ID`; executing needs `EXECUTE_PROPOSAL_PERMISSION_ID`. Both are [granted to anyone by default](../spp-plugin.md#installation--permissions), so once the state machine says advanceable, moving the proposal forward is a permissionless flush; the body results, not the caller, are the gate. Execution runs the proposal's [actions](../../core/execution.md) against the snapshotted target, honoring the [failsafe action map](../../core/execution.md#failsafe-actions) set at creation (individual actions may be allowed to fail without reverting the batch).
+`advanceProposal` moves an advanceable proposal to the next stage (creating that stage's sub-proposals) or, on the last stage, executes it. **Advancing past the last stage *is* executing**; there's no separate "finished" step. Advancing needs `ADVANCE_PERMISSION_ID`; executing needs `EXECUTE_PROPOSAL_PERMISSION_ID`. Both are [granted to anyone by default](../spp-plugin.md#installation--permissions), so once the state machine says advanceable, anyone can move the proposal forward; the body results, not the caller, determine whether it may advance. Execution runs the proposal's [actions](../../core/execution.md) against the snapshotted target, honoring the [failsafe action map](../../core/execution.md#failsafe-actions) set at creation (individual actions may be allowed to fail without reverting the batch).
 
-When a stage begins, SPP creates a sub-proposal on each of its automatic bodies. That creation is **resilient**: it's a guarded low-level call (with a gas-griefing check), and if a body's `createProposal` reverts, or the body rejects SPP, that one body just degrades to "never contributes to the tally" (a `SubProposalNotCreated` event) instead of blocking the other bodies or the whole pipeline. A stray or misconfigured body can't brick the process.
+When a stage begins, SPP creates a sub-proposal on each of its automatic bodies through a guarded low-level call (with a gas-griefing check). If a body's `createProposal` reverts, or the body rejects SPP, that body contributes nothing to the tally (a `SubProposalNotCreated` event) instead of blocking the other bodies or the whole pipeline. A misconfigured body therefore doesn't cause sub-proposal creation for the rest of the stage to fail.
 
 ## Cancelling and editing
 
@@ -65,7 +65,7 @@ Two optional interventions, each gated *both* by a per-stage flag and a permissi
 - **`cancel`** (needs `CANCEL_PERMISSION_ID`, and the current stage's `cancelable`) ends the proposal permanently.
 - **`edit`** (needs `EDIT_PERMISSION_ID`, and the current stage's `editable`) replaces the proposal's actions before it advances. If the current stage has bodies, editing is only allowed once the stage is *advanceable* (you can't rewrite what bodies are actively voting on); a bodyless [timelock stage](./stages-and-bodies.md#the-three-stage-shapes) can be edited while merely active.
 
-Neither is possible on a terminal proposal (executed, canceled, expired). And crucially, **install grants neither permission by default**, a DAO must grant `CANCEL_PERMISSION_ID`/`EDIT_PERMISSION_ID` explicitly for these to work at all, on top of setting the per-stage flags.
+Neither is possible on a terminal proposal (executed, canceled, expired). **Install grants neither permission by default**: a DAO must grant `CANCEL_PERMISSION_ID`/`EDIT_PERMISSION_ID` explicitly for these to work at all, on top of setting the per-stage flags.
 
 ## Keep in mind
 

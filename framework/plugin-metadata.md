@@ -24,7 +24,7 @@ When a version is published with [`createVersion`](./plugin-repo.md), the onchai
 { "name": "Multisig", "description": "", "images": {} }
 ```
 
-**`build-metadata.json`** — per *build*, and the load-bearing one, it declares the **input schema for the [plugin setup](./plugin-setup.md)**:
+**`build-metadata.json`** — per *build*, declares the **input schema for the [plugin setup](./plugin-setup.md)**:
 
 ```json
 {
@@ -103,7 +103,7 @@ Pin each file with `just ipfs-pin <file>` (it uploads and returns the `ipfs://<C
 
 ## Generating `prepareInstallation.inputs` with Foundry
 
-The `inputs` array is just the ABI of your install `_data`, and hand-writing it is exactly where it drifts from the code. Keep them in lockstep by exposing a public helper on your setup whose parameters mirror what `prepareInstallation` `abi.decode`s (the [Token Voting setup](../plugins/token-voting-plugin.md) does this with `encodeInstallationParameters(...)`):
+The `inputs` array is the ABI of your install `_data`. Writing it by hand can introduce differences from the code. Keep them consistent by exposing a public helper on your setup whose parameters mirror what `prepareInstallation` `abi.decode`s (the [Token Voting setup](../plugins/token-voting-plugin.md) does this with `encodeInstallationParameters(...)`):
 
 ```solidity
 function encodeInstallationParameters(MySettings memory s, address admin)
@@ -117,13 +117,13 @@ forge inspect MyPluginSetup abi --json \
   | jq '.[] | select(.name=="encodeInstallationParameters") | .inputs'
 ```
 
-Paste the result into `build-metadata.json` under `pluginSetup.prepareInstallation.inputs`, then add a human `description` to each field (the ABI doesn't carry those). Because the schema is generated from the same signature the setup encodes and decodes, it can't silently drift from the contract, the exact failure the [setup page](./plugin-setup.md) warns about.
+Paste the result into `build-metadata.json` under `pluginSetup.prepareInstallation.inputs`, then add a human `description` to each field (the ABI doesn't carry those). Because the schema is generated from the same signature the setup encodes and decodes, it can't silently drift from the contract. This prevents the failure described in [plugin setup](./plugin-setup.md).
 
-This helper is a **convention Aragon pushes, not something the framework enforces**, plenty of setups don't expose one. When it's absent you hand-write `inputs` to match your `abi.decode`, and the drift risk is back on you (which is precisely why adding the helper is worth it).
+This helper is a **convention Aragon recommends, not something the framework enforces**. Many setups don't expose one. When it's absent, you hand-write `inputs` to match your `abi.decode` and must keep them consistent yourself. Adding the helper avoids that manual work and its risk of drift.
 
 ## Keep in mind
 
-- **`build-metadata.json` is a contract, not a footnote.** Its `prepareInstallation.inputs` must match what your setup decodes; a mismatch silently misconfigures installs. It's what makes your plugin installable from a UI.
+- **`build-metadata.json` defines the installation input schema.** Its `prepareInstallation.inputs` must match what your setup decodes; a mismatch silently misconfigures installs. It's what makes your plugin installable from a UI.
 - **Version JSON is off-chain.** The repo stores only its hash/URI; keep the files pinned or the metadata is unresolvable.
 - **Instance metadata is stored and readable** (`getMetadata()`), unlike DAO metadata which you read by indexing its event.
 - **No standalone schema file, the examples are the format.** Every plugin repo ships its own `release-metadata.json` + `build-metadata.json` (e.g. under `packages/contracts/src/` or `script/metadata/`); `build-metadata` is self-describing, since it embeds the input ABI schema itself.

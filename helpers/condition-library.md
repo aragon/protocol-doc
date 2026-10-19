@@ -11,7 +11,7 @@ The Condition Library is a set of **ready-made [permission conditions](../common
 
 ## The three conditions
 
-Each is its own tool with its own use case, the first thing to get right is *what each one inspects*:
+Choose a condition by *what it inspects*:
 
 - **[SelectorCondition](./condition-library/selector-condition.md)** — allow only a set of function **selectors** on the *direct call* being authorized. "This permission, but only to call functions X and Y."
 - **[ExecuteSelectorCondition](./condition-library/execute-selector-condition.md)** — scope the DAO's [`EXECUTE_PERMISSION_ID`](../core/execution.md) by reaching *inside* an `execute()` batch and allow-listing each action's `(target, selector)`. "This plugin may make the DAO execute, but only these calls."
@@ -21,7 +21,7 @@ Each is its own tool with its own use case, the first thing to get right is *wha
 
 ## The `ConditionFactory`
 
-`ConditionFactory` deploys instances of the three conditions (`deploySelectorCondition`, `deployExecuteSelectorCondition`, `deploySafeOwnerCondition`) and emits an event for each. It's plain deployment (no deterministic addresses or clones); the value is a single, audited, discoverable deployment path, one known factory address per network from which every condition instance can be traced via its events.
+`ConditionFactory` deploys instances of the three conditions (`deploySelectorCondition`, `deployExecuteSelectorCondition`, `deploySafeOwnerCondition`) and emits an event for each. It uses plain deployment (no deterministic addresses or clones). This provides a single, audited deployment path: one known factory address per network, with events that let you find and trace every condition instance.
 
 ## Using one
 
