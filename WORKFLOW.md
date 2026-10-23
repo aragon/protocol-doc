@@ -105,3 +105,15 @@ A single lightweight kanban at [`backlog/index.md`](./backlog/index.md): a goal,
 ## Grooming
 
 Groom to make the base more findable, not for its own sake. After any batch: `wiki check`, then work `wiki unresolved` (to-write) and `wiki orphans` (undiscoverable, link it in). Watch for a concept explained twice (merge + link). Reread stale pages as the source moves (`wiki list --sort=timestamp --reverse`). Read a finished area cold, as a newcomer, and fix the blind spots.
+
+## Publishing
+
+This base is published as a website by `protocol-doc-ui` (a private repo that renders these files as they are). Edits only happen here, and each one deploys on its own:
+
+| When | Environment | Content |
+|---|---|---|
+| A PR is opened or updated (any branch) | Preview (link posted on the PR) | the PR |
+| `development` is updated | Development (dev.docs.aragon.org) | `development` |
+| A PR is merged into `main` | Production (docs.aragon.org) | `main` |
+
+PRs from forks don't get a preview.
