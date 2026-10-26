@@ -1,0 +1,68 @@
+# Tells protocol-doc-ui (the website, a private repo) that this content changed; the deploys run
+# there, next to the Vercel credentials. What each event deploys:
+#   - a PR from a branch of this repo, into any branch -> a preview, linked on the PR
+#   - a push to `development`                         -> development (dev.docs.aragon.org)
+#   - a push to `main` (a merged PR)                  -> production (docs.aragon.org)
+#
+# The only credential here is the aragon-protocol-doc-notifier GitHub App, which can do nothing
+# but start workflows in protocol-doc-ui. Those look up what to build themselves (the PR's head,
+# the branch heads), so nothing sent from here chooses what reaches production. Its key lives in
+# kv_protocol-doc_infra, read with the `website` environment's OP_SERVICE_ACCOUNT_TOKEN. PRs from
+# forks get no secrets, so they get no preview.
+name: Notify website
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, development]
+
+concurrency:
+  group: notify-website-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  notify:
+    if: github.event_name == 'push' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
+    runs-on: ubuntu-latest
+    environment: website
+    steps:
+      - name: Resolve the notifier App key
+        id: op
+        uses: aragon/github-templates/steps/credential-retrieval@main
+        with:
+          mode: byref
+          op-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          secret-refs: |
+            APP_ID=op://kv_protocol-doc_infra/gh_app_aragon-protocol-doc-notifier/username
+            APP_PRIVATE_KEY=op://kv_protocol-doc_infra/gh_app_aragon-protocol-doc-notifier/private_key
+
+      - name: Get a token for protocol-doc-ui
+        id: app
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          # The App ID works here too: either one is accepted as the JWT issuer.
+          client-id: ${{ fromJSON(steps.op.outputs.secrets).APP_ID }}
+          private-key: ${{ fromJSON(steps.op.outputs.secrets).APP_PRIVATE_KEY }}
+          owner: aragon
+          repositories: protocol-doc-ui
+          permission-actions: write
+
+      - name: Start the website workflow
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          EVENT: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          case "$EVENT:$BRANCH" in
+            pull_request:*) args=(deploy-content-preview.yml -f pr-number="$PR_NUMBER") ;;
+            push:development) args=(deploy-development.yml) ;;
+            push:main) args=(sync-content.yml) ;;
+            *) echo "::error::Nothing to notify for $EVENT on $BRANCH" >&2; exit 1 ;;
+          esac
+          gh workflow run "${args[@]}" --repo aragon/protocol-doc-ui --ref main
+          echo "Started protocol-doc-ui's ${args[0]}" >> "$GITHUB_STEP_SUMMARY"
