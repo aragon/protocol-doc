@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Resolve the notifier App key
         id: op
-        uses: aragon/github-templates/steps/credential-retrieval@10c1b0971e7bead271052d3506098a9530d47c90 # https://github.com/aragon/github-templates/commit/10c1b0971e7bead271052d3506098a9530d47c90
+        uses: aragon/github-templates/steps/credential-retrieval@main
         with:
           mode: byref
           op-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
