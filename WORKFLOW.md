@@ -15,7 +15,7 @@ Developers who want to **build on and integrate with** the protocol in Solidity:
 
 ## Voice
 
-Write **onchain** as one word, without a hyphen, in all documentation.
+Write **onchain** and **crosschain** as one word, without a hyphen, in all documentation.
 
 ## Structure
 

@@ -8,7 +8,7 @@ summary: "This contract maintains an address-based registry of plugin repositori
 
 # PluginRepoRegistry
 
-**Contract** · [`src/framework/plugin/repo/PluginRepoRegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/plugin/repo/PluginRepoRegistry.sol)
+**Contract** · [`src/framework/plugin/repo/PluginRepoRegistry.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/framework/plugin/repo/PluginRepoRegistry.sol)
 
 **Explained in:** [PluginRepo Registry](../../framework/plugin-repo-registry.md), [Registries and ENS names](../../framework/registries.md)
 

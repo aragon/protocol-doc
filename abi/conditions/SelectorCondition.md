@@ -8,7 +8,7 @@ summary: "A permission that only allows a specified group of function selectors 
 
 # SelectorCondition
 
-**Contract** · [`src/SelectorCondition.sol`](https://github.com/aragon/conditions/blob/33918b06b95233dd8890bef6cc60da6227fa5af1/src/SelectorCondition.sol)
+**Contract** · [`src/SelectorCondition.sol`](https://github.com/aragon/conditions/blob/7198a02ae1e62f3297416feeca64159bf69802c7/src/SelectorCondition.sol)
 
 **Explained in:** [SelectorCondition](../../helpers/condition-library/selector-condition.md)
 

@@ -1,6 +1,6 @@
 # lock-to-vote-plugin — ABI reference
 
-Generated from [`lock-to-vote-plugin`](https://github.com/aragon/lock-to-vote-plugin) at commit [`5a513e3d`](https://github.com/aragon/lock-to-vote-plugin/commit/5a513e3d9f1aad35d8926de87c408720e8d20a8d).
+Generated from [`lock-to-vote-plugin`](https://github.com/aragon/lock-to-vote-plugin) at commit [`4bd0355e`](https://github.com/aragon/lock-to-vote-plugin/commit/4bd0355e360c73e8ac24009c4d26d995c3272f9c).
 
 17 entries. Regenerate with `just abi`.
 
@@ -9,7 +9,7 @@ Generated from [`lock-to-vote-plugin`](https://github.com/aragon/lock-to-vote-pl
 - [`LockManagerBase`](./LockManagerBase.md) — Helper contract acting as the vault for locked tokens used to vote on LockToGovern plugins.
 - [`LockManagerERC20`](./LockManagerERC20.md) — Helper contract acting as the vault for locked tokens used to vote on LockToGovern plugins.
 - [`LockToGovernBase`](./LockToGovernBase.md) — LockToGovernBase
-- [`LockToVotePlugin`](./LockToVotePlugin.md)
+- [`LockToVotePlugin`](./LockToVotePlugin.md) — Majority voting plugin where voting power comes from tokens locked in a `LockManager`, not from an ahead-of-time snapshot.
 - [`LockToVotePluginSetup`](./LockToVotePluginSetup.md) — The setup contract of the `LockToVotePlugin` contract.
 - [`MajorityVotingBase`](./MajorityVotingBase.md) — The abstract implementation of majority voting plugins.
 - [`MinVotingPowerCondition`](./MinVotingPowerCondition.md) — Checks if an account's voting power or token balance meets the threshold defined on the given plugin.

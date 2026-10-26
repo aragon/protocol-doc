@@ -2,13 +2,13 @@
 type: reference
 title: Multisig
 kind: contract
-source: multisig-plugin/packages/contracts/src/Multisig.sol
+source: multisig-plugin/src/Multisig.sol
 summary: "The onchain multisig governance plugin in which a proposal passes if X out of Y approvals are met."
 ---
 
 # Multisig
 
-**Contract** · [`packages/contracts/src/Multisig.sol`](https://github.com/aragon/multisig-plugin/blob/c1b0e04919819f8fb1ec110743085dfb0dd7cc02/packages/contracts/src/Multisig.sol)
+**Contract** · [`src/Multisig.sol`](https://github.com/aragon/multisig-plugin/blob/91410777e3d4ad868ecc610acee9b32328891860/src/Multisig.sol)
 
 **Explained in:** [Create, vote, and execute a proposal](../../guides/create-vote-execute.md), [Multisig membership & eligibility](../../plugins/multisig-plugin/membership.md), [Multisig Plugin](../../plugins/multisig-plugin.md)
 

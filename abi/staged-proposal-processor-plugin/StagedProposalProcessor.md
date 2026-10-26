@@ -8,7 +8,7 @@ summary: "A multi-stage proposal processor where proposals progress through defi
 
 # StagedProposalProcessor
 
-**Contract** · [`src/StagedProposalProcessor.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/StagedProposalProcessor.sol)
+**Contract** · [`src/StagedProposalProcessor.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/a1d84e0542cf2db0a542f0159878457dbb7e3515/src/StagedProposalProcessor.sol)
 
 **Explained in:** [Composing SPP bodies](../../plugins/spp-plugin/composing-bodies.md), [SPP lifecycle & state machine](../../plugins/spp-plugin/lifecycle.md), [SPP stages & bodies](../../plugins/spp-plugin/stages-and-bodies.md), [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
 
@@ -572,18 +572,24 @@ Selector: `0x52303962`
 
 Reports and records the result for a proposal at a specific stage.
 
-> **Dev:** This function can be called by any address even if it is not included in the stage configuration.
-> `_canProposalAdvance` function ensures that only records from addresses
-> in the stage configuration are used.
+> **Dev:** A body of the `_stageId` may only report its configured result type, or `None` to retract a
+> previous result, and reverts with `ResultTypeNotAllowed` otherwise. A call from an address
+> that is not a body of the `_stageId` returns without effect.
 > If `_tryAdvance` is true, the proposal will attempt to advance to the next stage if eligible.
 > Requires the caller to have the `EXECUTE_PERMISSION_ID` permission to execute the final stage.
+> Reporting the result does not revert when the proposal is simply not eligible to advance,
+> but advancing an eligible proposal can revert, for example when a body on the next stage
+> fails to create its sub-proposal. Since this function is typically called by an action of a
+> sub-body's own proposal, such a revert also reverts that sub-body's execution. Sub-bodies
+> that must not be blocked by a failing next stage should report with `_tryAdvance` set to
+> false and advance the proposal in a separate transaction.
 
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `_proposalId` | `uint256` | The ID of the proposal. |
 | `_stageId` | `uint16` | The index of the stage, being reported on. Must not exceed the current stage of the proposal. |
-| `_resultType` | [`StagedProposalProcessor.ResultType`](#resulttype) | The result type being reported (`Approval` or `Veto`). |
-| `_tryAdvance` | `bool` | Whether to attempt advancing the proposal to the next stage if conditions are met. |
+| `_resultType` | [`StagedProposalProcessor.ResultType`](#resulttype) | The result type being reported: the body's configured type, or `None` to retract. |
+| `_tryAdvance` | `bool` | Whether to attempt advancing the proposal to the next stage if conditions are met. Note that a failed advancement reverts this call, see the note above. |
 
 ### setMetadata
 
@@ -894,26 +900,6 @@ Emitted when this plugin successfully creates a proposal on sub-body.
 | `body` | `address` | The sub-body on which sub-proposal has been created. |
 | `bodyProposalId` | `uint256` | The proposal id that sub-body returns for later usage by this plugin. |
 
-### SubProposalNotCreated
-
-```solidity
-event SubProposalNotCreated(
-    uint256 indexed proposalId,
-    uint16 indexed stageId,
-    address indexed body,
-    bytes reason
-)
-```
-
-Emitted when this plugin fails in creating a proposal on sub-body.
-
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `proposalId` | `uint256` | The proposal id. |
-| `stageId` | `uint16` | The stage index. |
-| `body` | `address` | The sub-body on which sub-proposal failed to be created. |
-| `reason` | `bytes` | The reason why it was failed. |
-
 ### TargetSet
 
 ```solidity
@@ -1010,12 +996,6 @@ Thrown if a body address is duplicated in the same stage.
 error FunctionDeprecated()
 ```
 
-### InsufficientGas
-
-```solidity
-error InsufficientGas()
-```
-
 ### InterfaceNotSupported
 
 ```solidity
@@ -1107,6 +1087,22 @@ Thrown if the proposal execution is forbidden.
 | --- | --- | --- |
 | `proposalId` | `uint256` | The ID of the proposal. |
 
+### ResultTypeNotAllowed
+
+```solidity
+error ResultTypeNotAllowed(uint16 stageId, address sender, uint8 resultType)
+```
+
+Thrown when a body reports a result type other than its configured one or `None`.
+
+> **Dev:** `resultType` is a `uint8` because `ResultType` is declared inside the SPP contract.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `stageId` | `uint16` | The stage id the result is reported for. |
+| `sender` | `address` | The body that reported the result. |
+| `resultType` | `uint8` | The result type that was reported. |
+
 ### StageCountZero
 
 ```solidity
@@ -1151,6 +1147,19 @@ error StartDateInvalid(uint64)
 ```
 
 Thrown if the start date is less than current timestamp.
+
+### SubProposalCreationFailed
+
+```solidity
+error SubProposalCreationFailed(address body, bytes reason)
+```
+
+Thrown when a sub-body fails to create the sub-proposal it was asked to create.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `body` | `address` | The sub-body on which the sub-proposal could not be created. |
+| `reason` | `bytes` | The raw revert data returned by the sub-body, empty if it returned none. |
 
 ### Uint16MaxSizeExceeded
 

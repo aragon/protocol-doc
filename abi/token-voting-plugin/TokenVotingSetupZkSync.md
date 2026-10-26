@@ -8,7 +8,7 @@ summary: "The setup contract of the `TokenVoting` plugin."
 
 # TokenVotingSetupZkSync
 
-**Contract** · [`src/TokenVotingSetupZkSync.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/TokenVotingSetupZkSync.sol)
+**Contract** · [`src/TokenVotingSetupZkSync.sol`](https://github.com/aragon/token-voting-plugin/blob/e726c28061486114d601c547e4da1180ed5ab6da/src/TokenVotingSetupZkSync.sol)
 
 **TokenVotingSetup**
 

@@ -2,7 +2,7 @@
 type: concept
 title: Multisig membership & eligibility
 tags: [governance]
-source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/packages/contracts/src/ListedCheckCondition.sol
+source: multisig-plugin/src/Multisig.sol, multisig-plugin/src/ListedCheckCondition.sol
 ---
 
 # Multisig membership & eligibility

@@ -2,13 +2,13 @@
 type: reference
 title: Admin
 kind: contract
-source: admin-plugin/packages/contracts/src/Admin.sol
+source: admin-plugin/src/Admin.sol
 summary: "The admin governance plugin giving execution permission on the DAO to a single address."
 ---
 
 # Admin
 
-**Contract** · [`packages/contracts/src/Admin.sol`](https://github.com/aragon/admin-plugin/blob/ef1727abafe42022373ef14e933653cdc9a10f05/packages/contracts/src/Admin.sol)
+**Contract** · [`src/Admin.sol`](https://github.com/aragon/admin-plugin/blob/c228ee0bcac4bb79fcfd17ff6efcceef08536bfc/src/Admin.sol)
 
 **Explained in:** [Admin Plugin](../../plugins/admin-plugin.md)
 

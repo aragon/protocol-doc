@@ -8,7 +8,7 @@ summary: "The abstract implementation of majority voting plugins."
 
 # MajorityVotingBase
 
-**Abstract contract** · [`src/base/MajorityVotingBase.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/base/MajorityVotingBase.sol)
+**Abstract contract** · [`src/base/MajorityVotingBase.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/4bd0355e360c73e8ac24009c4d26d995c3272f9c/src/base/MajorityVotingBase.sol)
 
 **Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
 

@@ -2,13 +2,15 @@
 type: reference
 title: AdminSetupZkSync
 kind: contract
-source: admin-plugin/packages/contracts/src/zkSync/AdminSetupZkSync.sol
+source: admin-plugin/src/zkSync/AdminSetupZkSync.sol
 summary: "The setup contract of the `Admin` plugin."
 ---
 
 # AdminSetupZkSync
 
-**Contract** · [`packages/contracts/src/zkSync/AdminSetupZkSync.sol`](https://github.com/aragon/admin-plugin/blob/ef1727abafe42022373ef14e933653cdc9a10f05/packages/contracts/src/zkSync/AdminSetupZkSync.sol)
+**Contract** · [`src/zkSync/AdminSetupZkSync.sol`](https://github.com/aragon/admin-plugin/blob/c228ee0bcac4bb79fcfd17ff6efcceef08536bfc/src/zkSync/AdminSetupZkSync.sol)
+
+**Explained in:** [Admin Plugin](../../plugins/admin-plugin.md)
 
 **AdminAddressSetup**
 

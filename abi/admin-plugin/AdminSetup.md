@@ -2,13 +2,13 @@
 type: reference
 title: AdminSetup
 kind: contract
-source: admin-plugin/packages/contracts/src/AdminSetup.sol
+source: admin-plugin/src/AdminSetup.sol
 summary: "The setup contract of the `Admin` plugin."
 ---
 
 # AdminSetup
 
-**Contract** · [`packages/contracts/src/AdminSetup.sol`](https://github.com/aragon/admin-plugin/blob/ef1727abafe42022373ef14e933653cdc9a10f05/packages/contracts/src/AdminSetup.sol)
+**Contract** · [`src/AdminSetup.sol`](https://github.com/aragon/admin-plugin/blob/c228ee0bcac4bb79fcfd17ff6efcceef08536bfc/src/AdminSetup.sol)
 
 **Explained in:** [Admin Plugin](../../plugins/admin-plugin.md)
 

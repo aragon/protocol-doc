@@ -8,7 +8,7 @@ summary: "The interface of majority voting plugin."
 
 # IMajorityVoting
 
-**Interface** · [`src/base/IMajorityVoting.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/base/IMajorityVoting.sol)
+**Interface** · [`src/base/IMajorityVoting.sol`](https://github.com/aragon/token-voting-plugin/blob/e726c28061486114d601c547e4da1180ed5ab6da/src/base/IMajorityVoting.sol)
 
 **Explained in:** [Create, vote, and execute a proposal](../../guides/create-vote-execute.md), [Majority voting](../../plugins/majority-voting.md)
 

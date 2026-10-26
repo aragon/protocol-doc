@@ -8,7 +8,7 @@ summary: "A factory used to deploy new condition instances"
 
 # ConditionFactory
 
-**Contract** · [`src/factory/ConditionFactory.sol`](https://github.com/aragon/conditions/blob/33918b06b95233dd8890bef6cc60da6227fa5af1/src/factory/ConditionFactory.sol)
+**Contract** · [`src/factory/ConditionFactory.sol`](https://github.com/aragon/conditions/blob/7198a02ae1e62f3297416feeca64159bf69802c7/src/factory/ConditionFactory.sol)
 
 **Explained in:** [Condition Library](../../helpers/condition-library.md)
 
@@ -32,6 +32,22 @@ Selector: `0x5968851e`
 | Returns | Type | Description |
 | --- | --- | --- |
 | `newContract` | [`ExecuteSelectorCondition`](./ExecuteSelectorCondition.md) |  |
+
+### deployExecuteSelectorCrossChainCondition
+
+```solidity
+function deployExecuteSelectorCrossChainCondition(
+    IDAO _dao,
+    uint256[] _chainIds,
+    ExecuteSelectorCrossChainCondition.SelectorTarget[] _initialEntries
+) external returns (ExecuteSelectorCrossChainCondition newContract)
+```
+
+Selector: `0x4255e795`
+
+| Returns | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`ExecuteSelectorCrossChainCondition`](./ExecuteSelectorCrossChainCondition.md) |  |
 
 ### deploySafeOwnerCondition
 
@@ -73,6 +89,16 @@ event ExecuteSelectorConditionDeployed(ExecuteSelectorCondition newContract)
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `newContract` | [`ExecuteSelectorCondition`](./ExecuteSelectorCondition.md) |  |
+
+### ExecuteSelectorCrossChainConditionDeployed
+
+```solidity
+event ExecuteSelectorCrossChainConditionDeployed(ExecuteSelectorCrossChainCondition newContract)
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `newContract` | [`ExecuteSelectorCrossChainCondition`](./ExecuteSelectorCrossChainCondition.md) |  |
 
 ### SafeOwnerConditionDeployed
 

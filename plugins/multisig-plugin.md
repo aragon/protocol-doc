@@ -2,7 +2,7 @@
 type: concept
 title: Multisig Plugin
 tags: [governance]
-source: multisig-plugin/packages/contracts/src/Multisig.sol, multisig-plugin/packages/contracts/src/IMultisig.sol, multisig-plugin/packages/contracts/src/MultisigSetup.sol
+source: multisig-plugin/src/Multisig.sol, multisig-plugin/src/IMultisig.sol, multisig-plugin/src/MultisigSetup.sol
 ---
 
 # Multisig Plugin
@@ -33,6 +33,8 @@ This changes what the approval record can tell you:
 The member list doesn't *dictate* this rule; membership and the voting rule are separate choices. The same [Addresslist](../common/membership.md) can instead drive full [majority voting](./majority-voting.md), with members casting `Yes`/`No`/`Abstain`, which is what the earlier Addresslist Voting plugin did (now deprecated). Multisig counts approvals to a threshold. The choice therefore goes beyond "members vs tokens" to *what a participant may express*. If you need members to actively reject or formally abstain, use a majority-voting model; multisig fits when a fixed group needs "enough of us said go."
 
 It is a [`PluginUUPSUpgradeable`](../framework/plugin-types.md) plugin reusing the shared [proposal](../common/proposal.md) lifecycle and [Addresslist membership](../common/membership.md). For member management and the two-speed eligibility model, see [Membership & eligibility](./multisig-plugin/membership.md).
+
+Its functions are `virtual`, so a custom plugin can inherit `Multisig` and override the parts it needs (approval rules, execution, settings validation). This extensibility is not covered by the v1.3 audit, so review any override as new code.
 
 <a id="why-on-chain-approvals"></a>
 

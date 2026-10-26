@@ -8,7 +8,7 @@ summary: "This contract handles callbacks by registering a magic number together
 
 # CallbackHandler
 
-**Abstract contract** · [`src/core/utils/CallbackHandler.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/core/utils/CallbackHandler.sol)
+**Abstract contract** · [`src/core/utils/CallbackHandler.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/core/utils/CallbackHandler.sol)
 
 **Explained in:** [The DAO contract](../../core/dao.md)
 
