@@ -31,12 +31,12 @@ jobs:
     steps:
       - name: Resolve the notifier App key
         id: op
-        uses: aragon/github-templates/steps/credential-retrieval@fad13d25cecdd0cc1fd43f5d95f76a4a2f8d7fac # https://github.com/aragon/github-templates/commit/fad13d25cecdd0cc1fd43f5d95f76a4a2f8d7fac
+        uses: aragon/github-templates/steps/credential-retrieval@10c1b0971e7bead271052d3506098a9530d47c90 # https://github.com/aragon/github-templates/commit/10c1b0971e7bead271052d3506098a9530d47c90
         with:
           mode: byref
           op-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           secret-refs: |
-            APP_ID=op://kv_protocol-doc_infra/gh_app_aragon-protocol-doc-notifier/key name
+            APP_ID=op://kv_protocol-doc_infra/gh_app_aragon-protocol-doc-notifier/username
             APP_PRIVATE_KEY=op://kv_protocol-doc_infra/gh_app_aragon-protocol-doc-notifier/private_key
 
       - name: Get a token for protocol-doc-ui
