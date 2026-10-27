@@ -48,6 +48,8 @@ Browse by area:
 
 **The code:** every component's GitHub repository is listed in [Source repositories](./repositories.md).
 
+These docs are **agent friendly** by design, but you can also load the full knowledge base in one go from [https://docs.aragon.org/llms-full.txt](https://docs.aragon.org/llms-full.txt).
+
 ---
 
 _Operated with the `wiki` CLI: [AGENTS.md](./AGENTS.md) explains how to use it, and [WORKFLOW.md](./WORKFLOW.md) describes this base's conventions. Both are for **maintaining** the base. You can skip them if you're here to learn the protocol._
