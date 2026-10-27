@@ -108,12 +108,14 @@ Groom to make the base more findable, not for its own sake. After any batch: `wi
 
 ## Publishing
 
-This base is published as a website by `protocol-doc-ui` (a private repo that renders these files as they are). Edits only happen here, and each one deploys on its own:
+This base is the content; [`protocol-doc-ui`](https://github.com/aragon/protocol-doc-ui) (a private repo) is the website that renders these files as they are. Most changes happen here, and every change in either repo deploys on its own:
 
-| When | Environment | Content |
-|---|---|---|
-| A PR is opened or updated (any branch) | Preview (link posted on the PR) | the PR |
-| `development` is updated | Development (dev.docs.aragon.org) | `development` |
-| A PR is merged into `main` | Production (docs.aragon.org) | `main` |
+| When | Environment | Website | Content |
+|---|---|---|---|
+| A PR is opened or updated here (any branch) | Preview (link posted on the PR) | `protocol-doc-ui`'s `main` | the PR |
+| `development` is updated here | Development (dev.docs.aragon.org) | `protocol-doc-ui`'s `main` | `development` |
+| A PR is merged into `main` here | Production (docs.aragon.org) | `protocol-doc-ui`'s `main` | `main` |
+| A PR is opened or updated in `protocol-doc-ui` | Preview (link posted on that PR) | the PR | `main` |
+| A PR is merged into `protocol-doc-ui`'s `main` | Production (docs.aragon.org), and Development refreshed | `main` | Production: `main`; Development: `development` |
 
-PRs from forks don't get a preview.
+Merging into `main` here needs no change in `protocol-doc-ui`: a bot there moves its pin to the new content and publishes it. PRs from forks don't get a preview.
