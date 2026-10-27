@@ -1,9 +1,10 @@
 # Tooling
 
-The **tooling** for building on OSx: the scaffolding you start a plugin from, and the shared task runner the repos deploy with. For step-by-step walkthroughs, see the [guides](../guides/index.md).
+The **tooling** for building on OSx: the scaffolding you start a plugin from, the shared task runner the repos deploy with, and the place to source deployed addresses and ABIs. For step-by-step walkthroughs, see the [guides](../guides/index.md).
 
 - [Plugin Template (Foundry)](./plugin-template.md) — a starting-point repo for writing, testing, publishing, and deploying your own OSx plugin (source: `osx-plugin-template-foundry`).
 - [Foundry Task Runner (just-foundry)](./just-foundry.md) — the shared `just`/Foundry task runner and environment manager the Aragon repos use for building, testing, deploying, and verifying across chains (source: `just-foundry`).
+- [Deployed addresses and ABIs (artifacts-hub)](./artifacts-hub.md): the canonical address book for every chain Aragon is deployed on, plus a versioned JSON ABI for every contract (source: `artifacts-hub`).
 - [EVM Mirror](./evm-mirror.md) — Aragon's source-verification CLI: checks that a contract's verified onchain code matches the exact commit that was deployed (source: `evm-mirror`).
 
 ## Where to start
