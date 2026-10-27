@@ -2,7 +2,7 @@
 type: concept
 title: Plugin metadata
 tags: [plugin-framework, metadata]
-source: multisig-plugin/packages/contracts/src/build-metadata.json, multisig-plugin/packages/contracts/src/release-metadata.json, osx/src/common/utils/metadata/MetadataExtension.sol
+source: multisig-plugin/script/metadata/build-metadata.json, multisig-plugin/script/metadata/release-metadata.json, osx/src/common/utils/metadata/MetadataExtension.sol
 ---
 
 # Plugin metadata
@@ -21,7 +21,7 @@ When a version is published with [`createVersion`](./plugin-repo.md), the onchai
 **`release-metadata.json`** — per *release*, human/UI facing:
 
 ```json
-{ "name": "Multisig", "description": "", "images": {} }
+{ "name": "Multisig", "description": "The onchain multisig governance plugin …", "images": {} }
 ```
 
 **`build-metadata.json`** — per *build*, declares the **input schema for the [plugin setup](./plugin-setup.md)**:
@@ -29,20 +29,21 @@ When a version is published with [`createVersion`](./plugin-repo.md), the onchai
 ```json
 {
   "name": "multisig",
+  "description": "The onchain multisig governance plugin …",
   "change": "v1.3\n - Removed an unnecessary permission …",
   "pluginSetup": {
     "prepareInstallation": {
       "description": "The information required for the installation.",
       "inputs": [
-        { "name": "members", "type": "address[]", "description": "The initial members." },
+        { "name": "members", "type": "address[]", "description": "The addresses of the initial members to be added." },
         { "name": "multisigSettings", "type": "tuple",
           "components": [ { "name": "onlyListed", "type": "bool", … },
                           { "name": "minApprovals", "type": "uint16", … } ] },
-        { "name": "TargetConfig", "type": "tuple", … },
+        { "name": "targetConfig", "type": "tuple", … },
         { "name": "metadata", "type": "bytes", … }
       ]
     },
-    "prepareUpdate": { "3": { "inputs": [ … ] } },
+    "prepareUpdate": { "1": { "inputs": [ … ] }, "2": { "inputs": [ … ] } },
     "prepareUninstallation": { "inputs": [] }
   }
 }
@@ -57,7 +58,7 @@ This is why the [plugin setup](./plugin-setup.md) page says "decode `_data` your
 
 Separate from the version JSON, each *deployed* plugin carries its **own** metadata for the UI to show, describing *this installation* (this particular multisig's name/notes), not the plugin line. A plugin gets it by mixing in `MetadataExtension`: `setMetadata(bytes)` (gated by `SET_METADATA_PERMISSION_ID`), `getMetadata()`, and a `MetadataSet` event. Unlike the [DAO's metadata](../core/dao-metadata.md) (event-only), `MetadataExtension` **stores** the bytes, so `getMetadata()` returns the current value onchain.
 
-**Where it comes from:** it's the plugin's **`metadata` install parameter**, the `bytes` field you'll see as the last input in the `build-metadata` above (`"The metadata that contains the information about the plugin"`). The setup passes it into the plugin's `initialize`, which stores it via `_setMetadata(...)` (the [Multisig](../plugins/multisig-plugin.md) plugin does exactly this). Like every metadata value in OSx it's an **`ipfs://<CID>` pointer**, not inline, resolving to freeform, UI-facing JSON. There's **no enforced schema** (it's whatever your UI reads); conventionally something like:
+**Where it comes from:** it's the plugin's **`metadata` install parameter**, the `bytes` field you'll see as the last input in the `build-metadata` above (`"The metadata that contains the information about the multisig plugin instance."`). The setup passes it into the plugin's `initialize`, which stores it via `_setMetadata(...)` (the [Multisig](../plugins/multisig-plugin.md) plugin does exactly this). Like every metadata value in OSx it's an **`ipfs://<CID>` pointer**, not inline, resolving to freeform, UI-facing JSON. There's **no enforced schema** (it's whatever your UI reads); conventionally something like:
 
 ```json
 { "name": "Core-team multisig", "description": "3-of-5 signers for treasury operations." }
@@ -126,7 +127,7 @@ This helper is a **convention Aragon recommends, not something the framework enf
 - **`build-metadata.json` defines the installation input schema.** Its `prepareInstallation.inputs` must match what your setup decodes; a mismatch silently misconfigures installs. It's what makes your plugin installable from a UI.
 - **Version JSON is off-chain.** The repo stores only its hash/URI; keep the files pinned or the metadata is unresolvable.
 - **Instance metadata is stored and readable** (`getMetadata()`), unlike DAO metadata which you read by indexing its event.
-- **No standalone schema file, the examples are the format.** Every plugin repo ships its own `release-metadata.json` + `build-metadata.json` (e.g. under `packages/contracts/src/` or `script/metadata/`); `build-metadata` is self-describing, since it embeds the input ABI schema itself.
+- **No standalone schema file, the examples are the format.** Every plugin repo ships its own `release-metadata.json` + `build-metadata.json` (under `script/metadata/` or `src/`); `build-metadata` is self-describing, since it embeds the input ABI schema itself.
 
 ## See also
 

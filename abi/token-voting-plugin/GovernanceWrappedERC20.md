@@ -8,9 +8,9 @@ summary: "Wraps an existing [ERC-20](https://eips.ethereum.org/EIPS/eip-20) toke
 
 # GovernanceWrappedERC20
 
-**Contract** · [`src/erc20/GovernanceWrappedERC20.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/erc20/GovernanceWrappedERC20.sol)
+**Contract** · [`src/erc20/GovernanceWrappedERC20.sol`](https://github.com/aragon/token-voting-plugin/blob/e726c28061486114d601c547e4da1180ed5ab6da/src/erc20/GovernanceWrappedERC20.sol)
 
-**Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md)
+**Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md), [Import an existing token](../../guides/import-existing-tokens.md)
 
 **Author:** Aragon X
 

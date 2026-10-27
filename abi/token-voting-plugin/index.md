@@ -1,6 +1,6 @@
 # token-voting-plugin — ABI reference
 
-Generated from [`token-voting-plugin`](https://github.com/aragon/token-voting-plugin) at commit [`e97b783d`](https://github.com/aragon/token-voting-plugin/commit/e97b783d76872d694f41dfc4bc846405019ca741).
+Generated from [`token-voting-plugin`](https://github.com/aragon/token-voting-plugin) at commit [`e726c280`](https://github.com/aragon/token-voting-plugin/commit/e726c28061486114d601c547e4da1180ed5ab6da).
 
 10 entries. Regenerate with `just abi`.
 

@@ -8,7 +8,7 @@ summary: "An [ERC-165](https://eips.ethereum.org/EIPS/eip-165)-based registry fo
 
 # InterfaceBasedRegistry
 
-**Abstract contract** · [`src/framework/utils/InterfaceBasedRegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/utils/InterfaceBasedRegistry.sol)
+**Abstract contract** · [`src/framework/utils/InterfaceBasedRegistry.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/framework/utils/InterfaceBasedRegistry.sol)
 
 **Explained in:** [DAO Registry](../../framework/dao-registry.md), [PluginRepo Registry](../../framework/plugin-repo-registry.md), [Registries and ENS names](../../framework/registries.md)
 

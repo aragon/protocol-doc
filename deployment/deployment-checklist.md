@@ -13,7 +13,7 @@ The factory deploys everything atomically and then [freezes into a read-only rec
 
 ## The ceremony, step by step
 
-A recommended run, in order, using the [just-foundry](../tooling/just-foundry.md) recipes the repos ship. Each box maps to a [guarantee below](#the-guarantees-it-enforces). This mirrors the canonical checklist in the [Protocol Factory README](./protocol-factory.md); treat **each repo's README as authoritative** for its exact steps (some, e.g. token-voting, expose the same recipes as `make` targets rather than `just`).
+A recommended run, in order, using the [just-foundry](../tooling/just-foundry.md) recipes the repos ship. Each box maps to a [guarantee below](#the-guarantees-it-enforces). This mirrors the canonical checklist in the [Protocol Factory README](./protocol-factory.md); treat **each repo's README as authoritative** for its exact steps. `just init` is defined by each repo's own `justfile`, so what it sets up (submodules, `.env`, Foundry) differs slightly between repos.
 
 **Prepare, reviewed code + a clean key**
 - [ ] Clone the official repo and check out `main`; `git status` reports no local changes and matches `origin/main`.

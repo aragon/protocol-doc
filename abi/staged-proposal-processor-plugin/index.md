@@ -1,6 +1,6 @@
 # staged-proposal-processor-plugin — ABI reference
 
-Generated from [`staged-proposal-processor-plugin`](https://github.com/aragon/staged-proposal-processor-plugin) at commit [`96b83dd5`](https://github.com/aragon/staged-proposal-processor-plugin/commit/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2).
+Generated from [`staged-proposal-processor-plugin`](https://github.com/aragon/staged-proposal-processor-plugin) at commit [`a1d84e05`](https://github.com/aragon/staged-proposal-processor-plugin/commit/a1d84e0542cf2db0a542f0159878457dbb7e3515).
 
 6 entries. Regenerate with `just abi`.
 

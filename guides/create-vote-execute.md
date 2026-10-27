@@ -1,7 +1,7 @@
 ---
 type: guide
 title: Create, vote, and execute a proposal
-source: osx/src/core/dao/DAO.sol, osx/src/common/executors/IExecutor.sol, multisig-plugin/packages/contracts/src/Multisig.sol, token-voting-plugin/src/base/MajorityVotingBase.sol, token-voting-plugin/src/base/IMajorityVoting.sol, token-voting-plugin/src/TokenVoting.sol
+source: osx/src/core/dao/DAO.sol, osx/src/common/executors/IExecutor.sol, multisig-plugin/src/Multisig.sol, token-voting-plugin/src/base/MajorityVotingBase.sol, token-voting-plugin/src/base/IMajorityVoting.sol, token-voting-plugin/src/TokenVoting.sol
 ---
 
 # Create, vote, and execute a proposal

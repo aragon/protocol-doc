@@ -2,7 +2,7 @@
 type: concept
 title: Composing SPP bodies
 tags: [governance]
-source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
+source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol, staged-proposal-processor-plugin/src/libraries/Errors.sol
 ---
 
 # Composing SPP bodies
@@ -22,13 +22,13 @@ Every body is one of two kinds ([configured per stage](./stages-and-bodies.md#bo
 
 Inherit the shared [`Proposal`/`ProposalUpgradeable`](../../common/proposal.md) base (it gives you `IProposal` + ERC-165), then honor three rules:
 
-1. **`createProposal` must accept SPP's call and add no extra gatekeeping.** SPP passes standard proposal params (metadata, actions, start/end dates, and a `data` blob for anything plugin-specific, declare its shape with `customProposalParamsABI` so SPP and UIs can encode it). Critically, **do not add bespoke eligibility checks inside `createProposal`** (token-balance requirements, allowlists, etc.). SPP relies purely on the OSx [permission system](../../core/permissions.md) to decide whether it may create the sub-proposal; any extra check can make SPP's call fail, and the body then silently drops out of the stage (a `SubProposalNotCreated` event, [no revert](./lifecycle.md#advancing-and-executing)).
+1. **`createProposal` must accept SPP's call and add no extra gatekeeping.** SPP passes standard proposal params (metadata, actions, start/end dates, and a `data` blob for anything plugin-specific, declare its shape with `customProposalParamsABI` so SPP and UIs can encode it). Critically, **do not add bespoke eligibility checks inside `createProposal`** (token-balance requirements, allowlists, etc.). SPP relies purely on the OSx [permission system](../../core/permissions.md) to decide whether it may create the sub-proposal; any extra check can make SPP's call fail, and a failing body [blocks the whole stage](./lifecycle.md#advancing-and-executing): SPP's `createProposal` (first stage) or the advance into the body's stage reverts with `SubProposalCreationFailed`. Return a real proposal id; `type(uint256).max - 1` is reserved by SPP and rejected.
 2. **`hasSucceeded` must be monotonic**, once it returns `true`, it must stay `true` forever. SPP polls it (the [pull tally](./lifecycle.md#how-a-stages-results-are-tallied-push-and-pull)) possibly long after your body's own voting window closed, while other bodies in the stage are still deciding. A `hasSucceeded` that reverts to `false` after the window strands the SPP proposal.
 3. **`canExecute` is yours to define.** SPP never calls it, so it's free to enforce time windows or other conditions for the body's *own* execution; that doesn't affect SPP.
 
 ## Using a manual body (a Safe)
 
-For a body that can't be automatic, register its address with `isManual = true` and report results yourself. The canonical example is a Safe as a veto body:
+For a body that can't be automatic, register its address with `isManual = true` and report results yourself. The canonical example is a Safe registered as a veto body (`resultType = Veto`):
 
 ```solidity
 // After the SPP proposal exists, submit this as a Safe transaction:
@@ -41,8 +41,9 @@ abi.encodeCall(
 ```
 
 - `stageId` **must be the stage this body sits in.** Reporting for a stage the proposal hasn't reached yet *reverts* (`StageIdInvalid`); a report for the current or an earlier stage from an address that isn't a registered body of it is silently ignored (a wasted-gas no-op). So target the exact stage, and only where you're actually a body.
+- Report **the type the body is registered with**, or `ResultType.None` to retract a report. The other type reverts (`ResultTypeNotAllowed`), so this veto Safe can't approve.
 - Do it **before the stage's `maxAdvance`**, or the proposal [expires](./lifecycle.md#the-states) regardless.
-- `tryAdvance: true` also advances the proposal in the same transaction *if* the reported result is enough and the caller holds `ADVANCE_PERMISSION_ID`.
+- `tryAdvance: true` also advances the proposal in the same transaction *if* the reported result is enough and the caller holds `ADVANCE_PERMISSION_ID`. If that advance reverts (a next-stage body failing to create its sub-proposal), the whole Safe transaction reverts and the report is not recorded either; `false` keeps the report independent of the advance.
 
 ## Which plugins can be bodies
 
@@ -56,9 +57,9 @@ The inner SPP's own `hasSucceeded` is strictly monotonic only *after* it execute
 
 ## Keep in mind
 
-- **Never add custom access control to a body's `createProposal`** beyond OSx permissions, it breaks SPP's automatic sub-proposal creation, and the body silently stops counting.
+- **Never add custom access control to a body's `createProposal`** beyond OSx permissions: a failing sub-proposal creation blocks the SPP proposal from entering that stage.
 - **A body's `hasSucceeded` must never go back to false**, or it can permanently stall the SPP proposal.
-- **SPP needs `CREATE_PROPOSAL_PERMISSION` on each automatic body**; without it, that body degrades to `SubProposalNotCreated` and contributes nothing.
+- **SPP needs `CREATE_PROPOSAL_PERMISSION` on each automatic body**; without it, SPP can't create proposals (first stage) or advance into that body's stage.
 
 ## See also
 

@@ -1,6 +1,6 @@
 # multisig-plugin — ABI reference
 
-Generated from [`multisig-plugin`](https://github.com/aragon/multisig-plugin) at commit [`c1b0e049`](https://github.com/aragon/multisig-plugin/commit/c1b0e04919819f8fb1ec110743085dfb0dd7cc02).
+Generated from [`multisig-plugin`](https://github.com/aragon/multisig-plugin) at commit [`91410777`](https://github.com/aragon/multisig-plugin/commit/91410777e3d4ad868ecc610acee9b32328891860).
 
 4 entries. Regenerate with `just abi`.
 

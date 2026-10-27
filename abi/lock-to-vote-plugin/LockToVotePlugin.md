@@ -3,16 +3,48 @@ type: reference
 title: LockToVotePlugin
 kind: contract
 source: lock-to-vote-plugin/src/LockToVotePlugin.sol
-summary: ""
+summary: "Majority voting plugin where voting power comes from tokens locked in a `LockManager`, not from an ahead-of-time snapshot."
 ---
 
 # LockToVotePlugin
 
-**Contract** · [`src/LockToVotePlugin.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/LockToVotePlugin.sol)
+**Contract** · [`src/LockToVotePlugin.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/4bd0355e360c73e8ac24009c4d26d995c3272f9c/src/LockToVotePlugin.sol)
 
 **Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
 
+**Author:** Aragon X
+
 **Inherits:** [`ILockToVote`](./ILockToVote.md), [`MajorityVotingBase`](./MajorityVotingBase.md), [`LockToGovernBase`](./LockToGovernBase.md)
+
+Majority voting plugin where voting power comes from tokens locked in a `LockManager`,
+not from an ahead-of-time snapshot.
+
+#### Intended use
+
+This plugin is designed for **exceptional participation** (emergency stops, vetoes, safety
+valves), not for ordinary day-to-day governance. The incentive model assumes that holders keep
+their tokens productive elsewhere and only lock them in when they need to weigh in, and that
+once voting ends and the proposal passes, someone with permission to execute does so promptly.
+
+#### Dynamic supply: important
+
+The supply-relative threshold checks (`minParticipationRatio` and `minApprovalRatio`) are
+evaluated against the token's **live** `totalSupply()` (see `currentTokenSupply()`), not a
+snapshot taken at proposal creation. `supportThresholdRatio` is a `yes / (yes + no)` ratio and
+does not depend on total supply. Because the underlying supply can change after voting ends,
+a proposal's outcome can flip between voting-end and execution:
+- A passing proposal can become non-executable if supply grows.
+- A failed-by-quorum proposal can become executable if supply shrinks.
+
+Locked balances (the numerator of the tally) are also dynamic during the voting window.
+
+Consequences for integrators:
+- Do not rely on `minParticipation` as a rejection mechanism: vote explicitly.
+- Once voting ends and the proposal passes, someone with permission to execute should do so
+promptly. Neither voting mode allows early execution.
+- If stable, snapshot-based thresholds are required, use a snapshot voting plugin instead.
+
+See the README's "When to use this plugin" section for the full guidance.
 
 ## Functions
 
@@ -111,6 +143,12 @@ function currentTokenSupply() external view returns (uint256)
 Selector: `0xd9779fbe`
 
 Returns the current token supply. NOTE: It includes any non circulating supply that might be vesting, locked or undistributed.
+
+> **Dev:** Reads the token's live `totalSupply()` at every call — including during threshold
+> checks at execution time. As a result, the supply-relative thresholds
+> (`minParticipationRatio` and `minApprovalRatio`) remain dynamic until a proposal is
+> executed. `supportThresholdRatio` is a `yes / (yes + no)` ratio and is unaffected.
+> See the contract-level NatSpec for the implications.
 
 | Returns | Type | Description |
 | --- | --- | --- |

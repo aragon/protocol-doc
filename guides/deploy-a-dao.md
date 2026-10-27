@@ -1,7 +1,7 @@
 ---
 type: guide
 title: Deploy your first DAO
-source: osx/src/framework/dao/DAOFactory.sol, multisig-plugin/packages/contracts/src/MultisigSetup.sol, osx/src/common/plugin/PluginUUPSUpgradeable.sol
+source: osx/src/framework/dao/DAOFactory.sol, multisig-plugin/src/MultisigSetup.sol, osx/src/common/plugin/PluginUUPSUpgradeable.sol
 ---
 
 # Deploy your first DAO

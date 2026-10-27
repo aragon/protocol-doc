@@ -8,7 +8,7 @@ summary: "The interface required for Executors within the Aragon App DAO framewo
 
 # IExecutor
 
-**Interface** · [`src/common/executors/IExecutor.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/executors/IExecutor.sol)
+**Interface** · [`src/common/executors/IExecutor.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/common/executors/IExecutor.sol)
 
 **Explained in:** [Actions and execution](../../core/execution.md), [Create, vote, and execute a proposal](../../guides/create-vote-execute.md)
 

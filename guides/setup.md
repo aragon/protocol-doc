@@ -1,14 +1,14 @@
 ---
 type: guide
 title: Setup
-source: osx-plugin-template-foundry/README.md
+source: osx-plugin-template-foundry/README.md, osx-plugin-template-foundry/justfile
 ---
 
 # Setup
 
 Set up **your own plugin project** to run the guides' Foundry code. This shared setup provides the starting point; each guide adds the configuration it needs.
 
-**Prerequisites:** [Foundry](https://getfoundry.sh) (`curl -L https://foundry.paradigm.sh | bash`, then `foundryup`) and [`just`](https://github.com/casey/just) (`brew install just`, `cargo install just`, or your system package manager). Everything below requires `just`, the template's task runner. It coordinates network config, per-chain addresses, remappings, and verification so you don't have to manage those steps by hand.
+**Prerequisites:** [Foundry](https://getfoundry.sh) (`curl -L https://foundry.paradigm.xyz | bash`, then `foundryup`) and [`just`](https://github.com/casey/just) (`brew install just`, `cargo install just`, or your system package manager). Everything below requires `just`, the template's task runner. It coordinates network config, per-chain addresses, remappings, and verification so you don't have to manage those steps by hand.
 
 ## 1. Start from the template
 
@@ -17,8 +17,10 @@ Clone the [Foundry plugin template](../tooling/plugin-template.md) and initializ
 ```sh
 git clone --recurse-submodules https://github.com/aragon/osx-plugin-template.git my-plugin
 cd my-plugin
-just init   # installs dependencies and wires the remappings; `forge build` then works
+just init   # fetches the submodules, creates .env from .env.example, selects mainnet
 ```
+
+`just init sepolia` selects another network instead. `just init` also works on a clone made without `--recurse-submodules`: it fetches the `lib/just-foundry` submodule the other recipes come from. `forge build` works from here.
 
 (For a real project, use GitHub's **Use this template** to start your own repo and clone that instead.)
 
@@ -26,19 +28,21 @@ OSx is imported directly under `@aragon/osx/…`. Its shared primitives (conditi
 
 ## 2. Add the plugin you're integrating
 
-The template ships **osx only**. A guide that installs or drives a specific governance plugin imports that plugin's package (e.g. `@aragon/multisig-plugin/…`), so add it as a dependency and a remapping. For the [multisig](../plugins/multisig-plugin.md) guides:
+The template ships **osx only**. A guide that installs or drives a specific governance plugin imports that plugin's package (e.g. `@aragon/multisig-plugin/…`), so add it as a dependency and a remapping. Pin the release whose build is deployed onchain (the current build in [artifacts-hub](../tooling/artifacts-hub.md)), so the code you compile against is the code your fork test calls. For the [multisig](../plugins/multisig-plugin.md) guides (release 1, build 3):
 
 ```sh
-forge install aragon/multisig-plugin
+forge install aragon/multisig-plugin@v1.3.6
 echo '@aragon/multisig-plugin/=lib/multisig-plugin/packages/contracts/src/' >> remappings.txt
 ```
 
-For [token voting](../plugins/token-voting-plugin.md), swap in:
+For [token voting](../plugins/token-voting-plugin.md) (release 1, build 4), swap in:
 
 ```sh
-forge install aragon/token-voting-plugin
+forge install aragon/token-voting-plugin@v1.4.2
 echo '@aragon/token-voting-plugin/=lib/token-voting-plugin/src/' >> remappings.txt
 ```
+
+Both compile against the template's own remappings; nothing else needs installing.
 
 Guides that touch only OSx core (the [DAO](../core/dao.md), [permissions](../core/permissions.md), the [framework](../framework/index.md)) need nothing extra.
 
@@ -47,7 +51,8 @@ Guides that touch only OSx core (the [DAO](../core/dao.md), [permissions](../cor
 The guides run as **fork tests** against a chain where OSx is already deployed, so they read the protocol's addresses from the environment. The template uses [just-foundry](../tooling/just-foundry.md), which supplies these addresses for every supported network (synced from the [artifacts-hub](../tooling/artifacts-hub.md) address book, where you can also look up any address the env vars don't carry). Select a network to export them:
 
 ```sh
-just switch sepolia   # or mainnet, base, arbitrum, … (see lib/just-foundry/networks/)
+just networks         # list the supported networks and their chain ids
+just switch sepolia   # or mainnet, base, arbitrum, …
 just env              # confirm the resolved values and where each came from
 ```
 
@@ -60,7 +65,7 @@ That defines `RPC_URL`, `CHAIN_ID`, and the OSx addresses the guides read by nam
 | `PLUGIN_REPO_FACTORY_ADDRESS` | [publish a plugin](./publish-a-plugin.md) |
 | `MULTISIG_PLUGIN_REPO_ADDRESS`, `TOKEN_VOTING_PLUGIN_REPO_ADDRESS`, … | installing that plugin |
 
-These come from the network config (ultimately OSx's own `addresses.json`). To use a private endpoint, override `RPC_URL` via `.env` or `vars`; see [just-foundry](../tooling/just-foundry.md).
+These come from the active network config. To use a private endpoint, override `RPC_URL` via `.env` or `vars`; see [just-foundry](../tooling/just-foundry.md).
 
 Put the guide's test under `test/fork-tests/` and run it through just-foundry, which loads the network env before Foundry sees it:
 
@@ -68,6 +73,8 @@ Put the guide's test under `test/fork-tests/` and run it through just-foundry, w
 just test-fork                          # run the fork tests in test/fork-tests/
 just test-fork --match-contract MyGuide # narrow to one
 ```
+
+The template's own fork tests skip themselves when the OSx addresses aren't in the environment, so a plain `forge test` reports them as skipped rather than run. A guide test that reads the addresses with `vm.envAddress` instead reverts without them; `just test-fork` loads them for both.
 
 A couple of guides build on a DAO you deployed in an earlier guide and name *its* address (e.g. `DAO`). Set those addresses alongside the values above.
 

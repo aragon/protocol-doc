@@ -8,7 +8,7 @@ summary: "Helper contract acting as the vault for locked tokens used to vote on 
 
 # LockManagerERC20
 
-**Contract** · [`src/LockManagerERC20.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/LockManagerERC20.sol)
+**Contract** · [`src/LockManagerERC20.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/4bd0355e360c73e8ac24009c4d26d995c3272f9c/src/LockManagerERC20.sol)
 
 **Explained in:** [The LockManager](../../plugins/lock-to-vote-plugin/lock-manager.md)
 

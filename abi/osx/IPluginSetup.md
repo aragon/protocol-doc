@@ -8,7 +8,7 @@ summary: "The interface required for a plugin setup contract to be consumed by t
 
 # IPluginSetup
 
-**Interface** · [`src/common/plugin/setup/IPluginSetup.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/setup/IPluginSetup.sol)
+**Interface** · [`src/common/plugin/setup/IPluginSetup.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/common/plugin/setup/IPluginSetup.sol)
 
 **Explained in:** [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [Plugin setup](../../framework/plugin-setup.md), [Update a plugin](../../guides/update-a-plugin.md)
 

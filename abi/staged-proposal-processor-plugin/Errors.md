@@ -8,9 +8,9 @@ summary: "Library containing all custom errors the plugin may revert with."
 
 # Errors
 
-**Library** · [`src/libraries/Errors.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/libraries/Errors.sol)
+**Library** · [`src/libraries/Errors.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/a1d84e0542cf2db0a542f0159878457dbb7e3515/src/libraries/Errors.sol)
 
-**Explained in:** [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
+**Explained in:** [Composing SPP bodies](../../plugins/spp-plugin/composing-bodies.md), [SPP lifecycle & state machine](../../plugins/spp-plugin/lifecycle.md), [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
 
 **Author:** Aragon X - 2024
 
@@ -58,12 +58,6 @@ error IncorrectActionCount()
 ```
 
 Thrown when trusted forwarder can not execute the actions.
-
-### InsufficientGas
-
-```solidity
-error InsufficientGas()
-```
 
 ### InterfaceNotSupported
 
@@ -166,6 +160,22 @@ Thrown if the proposal execution is forbidden.
 | --- | --- | --- |
 | `proposalId` | `uint256` | The ID of the proposal. |
 
+### ResultTypeNotAllowed
+
+```solidity
+error ResultTypeNotAllowed(uint16 stageId, address sender, uint8 resultType)
+```
+
+Thrown when a body reports a result type other than its configured one or `None`.
+
+> **Dev:** `resultType` is a `uint8` because `ResultType` is declared inside the SPP contract.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `stageId` | `uint16` | The stage id the result is reported for. |
+| `sender` | `address` | The body that reported the result. |
+| `resultType` | `uint8` | The result type that was reported. |
+
 ### StageCountZero
 
 ```solidity
@@ -210,6 +220,19 @@ error StartDateInvalid(uint64)
 ```
 
 Thrown if the start date is less than current timestamp.
+
+### SubProposalCreationFailed
+
+```solidity
+error SubProposalCreationFailed(address body, bytes reason)
+```
+
+Thrown when a sub-body fails to create the sub-proposal it was asked to create.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `body` | `address` | The sub-body on which the sub-proposal could not be created. |
+| `reason` | `bytes` | The raw revert data returned by the sub-body, empty if it returned none. |
 
 ### Uint16MaxSizeExceeded
 

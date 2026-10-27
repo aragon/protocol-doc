@@ -8,7 +8,7 @@ summary: "Minimal resolver interface for MemberRegistry."
 
 # IResolver
 
-**Interface** · [`src/framework/utils/ens/IResolver.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/utils/ens/IResolver.sol)
+**Interface** · [`src/framework/utils/ens/IResolver.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/framework/utils/ens/IResolver.sol)
 
 Minimal resolver interface for MemberRegistry.
 Covers what the registry calls during subnode lifecycle and record migration.

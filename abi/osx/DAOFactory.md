@@ -8,9 +8,9 @@ summary: "This contract is used to create a DAO."
 
 # DAOFactory
 
-**Contract** · [`src/framework/dao/DAOFactory.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/dao/DAOFactory.sol)
+**Contract** · [`src/framework/dao/DAOFactory.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/framework/dao/DAOFactory.sol)
 
-**Explained in:** [A hands-on tour of OSx](../../guides/hands-on-tour.md), [DAOFactory (creating a DAO)](../../framework/dao-factory.md), [Deploy your first DAO](../../guides/deploy-a-dao.md), [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [Launch a governance token with your DAO](../../guides/launch-a-governance-token.md), [Manage permissions through governance](../../guides/manage-permissions.md)
+**Explained in:** [A hands-on tour of OSx](../../guides/hands-on-tour.md), [DAOFactory (creating a DAO)](../../framework/dao-factory.md), [Deploy your first DAO](../../guides/deploy-a-dao.md), [Import an existing token](../../guides/import-existing-tokens.md), [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [Launch a governance token with your DAO](../../guides/launch-a-governance-token.md), [Manage permissions through governance](../../guides/manage-permissions.md)
 
 **Author:** Aragon X - 2022-2023
 

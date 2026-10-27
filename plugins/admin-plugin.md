@@ -2,7 +2,7 @@
 type: concept
 title: Admin Plugin
 tags: [governance]
-source: admin-plugin/packages/contracts/src/Admin.sol, admin-plugin/packages/contracts/src/AdminSetup.sol
+source: admin-plugin/src/Admin.sol, admin-plugin/src/AdminSetup.sol, admin-plugin/src/zkSync/AdminSetupZkSync.sol
 ---
 
 # Admin Plugin
