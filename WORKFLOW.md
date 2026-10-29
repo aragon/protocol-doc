@@ -77,6 +77,16 @@ Each concept is **one atomic idea**, defined once, linked to what it relates to.
 
 A `guide` walks through a task start to finish, **linking into concepts** for depth rather than restating them ("grant a permission, see [Permissions](../core/permissions.md)"). Single page for something short; for anything longer, a **sequence**: a typed landing entry (`guides/<name>.md`, `type: guide`, the intro + chapter order) with the numbered chapters beside it under `guides/<name>/` (`01-…`, `02-…`) linked next/prev, the landing is a real typed guide, not a typeless `index.md`. Order is explicit: within a sequence and in `guides/index.md`. If you're tempted to explain a concept inside a guide, that concept wants its own page.
 
+## Documentation ownership
+
+Treat this wiki and the component repositories as one documentation set. Each topic has one maintained home:
+
+- User and developer guidance lives here, including installation, permissions, deployment procedures, integration examples, version comparisons, and proof-generation workflows.
+- Component READMEs own their technical stack, dependencies, build, tests, and documentation-generation commands.
+- Link to the owning page when another task needs that information. A guide can introduce the context needed for its next step, but should not repeat a concept's explanation, configuration table, or runnable recipe.
+
+Keep repository entry points short and link directly to the relevant shared pages. Avoid adding local guide copies or intermediate navigation pages for material already covered here.
+
 ## Ingesting from source
 
 Docs are distilled from **source code** (the 11 repos). The material is the input, not the wiki. Work in two phases, gradually, one repo at a time in this order:
@@ -87,6 +97,8 @@ Docs are distilled from **source code** (the 11 repos). The material is the inpu
 2. **Build incrementally, from `raw/`.** Promote raw notes into atomic entries a few at a time: write one page, file it into its area, link it, `wiki check`, then delete the raw note you mined. `raw/<repo>/` empty = that repo's batch is done. Let `wiki unresolved` guide the order: each page names others, and those become the next to-write items.
 
 **Keep provenance, at two granularities.** Every entry carries a `source:` field naming the repo-relative path(s) it was distilled from (e.g. `source: osx/src/core/dao/DAO.sol`), so any *fact* can be re-checked against the code. It is a field, not a type: there is no `source` entry. And [`repositories.md`](./repositories.md) pins, per component, the **exact commit** the docs were generated from (its *Snapshot* column), so the whole base has a diffable baseline.
+
+Client surveys and integration reference cases may use primary publication URLs in `source`. Record their review date in `reviewed`, cite evidence beside each claim, and pin external documentation repositories in [repositories.md](./repositories.md#integration-documentation) when available. Distinguish published descriptions from independently verified deployment details.
 
 **Refreshing is a delta, not a re-read.** Because the source commit is pinned, keeping a component current is: `git diff <snapshot-commit> HEAD` on its repo, update the entries the diff touches (their `source:` fields point at the files), then **bump the Snapshot commit** in `repositories.md` and log the pass. This is the whole reason to record commits, not just repos: each update stays a small, followable diff.
 

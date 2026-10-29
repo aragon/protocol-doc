@@ -4,7 +4,7 @@ okf_version: "0.1"
 
 # Aragon OSx Protocol
 
-The developer knowledge base for the EVM protocol behind Aragon: the **OSx** core, the **governance plugins**, and the **helpers and tooling** that make them run. It is written for developers building on and integrating with the protocol in Solidity.
+The developer knowledge base for the EVM protocol behind Aragon: the **OSx** core, the **governance, allocation, and distribution plugins**, and the **helpers and tooling** that make them run. It is written for developers building on and integrating with the protocol in Solidity.
 
 ## What the protocol is
 
@@ -23,19 +23,21 @@ Each plugin comes with a **setup** that specifies exactly what to deploy and whi
 - [A hands-on tour of OSx](./guides/hands-on-tour.md) — deploy a DAO and make it act, in one short test.
 - Then the path that fits you: [deploy a DAO](./guides/deploy-a-dao.md) → [launch a governance token](./guides/launch-a-governance-token.md) → [create, vote, execute](./guides/create-vote-execute.md), or, to author your own plugin, [build a plugin](./guides/build-a-plugin.md) → [publish it](./guides/publish-a-plugin.md). Full list and reading order in [guides](./guides/index.md).
 
+For recurring allocations, follow [VE voting](./guides/use-ve-governance.md) and [Merkle distributions](./guides/distribute-tokens.md).
+
 **Prefer the reference?** Read these two concepts first; everything else builds on them:
 
 1. [The DAO contract](./core/dao.md) — what a DAO actually *is*.
 2. [The permission system](./core/permissions.md) — how OSx decides who may do what.
 
-From there, follow [actions & execution](./core/execution.md) → [the plugin model](./framework/plugins.md) → the [governance plugins](./plugins/index.md). For plugin authoring, follow [base types](./framework/plugin-types.md) → [plugin setup](./framework/plugin-setup.md) → [PluginRepo](./framework/plugin-repo.md) → [the PluginSetupProcessor](./framework/plugin-setup-processor.md). You can also browse by area below.
+From there, follow [actions & execution](./core/execution.md) → [the plugin model](./framework/plugins.md) → the [plugins](./plugins/index.md). For plugin authoring, follow [base types](./framework/plugin-types.md) → [plugin setup](./framework/plugin-setup.md) → [PluginRepo](./framework/plugin-repo.md) → [the PluginSetupProcessor](./framework/plugin-setup-processor.md). You can also browse by area below.
 
 Browse by area:
 
 - **[Core](./core/index.md)** — the DAO contract and its permission system: what a DAO is and how it authorizes actions.
 - **[Common](./common/index.md)** — the shared cross-cutting primitives (now part of osx at `src/common`, formerly the standalone osx-commons): conditions, proposals, membership, ratio, auth, proxies, versioning.
 - **[Framework](./framework/index.md)** — what a plugin *is* and how it's built, published, and installed: the plugin model, base types, setup, PluginRepo, the PluginSetupProcessor, the factories, the registries.
-- **[Plugins](./plugins/index.md)** — the governance plugins (token voting, multisig, admin, staged proposals, lock-to-vote).
+- **[Plugins](./plugins/index.md)** — governance plugins, [VE Governance](./plugins/ve-governance.md) for gauge allocations, and [Capital Distributor](./plugins/capital-distributor.md) for claimable treasury payments.
 - **[Helpers](./helpers/index.md)** — protocol helpers: the condition library.
 - **[Deployment](./deployment/index.md)** — deploying the protocol and DAOs: the protocol factory and the DAO launchpad.
 - **[Tooling](./tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template and the `just`/Foundry task runner.

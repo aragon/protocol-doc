@@ -6,6 +6,8 @@ The **tooling** for building on OSx: the scaffolding you start a plugin from, an
 - [Foundry Task Runner (just-foundry)](./just-foundry.md) — the shared `just`/Foundry task runner and environment manager the Aragon repos use for building, testing, deploying, and verifying across chains (source: `just-foundry`).
 - [EVM Mirror](./evm-mirror.md) — Aragon's source-verification CLI: checks that a contract's verified onchain code matches the exact commit that was deployed (source: `evm-mirror`).
 
+- [Capital Distributor Merkle tools](./capital-distributor-merkle.md): prepare recipient data, generate a tree and proofs, and verify them.
+
 ## Where to start
 
 Read about the [plugin framework](../framework/index.md) and [what a plugin and its setup are](../framework/plugin-types.md) before using the [template](./plugin-template.md) to scaffold one. Follow the [guides](../guides/index.md) for step-by-step instructions.
