@@ -2,6 +2,10 @@
 
 ## 2026-10-29
 
+- Added a Bedrock reference case covering growing voting power, seasonal resets, and the component checks needed to adapt that design; linked it from the selected VE client examples.
+
+- Added primary-source client examples and a Katana reference case covering vKAT positions, avKAT vault shares, and Merkl rewards. Recorded the external documentation snapshot and the limits of deployment verification.
+
 - Added source-pinned VE Governance concepts and a holder/integration walkthrough for the v1.4 component set, including persistent gauge accounting and withdrawal tickets.
 - Added source-pinned Capital Distributor concepts and a Merkle campaign walkthrough, including treasury funding, conditional execution, cumulative claims, and fees; connected both components through the navigation and allocation workflow.
 

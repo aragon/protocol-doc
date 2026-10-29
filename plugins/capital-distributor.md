@@ -26,4 +26,4 @@ Campaign creation records configuration without transferring tokens or reserving
 
 [Installation](./capital-distributor/setup.md) creates an execution condition with no allowed calls. The DAO must authorize each token or vault call used by its campaigns. A valid Merkle proof alone does not make a payout executable.
 
-The [walkthrough](../guides/distribute-tokens.md) creates a Merkle campaign, prepares its payout authorization, and submits a claim. These pages describe the [recorded source snapshot](../repositories.md); the included payout paths are direct token transfers and the vault deposit encoder. A payout into VE positions requires an additional compatible encoder, which is not part of this source snapshot.
+The [walkthrough](../guides/distribute-tokens.md) creates a Merkle campaign, prepares its payout authorization, and submits a claim. These pages describe the [recorded source snapshot](../repositories.md); the included payout paths are direct token transfers and the vault deposit encoder.

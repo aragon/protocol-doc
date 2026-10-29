@@ -27,3 +27,5 @@ A gauge is an address and metadata record. Casting a vote records weights withou
 [Capital Distributor](./capital-distributor.md) can pay a recipient list calculated from those results. Connecting them requires a process that reads the weights and publishes the resulting entitlements; neither component performs that conversion automatically.
 
 The [user and integration walkthrough](../guides/use-ve-governance.md) follows a position from deposit through voting and exit. The [setup page](./ve-governance/setup.md) covers installation, component discovery, and administrative authority.
+
+For protocol-specific designs, see the [VE client examples](./ve-governance/clients.md) and the [Katana reference case](./ve-governance/katana.md).

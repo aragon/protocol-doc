@@ -55,6 +55,7 @@ Lock tokens, delegate voting power, and assign relative weights to registered ga
 - [Gauge results](./ve-governance/gauge-voting.md) covers the voting window, accounting modes, and reward snapshots.
 - [Withdrawals](./ve-governance/withdrawals.md) covers tickets, waiting periods, and fees.
 - [Setup and administration](./ve-governance/setup.md) identifies the v1.4 component set and permissions.
+- [Client examples](./ve-governance/clients.md) compares publicly documented integrations; the [Katana reference case](./ve-governance/katana.md) examines its position, vault, and reward flows.
 
 ## Capital Distributor
 

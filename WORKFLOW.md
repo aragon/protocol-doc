@@ -98,6 +98,8 @@ Docs are distilled from **source code** (the 11 repos). The material is the inpu
 
 **Keep provenance, at two granularities.** Every entry carries a `source:` field naming the repo-relative path(s) it was distilled from (e.g. `source: osx/src/core/dao/DAO.sol`), so any *fact* can be re-checked against the code. It is a field, not a type: there is no `source` entry. And [`repositories.md`](./repositories.md) pins, per component, the **exact commit** the docs were generated from (its *Snapshot* column), so the whole base has a diffable baseline.
 
+Client surveys and integration reference cases may use primary publication URLs in `source`. Record their review date in `reviewed`, cite evidence beside each claim, and pin external documentation repositories in [repositories.md](./repositories.md#integration-documentation) when available. Distinguish published descriptions from independently verified deployment details.
+
 **Refreshing is a delta, not a re-read.** Because the source commit is pinned, keeping a component current is: `git diff <snapshot-commit> HEAD` on its repo, update the entries the diff touches (their `source:` fields point at the files), then **bump the Snapshot commit** in `repositories.md` and log the pass. This is the whole reason to record commits, not just repos: each update stays a small, followable diff.
 
 **Record each pass in `log.md`,** dated and high-level: one line per repo/enrichment pass (what was covered, roughly what was added), not one per edit.

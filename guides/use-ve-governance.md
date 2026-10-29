@@ -10,10 +10,11 @@ This walkthrough follows a holder using the [v1.4 VE component set](../plugins/v
 queries an application needs to present voting and withdrawal state. Build instructions and dependency remappings live
 in the [VE repository](https://github.com/aragon/ve-governance).
 
-The Solidity snippets belong inside a Foundry test using `Test` and its `vm` helper. Bind `escrow`, `adapter`, `voter`, and
-`queue` to contracts from the same deployed component set. Use a funded `holder`, a deposit `amount` at least as large as
-`minDeposit()`, and two gauges already registered and active. The `vm.startPrank` calls model transactions from that
-holder; a wallet integration sends those transactions from the holder directly.
+The Solidity snippets show the contract calls an application submits from the holder's wallet. Bind `escrow`, `adapter`,
+`voter`, and `queue` to contracts from the same deployed component set. Use a funded `holder`, a deposit `amount` at least
+as large as `minDeposit()`, and two gauges already registered and active. Each participant transaction must be sent by
+the holder or their chosen voting delegate, as specified below. Calling through another contract makes that contract
+the caller.
 
 ```solidity
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -27,14 +28,12 @@ import {DynamicExitQueue} from "@queue/DynamicExitQueue.sol";
 
 ## 1. Deposit and choose a delegate
 
-Approve the underlying token, create the position, and self-delegate to vote directly:
+From the holder's wallet, approve the underlying token, create the position, and self-delegate to vote directly:
 
 ```solidity
-vm.startPrank(holder);
 IERC20(escrow.token()).approve(address(escrow), amount);
 uint256 tokenId = escrow.createLock(amount);
 adapter.delegate(holder);
-vm.stopPrank();
 ```
 
 The holder owns the resulting NFT. An application can read `locked(tokenId)` for the amount and recorded start,
@@ -43,13 +42,12 @@ The holder owns the resulting NFT. An application can read `locked(tokenId)` for
 
 ## 2. Cast relative weights
 
-When `voter.votingActive()` is true and `voter.paused()` is false:
+From the self-delegated holder's wallet, submit the vote when `voter.votingActive()` is true and `voter.paused()` is false:
 
 ```solidity
 IAddressGaugeVote.GaugeVote[] memory weights = new IAddressGaugeVote.GaugeVote[](2);
 weights[0] = IAddressGaugeVote.GaugeVote({weight: 3, gauge: gaugeA});
 weights[1] = IAddressGaugeVote.GaugeVote({weight: 1, gauge: gaugeB});
-vm.prank(holder);
 voter.vote(weights);
 ```
 
@@ -77,13 +75,11 @@ For example, if eligible weights are 300 and 100, a policy distributing 10,000 r
 
 ## 4. Begin an exit
 
-Once the position meets the minimum lock requirement:
+Once the position meets the minimum lock requirement, submit the approval and withdrawal request from its owner's wallet:
 
 ```solidity
-vm.startPrank(holder);
 IERC721(escrow.lockNFT()).approve(address(escrow), tokenId);
 escrow.beginWithdrawal(tokenId);
-vm.stopPrank();
 ```
 
 The position stops contributing power and the holder receives a queue ticket. Read `queue.queue(tokenId)` for its terms,

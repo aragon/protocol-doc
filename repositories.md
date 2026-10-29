@@ -26,6 +26,14 @@ The **Snapshot** column pins the exact commit each component's docs were generat
 | [just-foundry](./tooling/just-foundry.md) | [`aragon/just-foundry`](https://github.com/aragon/just-foundry) | [`885dea0d`](https://github.com/aragon/just-foundry/commit/885dea0d8e) |
 | [EVM Mirror](./tooling/evm-mirror.md) | [`aragon/evm-mirror`](https://github.com/aragon/evm-mirror) | [`0072576d`](https://github.com/aragon/evm-mirror/commit/0072576dbd) |
 
+## Integration documentation
+
+Client references use primary publications, cited on the [client examples page](./plugins/ve-governance/clients.md). A publication establishes what its author documented; it does not identify the contracts currently deployed.
+
+| Integration | Documentation snapshot | Scope |
+|---|---|---|
+| [Katana reference case](./plugins/ve-governance/katana.md) | [`katana-network/katana-docs` at `7c044eb1`](https://github.com/katana-network/katana-docs/tree/7c044eb1b3bf3e97e75ec298775463cc56bc5ded) | Published staking, token, conversion, and voting documentation; reviewed 29 October 2026. This is a documentation revision, not a deployed contract revision. |
+
 ## Keeping the docs in sync
 
 These docs are a **distillation of source at a point in time**, the Snapshot commit above. To refresh a component after its repo moves on:
