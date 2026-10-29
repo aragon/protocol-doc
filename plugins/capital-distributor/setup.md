@@ -2,7 +2,7 @@
 type: concept
 title: Distributor setup and administration
 tags: [permissions, upgradeability]
-source: osx-capital-distributor/src/CapitalDistributorPluginSetup.sol, osx-capital-distributor/src/factories/AllocatorStrategyFactory.sol, osx-capital-distributor/src/factories/ActionEncoderFactory.sol, osx-capital-distributor/src/factories/FactoryBase.sol
+source: osx-capital-distributor/src/CapitalDistributorPluginSetup.sol, osx-capital-distributor/src/factories/AllocatorStrategyFactory.sol, osx-capital-distributor/src/factories/ActionEncoderFactory.sol, osx-capital-distributor/src/factories/FactoryBase.sol, osx-capital-distributor/src/allocatorStrategies/AllocatorStrategyBase.sol, osx-capital-distributor/src/payoutActionEncoders/PayoutActionEncoderBase.sol
 ---
 
 # Distributor setup and administration
@@ -33,4 +33,4 @@ The factory lookup determines which implementation and fee configuration an ID s
 
 Instances are keyed by type ID, DAO, calling plugin, and initialization parameters. Matching campaigns can reuse an instance, which stores campaign-specific roots or vault addresses by campaign ID. The supplied bases initially make the calling plugin the instance owner and also permit management calls from the DAO.
 
-The repository deployment script creates fresh factories, registers its Merkle strategy and vault encoder, and creates a DAO with an [Admin plugin](../admin-plugin.md). An existing DAO can instead install Distributor under its current governance process.
+The [deployment guide](../../deployment/capital-distributor.md) covers the supplied script for a new DAO. An existing DAO can install Distributor through its current governance process.

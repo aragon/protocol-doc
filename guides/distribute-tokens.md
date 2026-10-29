@@ -15,37 +15,12 @@ tokens, and its strategy factory has the included Merkle strategy registered as 
 the ID used by the repository deployment script. A different registry can use another ID. Read the selected factory
 entry to identify the implementation and fee terms.
 
-Use the [Distributor repository](https://github.com/aragon/osx-capital-distributor) for build and dependency setup. Run the
-commands below from that checkout. The Solidity fragments use its imports and belong inside your Foundry test or script.
+Use the [Distributor repository](https://github.com/aragon/osx-capital-distributor) for build and dependency setup. The Solidity fragments use that checkout's imports and belong inside your Foundry test or script.
 Bind `distributor`, `condition` (installation helper `0`), and `token` to the installed plugin, helper, and payout token.
 
 ## 1. Prepare allocations and proofs
 
-Save a recipient list as `script/fixtures/recipients.json`, with one total entitlement per address in the token's smallest
-units. Preserve integer precision when producing the file.
-
-```json
-[
-  { "account": "0x1111111111111111111111111111111111111111", "amount": 1000000000000000000 },
-  { "account": "0x2222222222222222222222222222222222222222", "amount": 2000000000000000000 }
-]
-```
-
-Generate a root and each recipient's proof:
-
-```sh
-mkdir -p script/fixtures/proofs
-forge script script/utils/GenerateMerkleTree.s.sol:GenerateMerkleTree \
-  --sig "run(string)" "script/fixtures/recipients.json"
-forge script script/utils/GenerateProof.s.sol:GenerateProof
-```
-
-The first script writes `script/fixtures/merkle-tree.json`; the second reads that tree and writes proof files under
-`script/fixtures/proofs/`, verifying each proof before saving it. These paths are fixed outputs and replace generated
-files already there. The [Merkle concept](../plugins/capital-distributor/merkle-allocations.md) specifies the leaf and
-proof encoding.
-
-Publish the list and proofs so recipients can obtain the data for the root you use as `merkleRoot` below.
+Use the [Merkle tools](../tooling/capital-distributor-merkle.md) to prepare one total entitlement per recipient, generate a root and proofs, and verify them. Publish the list and proofs so recipients can obtain data for the root you use as `merkleRoot` below.
 
 ## 2. Prepare the DAO actions
 

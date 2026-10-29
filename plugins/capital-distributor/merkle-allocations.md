@@ -29,7 +29,7 @@ The strategy owner or DAO can call `updateCampaignMerkleRoot(campaignId, abi.enc
 
 Claimed amounts remain recorded across root changes. A replacement list therefore expresses cumulative total entitlements. If an account has claimed 1,000 and the new root assigns 1,200, the next claim consumes another 200 before fees. Reducing an entitlement below the already-claimed amount does not recover a payment; it prevents another claim while that recorded amount is at least the new entitlement.
 
-The [distribution walkthrough](../../guides/distribute-tokens.md) builds a tree with the repository scripts and shows campaign creation and claiming.
+Use the [Merkle tools](../../tooling/capital-distributor-merkle.md) to generate compatible data, then follow the [campaign walkthrough](../../guides/distribute-tokens.md) to create a campaign and claim.
 
 ## Keep in mind
 

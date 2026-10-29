@@ -2,7 +2,7 @@
 type: concept
 title: VE voting-power curve
 tags: [governance, voting]
-source: ve-governance/src/curve/LinearIncreasingCurve.sol, ve-governance/src/libs/CurveConstantLib.sol, ve-governance/src/clock/Clock_v1_2_0.sol, ve-governance/script/deploy/DeployGauges_v1_4_0.s.sol
+source: ve-governance/src/curve/LinearIncreasingCurve.sol, ve-governance/src/libs/CurveConstantLib.sol, ve-governance/src/clock/Clock_v1_2_0.sol, ve-governance/script/deploy/DeployGauges_v1_4_0.s.sol, ve-governance/src/escrow/VotingEscrowIncreasing_v1_2_0.sol, ve-governance/src/libs/CurveConstantLibFlat.sol
 ---
 
 # VE voting-power curve
@@ -26,6 +26,6 @@ Reaching the power cap does not unlock the tokens. They remain in escrow until t
 
 ## Implementation choices
 
-Curve coefficients and maximum epoch count are implementation constructor parameters. A deployment can select different values; the curve and adapter need the same parameters to calculate consistent power. `CurveConstantLibFlat` supplies an alternative flat curve, but the v1.4 script does not select it through a runtime setting.
+Curve coefficients and maximum epoch count are implementation constructor parameters. A deployment can select different values; the curve and adapter need the same parameters to calculate consistent power. `CurveConstantLibFlat` supplies an alternative flat curve, but the v1.4 script does not select it through a runtime setting. Using it requires changing the implementation construction code.
 
 The linear curve retains a `warmupPeriod` storage field for compatibility without applying the older quadratic curve's warmup gate. Existing deployments using the older curve and token-ID voter have a different accounting model; the [setup map](./setup.md) identifies the component set described here.

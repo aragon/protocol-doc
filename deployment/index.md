@@ -11,6 +11,11 @@ Both use a **correct-from-genesis one-shot factory**: everything is configured i
 
 - [The deployment checklist](./deployment-checklist.md) — the guarantees a safe production deployment ceremony enforces, and why each one matters.
 
+## Component deployment guides
+
+- [Deploy VE Governance](./ve-governance.md): configure the v1.4 factory script, simulate, and verify the deployed component set.
+- [Deploy Capital Distributor](./capital-distributor.md): publish the plugin and create a DAO, or follow the existing-DAO installation path.
+
 ## Where to start
 
 Understand the [core](../core/index.md) (what gets deployed and why) before the factory (how it all gets deployed at once). Then read the [Protocol Factory](./protocol-factory.md) (standing up OSx itself) and the [DAO Launchpad](./dao-launchpad.md).

@@ -5,6 +5,8 @@
 - Added source-pinned VE Governance concepts and a holder/integration walkthrough for the v1.4 component set, including persistent gauge accounting and withdrawal tickets.
 - Added source-pinned Capital Distributor concepts and a Merkle campaign walkthrough, including treasury funding, conditional execution, cumulative claims, and fees; connected both components through the navigation and allocation workflow.
 
+- Consolidated component deployment, VE version/upgrade guidance, and Merkle tooling into this documentation set; removed repeated permission tables and proof recipes, with build and test instructions owned by repository READMEs.
+
 ## 2026-10-16
 
 - Extended the approved voice pilot across the repository's authored prose; preserved source-derived ABI content, technical examples, and operating rules. Independent fidelity and voice reviews are complete; human review of the draft PR is pending.
