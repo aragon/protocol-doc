@@ -4,7 +4,7 @@ Linear, task-oriented, **Foundry-based** walkthroughs that link into the [concep
 
 Follow the reading order below, with links to the concepts each guide uses.
 
-**Before you start:** [Setup](./setup.md), the one-time Foundry project scaffold (start from the template, point at a deployed protocol) that every guide below assumes.
+**Before you start:** [Setup](./setup.md), the one-time Foundry project scaffold (start from the template, point at a deployed protocol) used by the DAO and plugin-authoring guides below.
 
 ## Understand
 
@@ -20,6 +20,13 @@ Follow the reading order below, with links to the concepts each guide uses.
 - [Manage permissions through governance](./manage-permissions.md) — grant/revoke as a proposal, attach a condition, rotate one safely in a single batch, and write a small custom condition.
 - [Install a plugin into a live DAO](./install-a-plugin.md) — the prepare → (temporary ROOT to the PSP) → apply → revoke flow, as a governed proposal.
 - [Update a plugin](./update-a-plugin.md) — prepare + apply via governance, the release/build rules, and the metadata-only fast path (and uninstalling).
+
+## Allocate and distribute resources
+
+- [Lock, delegate, and vote with VE](./use-ve-governance.md) follows the holder's transactions, reads gauge results for a chosen block, and completes an exit.
+- [Distribute tokens through a Merkle campaign](./distribute-tokens.md) turns a recipient list into a campaign, authorizes the DAO's payout calls, and submits a claim.
+
+These walkthroughs use the component repositories' build environments and an installed component set. Their compiler and dependency requirements are described in those repositories.
 
 ## Build a plugin
 

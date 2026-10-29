@@ -1,8 +1,8 @@
 # Plugins
 
-The **plugins** provide ready-made functionality a DAO installs. These are **governance** plugins: they make decisions (propose → vote → execute). Each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so they share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Understanding those shared parts helps when moving between plugins.
+Plugins add decision-making, allocation, and distribution capabilities to a DAO through the [plugin framework](../framework/index.md). The governance plugins below use the shared [proposal](../common/proposal.md) lifecycle. VE Governance records gauge allocations, while Capital Distributor executes eligible claims against the DAO treasury.
 
-**Exact signatures:** the generated ABI reference, one per plugin repo, has every public function, event, error and constant with its NatSpec: [token voting](../abi/token-voting-plugin/index.md), [multisig](../abi/multisig-plugin/index.md), [admin](../abi/admin-plugin/index.md), [SPP](../abi/staged-proposal-processor-plugin/index.md), [lock to vote](../abi/lock-to-vote-plugin/index.md).
+**Exact signatures for the proposal-governance plugins:** the generated ABI references include their public functions, events, errors and constants with NatSpec: [token voting](../abi/token-voting-plugin/index.md), [multisig](../abi/multisig-plugin/index.md), [admin](../abi/admin-plugin/index.md), [SPP](../abi/staged-proposal-processor-plugin/index.md), [lock to vote](../abi/lock-to-vote-plugin/index.md).
 
 ## Token Voting Plugin
 
@@ -45,6 +45,26 @@ Token-weighted voting where power comes from tokens you *lock* into escrow (cust
 
 - [Lock to Vote Plugin](./lock-to-vote-plugin.md) — lock-vs-snapshot, the voting model, and permissions. **Start here.**
 - [The LockManager](./lock-to-vote-plugin/lock-manager.md) — the vault and its unlock rules.
+
+## VE Governance
+
+Lock tokens, delegate voting power, and assign relative weights to registered gauges:
+
+- [VE Governance](./ve-governance.md) introduces the system and its role in resource allocation.
+- [Positions](./ve-governance/positions.md), [voting power](./ve-governance/voting-power.md), and [delegation](./ve-governance/delegation.md) explain how holders obtain and exercise votes.
+- [Gauge results](./ve-governance/gauge-voting.md) covers the voting window, accounting modes, and reward snapshots.
+- [Withdrawals](./ve-governance/withdrawals.md) covers tickets, waiting periods, and fees.
+- [Setup and administration](./ve-governance/setup.md) identifies the v1.4 component set and permissions.
+
+## Capital Distributor
+
+Make calculated token entitlements claimable from a DAO treasury:
+
+- [Capital Distributor](./capital-distributor.md) introduces campaigns and the payout flow.
+- [Campaigns and claims](./capital-distributor/campaigns.md) covers timing, cumulative amounts, fees, and redirection.
+- [Merkle allocations](./capital-distributor/merkle-allocations.md) specifies proof encoding and root updates.
+- [Payout actions](./capital-distributor/payouts.md) covers direct transfers, vault deposits, funding, and execution authorization.
+- [Setup and administration](./capital-distributor/setup.md) explains installation permissions and the registries.
 
 ## Where to start
 
