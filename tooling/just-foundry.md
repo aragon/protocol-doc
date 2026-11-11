@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Foundry Task Runner (just-foundry)
-source: just-foundry/README.md
+source: just-foundry/README.md, just-foundry/scripts/sync-addresses.sh
 ---
 
 # Foundry Task Runner (just-foundry)
@@ -19,7 +19,7 @@ Even a single project benefits from the shared configuration and commands:
 
 A deployment project's configuration has three parts. just-foundry supplies the public network parameters; you provide the project-specific values and secrets.
 
-- **Public network parameters** (RPC, chain id, verifier, and the **deployed OSx addresses**: values that change per chain and are *not* secret) — **supplied by just-foundry** for every supported network, so you don't need to assemble or hardcode them. Their public nature lets projects share the configuration.
+- **Public network parameters** (RPC, chain id, verifier, and the **deployed OSx addresses**: values that change per chain and are *not* secret) — **supplied by just-foundry** for every supported network, so you don't need to assemble or hardcode them. Their public nature lets projects share the configuration. The addresses are synced from the canonical [artifacts-hub](./artifacts-hub.md) address book.
 - **Project-specific parameters** (how many multisig signers, the min-approvals, metadata URIs, and other values your deployment needs) — yours to set for each deployment.
 - **Secrets** (deployer key, API keys) — yours to provide. just-foundry resolves them through the `vars` encrypted store or a plain `.env`.
 
@@ -35,10 +35,12 @@ With the project parameters and secrets set, use `just switch <network>` and `ju
 ## Keep in mind
 
 - **just-foundry runs other projects' deployments.** It doesn't deploy a protocol of its own.
-- **The network config is the single source of Aragon addresses.** Because each chain's addresses live in the shared config, projects switch networks instead of hardcoding, which is what keeps a project portable across chains.
+- **The network config is your project's single source of Aragon addresses.** Because each chain's addresses live in the shared config, projects switch networks instead of hardcoding, which is what keeps a project portable across chains.
+- **The network config follows [artifacts-hub](./artifacts-hub.md).** Maintainers run `just sync-addresses` against a local artifacts-hub checkout. It adds new plugin-repo addresses on its own, but never overwrites an existing address that disagrees with the hub (unless `--force` is passed): it reports the conflict and exits non-zero, so the same command doubles as a drift check in CI.
 
 ## See also
 
+- [Deployed addresses and ABIs (artifacts-hub)](./artifacts-hub.md): the address book the network configs are synced from, and the ABIs to pair with those addresses.
 - [DAO Launchpad](../deployment/dao-launchpad.md) — the workbench whose projects inherit this runner.
 - [Plugin Template (Foundry)](./plugin-template.md) — the plugin-authoring scaffold, which inits and runs with this (`just init`).
 - [Protocol Factory](../deployment/protocol-factory.md) — uses this runner to drive protocol deployments.

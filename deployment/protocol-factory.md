@@ -30,7 +30,7 @@ The factory is also a permanent, tamper-proof **record of exactly what was deplo
 - `getParameters()` — the exact configuration the deployment used.
 - `getDeployment()` — every address it produced (the registries, the `DAOFactory`/`PluginRepoFactory`, the PSP, the ENS contracts, the Management DAO and its multisig, and each core plugin repo).
 
-Nobody can change the record afterwards. The factory is the canonical source of truth for that chain's OSx deployment: anyone with its address can read both the settings used and the addresses produced, permanently and without trusting an off-chain manifest. Those records cannot be redirected later.
+Nobody can change the record afterwards. The factory is the canonical source of truth for that chain's OSx deployment: anyone with its address can read both the settings used and the addresses produced, permanently and without trusting an off-chain manifest. Those records cannot be redirected later. The [artifacts-hub](../tooling/artifacts-hub.md) address book is built from this record: for every chain deployed with the factory, it reads `getDeployment()` and publishes the result as plain JSON.
 
 ## Split to fit chain limits
 

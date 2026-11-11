@@ -1,5 +1,9 @@
 # Change log
 
+## 2026-10-26
+
+- Added the artifacts-hub reference (snapshot `ffcc2118`): where to source deployed addresses per chain and versioned ABIs, with Foundry and viem examples. Linked it from the front door, tooling, just-foundry (whose network configs sync from the hub), the setup guide, the Protocol Factory, and the source repositories.
+
 ## 2026-10-16
 
 - Extended the approved voice pilot across the repository's authored prose; preserved source-derived ABI content, technical examples, and operating rules. Independent fidelity and voice reviews are complete; human review of the draft PR is pending.

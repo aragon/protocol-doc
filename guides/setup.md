@@ -44,7 +44,7 @@ Guides that touch only OSx core (the [DAO](../core/dao.md), [permissions](../cor
 
 ## 3. Point at a deployed protocol
 
-The guides run as **fork tests** against a chain where OSx is already deployed, so they read the protocol's addresses from the environment. The template uses [just-foundry](../tooling/just-foundry.md), which supplies these addresses for every supported network. Select a network to export them:
+The guides run as **fork tests** against a chain where OSx is already deployed, so they read the protocol's addresses from the environment. The template uses [just-foundry](../tooling/just-foundry.md), which supplies these addresses for every supported network (synced from the [artifacts-hub](../tooling/artifacts-hub.md) address book, where you can also look up any address the env vars don't carry). Select a network to export them:
 
 ```sh
 just switch sepolia   # or mainnet, base, arbitrum, … (see lib/just-foundry/networks/)

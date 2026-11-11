@@ -38,11 +38,13 @@ Browse by area:
 - **[Plugins](./plugins/index.md)** — the governance plugins (token voting, multisig, admin, staged proposals, lock-to-vote).
 - **[Helpers](./helpers/index.md)** — protocol helpers: the condition library.
 - **[Deployment](./deployment/index.md)** — deploying the protocol and DAOs: the protocol factory and the DAO launchpad.
-- **[Tooling](./tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template and the `just`/Foundry task runner.
+- **[Tooling](./tooling/index.md)** — the tooling for building on OSx: the Foundry plugin template, the `just`/Foundry task runner, and the deployed addresses and ABIs.
 
 **Coming from another system?** [OSx compared](./osx-compared.md) puts the permission model side by side with OpenZeppelin, Safe + Zodiac and Hats: where each keeps its authorization state, what that buys, what it costs, and how to express each one's patterns in OSx.
 
 **Looking up an exact signature?** The [ABI reference](./abi/index.md) is the generated lookup layer: every public function, event, error, enum and constant of every contract, with its NatSpec, straight from the source. Read the area pages to understand a component; use the ABI reference to check its exact interface.
+
+**Need a deployed address or a JSON ABI?** [artifacts-hub](./tooling/artifacts-hub.md) is the canonical address book for every chain Aragon is deployed on, with a versioned, machine-readable ABI for every contract.
 
 **The code:** every component's GitHub repository is listed in [Source repositories](./repositories.md).
 

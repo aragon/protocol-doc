@@ -20,6 +20,7 @@ The **Snapshot** column pins the exact commit each component's docs were generat
 | [Condition library](./helpers/condition-library.md) | [`aragon/conditions`](https://github.com/aragon/conditions) | [`7a9bb0df`](https://github.com/aragon/conditions/commit/7a9bb0dfb1) |
 | [Protocol Factory](./deployment/protocol-factory.md) | [`aragon/protocol-factory`](https://github.com/aragon/protocol-factory) | [`444bc98a`](https://github.com/aragon/protocol-factory/commit/444bc98a4b) |
 | [DAO Launchpad](./deployment/dao-launchpad.md) | [`aragon/dao-launchpad`](https://github.com/aragon/dao-launchpad) | [`b9fb5947`](https://github.com/aragon/dao-launchpad/commit/b9fb59475a) |
+| [artifacts-hub](./tooling/artifacts-hub.md) | [`aragon/artifacts-hub`](https://github.com/aragon/artifacts-hub) | [`ffcc2118`](https://github.com/aragon/artifacts-hub/commit/ffcc211894) |
 | [Plugin template](./tooling/plugin-template.md) | [`aragon/osx-plugin-template`](https://github.com/aragon/osx-plugin-template) | [`e43cf300`](https://github.com/aragon/osx-plugin-template/commit/e43cf30032) |
 | [just-foundry](./tooling/just-foundry.md) | [`aragon/just-foundry`](https://github.com/aragon/just-foundry) | [`885dea0d`](https://github.com/aragon/just-foundry/commit/885dea0d8e) |
 | [EVM Mirror](./tooling/evm-mirror.md) | [`aragon/evm-mirror`](https://github.com/aragon/evm-mirror) | [`0072576d`](https://github.com/aragon/evm-mirror/commit/0072576dbd) |
