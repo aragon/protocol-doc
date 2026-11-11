@@ -30,7 +30,7 @@ OSx uses governed setup changes and a small, audited core to make that flexibili
 
 - **Governance approves plugin changes.** Each plugin comes with a [setup](../framework/plugin-setup.md) that specifies exactly what will be deployed and which permissions will be granted or revoked, applied as a single, reviewable, all-or-nothing step. Governance approves the *exact* change before it happens.
 - **The organization governs itself.** After setup, no founder, deployer, or Aragon-controlled key holds power over a DAO. [The DAO holds authority over itself](../core/dao.md#deployment-and-bootstrapping-root), so every change runs through the organization's own governance.
-- **Small core, audited.** The minimal core and shared authorization layer limit the code where errors can occur. That code is [audited repeatedly](https://github.com/aragon/osx/tree/main/audits) across releases, by firms including Halborn and Code4rena. Keeping the core small and reviewing it supports the protocol's security.
+- **Small core, audited.** The minimal core and shared authorization layer limit the code where errors can occur. That code is [audited repeatedly](https://github.com/aragon/osx/tree/main/audits) across releases, by firms including Halborn and Code4rena, and the authorization of `dao.execute` in v1.4.0 is [formally verified](https://veritylabs.dev/research/aragon-osx-execute-authorization) by Verity Labs. Keeping the core small and reviewing it supports the protocol's security.
 
 ## Where to go next
 

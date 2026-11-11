@@ -2,7 +2,7 @@
 type: concept
 title: Lock to Vote Plugin
 tags: [governance, voting]
-source: lock-to-vote-plugin/src/LockToVotePlugin.sol, lock-to-vote-plugin/src/base/LockToGovernBase.sol, lock-to-vote-plugin/src/base/MajorityVotingBase.sol, lock-to-vote-plugin/src/conditions/MinVotingPowerCondition.sol, lock-to-vote-plugin/src/setup/LockToVotePluginSetup.sol, lock-to-vote-plugin/src/interfaces/ILockToVote.sol, lock-to-vote-plugin/src/interfaces/ILockToGovernBase.sol, lock-to-vote-plugin/src/interfaces/IMajorityVoting.sol
+source: lock-to-vote-plugin/src/LockToVotePlugin.sol, lock-to-vote-plugin/src/lib/PluginUUPSUpgradeable.sol, lock-to-vote-plugin/src/base/LockToGovernBase.sol, lock-to-vote-plugin/src/base/MajorityVotingBase.sol, lock-to-vote-plugin/src/conditions/MinVotingPowerCondition.sol, lock-to-vote-plugin/src/setup/LockToVotePluginSetup.sol, lock-to-vote-plugin/src/interfaces/ILockToVote.sol, lock-to-vote-plugin/src/interfaces/ILockToGovernBase.sol, lock-to-vote-plugin/src/interfaces/IMajorityVoting.sol
 ---
 
 # Lock to Vote Plugin
@@ -78,7 +78,7 @@ Like Token Voting, creation is permission-gated and narrowed by a [condition](..
 | `SET_METADATA_PERMISSION_ID` | plugin | DAO | none | `setMetadata` |
 | `UPGRADE_PLUGIN_PERMISSION_ID` | plugin | DAO | none | upgrading the plugin |
 
-Note `LOCK_MANAGER_PERMISSION_ID` is granted to a **contract** (the vault), not to users, a machine-to-machine permission: only the LockManager may relay votes into the plugin. As defense in depth, the plugin *also* hard-codes that the caller of `vote` must be its LockManager, so even a permission misconfiguration can't let anyone else vote. A proposal's actions can't target the **LockManager** (nor the zero address), so a passed proposal can't reach in and corrupt the vault, though they *can* target the plugin itself (e.g. to `updateVotingSettings`, run as the DAO).
+Note `LOCK_MANAGER_PERMISSION_ID` is granted to a **contract** (the vault), not to users, a machine-to-machine permission: only the LockManager may relay votes into the plugin. As defense in depth, the plugin *also* hard-codes that the caller of `vote` must be its LockManager, so even a permission misconfiguration can't let anyone else vote. A proposal's actions can't target the **LockManager** (nor the zero address), so a passed proposal can't reach in and corrupt the vault, though they *can* target the plugin itself (e.g. to `updateVotingSettings`, run as the DAO). The same guard covers the execution target: `setTargetConfig` reverts with `InvalidTargetAddress` if the new target is the plugin or the LockManager. That check lives only in `setTargetConfig`; the target config passed at installation is not validated. To make the override possible, the plugin inherits a local copy of OSx's `PluginUUPSUpgradeable` whose only difference is that `setTargetConfig` is `virtual`.
 
 ## Keep in mind
 

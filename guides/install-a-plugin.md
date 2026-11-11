@@ -1,7 +1,7 @@
 ---
 type: guide
 title: Install a plugin into a live DAO
-source: osx/src/framework/plugin/setup/PluginSetupProcessor.sol, osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol, osx/src/common/plugin/setup/IPluginSetup.sol, osx/src/framework/dao/DAOFactory.sol, multisig-plugin/packages/contracts/src/MultisigSetup.sol
+source: osx/src/framework/plugin/setup/PluginSetupProcessor.sol, osx/src/framework/plugin/setup/PluginSetupProcessorHelpers.sol, osx/src/common/plugin/setup/IPluginSetup.sol, osx/src/framework/dao/DAOFactory.sol, multisig-plugin/src/MultisigSetup.sol
 ---
 
 # Install a plugin into a live DAO

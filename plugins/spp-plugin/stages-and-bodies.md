@@ -54,14 +54,14 @@ struct Body {
     address    addr;        // the plugin/contract/EOA that decides
     bool       isManual;    // does SPP create a sub-proposal for it, or must it report itself?
     bool       tryAdvance;  // should the body's report also try to advance the proposal?
-    ResultType resultType;  // Approval or Veto (a body is configured as one; the enum's 0-value, None = "not yet reported", is the sentinel the tally keys on)
+    ResultType resultType;  // Approval or Veto (configuring None reverts with BodyResultTypeNotSet; None means "no verdict recorded" in the tally)
 }
 ```
 
 - **Automatic body** (`isManual = false`): when the proposal enters the stage, SPP creates a sub-proposal on `addr` automatically. This requires the body to support [`IProposal`](../../common/proposal.md) (checked via ERC-165). The details of writing such a body are in [composing bodies](./composing-bodies.md).
 - **Manual body** (`isManual = true`): SPP creates nothing; some external process (a Safe transaction, a Governor, a person) must call `reportProposalResult` itself. Any address qualifies, with no interface required, so bodies without the proposal interface can still participate.
 
-A body's `resultType` is set at configuration. For an **automatic** body it's binding, the auto-generated callback reports exactly that type, so the body counts as the approval or veto it was registered as. For a **manual** body it's only the *expected* type; what actually counts is whatever type the reporter passes to `reportProposalResult` (a manual body registered as Approval that reports a Veto counts as a veto). Either way, the same address can be an approval body in one stage and a veto body in another, and approval and veto bodies can be **mixed in one stage**, e.g. "token holders approve, but a security council can veto", in a single step.
+A body's `resultType` is set at configuration and is **binding for every body**. An automatic body's auto-generated callback reports exactly that type, and a manual body that calls `reportProposalResult` with the other type reverts (`ResultTypeNotAllowed`); either may only report its type or retract with `None` (see [reporting a result](./lifecycle.md#reporting-a-result)). The same address can be an approval body in one stage and a veto body in another, and approval and veto bodies can be **mixed in one stage**, e.g. "token holders approve, but a security council can veto", in a single step.
 
 ## The three stage shapes
 
@@ -81,7 +81,7 @@ Each proposal records the **configuration generation** it was created under (`st
 
 - **`voteDuration` can override `minAdvance`.** On a veto stage the effective earliest-advance time is `max(minAdvance, voteDuration)`; tune `voteDuration` to the veto window you want, not just `minAdvance`.
 - **Thresholds count bodies, not votes.** Each body contributes one unit once it reports; a 9-signer multisig and a lone EOA each count as 1.
-- **A manual body counts by what it *reports*, not what it was registered as**, and no address may appear twice in one stage.
+- **A body counts only as the type it was registered as**, manual or automatic, and no address may appear twice in one stage.
 
 ## See also
 

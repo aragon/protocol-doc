@@ -8,7 +8,7 @@ summary: "A library containing methods for [semantic version number](https://sem
 
 # VersionComparisonLib
 
-**Library** · [`src/common/utils/versioning/VersionComparisonLib.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/utils/versioning/VersionComparisonLib.sol)
+**Library** · [`src/common/utils/versioning/VersionComparisonLib.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/common/utils/versioning/VersionComparisonLib.sol)
 
 **Explained in:** [Protocol version](../../common/protocol-version.md)
 

@@ -8,7 +8,7 @@ summary: "Interface for managing Safe owners and a threshold to authorize transa
 
 # IOwnerManager
 
-**Interface** · [`src/interfaces/IOwnerManager.sol`](https://github.com/aragon/conditions/blob/33918b06b95233dd8890bef6cc60da6227fa5af1/src/interfaces/IOwnerManager.sol)
+**Interface** · [`src/interfaces/IOwnerManager.sol`](https://github.com/aragon/conditions/blob/7198a02ae1e62f3297416feeca64159bf69802c7/src/interfaces/IOwnerManager.sol)
 
 **Explained in:** [SafeOwnerCondition](../../helpers/condition-library/safe-owner-condition.md)
 

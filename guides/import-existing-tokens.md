@@ -26,7 +26,7 @@ The plugin's setup contract checks the token before installing it. It requires a
 
 Call `setup.supportsIVotesInterface(existingToken)` on the setup for your chosen plugin version to check whether the voting-function probes pass. The installation example below resolves that setup from its versioned repository. ERC-165 support is not required. Passing the probes confirms the functions are callable; also verify that the token maintains voting checkpoints.
 
-A compatible token is reused directly. A valid ERC-20 that fails the voting probes is wrapped as `GovernanceWrappedERC20`. This guide targets Token Voting release 1, build 4, which supports block-number and timestamp-based tokens. Timestamp tokens must report a consistent [ERC-6372 clock](/plugins/token-voting-plugin/voting-power.md#block-based-vs-timestamp-based-tokens); a clock mismatch reverts installation rather than selecting a wrapper.
+A compatible token is reused directly. A valid ERC-20 that fails the voting probes is wrapped as `GovernanceWrappedERC20`, unless its `fallback` changes state (as WETH9's does), which makes [installation revert](/plugins/token-voting-plugin/governance-tokens.md). This guide targets Token Voting release 1, build 4, which supports block-number and timestamp-based tokens. Timestamp tokens must report a consistent [ERC-6372 clock](/plugins/token-voting-plugin/voting-power.md#block-based-vs-timestamp-based-tokens); a clock mismatch reverts installation rather than selecting a wrapper.
 
 ### If your token already supports voting
 
@@ -46,16 +46,7 @@ If you are still designing a token to deploy independently, include `ERC20Votes`
 
 The following fork test creates a **new DAO governed by your existing token**. The setup selects direct reuse or wrapping based on the token's compatibility. For an existing DAO, the same encoded installation data goes through [Install a plugin into a live DAO](/guides/install-a-plugin.md) instead of `createDao`.
 
-Complete the project and network steps in [Setup](/guides/setup.md). For this guide's Token Voting dependency, use these pinned packages and remappings. This build still uses the standalone commons package:
-
-```sh
-forge install aragon/osx-commons@869045b069679fad94d640a8a3e1a1b5538cf0f0
-forge install aragon/token-voting-plugin@e97b783d76872d694f41dfc4bc846405019ca741
-echo '@aragon/osx-commons-contracts/=lib/osx-commons/contracts/' >> remappings.txt
-echo '@aragon/token-voting-plugin/=lib/token-voting-plugin/src/' >> remappings.txt
-```
-
-Keep the plugin's [pinned dependency remappings](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/remappings.txt) for its other imports. Select a network where both your token and Token Voting release 1, build 4 are deployed. The example uses `RPC_URL`, `DAO_FACTORY_ADDRESS`, and `TOKEN_VOTING_PLUGIN_REPO_ADDRESS` from Setup, plus `EXISTING_TOKEN_ADDRESS` for your token.
+Complete the steps in [Setup](/guides/setup.md), including its Token Voting dependency. Select a network where both your token and Token Voting release 1, build 4 are deployed. The example uses `RPC_URL`, `DAO_FACTORY_ADDRESS`, and `TOKEN_VOTING_PLUGIN_REPO_ADDRESS` from Setup, plus `EXISTING_TOKEN_ADDRESS` for your token.
 
 Set `TokenSettings.addr` to the existing address. The name and symbol below are used only if setup deploys a wrapper; they do not rename an imported token. Leave `MintSettings` empty because this path does not mint a new token allocation.
 

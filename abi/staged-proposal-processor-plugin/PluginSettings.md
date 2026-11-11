@@ -8,7 +8,7 @@ summary: "Provides constant values and metadata for the \"StagedProposalProcesso
 
 # PluginSettings
 
-**Library** · [`src/utils/PluginSettings.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/utils/PluginSettings.sol)
+**Library** · [`src/utils/PluginSettings.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/a1d84e0542cf2db0a542f0159878457dbb7e3515/src/utils/PluginSettings.sol)
 
 **Explained in:** [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
 
@@ -25,7 +25,7 @@ _Public, so each is also readable through a generated getter._
 
 ```solidity
 string public constant BUILD_METADATA =
-        "ipfs://QmaxGSvvnTAZcDLYz2BMtaXmcx3i1GcaKGaxNEpfQe3Vyv";
+        "ipfs://QmPJErCM2FV8YpJGNjNy4U5yDgHwTNczwEfMZ9SHhBTa64";
 ```
 
 ### PLACEHOLDER_BUILD_METADATA
@@ -62,7 +62,7 @@ string public constant PLUGIN_SETUP_CONTRACT_NAME = "StagedProposalProcessorSetu
 
 ```solidity
 string public constant PROPOSAL_METADATA =
-        "ipfs://QmTS3Nrjrs8nuMeqUqSRjBxbGUhZB4nW6N1GiK8vFmfDcD";
+        "ipfs://QmVnRTSAWeXDUwvjcKKu6iJvrdEwApaBQGCc8NYFE7crYW";
 ```
 
 Title/summary/description/resources JSON pinned for this version's management DAO proposal.
@@ -79,7 +79,7 @@ string public constant RELEASE_METADATA =
 ### VERSION_BUILD
 
 ```solidity
-uint8 public constant VERSION_BUILD = 2;
+uint8 public constant VERSION_BUILD = 3;
 ```
 
 ### VERSION_RELEASE

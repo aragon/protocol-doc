@@ -8,4 +8,4 @@ summary: ""
 
 # Permissions
 
-**Library** · [`src/libraries/Permissions.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/libraries/Permissions.sol)
+**Library** · [`src/libraries/Permissions.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/a1d84e0542cf2db0a542f0159878457dbb7e3515/src/libraries/Permissions.sol)

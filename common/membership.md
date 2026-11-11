@@ -28,7 +28,7 @@ addresslistLength()                     // current member count
 addresslistLengthAtBlock(blockNumber)   // count as of a past block
 ```
 
-`_addAddresses` / `_removeAddresses` maintain the list (rejecting double-adds and removing non-members). Combined with [`Ratio`](./ratio.md) for threshold math, this is the backbone of the addresslist-based voting and multisig plugins.
+`_addAddresses` / `_removeAddresses` maintain the list: each reverts with `InvalidAddresslistUpdate` on adding an address that is already listed or removing one that isn't. Both take `address[] memory`, so an inheriting plugin can pass a list straight from its function arguments or one it assembled in memory (for example, members decoded from installation data). Combined with [`Ratio`](./ratio.md) for threshold math, this is the backbone of the addresslist-based voting and multisig plugins.
 
 ## Keep in mind
 

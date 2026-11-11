@@ -2,13 +2,13 @@
 type: reference
 title: ListedCheckCondition
 kind: contract
-source: multisig-plugin/packages/contracts/src/ListedCheckCondition.sol
+source: multisig-plugin/src/ListedCheckCondition.sol
 summary: "A condition contract that checks if an address is listed as a member in the associated Multisig contract."
 ---
 
 # ListedCheckCondition
 
-**Contract** · [`packages/contracts/src/ListedCheckCondition.sol`](https://github.com/aragon/multisig-plugin/blob/c1b0e04919819f8fb1ec110743085dfb0dd7cc02/packages/contracts/src/ListedCheckCondition.sol)
+**Contract** · [`src/ListedCheckCondition.sol`](https://github.com/aragon/multisig-plugin/blob/91410777e3d4ad868ecc610acee9b32328891860/src/ListedCheckCondition.sol)
 
 **Explained in:** [Multisig membership & eligibility](../../plugins/multisig-plugin/membership.md)
 

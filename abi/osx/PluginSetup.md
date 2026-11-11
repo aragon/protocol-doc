@@ -8,7 +8,7 @@ summary: "An abstract contract to inherit from to implement the plugin setup for
 
 # PluginSetup
 
-**Abstract contract** · [`src/common/plugin/setup/PluginSetup.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/common/plugin/setup/PluginSetup.sol)
+**Abstract contract** · [`src/common/plugin/setup/PluginSetup.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/common/plugin/setup/PluginSetup.sol)
 
 **Explained in:** [Plugin setup](../../framework/plugin-setup.md)
 

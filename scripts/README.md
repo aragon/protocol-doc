@@ -12,7 +12,7 @@ declaration, carrying its public surface and all attached NatSpec.
 just abi ../token-voting-plugin/src            # a directory, recursively
 just abi ../osx/src/core/dao/DAO.sol           # or single files
 just abi ../osx/src ../conditions/src          # or several repos at once
-just abi-all                                   # every Foundry repo, from scratch
+just abi-all                                   # every repo, from scratch
 ```
 
 Paths may be files or directories, from any repo, in any mix. They are grouped by git root,
@@ -70,29 +70,21 @@ collide with the page's own outline.
 - **Frontmatter** is `type: reference` (these are lookup material, per
   [WORKFLOW.md](../WORKFLOW.md)), plus `kind` (the Solidity kind, orthogonal to the wiki
   type), `source`, `title` and `summary`.
-- **Deterministic.** Members are sorted, nothing carries a timestamp or an absolute path, and
-  the source commit appears only in the per-repo `index.md` — one line, so a regeneration
-  after an unrelated commit does not churn 100 files. Two runs against the same commits
-  produce byte-identical output.
+- **Deterministic.** Members are sorted and nothing carries a timestamp or an absolute path,
+  so two runs against the same commits produce byte-identical output. The source commit is
+  part of every page's GitHub link (`blob/<commit>/…`) and of the per-repo `index.md`, so
+  moving a repo to a new commit rewrites all of its pages, even where the code didn't change.
 - **Generated, so never hand-edited.** The next run overwrites the tree.
 
-### Non-Foundry repositories
+### Generating from the Snapshot commits
 
-`multisig-plugin` and `admin-plugin` are Hardhat, with their sources under
-`packages/contracts/`. They work anyway:
+Each repo's pages are stamped with the `HEAD` of the checkout they were built from, so build
+from the commits pinned in [`repositories.md`](../repositories.md), not from whatever branch a
+sibling checkout is on. `repos` points `abi-all` at another directory, e.g. clean clones:
 
 ```sh
-just abi-legacy        # installs their deps, then generates as usual
-forge build --root . --contracts src --lib-paths node_modules --skip '*/mocks/*'
+just repos=/path/to/clean-clones abi-all && just abi-link
 ```
-
-Because forge runs in `packages/contracts` while the git root is one level up, `source:` and
-the GitHub links are written relative to the **git root**
-(`multisig-plugin/packages/contracts/src/Multisig.sol`) while build-info lookups use the
-build root.
-
-This is all temporary: both repos are being migrated to Foundry, after which the `NON_FOUNDRY`
-table and the `abi-legacy` recipe can be deleted and they join `abi-all`.
 
 ## `abi-crosslink.ts` — wiring it into the wiki
 

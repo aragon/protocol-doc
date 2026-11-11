@@ -2,13 +2,13 @@
 type: reference
 title: MultisigSetup
 kind: contract
-source: multisig-plugin/packages/contracts/src/MultisigSetup.sol
+source: multisig-plugin/src/MultisigSetup.sol
 summary: "The setup contract of the `Multisig` plugin."
 ---
 
 # MultisigSetup
 
-**Contract** · [`packages/contracts/src/MultisigSetup.sol`](https://github.com/aragon/multisig-plugin/blob/c1b0e04919819f8fb1ec110743085dfb0dd7cc02/packages/contracts/src/MultisigSetup.sol)
+**Contract** · [`src/MultisigSetup.sol`](https://github.com/aragon/multisig-plugin/blob/91410777e3d4ad868ecc610acee9b32328891860/src/MultisigSetup.sol)
 
 **Explained in:** [Deploy your first DAO](../../guides/deploy-a-dao.md), [Install a plugin into a live DAO](../../guides/install-a-plugin.md), [Multisig Plugin](../../plugins/multisig-plugin.md)
 

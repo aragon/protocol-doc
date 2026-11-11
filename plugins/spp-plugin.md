@@ -66,11 +66,23 @@ The **trusted forwarder** (for [ERC-2771 meta-transactions](../core/dao.md)) is 
 
 > SPP defines its *own* `EXECUTE_PROPOSAL_PERMISSION_ID` rather than reusing the DAO's `EXECUTE_PERMISSION_ID`, so it can be granted to `ANY_ADDR`: the core [permission system](../core/permissions.md) refuses to wildcard-grant `EXECUTE_PERMISSION_ID`. This allows permissionless execution once consensus is reached while respecting that safety rule.
 
+## Builds and updating
+
+SPP is published in release 1 with builds 1, 2 and 3. Build 3 makes [sub-proposal creation all-or-nothing](./spp-plugin/lifecycle.md#advancing-and-executing), restricts each body to [reporting its configured result type](./spp-plugin/lifecycle.md#reporting-a-result), and hardens the stage tally against bodies that call back into SPP while their sub-proposal is being created. Its build metadata strongly recommends every existing installation to update. The installation parameters are the same in all three builds.
+
+`StagedProposalProcessorSetup` (build 3) accepts two [update](../guides/update-a-plugin.md) paths, neither of which takes input (`SetupPayload.data` is ignored):
+
+- **From build 1.** Deploys a fresh `SPPRuleCondition` seeded with the rules read from the current one (`getRules()` at prepare time) and returns it as the new helper. The permission diff moves `CREATE_PROPOSAL_PERMISSION_ID` on SPP (for any address) from the old condition to the new one, and `UPDATE_RULES_PERMISSION_ID` (held by the DAO) from the old condition contract to the new one. The old condition stays deployed, detached.
+- **From build 2.** No helper or permission changes: the current condition is passed through as the helper.
+
+Any other starting build reverts with `InvalidUpdatePath(fromBuild, 3)`. Both paths return empty `initData` (no reinitializer, no new storage), and both swap the proxy to the build 3 implementation, so the apply needs the PSP to hold `UPGRADE_PLUGIN_PERMISSION` on SPP for the call, as the [update guide](../guides/update-a-plugin.md#step-2-apply-the-update-governed-temporary-root-window) shows. Proposals already in flight keep their state and continue under build 3's rules once applied.
+
 ## Keep in mind
 
 - **Remember to configure who can propose.** Out of the box (no rules set) any address can create proposals, deliberately, so the plugin works immediately rather than being unusable. If your governance should restrict proposing, configure the [rule condition](#who-can-create-proposals-the-rule-condition) at install (or right after); don't assume it's members-only by default.
 - **Advancing and executing are permissionless by default, too.** Once a proposal's bodies have decided, anyone can push it forward; the body results are the gate, not the caller. Restrict `ADVANCE_PERMISSION_ID` / `EXECUTE_PROPOSAL_PERMISSION_ID` explicitly if you need to.
 - **Cancel and edit don't work until granted.** Their permissions aren't wired by install; a stage's `cancelable`/`editable` flag alone isn't enough (see [permissions](#installation--permissions)).
+- **Updating from build 1 snapshots the rules at prepare time.** Rules changed on the old condition between `prepareUpdate` and `applyUpdate` aren't carried over; prepare and apply in one go, or re-check the new condition's rules afterwards.
 
 ## See also
 

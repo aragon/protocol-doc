@@ -8,7 +8,7 @@ summary: "This contract is the entry point to the Aragon DAO framework and provi
 
 # DAO
 
-**Contract** · [`src/core/dao/DAO.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/core/dao/DAO.sol)
+**Contract** · [`src/core/dao/DAO.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/core/dao/DAO.sol)
 
 **Explained in:** [A hands-on tour of OSx](../../guides/hands-on-tour.md), [Actions and execution](../../core/execution.md), [Create, vote, and execute a proposal](../../guides/create-vote-execute.md), [DAO metadata](../../core/dao-metadata.md), [DAO signature validation (EIP-1271)](../../core/signature-validation.md), [Manage permissions through governance](../../guides/manage-permissions.md), [The DAO contract](../../core/dao.md)
 

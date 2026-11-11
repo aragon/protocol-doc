@@ -2,7 +2,7 @@
 type: concept
 title: SPP lifecycle & state machine
 tags: [governance, security]
-source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol
+source: staged-proposal-processor-plugin/src/StagedProposalProcessor.sol, staged-proposal-processor-plugin/src/libraries/Errors.sol
 ---
 
 # SPP lifecycle & state machine
@@ -35,10 +35,12 @@ From `state`, the rest follows: `canProposalAdvance` is "state is Advanceable"; 
 
 A stage's tally, how many bodies have approved or vetoed, is computed two ways per body:
 
-- **Push (a body reports).** A body (or anyone acting for it) calls `reportProposalResult`, which records its verdict in storage. Once recorded, that verdict is **cached permanently and trusted**, SPP never re-checks it. This is how [automatic bodies](./composing-bodies.md) feed back: the sub-proposal SPP created on them has a single action that calls `reportProposalResult` when the body's own process executes it.
-- **Pull (SPP asks).** If a body hasn't reported but is automatic and had a sub-proposal created, SPP does a read-only `hasSucceeded` call on that sub-proposal on the fly; if it succeeded, the body's registered [`resultType`](./stages-and-bodies.md#bodies) (approval or veto) is credited. SPP doesn't ask *which way* the body voted, it decided at config time what "this body succeeded" means.
+- **Push (a body reports).** The body's own address calls `reportProposalResult`, which records its verdict in storage. Once recorded, that verdict is **cached and trusted**, SPP never re-checks it (until the body [retracts it](#reporting-a-result)). This is how [automatic bodies](./composing-bodies.md) feed back: the sub-proposal SPP created on them has a single action that calls `reportProposalResult` when the body's own process executes it.
+- **Pull (SPP asks).** If an automatic body has no recorded verdict, SPP does a read-only `hasSucceeded` call on that sub-proposal on the fly; if it succeeded, the body's registered [`resultType`](./stages-and-bodies.md#bodies) (approval or veto) is credited. SPP doesn't ask *which way* the body voted, it decided at config time what "this body succeeded" means.
 
 Why both? Push requires someone to actually execute the body's sub-proposal; pull lets SPP treat a stage as decided the moment the body's internal vote passed, without waiting for that extra execution. Whichever happens first wins (a cached push skips the pull). The pull call is deliberately hardened, a body that reverts or returns garbage simply contributes nothing rather than breaking the whole tally.
+
+While a stage's sub-proposals are still being created (SPP is inside a body's `createProposal` call), the tally for that stage counts as **not passed**. This keeps a body that calls back into SPP from inside that `createProposal` from advancing the proposal before every sub-proposal of the stage exists. A stage with both thresholds at `0` passes any tally, so this guard doesn't cover it.
 
 > This is why an automatic body's `hasSucceeded` **must be monotonic** (true forever once true): SPP may poll it long after the body's own voting window closed, while still waiting on other bodies. A body whose `hasSucceeded` flips back to false would silently strand the SPP proposal. See [composing bodies](./composing-bodies.md).
 
@@ -48,15 +50,20 @@ Why both? Push requires someone to actually execute the body's sub-proposal; pul
 reportProposalResult(uint256 proposalId, uint16 stageId, ResultType resultType, bool tryAdvance)
 ```
 
-- **Anyone may call it**, but it's safe: SPP only ever *reads* the recorded verdict for addresses actually registered as bodies in that stage. A report from a non-body is simply never counted (it just wastes the caller's gas, worth a UI guard, not a contract one).
-- **A report overwrites.** There's no "first report is final", a body can flip its own verdict (approval ↔ veto) any time before the proposal actually advances past the stage.
-- **`tryAdvance: true`** also advances when the proposal is advanceable and the caller has `ADVANCE_PERMISSION_ID`, or `EXECUTE_PROPOSAL_PERMISSION_ID` on the last stage. Missing permission or unsuitable state skips the attempt, so the body's report and other actions in its transaction can still succeed when SPP is not ready. If advancement actually runs, an execution failure can still revert the transaction.
+- **Only bodies of `stageId` are recorded.** A call from any other address returns without effect and without reverting (it just wastes the caller's gas, worth a UI guard, not a contract one). A `stageId` beyond the proposal's current stage reverts (`StageIdInvalid`).
+- **A body may only report its configured type.** `resultType` must be the body's registered [`resultType`](./stages-and-bodies.md#bodies) (`Approval` or `Veto`), or `None`. Anything else reverts with `ResultTypeNotAllowed(stageId, sender, resultType)`: an approval body can't veto, and a veto body can't approve.
+- **`None` retracts.** Reporting `None` clears the body's recorded verdict, and reporting its type again restores it, any time before the proposal advances past the stage. For an automatic body a retraction only clears the *push*: if its sub-proposal has succeeded, the [pull](#how-a-stages-results-are-tallied-push-and-pull) still credits it.
+- **`tryAdvance: true`** also advances when the proposal is advanceable and the caller has `ADVANCE_PERMISSION_ID`, or `EXECUTE_PROPOSAL_PERMISSION_ID` on the last stage. Missing permission or a non-advanceable state skips the attempt: the report is recorded and the call succeeds, so other actions in the reporting body's transaction aren't blocked. Once advancement actually runs, its failure reverts the call: a body on the next stage that [fails to create its sub-proposal](#advancing-and-executing), or a failing execution on the last stage. Since the call usually runs as the action of a body's own proposal, that revert also reverts the body's execution. A body that must not be blocked by a failing next stage should report with `tryAdvance: false` and leave advancing to a separate transaction.
 
 ## Advancing and executing
 
 `advanceProposal` moves an advanceable proposal to the next stage (creating that stage's sub-proposals) or, on the last stage, executes it. **Advancing past the last stage *is* executing**; there's no separate "finished" step. Advancing needs `ADVANCE_PERMISSION_ID`; executing needs `EXECUTE_PROPOSAL_PERMISSION_ID`. Both are [granted to anyone by default](../spp-plugin.md#installation--permissions), so once the state machine says advanceable, anyone can move the proposal forward; the body results, not the caller, determine whether it may advance. Execution runs the proposal's [actions](../../core/execution.md) against the snapshotted target, honoring the [failsafe action map](../../core/execution.md#failsafe-actions) set at creation (individual actions may be allowed to fail without reverting the batch).
 
-When a stage begins, SPP creates a sub-proposal on each of its automatic bodies through a guarded low-level call (with a gas-griefing check). If a body's `createProposal` reverts, or the body rejects SPP, that body contributes nothing to the tally (a `SubProposalNotCreated` event) instead of blocking the other bodies or the whole pipeline. A misconfigured body therefore doesn't cause sub-proposal creation for the rest of the stage to fail.
+When a stage begins (inside `createProposal` for the first stage, inside the advancing transaction for later ones), SPP calls `createProposal` on each of the stage's automatic bodies and records the returned id (`SubProposalCreated`). **Every sub-proposal of the stage is created, or none is.** If a body's `createProposal` reverts, for example because SPP lacks `CREATE_PROPOSAL_PERMISSION` on it, the whole transaction reverts with `SubProposalCreationFailed(body, reason)`, where `reason` is the body's raw revert data. A body that returns data that doesn't decode as a `uint256` also reverts the transaction, with a bare decoding revert rather than `SubProposalCreationFailed`. So a stage never starts with one of its bodies silently missing, which would strip that body's approval or veto from the stage.
+
+The flip side is liveness: one broken automatic body blocks the stage. A failing first-stage body makes `createProposal` revert; a failing later-stage body keeps the proposal on its current stage. Because [`updateStages`](./stages-and-bodies.md#rules-dont-move-under-an-in-flight-proposal) doesn't touch in-flight proposals, the fix is to repair the body itself (for example re-grant SPP's permission on it) before the current stage's `maxAdvance`, or the proposal expires.
+
+A body must not return `type(uint256).max - 1` as a sub-proposal id: SPP reserves that value as its "creation in progress" marker and reverts with `SubProposalCreationFailed(body, "")` if a body returns it.
 
 ## Cancelling and editing
 
@@ -72,7 +79,9 @@ Neither is possible on a terminal proposal (executed, canceled, expired). **Inst
 - **Vetoes trump approvals.** Meeting the veto threshold blocks a stage no matter how many approvals it has. A lone `vetoThreshold = 1` body is an absolute veto.
 - **Expired is a dead end.** Miss `maxAdvance` and the proposal is permanently stuck; the only way forward is a fresh proposal. Advance/execute passed proposals in time.
 - **`voteDuration` can override `minAdvance`.** On a veto stage the effective floor is `max(minAdvance, voteDuration)` (see [stages](./stages-and-bodies.md#voteduration-the-field-that-does-two-jobs)).
-- **Reports are overwritable, not final**, until the proposal advances past the stage.
+- **A body reports its own type or nothing.** It can retract (`None`) and re-report until the proposal advances past the stage, but it can't switch between approval and veto.
+- **One failing automatic body blocks the stage.** Sub-proposal creation is all-or-nothing, so a body that can't create its sub-proposal stops `createProposal`, or the advance into its stage.
+- **`tryAdvance: true` ties a body's execution to the next stage.** If the advance it triggers reverts, the body's own execution reverts with it.
 - **Cancel/edit need explicit permission grants** *and* the per-stage flag, both, or they silently can't be used.
 
 ## See also

@@ -2,13 +2,13 @@
 type: reference
 title: AdminZkSync
 kind: contract
-source: admin-plugin/packages/contracts/src/zkSync/AdminZkSync.sol
+source: admin-plugin/src/zkSync/AdminZkSync.sol
 summary: "The admin governance plugin giving execution permission on the DAO to a single address."
 ---
 
 # AdminZkSync
 
-**Contract** · [`packages/contracts/src/zkSync/AdminZkSync.sol`](https://github.com/aragon/admin-plugin/blob/ef1727abafe42022373ef14e933653cdc9a10f05/packages/contracts/src/zkSync/AdminZkSync.sol)
+**Contract** · [`src/zkSync/AdminZkSync.sol`](https://github.com/aragon/admin-plugin/blob/c228ee0bcac4bb79fcfd17ff6efcceef08536bfc/src/zkSync/AdminZkSync.sol)
 
 **Admin**
 

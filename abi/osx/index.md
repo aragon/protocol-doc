@@ -1,6 +1,6 @@
 # osx — ABI reference
 
-Generated from [`osx`](https://github.com/aragon/core) at commit [`f7c7508f`](https://github.com/aragon/core/commit/f7c7508f4ceb2b685ee037ffe87df17340fc4aef).
+Generated from [`osx`](https://github.com/aragon/osx) at commit [`2c60f125`](https://github.com/aragon/osx/commit/2c60f1252558d75fe99c414ccd2b1aedbde88f12).
 
 65 entries. Regenerate with `just abi`.
 

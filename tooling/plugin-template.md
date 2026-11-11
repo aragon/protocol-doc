@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Plugin Template (Foundry)
-source: osx-plugin-template-foundry/README.md
+source: osx-plugin-template-foundry/README.md, osx-plugin-template-foundry/justfile, osx-plugin-template-foundry/test/lib/ForkTestBase.sol
 ---
 
 # Plugin Template (Foundry)
@@ -17,8 +17,8 @@ Writing a plugin requires more than one contract. You need the right [plugin bas
 - **Contract starters** for the [plugin base types](../framework/plugin-types.md) (the non-upgradeable, cloneable, and UUPS-upgradeable variants), so you can start from the base that matches your requirements.
 - **[PluginSetup](../framework/plugin-setup.md) scaffolding** wired to those contracts, the prepare-install / prepare-uninstall logic that the [PluginSetupProcessor](../framework/plugin-setup-processor.md) drives.
 - **Deploy scripts and factories**, including the [one-shot factory](../deployment/dao-launchpad.md#correct-from-genesis) pattern for standing up a custom DAO with your plugin, and scripts for publishing to a [PluginRepo](../framework/plugin-repo.md).
-- **A testing environment** for unit tests, fork tests against a live network, and use-case scenarios.
-- **Multi-explorer verification** and a self-documenting **`just`** task runner (via [just-foundry](./just-foundry.md)) covering the whole build/test/deploy workflow. Run `just init` to set up the project.
+- **A testing environment** for unit tests, fork tests against a live network, and use-case scenarios. Fork tests skip themselves when no network's OSx addresses are in the environment, so a plain `forge test` on a fresh clone stays green; run them with `just test-fork` once a network is selected.
+- **Multi-explorer verification** and a self-documenting **`just`** task runner (via [just-foundry](./just-foundry.md)) covering the whole build/test/deploy workflow. Run `just init [network]` to set up a clone: it fetches the submodules, copies `.env.example` to `.env` if missing, and selects the network (`mainnet` by default). The `justfile` imports its recipes from the `lib/just-foundry` submodule with `import?`, so `just init` also works on a clone made without `--recurse-submodules`. `just networks` lists the supported networks.
 
 ## Which starter path to take
 
@@ -49,5 +49,5 @@ The template is the plugin *author's* starting point. What you build here become
 
 - [Plugin base types](../framework/plugin-types.md) and [plugin setup](../framework/plugin-setup.md) — what the starters implement.
 - [PluginRepo](../framework/plugin-repo.md) and [the PluginSetupProcessor](../framework/plugin-setup-processor.md) — where a finished plugin is published and how it's installed.
-- [just-foundry](./just-foundry.md) — the `just`/Foundry task runner this template inits and runs with (`just init`, `just test`, …), shared across the Aragon repos.
+- [just-foundry](./just-foundry.md): the `just`/Foundry task runner this template runs on (`just test`, `just deploy`, …), shared across the Aragon repos.
 - [Build a plugin](../guides/build-a-plugin.md) and [Publish a plugin](../guides/publish-a-plugin.md) — the step-by-step walkthroughs that use this template.

@@ -8,7 +8,7 @@ summary: "An [OpenZeppelin `Votes`](https://docs.openzeppelin.com/contracts/4.x/
 
 # GovernanceERC20
 
-**Contract** · [`src/erc20/GovernanceERC20.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/erc20/GovernanceERC20.sol)
+**Contract** · [`src/erc20/GovernanceERC20.sol`](https://github.com/aragon/token-voting-plugin/blob/e726c28061486114d601c547e4da1180ed5ab6da/src/erc20/GovernanceERC20.sol)
 
 **Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md)
 

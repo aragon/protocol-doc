@@ -8,7 +8,7 @@ summary: ""
 
 # createProxyAndCall
 
-**Function** · [`src/util/proxy.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/util/proxy.sol)
+**Function** · [`src/util/proxy.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/4bd0355e360c73e8ac24009c4d26d995c3272f9c/src/util/proxy.sol)
 
 ```solidity
 function createProxyAndCall(address logic, bytes memory data) returns (address)

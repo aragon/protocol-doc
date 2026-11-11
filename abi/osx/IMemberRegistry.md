@@ -8,7 +8,7 @@ summary: "Permissionless member self-registration via ENS subdomain claims."
 
 # IMemberRegistry
 
-**Interface** · [`src/framework/member/IMemberRegistry.sol`](https://github.com/aragon/core/blob/f7c7508f4ceb2b685ee037ffe87df17340fc4aef/src/framework/member/IMemberRegistry.sol)
+**Interface** · [`src/framework/member/IMemberRegistry.sol`](https://github.com/aragon/osx/blob/2c60f1252558d75fe99c414ccd2b1aedbde88f12/src/framework/member/IMemberRegistry.sol)
 
 **Explained in:** [Member registry](../../framework/member-registry.md)
 

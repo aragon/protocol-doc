@@ -8,7 +8,7 @@ summary: "LockToGovernBase"
 
 # LockToGovernBase
 
-**Abstract contract** · [`src/base/LockToGovernBase.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/base/LockToGovernBase.sol)
+**Abstract contract** · [`src/base/LockToGovernBase.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/4bd0355e360c73e8ac24009c4d26d995c3272f9c/src/base/LockToGovernBase.sol)
 
 **Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
 

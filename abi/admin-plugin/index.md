@@ -1,6 +1,6 @@
 # admin-plugin — ABI reference
 
-Generated from [`admin-plugin`](https://github.com/aragon/admin-plugin) at commit [`ef1727ab`](https://github.com/aragon/admin-plugin/commit/ef1727abafe42022373ef14e933653cdc9a10f05).
+Generated from [`admin-plugin`](https://github.com/aragon/admin-plugin) at commit [`c228ee0b`](https://github.com/aragon/admin-plugin/commit/c228ee0bcac4bb79fcfd17ff6efcceef08536bfc).
 
 4 entries. Regenerate with `just abi`.
 

@@ -11,7 +11,7 @@ source: token-voting-plugin/src/erc20/GovernanceERC20.sol, token-voting-plugin/s
 
 1. **Mint a new token.** Pass no token address and the setup deploys a fresh **`GovernanceERC20`** and mints an initial supply to the receivers you specify. The DAO gets mint rights. Best for a new DAO issuing its own governance token.
 2. **Reuse an existing `IVotes` token.** Pass a token that already speaks `IVotes` and it's used as-is, no new deployment. Best when your community already has a governance token.
-3. **Wrap a plain ERC-20.** Pass a token that *isn't* `IVotes` and the setup deploys a **`GovernanceWrappedERC20`** around it. Holders lock the original token into the wrapper to receive voting power. The fallback for governing with a token that was never built for it.
+3. **Wrap a plain ERC-20.** Pass a token that *isn't* `IVotes` and the setup deploys a **`GovernanceWrappedERC20`** around it. Holders lock the original token into the wrapper to receive voting power. The fallback for governing with a token that was never built for it. The setup decides by probing the token's voting functions with static calls, so a token whose `fallback` changes state (WETH9's `deposit`, for example) can't be wrapped: each probe burns the gas it was given, and the installation runs out of gas and reverts.
 
 (The setup duck-types these: it probes for `IVotes` functions rather than trusting an ERC-165 flag, since many `IVotes` tokens don't advertise support formally.)
 

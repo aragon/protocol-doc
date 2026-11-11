@@ -49,10 +49,12 @@ This switch has **no constructor path**: `_initialEntries` only seeds selectors,
 - **Attach it to the right permission.** It's built for the DAO's `EXECUTE_PERMISSION_ID` (the grant to the executing plugin); on any other permission it denies, since the call won't be `execute()`.
 - **Management is idempotent** (a redundant `allowSelectors`/`allowNativeTransfers` is a no-op), unlike [SelectorCondition](./selector-condition.md), which reverts on redundant changes.
 - **A selector is not its arguments.** It allow-lists *which* calls, not their arguments; for value/argument caps use a bespoke [condition](../../common/permission-conditions.md) or [RuledCondition](../../common/ruled-condition.md).
+- **It doesn't look inside relays.** Allow-listing a function that relays actions elsewhere, such as a CrossChainController's `forwardMessage`, lets any relayed payload through. To check what a relay carries, use [ExecuteSelectorCrossChainCondition](./execute-selector-crosschain-condition.md).
 - **A no-op action denies the whole batch.** An action with empty calldata *and* zero value returns `false`. Adding such an action to an otherwise-allowed `execute()` rejects the entire call.
 
 ## See also
 
 - [Condition Library](../condition-library.md) — the library overview and the factory.
 - [SelectorCondition](./selector-condition.md) — the direct-call counterpart.
+- [ExecuteSelectorCrossChainCondition](./execute-selector-crosschain-condition.md): the same check with per-chain allow-lists, for a DAO that relays actions to other chains.
 - [Actions and execution](../../core/execution.md) — the `execute`/`Action` shape this inspects.

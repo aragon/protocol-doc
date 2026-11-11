@@ -8,9 +8,9 @@ summary: "The setup contract of the `TokenVoting` plugin."
 
 # TokenVotingSetup
 
-**Contract** · [`src/TokenVotingSetup.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/TokenVotingSetup.sol)
+**Contract** · [`src/TokenVotingSetup.sol`](https://github.com/aragon/token-voting-plugin/blob/e726c28061486114d601c547e4da1180ed5ab6da/src/TokenVotingSetup.sol)
 
-**Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md), [Launch a governance token with your DAO](../../guides/launch-a-governance-token.md), [Token Voting Plugin](../../plugins/token-voting-plugin.md)
+**Explained in:** [Governance tokens](../../plugins/token-voting-plugin/governance-tokens.md), [Import an existing token](../../guides/import-existing-tokens.md), [Launch a governance token with your DAO](../../guides/launch-a-governance-token.md), [Token Voting Plugin](../../plugins/token-voting-plugin.md)
 
 **Author:** Aragon X - 2022-2025
 

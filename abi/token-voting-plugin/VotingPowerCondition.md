@@ -8,7 +8,7 @@ summary: "Checks if an account's voting power or token balance meets the thresho
 
 # VotingPowerCondition
 
-**Contract** · [`src/condition/VotingPowerCondition.sol`](https://github.com/aragon/token-voting-plugin/blob/e97b783d76872d694f41dfc4bc846405019ca741/src/condition/VotingPowerCondition.sol)
+**Contract** · [`src/condition/VotingPowerCondition.sol`](https://github.com/aragon/token-voting-plugin/blob/e726c28061486114d601c547e4da1180ed5ab6da/src/condition/VotingPowerCondition.sol)
 
 **Explained in:** [Voting power (Token Voting Plugin)](../../plugins/token-voting-plugin/voting-power.md)
 

@@ -8,7 +8,9 @@ summary: "An abstract, upgradeable contract to inherit from when creating a plug
 
 # PluginUUPSUpgradeable
 
-**Abstract contract** · [`src/lib/PluginUUPSUpgradeable.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/5a513e3d9f1aad35d8926de87c408720e8d20a8d/src/lib/PluginUUPSUpgradeable.sol)
+**Abstract contract** · [`src/lib/PluginUUPSUpgradeable.sol`](https://github.com/aragon/lock-to-vote-plugin/blob/4bd0355e360c73e8ac24009c4d26d995c3272f9c/src/lib/PluginUUPSUpgradeable.sol)
+
+**Explained in:** [Lock to Vote Plugin](../../plugins/lock-to-vote-plugin.md)
 
 **Author:** Aragon X - 2022-2024
 

@@ -8,7 +8,7 @@ summary: "The setup contract of the `StagedProposalProcessor` plugin."
 
 # StagedProposalProcessorSetup
 
-**Contract** · [`src/StagedProposalProcessorSetup.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/96b83dd5da22930e8d9bcc211cf4e57aaf5270f2/src/StagedProposalProcessorSetup.sol)
+**Contract** · [`src/StagedProposalProcessorSetup.sol`](https://github.com/aragon/staged-proposal-processor-plugin/blob/a1d84e0542cf2db0a542f0159878457dbb7e3515/src/StagedProposalProcessorSetup.sol)
 
 **Explained in:** [Staged Proposal Processor (SPP)](../../plugins/spp-plugin.md)
 
@@ -18,7 +18,7 @@ summary: "The setup contract of the `StagedProposalProcessor` plugin."
 
 The setup contract of the `StagedProposalProcessor` plugin.
 
-> **Dev:** Release 1, Build 2
+> **Dev:** Release 1, Build 3
 
 ## Constructor
 
@@ -114,12 +114,19 @@ Selector: `0xa8a9c29e`
 
 Prepares the update of a plugin.
 
-> **Dev:** v1.1 → v1.2: deploys a fresh `SPPRuleCondition` seeded with the existing rules and migrates
-> `CREATE_PROPOSAL_PERMISSION` (on the plugin) and `UPDATE_RULES_PERMISSION` (on the helper) from
-> the old condition to the new one. The plugin proxy itself is upgraded to the new implementation
-> by the `PluginSetupProcessor` automatically; no reinitializer is required because no new storage
-> is introduced in build 2. Existing rules are read from the old helper, so no caller-supplied data
-> is required — `_payload.data` is ignored.
+> **Dev:** Supports two update paths ending at build 3:
+> - v1.1 → v1.3 (`_fromBuild == 1`): deploys a fresh `SPPRuleCondition` seeded with the
+> existing rules and migrates `CREATE_PROPOSAL_PERMISSION` (on the plugin) and
+> `UPDATE_RULES_PERMISSION` (on the helper) from the old condition to the new one.
+> This is the same migration that build 2 introduced; running it once from build 1
+> also lands the caller on build 3 because `PluginSetupProcessor.applyUpdate` swaps
+> the plugin proxy's implementation to this setup's `IMPLEMENTATION` (build 3).
+> - v1.2 → v1.3 (`_fromBuild == 2`): no helper or permission changes. The existing
+> helper is passed through unchanged and no permission entries are returned; PSP
+> still upgrades the plugin proxy to the build 3 implementation on `applyUpdate`.
+> No reinitializer is required in either path because no new storage is introduced.
+> Existing rules are read from the old helper (v1.1 path only), so no caller-supplied
+> data is required — `_payload.data` is ignored.
 
 | Parameter | Type | Description |
 | --- | --- | --- |

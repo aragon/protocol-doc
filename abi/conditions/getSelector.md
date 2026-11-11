@@ -8,9 +8,9 @@ summary: "Extracts the selector given the calldata."
 
 # getSelector
 
-**Function** · [`src/lib/common.sol`](https://github.com/aragon/conditions/blob/33918b06b95233dd8890bef6cc60da6227fa5af1/src/lib/common.sol)
+**Function** · [`src/lib/common.sol`](https://github.com/aragon/conditions/blob/7198a02ae1e62f3297416feeca64159bf69802c7/src/lib/common.sol)
 
-**Explained in:** [Condition Library](../../helpers/condition-library.md)
+**Explained in:** [Condition Library](../../helpers/condition-library.md), [ExecuteSelectorCrossChainCondition](../../helpers/condition-library/execute-selector-crosschain-condition.md)
 
 ```solidity
 function getSelector(bytes memory _data) pure returns (bytes4 selector)
