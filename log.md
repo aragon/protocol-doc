@@ -1,5 +1,10 @@
 # Change log
 
+## 2026-11-19
+
+- Added Capital Tree concepts, execution, component interfaces, setup and recipe composition guidance from source snapshot `47eb5ef`, with recurring-buyback and distribution examples.
+- Consolidated solver integration into one guide covering GenericFillSolver, offer queries, node-data encoding and submission with viem; linked component definitions and pinned source files. Capital Tree repository consolidation remains separate.
+
 ## 2026-10-16
 
 - Extended the approved voice pilot across the repository's authored prose; preserved source-derived ABI content, technical examples, and operating rules. Independent fidelity and voice reviews are complete; human review of the draft PR is pending.

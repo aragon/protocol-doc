@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 450" width="960" height="450" role="img" aria-labelledby="title desc">
+<title id="title">A growing USDC offer reaches the market cost of 100 MYTOKEN, then resets after each fill</title>
+<desc id="desc">Illustrative market price: 0.078 USDC per MYTOKEN, or 7.8 USDC for 100 tokens. The offer grows by 1 USDC per hour, capped at 10. A solver fills at 8 USDC at hours 8 and 16, including 0.2 USDC for execution costs and margin. Each fill resets the offer to zero.</desc>
+<style>text {font-family:DejaVu Sans,Arial,sans-serif;fill:#273740} .muted{fill:#55666e}</style>
+<rect width="960" height="450" rx="12" fill="#f7f9f7"/>
+<text x="32.00" y="34.00" font-size="22" text-anchor="start" font-weight="600">Growing offer, fixed token demand</text>
+<text x="32.00" y="60.00" font-size="14" text-anchor="start" style="fill:#55666e">100 MYTOKEN per fill · 1 USDC/hour · 10 USDC cap</text>
+<line x1="32.00" y1="86.00" x2="61.00" y2="86.00" stroke="#23745a" stroke-width="3"/>
+<text x="70.00" y="91.00" font-size="13" text-anchor="start">USDC offered</text>
+<line x1="250.00" y1="86.00" x2="279.00" y2="86.00" stroke="#74828a" stroke-width="2" stroke-dasharray="3 5"/>
+<text x="288.00" y="91.00" font-size="13" text-anchor="start">Market value of 100 MYTOKEN: 7.8 USDC</text>
+<line x1="78.00" y1="360.00" x2="920.00" y2="360.00" stroke="#dce4e1" stroke-width="1"/>
+<text x="64.00" y="365.00" font-size="13" text-anchor="end" style="fill:#55666e">0</text>
+<line x1="78.00" y1="312.00" x2="920.00" y2="312.00" stroke="#dce4e1" stroke-width="1"/>
+<text x="64.00" y="317.00" font-size="13" text-anchor="end" style="fill:#55666e">2</text>
+<line x1="78.00" y1="264.00" x2="920.00" y2="264.00" stroke="#dce4e1" stroke-width="1"/>
+<text x="64.00" y="269.00" font-size="13" text-anchor="end" style="fill:#55666e">4</text>
+<line x1="78.00" y1="216.00" x2="920.00" y2="216.00" stroke="#dce4e1" stroke-width="1"/>
+<text x="64.00" y="221.00" font-size="13" text-anchor="end" style="fill:#55666e">6</text>
+<line x1="78.00" y1="168.00" x2="920.00" y2="168.00" stroke="#dce4e1" stroke-width="1"/>
+<text x="64.00" y="173.00" font-size="13" text-anchor="end" style="fill:#55666e">8</text>
+<line x1="78.00" y1="120.00" x2="920.00" y2="120.00" stroke="#dce4e1" stroke-width="1"/>
+<text x="64.00" y="125.00" font-size="13" text-anchor="end" style="fill:#55666e">10</text>
+<line x1="78.00" y1="360.00" x2="78.00" y2="365.00" stroke="#7c8a90" stroke-width="1"/>
+<text x="78.00" y="385.00" font-size="13" text-anchor="middle" style="fill:#55666e">0</text>
+<line x1="246.40" y1="360.00" x2="246.40" y2="365.00" stroke="#7c8a90" stroke-width="1"/>
+<text x="246.40" y="385.00" font-size="13" text-anchor="middle" style="fill:#55666e">4</text>
+<line x1="414.80" y1="360.00" x2="414.80" y2="365.00" stroke="#7c8a90" stroke-width="1"/>
+<text x="414.80" y="385.00" font-size="13" text-anchor="middle" style="fill:#55666e">8</text>
+<line x1="583.20" y1="360.00" x2="583.20" y2="365.00" stroke="#7c8a90" stroke-width="1"/>
+<text x="583.20" y="385.00" font-size="13" text-anchor="middle" style="fill:#55666e">12</text>
+<line x1="751.60" y1="360.00" x2="751.60" y2="365.00" stroke="#7c8a90" stroke-width="1"/>
+<text x="751.60" y="385.00" font-size="13" text-anchor="middle" style="fill:#55666e">16</text>
+<line x1="920.00" y1="360.00" x2="920.00" y2="365.00" stroke="#7c8a90" stroke-width="1"/>
+<text x="920.00" y="385.00" font-size="13" text-anchor="middle" style="fill:#55666e">20</text>
+<text x="499.00" y="420.00" font-size="14" text-anchor="middle">Elapsed time (hours)</text>
+<text transform="translate(24 240) rotate(-90)" font-size="14" text-anchor="middle">USDC per fill</text>
+<line x1="78.00" y1="120.00" x2="920.00" y2="120.00" stroke="#9aa7ac" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="920.00" y="111.00" font-size="12" text-anchor="end" style="fill:#69787f">Offer cap: 10 USDC</text>
+<line x1="78.00" y1="172.80" x2="920.00" y2="172.80" stroke="#74828a" stroke-width="2" stroke-dasharray="3 5"/>
+<path d="M78.00,360.00 L414.80,168.00 L414.80,360.00 L751.60,168.00 L751.60,360.00 L920.00,264.00 L920.00,360 L78,360 Z" fill="#23745a" opacity="0.06"/>
+<path d="M78.00,360.00 L414.80,168.00 L414.80,360.00 L751.60,168.00 L751.60,360.00 L920.00,264.00" fill="none" stroke="#23745a" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="414.80" cy="168.00" r="5" fill="#23745a" stroke="#f7f9f7" stroke-width="2"/>
+<text x="414.80" y="152.00" font-size="13" text-anchor="middle" style="fill:#155d46" font-weight="600">Fill at 8 USDC</text>
+<text x="423.80" y="333.60" font-size="12" text-anchor="start" style="fill:#155d46">Reset</text>
+<circle cx="751.60" cy="168.00" r="5" fill="#23745a" stroke="#f7f9f7" stroke-width="2"/>
+<text x="751.60" y="152.00" font-size="13" text-anchor="middle" style="fill:#155d46" font-weight="600">Fill at 8 USDC</text>
+<text x="760.60" y="333.60" font-size="12" text-anchor="start" style="fill:#155d46">Reset</text>
+</svg>
