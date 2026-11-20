@@ -119,3 +119,13 @@ This base is the content; [`protocol-doc-ui`](https://github.com/aragon/protocol
 | A PR is merged into `protocol-doc-ui`'s `main` | Production (docs.aragon.org), and Development refreshed | `main` | Production: `main`; Development: `development` |
 
 Merging into `main` here needs no change in `protocol-doc-ui`: a bot there moves its pin to the new content and publishes it. PRs from forks don't get a preview.
+
+## Capital Tree documentation ownership
+
+Protocol Doc owns Capital Tree concepts, component behavior, integration guidance, permissions and worked examples. The Capital Tree repository owns deployment commands, environment setup, configuration files, metadata, test reproduction and audit records. Its explanatory copies remain temporarily during the separate consolidation phase.
+
+For Capital Tree, introduce recurring capital flows through budgets, nodes, actions and optional splitters. Use `DAO.sol` contract for treasury-contract references and “solver” for the actor filling an order; preserve exact source identifiers such as `IFiller`. Keep integration details on component and example pages, and explain caveats in their relevant sections rather than a “Keep in mind” summary.
+
+Capital Tree component pages follow: short overview, core concepts, interface, linked types and implementations. Keep examples with the concept they explain. Give a distinct, substantial task its own page; trim detail rather than creating pages merely to hold overflow.
+
+Define shared Capital Tree terms in the overview before component pages use them, and link back at first use. Define specialized terms on their owning page before examples or interfaces rely on them. Check the reading path for undefined vocabulary; assume Solidity knowledge, not Capital Tree terminology.

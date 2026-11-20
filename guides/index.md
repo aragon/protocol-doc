@@ -31,3 +31,9 @@ Follow the reading order below, with links to the concepts each guide uses.
 ## Related concepts
 
 For details on composing [multi-stage governance with the SPP](../plugins/spp-plugin.md), gating permissions with the ready-made [condition library](../helpers/condition-library.md), and [deploying the whole protocol](../deployment/protocol-factory.md) on a new chain, follow the linked concepts.
+
+## Treasury flows
+
+[Compose a Capital Tree flow](./compose-capital-tree.md) — build a new recipe from registered components.
+
+[Build and run a Capital Tree solver](../plugins/capital-tree/examples/buyback/openfill.md) — discover offers, construct fills and operate a solver.

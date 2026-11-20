@@ -1,6 +1,6 @@
 # Plugins
 
-The **plugins** provide ready-made functionality a DAO installs. These are **governance** plugins: they make decisions (propose → vote → execute). Each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so they share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Understanding those shared parts helps when moving between plugins.
+The **plugins** provide ready-made functionality a `DAO.sol` contract installs. The governance plugins below make decisions (propose → vote → execute). Each is its own repo and package built on the [common building blocks](../common/index.md) and installed through the [plugin framework](../framework/index.md), so governance plugins share the same [proposal](../common/proposal.md) shape, [membership](../common/membership.md) model, and install lifecycle. Understanding those shared parts helps when moving between plugins.
 
 **Exact signatures:** the generated ABI reference, one per plugin repo, has every public function, event, error and constant with its NatSpec: [token voting](../abi/token-voting-plugin/index.md), [multisig](../abi/multisig-plugin/index.md), [admin](../abi/admin-plugin/index.md), [SPP](../abi/staged-proposal-processor-plugin/index.md), [lock to vote](../abi/lock-to-vote-plugin/index.md).
 
@@ -26,7 +26,7 @@ Approval by a fixed member set: a proposal passes once `minApprovals` members ap
 
 ## Admin Plugin
 
-Direct execution by a single trusted address, no vote, no window, for bootstrapping and fully-controlled DAOs:
+Direct execution by a single trusted address, no vote, no window, for bootstrapping and fully-controlled `DAO.sol` contracts:
 
 - [Admin Plugin](./admin-plugin.md) — the zero-width proposal lifecycle, the centralization trade-off, and migrating away.
 
@@ -45,6 +45,17 @@ Token-weighted voting where power comes from tokens you *lock* into escrow (cust
 
 - [Lock to Vote Plugin](./lock-to-vote-plugin.md) — lock-vs-snapshot, the voting model, and permissions. **Start here.**
 - [The LockManager](./lock-to-vote-plugin/lock-manager.md) — the vault and its unlock rules.
+
+## Capital Tree
+
+Compose and run recurring, automated capital flows for buybacks, swaps, treasury operations and more:
+
+- [Capital Tree](./capital-tree.md) — the overview and reading paths. **Start here.**
+- [Concepts](./capital-tree/concepts.md) — how budgets, nodes, actions and splitters form a flow, with a worked example.
+- [Budgets](./capital-tree/budgets/index.md) — how much capital is available: a balance, a stream or a claimable entitlement.
+- [Actions](./capital-tree/actions/index.md) and [splitters](./capital-tree/splitters/index.md) — what happens to each allocation and how it branches.
+- [Examples](./capital-tree/examples/index.md) — compose the pieces into buybacks, donations and distributions.
+- [Setup and permissions](./capital-tree/setup.md) — install a flow and control who can run or change it.
 
 ## Where to start
 

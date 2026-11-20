@@ -23,6 +23,7 @@ The **Snapshot** column pins the exact commit each component's docs were generat
 | [Plugin template](./tooling/plugin-template.md) | [`aragon/osx-plugin-template`](https://github.com/aragon/osx-plugin-template) | [`e43cf300`](https://github.com/aragon/osx-plugin-template/commit/e43cf30032) |
 | [just-foundry](./tooling/just-foundry.md) | [`aragon/just-foundry`](https://github.com/aragon/just-foundry) | [`885dea0d`](https://github.com/aragon/just-foundry/commit/885dea0d8e) |
 | [EVM Mirror](./tooling/evm-mirror.md) | [`aragon/evm-mirror`](https://github.com/aragon/evm-mirror) | [`0072576d`](https://github.com/aragon/evm-mirror/commit/0072576dbd) |
+| [Capital Tree](./plugins/capital-tree.md) | [`aragon/capital-tree`](https://github.com/aragon/capital-tree) | [`47eb5ef`](https://github.com/aragon/capital-tree/commit/47eb5ef56e8f83822d832e23da49dc76b103d37c) |
 
 ## Keeping the docs in sync
 
