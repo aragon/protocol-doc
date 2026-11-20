@@ -17,7 +17,7 @@ A trigger supplies two kinds of optional input: **budget data** for calculating 
 
 ## A budget supplies the flow
 
-The [budget](budgets/index.md) determines which ERC20 token the flow uses and how much is available when triggered. An **allocation** is a token and an amount available to a node. The budget supplies the first allocation to the **root**, node 0.
+The [budget](budgets/index.md) selects an ERC20 token to start the flow and determines how much is available when triggered. Any ERC20 can be the input token; the examples use USDC. An **allocation** is a token and an amount available to a node. The budget supplies the first allocation to the **root**, node 0.
 
 ## Nodes define the structure
 

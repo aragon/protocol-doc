@@ -44,7 +44,7 @@ struct Asset {
 }
 ```
 
-Amounts use the token's smallest units: 1 USDC is `1_000_000`.
+`Asset.token` can reference any ERC20 contract; USDC is only an example input token. Amounts use the chosen token's smallest units: for example, 1 USDC is `1_000_000`.
 
 A swap may receive more than its declared minimum output. This extra amount is **surplus**. If a swap requires 100 MYTOKEN but receives 110:
 
